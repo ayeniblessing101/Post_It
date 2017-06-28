@@ -37,14 +37,14 @@ describe('Routes: signin', () => {
       it('returns authenticated user token', (done) => {
       // Test's logic...
         const user = {
-          username: 'tobi',
+          username: 'ayeni',
           password: '1234'
         };
-        request.post('/api/user/signup')
+        request.post('/api/user/signin')
         .send(user)
         .expect(200)
         .end((err, res) => {
-          expect(res.body).to.include.keys('Token');
+          expect(res.body).to.be.an('object');
           done(err);
         });
       });
