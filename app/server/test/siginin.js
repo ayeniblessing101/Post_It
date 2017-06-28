@@ -23,9 +23,9 @@ describe('Routes: signin', () => {
       User.sync({ force: true }) // drops table and re-creates it
        .then(() => {
          User.create({
-           email: 'blessing@gmail.com',
-           username: 'blessing',
-           password: '1234'
+           email: 'john@mail.net',
+           username: 'John',
+           password: '12345'
          });
          done();
        })
@@ -36,15 +36,59 @@ describe('Routes: signin', () => {
     describe('status 200', () => {
       it('returns authenticated user token', (done) => {
       // Test's logic...
+        const users = {
+          username: 'John',
+          password: '12345'
+        };
+        request.post('/api/user/signin')
+        .send(users)
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body).to.include.keys('Token', 'message');
+          done(err);
+        });
+      });
+    });
+    describe('status 401', () => {
+      it('throws error when password is incorrect', (done) => {
+      // Test's logic...
         const user = {
-          username: 'ayeni',
-          password: '1234'
+          username: 'John',
+          password: 'WRONG_PASSWORD'
         };
         request.post('/api/user/signin')
         .send(user)
-        .expect(200)
+        .expect(401)
         .end((err, res) => {
-          expect(res.body).to.be.an('object');
+          done(err);
+        });
+      });
+    });
+    describe('status 401', () => {
+      it('throws error when username does not exist', (done) => {
+      // Test's logic...
+        const user = {
+          username: 'WRONG_USERNAME',
+          password: '12345'
+        };
+        request.post('/api/user/signin')
+        .send(user)
+        .expect(401)
+        .end((err, res) => {
+          done(err);
+        });
+      });
+    });
+    describe('status 401', () => {
+      it('throws error when user and password are blank', (done) => {
+        const user = {
+          username: '',
+          password: ''
+        };
+        request.post('/api/user/signin')
+        .send(user)
+        .expect(401)
+        .end((err, res) => {
           done(err);
         });
       });
