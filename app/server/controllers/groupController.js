@@ -1,6 +1,6 @@
-// const User = require('../models').User;
+const User = require('../models').User;
 const Group = require('../models').Group;
-// const Group_user = require('../models').Group_user;
+const GroupUser = require('../models').GroupUser;
 // const Message = require('../models').Message;
 
 // Add a user to a group
@@ -26,4 +26,29 @@ exports.create_group = (req, res) => {
       res.status(200).send({ message: 'success', data: usergroup });
     });
   });
+};
+// Method to add user to a group
+exports.add_user = (req, res) => {
+  if (req.body.username === '') {
+    res.status(401).send({ message: 'username is required' });
+  } else {
+    User.findOne({
+      where: {
+        username: req.body.username
+      },
+    })
+    .then((user) => {
+      if (user) {
+        GroupUser.create({
+          group_id: req.params.id,
+          user_id: user.id,
+        })
+        .then((groupusers) => {
+          res.status(201).send({ message: 'Successful', data: groupusers });
+        });
+      } else {
+        res.status(404).send({ message: 'User not found' });
+      }
+    });
+  }
 };
