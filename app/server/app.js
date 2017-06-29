@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const userRoute = require('../server/routes/user');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
 // setup express app
 const app = express();
