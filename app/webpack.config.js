@@ -11,6 +11,7 @@ module.exports = {
     rules: [
       { test: /\.(js)$/, use: 'babel-loader' },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+      { test: /\.(png|jpg)$/, loader: 'file-loader' },
       { test: /\.scss$/,
         use: [{
           loader: 'style-loader' // creates style nodes from JS strings
@@ -19,6 +20,9 @@ module.exports = {
         }]
 
       }]
+  },
+  devServer: {
+    historyApiFallback: true
   },
   plugins: [
     new HtmlWebpackPlugin({
