@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Dashboard</title>
+	<title>Add Users</title>
 	<meta name="description" content="PostIt is a simple application that allows friends and colleagues create groups for notifications.">
 	<meta name="author" content="Ayeni Blessing">
   <link rel="stylesheet" href="css/materialize.css">
@@ -58,7 +58,6 @@
 </style>
 </head>
 <body>
-  <div>
    <div class="navbar-fixed">
     <ul id="dropdown1" class="dropdown-content">
       <li><a href="#!">one</a></li>
@@ -75,42 +74,42 @@
     </nav>
   </div>
   <div class="mycontainer" >
-   <div class="row">
-     <div class="col s12 m2 l2  col-md-2 no-float">
-       <ul class="navbar_sidebar">
+    <div class="row">
+      <div class="col s12 m2 l2  col-md-2 no-float">
+        <ul class="navbar_sidebar">
          <li><a href="/dashboard">View all Groups</a><i class="right fa fa-users"></i></li>
          <li><a href="/add-group">Add Group</a><i class="right fa fa-plus-circle"></i></li>
          <li><a href="/add-user">Add Users</a><i class="right fa fa-plus"></i></li>
          <li><a href="#">All Messages</a><i class="right fa fa-eye"></i></li>
-       </ul>
-     </div>
-     <div class="col s12 m10 l10 col-md-10 no-float">
-       <div class="mycontainer">
-         <div class="row ">
-           <h4>All Groups</h4><br />
-             <div class="col s12 m5 l3 small-cards"><br/>
-               <img src="images/avatar1.png" />
-               <h5><b>My Family</b></h5>
-               6 users in the Group<br/><br/><br/>
-               <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add New User</a><br/><br/>
-             </div>
-             <div class="col s12 m5 l3 small-cards"><br/>
-               <img src="images/avatar2.png" />
-               <h5><b>BootCamp Cycle 23</b></h5>
-               24 users in the Group<br/><br/><br/>
-               <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add New User</a><br/><br/>
-             </div>
-             <div class="col s12 m5 l3 small-cards"><br/>
-               <img src="images/friend-group2.jpg" />
-               <h5><b>Close Friends</b></h5>
-               4 users in the Group<br/><br/><br/>
-               <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add New User</a><br/><br/>
-             </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
+        </ul>
+      </div>
+      <div class="col s12 m10 l10 col-md-10 no-float">
+        <div class="mycontainer">
+          <div class="row ">
+            <div class="col s12 m4 l2"></div>
+            <div class="col s12 m4 l8 large-cards">
+              <h4>Add User to a Group</h4>
+                <form>
+                  <div class="input-field">
+                    <input id="icon_prefix" type="text" class="validate" />
+                    <label for="icon_prefix">Group Name</label>
+                  </div>
+                  <div class="input-field">
+                    <input id="icon_prefix" type="text" class="validate" />
+                    <label for="icon_prefix">Username</label>
+                  </div>
+                  <div class="input-field ">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Add
+                    </button>
+                  </div>
+                  <br/><br/>
+                </form>
+            </div>
+            <div name="col s12 m4 l2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
