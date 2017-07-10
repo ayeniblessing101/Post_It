@@ -81,3 +81,117 @@ html,body,.container
 background-color: #3F4257; !important;
 width: 200px;
 color: #ffffff; }
+
+nav{
+  background-color: #3F4257!important;
+}
+
+nav a{
+  font-size: 40px;
+  padding-left:0px;
+}
+.mycontainer
+{
+  display:table;
+  width: 100%;
+  margin-top: -50px;
+  padding: 50px 0 0 0; /*set left/right padding according to needs*/
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #000000;
+}
+
+.row
+{
+  display: table-row;
+  margin-top: -50px!important;
+  height: 100vh;
+}
+.col-md-2 {
+  background: #ffffff!important;
+  border-right: 1px #e5e5e5 solid;
+  height: 100vh;
+
+}
+.col-md-10 {
+  background: #EDF2F6!important;
+  height: 150vh;
+  width: 100%;
+}
+
+ul.navbar_sidebar{
+  list-style-type: none;
+  padding-top: 20%;
+}
+
+ul.navbar_sidebar li{
+  text-align: left;
+  padding-bottom: 20%;
+  font-size: 18px;
+  margin-left: 0px;
+}
+
+ul.navbar_sidebar li a{
+  color: #000000;
+}
+
+.small-cards{
+  background-color: #ffffff!important;
+  border-radius:5px;
+  padding:90px;
+  text-align:center;
+  margin-right:20px;
+  margin-bottom: 20px;
+
+}
+
+.small-cards img{
+  border-radius:100%;
+  width:120px;
+}
+
+.box{
+  border: 1px solid #000000;
+}
+
+.large-cards{
+  background-color: #ffffff!important;
+  border-radius:5px;
+  padding-left:70px!important;
+  padding-top:15px!important;
+  padding-bottom:15px!important;
+  text-align:left;
+  margin-right:0px;
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+.large-cards input[type="text"] {
+  width: 320px;}
+
+.large-cards textarea {
+}
+
+.allMessageCard{
+  margin-top: 50px;
+}
+
+.message-cards{
+  background-color: #ffffff!important;
+  border-radius:5px;
+  padding-left:30px!important;
+  padding-right:30px!important;
+  padding-top:15px!important;
+  padding-bottom:15px!important;
+  text-align:left;
+  margin-right:0px;
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+input{
+  color:#000000!important;
+}
+
+footer form{
+  position: sticky;
+}
