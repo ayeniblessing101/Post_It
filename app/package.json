@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/ayeniblessing101/Post_It#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
@@ -45,11 +46,11 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-materialize": "^1.0.3",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
     "sequelize": "^4.2.0",
     "sequelize-cli": "^2.7.0",
-    "supertest": "^1.2.0",
-    "react-router": "^4.1.1",
-    "react-router-dom": "^4.1.1"
+    "supertest": "^1.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

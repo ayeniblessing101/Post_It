@@ -3,6 +3,28 @@ import { Button, Card, Row, Col } from 'react-materialize';
 import { Link } from 'react-router-dom';
 
 class SignUp extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+      username : '',
+      email: '',
+      password: ''}
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e){
+    /*'this' keyword is refering to the context of an event not a Component so we need to bind another context
+    to the handleChange(e) function */
+    this.setState({ [e.target.name] : e.target.value})
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    console.log(this.state);
+  }
+
   render() {
     return(
       <div>
@@ -23,18 +45,21 @@ class SignUp extends React.Component{
               <div className="col s12 m6 l6 reg_form">
                 <div className="reg_form_cen">
                   <h4>Register to PostIt</h4>
-                  <form className="col s12">
+                  <form className="col s12" onSubmit={this.handleSubmit}>
                     <div className="">
                       <div className="input-field col s12">
-                        <input classID="username" type="text" className="validate" />
+                        <input classID="username" value={this.state.username} onChange={this.handleChange}
+                          type="text" name="username" className="validate" />
                         <label htmlFor="username">Username</label>
                       </div>
                       <div className="input-field col s12">
-                        <input classID="email" type="email" className="validate" />
+                        <input classID="email" name="email" value={this.state.email} onChange={this.handleChange}
+                          type="email" className="validate" />
                         <label htmlFor="email">Email</label>
                       </div>
                       <div className="input-field col s12">
-                        <input classID="password" type="password" className="validate" />
+                        <input classID="password" name="password" value={this.state.password} onChange={this.handleChange}
+                          type="password" className="validate" />
                         <label htmlFor="password">Password</label>
                       </div>
                       <div className="input-field col s12">
