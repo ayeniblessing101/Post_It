@@ -1,41 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-require('./index.css');
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
-import AddGroup from "./components/AddGroup";
-import AddUser from "./components/AddUser";
-import MessageBoard from "./components/MessageBoard";
+import globalStyles from './index.css';
+// require('./index.css');
+require("materialize-loader");
+require("font-awesome-loader");
+// require('./materialIcon.css');
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
+import Routes from "./components/Routes";
 const ReactRouter = require('react-router-dom');
 const Router = ReactRouter.BrowserRouter;
-const Route = ReactRouter.Route;
-const Switch = ReactRouter.Switch;
 import { browserHistory } from 'react-router';
 
-export class Root extends React.Component {
-  render() {
-    return(
-      <Router history={browserHistory}>
-        <div>
-          <Switch>
-            <Route exact path='/' component={SignUp} />
-            <Route path='/login' component={Login} />
-            <Route path='/dashboard' component={Dashboard} />
-            <Route path='/add-group' component={AddGroup} />
-            <Route path='/add-user' component={AddUser} />
-            <Route path='/message' component={MessageBoard} />
-            <Route render={function () {
-              return <p>Not Found</p>
-            }} />
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
+const store = createStore(
+  (state = {}) => state,
+  applyMiddleware(thunk) // Allows us dispatch asynchronous actions
+);
+
+const Root = () => {
+  return(
+    <Router history={browserHistory}>
+      <Routes />
+    </Router>
+  );
 }
 
 ReactDOM.render(
-  <Root />,
+  <Provider store={store}><Root /></Provider>,
   document.getElementById('app')
 );
