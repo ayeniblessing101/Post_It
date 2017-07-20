@@ -15,7 +15,10 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        include: path.join(__dirname, 'client'),
+        include: [
+          path.join(__dirname, 'client'),
+          path.join(__dirname, 'app/server/shared')
+        ],
         loaders: ['babel-loader']
       },
       { test: /\.css$/, loaders: ['style-loader', 'css-loader'] },

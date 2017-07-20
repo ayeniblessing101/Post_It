@@ -33,7 +33,7 @@ position: fixed;}
 
 .wrapper_cen{
 width: 850px;
-margin: 7% auto;}
+margin: 5% auto;}
 
 .welcome{
   color: #ffffff;
@@ -79,7 +79,7 @@ margin: 7% auto;}
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   padding-bottom: 3%;
-  padding-top: 5%;}
+  padding-top: 3%;}
 
 .reg_form_cen h4{
   padding: 0px;
@@ -221,4 +221,8 @@ input{
 
 footer form{
   position: sticky;
+}
+
+.errorMsg{
+  color: red;
 }

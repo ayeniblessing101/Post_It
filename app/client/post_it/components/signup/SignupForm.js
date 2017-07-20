@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Button, Card, Row, Col } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-// import axios from 'axios';
+import TextFieldGroup from '../common/TextFieldGroup';
+import validateInput from '../../../../server/shared/validations/signup';
 
 class SignupForm extends React.Component{
   constructor(props){
@@ -10,7 +11,10 @@ class SignupForm extends React.Component{
     this.state = {
       username: '',
       email: '',
-      password: ''
+      password: '',
+      confirm_password: '',
+      errors: {},
+      isLoading: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,11 +23,30 @@ class SignupForm extends React.Component{
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  isValid(){
+    const { errors, isValid } = validateInput(this.state);
+
+    if(!isValid){
+      this.setState({ errors });
+    }
+
+    return isValid;
+  }
+
   handleSubmit(e){
     e.preventDefault();
-    this.props.userSignupRequest(this.state);
+
+    if(this.isValid()){
+      this.setState({ errors: {}, isLoading: true });
+      this.props.userSignupRequest(this.state).then(
+        () => {},
+        ({ data }) => this.setState({ errors: data, isLoading:false })
+      );
+    }
+
   }
   render() {
+    const { errors } = this.state;
     return(
       <div>
         <section classID="wrapper" className="login-register">
@@ -45,29 +68,36 @@ class SignupForm extends React.Component{
                   <h4>Register to PostIt</h4>
                   <form className="col s12" onSubmit={this.handleSubmit}>
                     <div className="">
+                      <TextFieldGroup
+                        error = {errors.username}
+                        label = "Username"
+                        onChange = {this.handleChange}
+                        value = {this.state.username}
+                        field = "username"
+                      />
+                      <TextFieldGroup
+                        error = {errors.email}
+                        label = "Email"
+                        onChange = {this.handleChange}
+                        value = {this.state.email}
+                        field = "email"
+                      />
+                      <TextFieldGroup
+                        error = {errors.password}
+                        label = "Username"
+                        onChange = {this.handleChange}
+                        value = {this.state.password}
+                        field = "password"
+                      />
+                      <TextFieldGroup
+                        error = {errors.confirm_password}
+                        label = "Confirm Password"
+                        onChange = {this.handleChange}
+                        value = {this.state.confirm_password}
+                        field = "confirm_password"
+                      />
                       <div className="input-field col s12">
-                        <input classID="username"
-                          type="text" name="username" value={this.state.username}
-                          onChange={this.handleChange}
-                          className="validate" />
-                        <label htmlFor="username">Username</label>
-                      </div>
-                      <div className="input-field col s12">
-                        <input classID="email" placeholder="email" name="email"
-                          type="email" value={this.state.email}
-                          onChange={this.handleChange}
-                          className="validate" />
-                        <label htmlFor="email">Email</label>
-                      </div>
-                      <div className="input-field col s12">
-                        <input classID="password" name="password"
-                          type="password" value={this.state.password}
-                          onChange={this.handleChange}
-                          className="validate" />
-                        <label htmlFor="password">Password</label>
-                      </div>
-                      <div className="input-field col s12">
-                        <button className="btn waves-effect waves-light" type="submit" name="action">Submit
+                        <button disabled={this.state.isLoading} className="btn waves-effect waves-light" type="submit" name="action">Submit
                           <i className="material-icons right">send</i>
                         </button>
                         <br /><br />
