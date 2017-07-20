@@ -25,12 +25,12 @@ This Project is deployed on Heroku
 * [Redux](http://redux.js.org/) - For State, Data and Store Management and Action Dispatchions.
 
 ## API Routes
-* [Signup](http://localhost:3000/api/user/signup) - The web framework used
-* [Signin](http://localhost:3000/api/user/signin) - The ORM used
-* [Create Group](http://localhost:3000/api/group) - Database Used
-* [Add User to Group](http://localhost:3000/api/group/<group id>/user) - Dependency Management
-* [Post Message to a Group](http://localhost:3000/api/group/<group id>/message) - Javascript Library for Building User Interfaces used.
-* [Get Messages](http://localhost:3000/api/group/<group id>/messages) - For State, Data and Store Management and Action Dispatchions.
+* [Signup] - http://localhost:3000/api/user/signup
+* [Signin](http://localhost:3000/api/user/signin) - http://localhost:3000/api/user/signin
+* [Create Group](http://localhost:3000/api/group) - http://localhost:3000/api/group
+* [Add User to Group](http://localhost:3000/api/group/group_id/user) - http://localhost:3000/api/group/<group id>/user
+* [Post Message to a Group](http://localhost:3000/api/group/group_id/message) -http://localhost:3000/api/group/group_id/message
+* [Get Messages](http://localhost:3000/api/group/group_id/messages) - http://localhost:3000/api/group/group_id/messages
 
 ## Versioning
 
