@@ -6,6 +6,8 @@ PostIt is a simple web application that allows friends and colleagues create gro
 #### Templates
 For this version, all html files and stylesheets, images, bootstrap are stored into the template directory
 
+#### Client
+
 
 #### Server
 This directory holds all routes, controllers, middleware, migrations
@@ -25,16 +27,48 @@ This Project is deployed on Heroku
 * [Redux](http://redux.js.org/) - For State, Data and Store Management and Action Dispatchions.
 
 ## API Routes
+
 * [Signup] - http://localhost:3000/api/user/signup
-* [Signin](http://localhost:3000/api/user/signin) - http://localhost:3000/api/user/signin
-* [Create Group](http://localhost:3000/api/group) - http://localhost:3000/api/group
-* [Add User to Group](http://localhost:3000/api/group/group_id/user) - http://localhost:3000/api/group/<group id>/user
-* [Post Message to a Group](http://localhost:3000/api/group/group_id/message) -http://localhost:3000/api/group/group_id/message
-* [Get Messages](http://localhost:3000/api/group/group_id/messages) - http://localhost:3000/api/group/group_id/messages
+* [Signin] - http://localhost:3000/api/user/signin
+* [Create Group] - http://localhost:3000/api/group
+* [Add User to Group] - http://localhost:3000/api/group/group_id/user
+* [Post Message to a Group] - http://localhost:3000/api/group/group_id/message
+* [Get Messages]  - http://localhost:3000/api/group/group_id/messages
 
 ## Versioning
 
 I used [Git](https://git-scm.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/ayeniblessing101/PostIt).
+
+## Getting Started
+
+* git clone https://github.com/ayeniblessing101/Post_It.git
+* Run `npm install` to get started
+
+## Folder Structure
+
+After creation, your project should look like this:
+
+```
+Post_It/
+  app/
+    client/
+      post_it/
+        actions/
+        assets/
+        components/
+        containers/
+        images/
+        reducers/
+    node_modules/
+    server/
+    templates/
+    .babelrc
+    .eslintrc.js
+    .gitignore
+    .sequelizerc
+    package.json
+    webpack.config.js
+```
 
 ## Authors
 
