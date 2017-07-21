@@ -1,3 +1,5 @@
+import validateInput from '../shared/validations/signup';
+
 const User = require('../models').User;
 
 const saltRounds = 10;
@@ -7,12 +9,10 @@ const jwt = require('jsonwebtoken');
 const salt = bcrypt.genSaltSync(saltRounds);
 
 exports.signup = (req, res) => {
-  if (req.body.username === '') {
-    res.status(401).send({ status: false, message: 'Username is required' });
-  } else if (req.body.password === '') {
-    res.status(401).send({ status: false, message: 'Password is required' });
-  } else if (req.body.email === '') {
-    res.status(401).send({ status: false, message: 'Email is required' });
+  const { errors, isValid } = validateInput(req.body);
+
+  if (!isValid) {
+    res.status(400).json(errors);
   } else {
     User.findOne({
       where: {
@@ -34,6 +34,7 @@ exports.signup = (req, res) => {
             User.create({
               username: req.body.username,
               password: bcrypt.hashSync((req.body.password), salt),
+              confirm_password: bcrypt.hashSync((req.body.password), salt),
               email: req.body.email
             })
             .then((newuser) => {
