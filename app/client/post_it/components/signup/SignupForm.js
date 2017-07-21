@@ -40,6 +40,10 @@ class SignupForm extends React.Component{
       this.setState({ errors: {}, isLoading: true });
       this.props.userSignupRequest(this.state).then(
         () => {
+          this.props.addFlashMessage({
+            type: 'success',
+            text: 'You signed up successfully. Login!'
+          });
           this.context.router.history.push('/login')
         },
         ({ data }) => this.setState({ errors: data, isLoading:false })
@@ -88,7 +92,7 @@ class SignupForm extends React.Component{
                       />
                       <TextFieldGroup
                         error = {errors.password}
-                        label = "Username"
+                        label = "Password"
                         onChange = {this.handleChange}
                         value = {this.state.password}
                         field = "password"
@@ -122,7 +126,8 @@ class SignupForm extends React.Component{
 }
 
 SignupForm.propTypes = {
-  userSignupRequest: PropTypes.func.isRequired
+  userSignupRequest: PropTypes.func.isRequired,
+  addFlashMessage: PropTypes.func.isRequired
 }
 
 SignupForm.contextTypes = {
