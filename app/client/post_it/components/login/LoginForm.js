@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Button, Card, Row, Col } from 'react-materialize';
 import { Link } from 'react-router-dom';
+import FlashMessagesList from '../flash/FlashMessagesList';
 
 class Login extends React.Component{
   render() {
     return(
       <div>
         <section classID="wrapper" className="login-register">
-          <div className="wrapper_cen">
+          <div className="wrapper_cen2">
             <div className="row">
-              <div className="col s12 m6 welcome">
+              <div className="col s12 m6 welcome stay_up">
                 <h1>Welcome to the Biggest<br />
                   Social Network in the World
                 </h1>
@@ -23,6 +24,7 @@ class Login extends React.Component{
               <div className="col s12 m6 reg_form">
                 <div className="reg_form_cen">
                   <h4>Login to PostIt</h4>
+                  <FlashMessagesList />
                   <form className="col s12">
                     <div className="">
                       <div className="input-field col s12">

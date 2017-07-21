@@ -8,7 +8,7 @@ import Routes from "./components/Routes";
 import { browserHistory } from 'react-router';
 import rootReducer from '././rootReducer';
 // require('./index.css');
-require("materialize-loader");
+// require("materialize-loader");
 require("font-awesome-loader");
 // require('./materialIcon.css');
 const ReactRouter = require('react-router-dom');

@@ -4,7 +4,7 @@ const ReactRouter = require('react-router-dom');
 const Route = ReactRouter.Route;
 const Switch = ReactRouter.Switch;
 import SignUpForm from './signup/SignupPage';
-import Login from "./Login";
+import Login from "./login/LoginPage";
 import Dashboard from "./Dashboard";
 import AddGroup from "./AddGroup";
 import AddUser from "./AddUser";
