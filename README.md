@@ -54,9 +54,32 @@ Post_It/
     client/
       post_it/
         actions/
+          flashMessages.js
+          signupActions.js
+          types.js
         assets/
+          font/
+          style/
         components/
-        containers/
+          common/
+            TextFieldGroup.js
+          flash/
+            FlashMessage.js
+            FlashMessageList.js
+          login/
+            LoginForm.js
+            LoginPage.js
+          signup
+            SignupForm.js
+            SignupPage.js
+          AddGroup.js
+          AddUser.js
+          Dashboard.js
+          Header.js
+          MessageBoard.js
+          PostMessage.js
+          Routes.js
+          Sidebar.js
         images/
         reducers/
     node_modules/
