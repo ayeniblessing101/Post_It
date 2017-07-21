@@ -39,7 +39,9 @@ class SignupForm extends React.Component{
     if(this.isValid()){
       this.setState({ errors: {}, isLoading: true });
       this.props.userSignupRequest(this.state).then(
-        () => {},
+        () => {
+          this.context.router.history.push('/login')
+        },
         ({ data }) => this.setState({ errors: data, isLoading:false })
       );
     }
@@ -74,6 +76,7 @@ class SignupForm extends React.Component{
                         onChange = {this.handleChange}
                         value = {this.state.username}
                         field = "username"
+                        type="text"
                       />
                       <TextFieldGroup
                         error = {errors.email}
@@ -81,6 +84,7 @@ class SignupForm extends React.Component{
                         onChange = {this.handleChange}
                         value = {this.state.email}
                         field = "email"
+                        type="text"
                       />
                       <TextFieldGroup
                         error = {errors.password}
@@ -88,6 +92,7 @@ class SignupForm extends React.Component{
                         onChange = {this.handleChange}
                         value = {this.state.password}
                         field = "password"
+                        type="password"
                       />
                       <TextFieldGroup
                         error = {errors.confirm_password}
@@ -95,6 +100,7 @@ class SignupForm extends React.Component{
                         onChange = {this.handleChange}
                         value = {this.state.confirm_password}
                         field = "confirm_password"
+                        type="password"
                       />
                       <div className="input-field col s12">
                         <button disabled={this.state.isLoading} className="btn waves-effect waves-light" type="submit" name="action">Submit
@@ -118,5 +124,11 @@ class SignupForm extends React.Component{
 SignupForm.propTypes = {
   userSignupRequest: PropTypes.func.isRequired
 }
+
+SignupForm.contextTypes = {
+  router: PropTypes.object.isRequired
+}
+
+
 
 export default SignupForm;
