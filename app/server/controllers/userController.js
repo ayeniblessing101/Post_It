@@ -1,4 +1,8 @@
-import validateInput from '../shared/validations/signup';
+// import validateInput from '../shared/validations/signup';
+import Promise from 'bluebird';
+import isEmpty from 'lodash/isEmpty';
+import commonValidations from '../shared/validations/signup';
+
 
 const User = require('../models').User;
 
@@ -8,45 +12,44 @@ const jwt = require('jsonwebtoken');
 
 const salt = bcrypt.genSaltSync(saltRounds);
 
+function validateInput(data, otherValidations) {
+  const { errors } = otherValidations(data);
+
+  return Promise.all([
+    User.findOne({ where: { username: data.username }, }).then((user) => {
+      if (user) { errors.username = 'Username already Exist'; }
+    }),
+    User.findOne({ where: { email: data.email }, }).then((user) => {
+      if (user) { errors.email = 'Email already Exist'; }
+    })
+  ]).then(() => {
+    return {
+      errors,
+      isValid: isEmpty(errors)
+    };
+  });
+}
+
 exports.signup = (req, res) => {
-  const { errors, isValid } = validateInput(req.body);
-
-  if (!isValid) {
-    res.status(400).json(errors);
-  } else {
-    User.findOne({
-      where: {
+  validateInput(req.body, commonValidations).then(({ errors, isValid }) => {
+    if (!isValid) {
+      res.status(400).json(errors);
+    } else {
+      User.create({
         username: req.body.username,
-        email: req.body.email,
-      },
-    }).then((user) => {
-      if (user) {
-        res.status(401).send({ status: false, message: 'Username already exist' });
-      } else {
-        User.findOne({
-          where: {
-            email: req.body.email,
-          },
-        }).then((email) => {
-          if (email) {
-            res.status(401).send({ status: false, message: 'Email already exist' });
-          } else {
-            User.create({
-              username: req.body.username,
-              password: bcrypt.hashSync((req.body.password), salt),
-              confirm_password: bcrypt.hashSync((req.body.password), salt),
-              email: req.body.email
-            })
-            .then((newuser) => {
-              res.status(201).send({ status: true, message: 'Successful' });
-            });
-          }
-        });
-      }
-    });
-  }
+        password: bcrypt.hashSync((req.body.password), salt),
+        confirm_password: bcrypt.hashSync((req.body.password), salt),
+        email: req.body.email
+      })
+      .then((newuser) => {
+        res.status(201).send({ success: true });
+      })
+      .catch((err) => {
+        res.status(500).send({ error: err });
+      });
+    }
+  });
 };
-
 // sigin a user
 exports.login = (req, res) => {
   if (req.body.username === '') {
