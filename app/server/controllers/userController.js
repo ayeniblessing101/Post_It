@@ -84,17 +84,18 @@ exports.login = (req, res) => {
         username: req.body.username,
       },
     })
-    .then((user, err) => {
+    .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'Authentication failed. User not found' });
+        res.status(401).json({ errors: { form: 'Invalid Credentials' } });
       } else if (user) {
         if (bcrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({
             data: user
           }, 'secret', { expiresIn: 1440 });
-          res.status(200).send({ message: 'Authentication Successful', Token: token });
+          // res.status(200).send({ message: 'Authentication Successful', Token: token });
+          res.json({ token });
         } else {
-          res.status(401).send({ message: 'Authentication failed. Incorrect Password' });
+          res.status(401).json({ errors: { form: 'Invalid Credentials' } });
         }
       }
     });

@@ -68,6 +68,7 @@ class LoginForm extends React.Component{
                   <h4>Login to PostIt</h4>
                   <FlashMessagesList />
                   <form className="col s12" onSubmit={this.handleSubmit}>
+                    { errors.form && <div className="alert alert-danger">{errors.form}</div> }
                     <div className="">
                       <TextFieldGroup
                         error = {errors.username}
