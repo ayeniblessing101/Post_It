@@ -14,10 +14,12 @@ class SignupForm extends React.Component{
       password: '',
       confirm_password: '',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      invalid: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.checkUserExits = this.checkUserExits.bind(this);
   }
   handleChange(e){
     this.setState({ [e.target.name]: e.target.value });
@@ -31,6 +33,25 @@ class SignupForm extends React.Component{
     }
 
     return isValid;
+  }
+
+  checkUserExits(e){
+    const field = e.target.name;
+    const val = e.target.value;
+    if (val !== '') {
+      this.props.isUserExists(val).then(res => {
+        let errors = this.state.errors;
+        let invalid;
+        if(res.data.user) {
+          errors[field] = 'There is user with such ' + field;
+          invalid = true;
+        } else {
+          errors[field] = '';
+          invalid = false;
+        }
+        this.setState({ errors, invalid })
+      });
+    }
   }
 
   handleSubmit(e){
@@ -78,6 +99,7 @@ class SignupForm extends React.Component{
                         error = {errors.username}
                         label = "Username"
                         onChange = {this.handleChange}
+                        checkUserExits = {this.checkUserExits}
                         value = {this.state.username}
                         field = "username"
                         type="text"
@@ -86,6 +108,7 @@ class SignupForm extends React.Component{
                         error = {errors.email}
                         label = "Email"
                         onChange = {this.handleChange}
+                        checkUserExits = {this.checkUserExits}
                         value = {this.state.email}
                         field = "email"
                         type="text"
@@ -107,7 +130,7 @@ class SignupForm extends React.Component{
                         type="password"
                       />
                       <div className="input-field col s12">
-                        <button disabled={this.state.isLoading} className="btn waves-effect waves-light" type="submit" name="action">Submit
+                        <button disabled={this.state.isLoading || this.state.invalid } className="btn waves-effect waves-light" type="submit" name="action">Submit
                           <i className="material-icons right">send</i>
                         </button>
                         <br /><br />
@@ -127,7 +150,8 @@ class SignupForm extends React.Component{
 
 SignupForm.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
-  addFlashMessage: PropTypes.func.isRequired
+  addFlashMessage: PropTypes.func.isRequired,
+  isUserExists: PropTypes.func.isRequired
 }
 
 SignupForm.contextTypes = {

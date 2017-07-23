@@ -3,6 +3,9 @@ import Promise from 'bluebird';
 import isEmpty from 'lodash/isEmpty';
 import commonValidations from '../shared/validations/signup';
 
+const express = require('express');
+
+const router = express.Router();
 
 const User = require('../models').User;
 
@@ -29,6 +32,25 @@ function validateInput(data, otherValidations) {
     };
   });
 }
+
+exports.identify = (req, res) => {
+  User.findOne({
+    where: {
+      username: req.params.identifier,
+      // email: req.params.identifier,
+    },
+    orWhere: [
+      {
+        email: req.params.identifier
+      }
+    ],
+    attributes: ['id', 'username', 'email']
+  })
+  .then(
+    (user) => {
+      res.send({ user });
+    });
+};
 
 exports.signup = (req, res) => {
   validateInput(req.body, commonValidations).then(({ errors, isValid }) => {
