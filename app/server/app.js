@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import historyApiFallback from 'connect-history-api-fallback';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -26,10 +27,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/fonts', express.static('./app/fonts'));
-app.get('/', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/post_it/index.html'));
 });
 app.use('/', userRoute);
+
+app.use(historyApiFallback({
+  verbose: true
+}));
 
 app.listen(3000, () => console.log('Running on localhost:3000'));
 

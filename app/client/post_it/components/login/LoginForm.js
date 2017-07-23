@@ -1,10 +1,52 @@
 import React, { Component } from 'react';
 import { Button, Card, Row, Col } from 'react-materialize';
 import { Link } from 'react-router-dom';
+import TextFieldGroup from '../common/TextFieldGroup';
+import { connect } from 'react-redux';
+import { login } from '../../actions/login';
+import PropTypes from 'prop-types';
+import validateInput from '../../../../server/shared/validations/login';
 import FlashMessagesList from '../flash/FlashMessagesList';
 
-class Login extends React.Component{
+class LoginForm extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+      errors: {},
+      isLoading: false
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+
+    if (!isValid) {
+      this.setState({ errors });
+    }
+    return isValid;
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    if (this.isValid()) {
+      this.setState({ errors: {}, isLoading: true });
+      this.props.login(this.state).then(
+        (res) => this.context.router.history.push('/dashboard'),
+        (err) => this.setState({ errors: err.data.errors, isLoading: false })
+      );
+    }
+  }
+
+  handleChange(e) {
+    this.setState({ [e.target.name ]: e.target.value });
+  }
+
   render() {
+    const { errors, username, password, isLoading } = this.state;
     return(
       <div>
         <section classID="wrapper" className="login-register">
@@ -25,18 +67,26 @@ class Login extends React.Component{
                 <div className="reg_form_cen">
                   <h4>Login to PostIt</h4>
                   <FlashMessagesList />
-                  <form className="col s12">
+                  <form className="col s12" onSubmit={this.handleSubmit}>
                     <div className="">
+                      <TextFieldGroup
+                        error = {errors.username}
+                        label = "Username"
+                        onChange = {this.handleChange}
+                        value = {username}
+                        field = "username"
+                        type="text"
+                      />
+                      <TextFieldGroup
+                        error = {errors.password}
+                        label = "Password"
+                        onChange = {this.handleChange}
+                        value = {password}
+                        field = "password"
+                        type="password"
+                      />
                       <div className="input-field col s12">
-                        <input classID="username" type="text" className="validate" />
-                        <label htmlFor="username">Username</label>
-                      </div>
-                      <div className="input-field col s12">
-                        <input classID="password" type="password" className="validate" />
-                        <label htmlFor="password">Password</label>
-                      </div>
-                      <div className="input-field col s12">
-                        <button className="btn waves-effect waves-light" type="submit" name="action">Submit
+                        <button className="btn waves-effect waves-light" disabled={isLoading} type="submit" name="action">Submit
                           <i className="material-icons right">send</i>
                         </button>
                         <br /><br />
@@ -54,4 +104,13 @@ class Login extends React.Component{
     )
   }
 }
-export default Login;
+
+LoginForm.propTypes = {
+    login: PropTypes.func.isRequired
+}
+
+LoginForm.contextTypes = {
+  router: PropTypes.object.isRequired
+}
+
+export default connect(null, { login })(LoginForm);

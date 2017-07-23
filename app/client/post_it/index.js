@@ -7,6 +7,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import Routes from "./components/Routes";
 import { browserHistory } from 'react-router';
 import rootReducer from '././rootReducer';
+import { BrowserRouter } from 'react-router-dom';
 // require('./index.css');
 // require("materialize-loader");
 require("font-awesome-loader");
@@ -25,7 +26,7 @@ const store = createStore(
 
 const Root = () => {
   return(
-    <Router history={browserHistory}>
+    <Router>
       <Routes />
     </Router>
   );
