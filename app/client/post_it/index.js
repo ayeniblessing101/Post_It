@@ -6,8 +6,11 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import Routes from "./components/Routes";
 import { browserHistory } from 'react-router';
+import jwt from 'jsonwebtoken';
+import { setCurrentUser } from './actions/authActions';
 import rootReducer from '././rootReducer';
 import { BrowserRouter } from 'react-router-dom';
+import setAuthorizationToken from './utils/setAuthorizationToken';
 // require('./index.css');
 // require("materialize-loader");
 require("font-awesome-loader");
@@ -23,6 +26,11 @@ const store = createStore(
     window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
+
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken);// Adding the function setAuthorizationToken() call to index file
+  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
+}
 
 const Root = () => {
   return(

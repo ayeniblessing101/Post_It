@@ -35,6 +35,10 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.css']
   },
+  node: {
+    net: 'empty',
+    dns: 'empty'
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: '../app/client/post_it/index.html'
