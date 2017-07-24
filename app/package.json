@@ -4,7 +4,7 @@
   "description": "A simple application that allows friends and colleagues create groups for notifications. ",
   "main": "server/app.js",
   "scripts": {
-    "start": "nodemon --watch server --exec babel-node -- server/app.js",
+    "start": "nodemon --watch server --exec babel-node server/app.js",
     "test": "mocha /opt/lampp/htdocs/Post_It/app/server/test"
   },
   "repository": {

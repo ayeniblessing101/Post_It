@@ -42,6 +42,7 @@ I used [Git](https://git-scm.com/) for versioning. For the versions available, s
 ## Getting Started
 
 * git clone https://github.com/ayeniblessing101/Post_It.git
+* cd into the app directory
 * Run `npm install` to get started
 
 ## Folder Structure
@@ -97,7 +98,7 @@ Post_It/
 
 In the project directory, you can run:
 
-### `npm run server`
+### `npm start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
