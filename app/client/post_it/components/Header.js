@@ -8,10 +8,11 @@ class Header extends React.Component{
   logout(e) {
     e.preventDefault();
     this.props.logout(this.state);
-    this.context.router.history.push('/login')
+    // this.context.router.history.push('/login')
   }
   render(){
-    const { isAuthenticated, user} = this.props.auth;
+    const { isAuthenticated } = this.props.auth;
+    // const { user } = this.props.userData
     // const authUser = {user.data.username}
     return(
       <div>
@@ -25,7 +26,7 @@ class Header extends React.Component{
               <Link to="#" className="brand-logo">PostIt</Link>
               <ul classID="nav-mobile" className="right hide-on-med-and-down">
                 <li><i className="material-icons">perm_identity</i></li>
-                <li><Link to="#" className="dropdown-button" data-activates="dropdown1">Welcome {user.data.username}</Link></li>
+                <li><Link to="#" className="dropdown-button" data-activates="dropdown1">Welcome</Link></li>
                 <li><Link to="#" onClick={this.logout.bind(this)}><i className="material-icons">power_settings_new</i></Link></li>
               </ul>
             </div>

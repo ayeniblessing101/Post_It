@@ -10,16 +10,18 @@ import AddGroup from "./AddGroup";
 import AddUser from "./AddUser";
 import MessageBoard from "./MessageBoard";
 
+import requireAuth from '../utils/requireAuth';
+
 const Routes = () => {
   return(
     <div>
       <Switch>
         <Route exact path='/' component={SignUpForm} />
         <Route path='/login' component={Login} />
-        <Route path='/dashboard' component={Dashboard} />
-        <Route path='/add-group' component={AddGroup} />
-        <Route path='/add-user' component={AddUser} />
-        <Route path='/message' component={MessageBoard} />
+        <Route path='/dashboard' component={requireAuth(Dashboard)} />
+        <Route path='/add-group' component={requireAuth(AddGroup)} />
+        <Route path='/add-user' component={requireAuth(AddUser)} />
+        <Route path='/message' component={requireAuth(MessageBoard)} />
         <Route render={function () {
           return <p>Not Found</p>
         }} />
