@@ -11,7 +11,7 @@ exports.create_group = (req, res) => {
   const userId = req.decoded.data.id;
   Group.findOne({
     where: {
-      group_name: req.body.group_name
+      group_name: req.body.groupname
     },
   })
   .then((group) => {
@@ -19,7 +19,7 @@ exports.create_group = (req, res) => {
       res.status(401).send({ status: false, message: 'Group created already' });
     }
     Group.create({
-      group_name: req.body.group_name,
+      group_name: req.body.groupname,
       user_id: userId
     })
     .then((usergroup) => {

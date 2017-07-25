@@ -2,8 +2,15 @@ const User = require('../models').User;
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
-  const token = (req.body && req.body.access_token)
-  || (req.query && req.query.access_token) || (req.headers['x-access-token']);
+  // const token = (req.body && req.body.access_token)
+  // || (req.query && req.query.access_token) || (req.headers['x-access-token']);
+  const authorizationHeader = req.headers['authorization'];
+  let token;
+
+  if (authorizationHeader) {
+    token = authorizationHeader.split(' ')[1];
+  }
+
 
   if (token) {
     jwt.verify(token, 'secret', (err, decoded) => {
@@ -15,7 +22,7 @@ module.exports = (req, res, next) => {
     });
   } else {
     return res.status(403).send({
-      error: true
+      error: 'No Token Provided'
     });
   }
 };
