@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createGroup } from '../../actions/creategroupActions';
+import { addFlashMessage } from '../../actions/flashMessages'
 import validateInput from '../../../../server/shared/validations/addgroup';
+import FlashMessagesList from '../flash/FlashMessagesList';
 
 class AddGroupForm extends React.Component{
   constructor(props) {
@@ -31,7 +33,17 @@ class AddGroupForm extends React.Component{
   handleSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      this.props.createGroup(this.state);
+      this.setState({ errors: {}, isLoading: true });
+      this.props.createGroup(this.state).then(
+        () => {
+          this.props.addFlashMessage({
+            type: 'success',
+            text: 'Group created successfully'
+          });
+        },
+
+      );
+      ({ data }) => this.setState({ errors: data, isLoading:false })
     }
   }
 
@@ -40,7 +52,7 @@ class AddGroupForm extends React.Component{
   }
 
   render(){
-    const { errors, groupname, isLoading }  = this.state;
+    const { errors, groupname, isLoading, addFlashMessage }  = this.state;
     return(
       <div>
         <div className="col s12 m10 l10 col-md-10">
@@ -49,6 +61,7 @@ class AddGroupForm extends React.Component{
               <div className="col s12 m4 l2"></div>
               <div className="col s12 m4 l8 large-cards">
                 <h4>Add Group</h4>
+                <FlashMessagesList />
                 <form onSubmit={this.handleSubmit}>
                   { errors.form && <div className="alert alert-danger">{errors.form}</div> }
                   <div className="">
@@ -61,7 +74,7 @@ class AddGroupForm extends React.Component{
                       type="text"
                     />
                     <div className="input-field col s12">
-                      <button className="btn waves-effect waves-light" disabled={isLoading} type="submit">Create
+                      <button className="btn waves-effect waves-light" type="submit">Create
                       </button>
                       <br /><br />
                     </div>
@@ -79,7 +92,8 @@ class AddGroupForm extends React.Component{
 }
 
 AddGroupForm.propTypes = {
-  createGroup: PropTypes.func.isRequired
+  createGroup: PropTypes.func.isRequired,
+  addFlashMessage: PropTypes.func.isRequired,
 }
 
-export default connect(null, { createGroup })(AddGroupForm);
+export default connect(null, { createGroup, addFlashMessage })(AddGroupForm);
