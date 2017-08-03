@@ -5,9 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   devtool: 'source-map',
   entry:
-    path.join(__dirname, '/client/post_it/index.js'),
+    path.join(__dirname, './app/client/post_it/index.js'),
   output: {
-    path: path.resolve(__dirname, 'client/dist'),
+    path: path.resolve(__dirname, './app/client/dist'),
     // path: path.resolve(__dirname, 'client'),
     filename: 'bundle.js',
   },

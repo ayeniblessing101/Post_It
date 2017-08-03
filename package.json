@@ -2,11 +2,11 @@
   "name": "postit",
   "version": "1.0.0",
   "description": "A simple application that allows friends and colleagues create groups for notifications. ",
-  "main": "server/app.js",
+  "main": "./app/client/index.js",
   "scripts": {
     "start": "nodemon --watch server --exec babel-node server/app.js",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
-    "test": "mocha /opt/lampp/htdocs/Post_It/app/server/test"
+    "test": "mocha /opt/lampp/htdocs/Post_It/app/server/test --recursive"
   },
   "repository": {
     "type": "git",
