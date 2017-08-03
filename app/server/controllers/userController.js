@@ -1,11 +1,11 @@
 // import validateInput from '../shared/validations/signup';
-import Promise from 'bluebird';
-import isEmpty from 'lodash/isEmpty';
-import commonValidations from '../shared/validations/signup';
+const isEmpty = require('lodash/isEmpty');
+const Promise = require('bluebird');
+const commonValidations = require('../shared/validations/addgroup');
 
-const express = require('express');
+// const express = require('express');
 
-const router = express.Router();
+// const router = express.Router();
 
 const User = require('../models').User;
 

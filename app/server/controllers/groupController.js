@@ -1,7 +1,6 @@
-import isEmpty from 'lodash/isEmpty';
-import Promise from 'bluebird';
-import commonValidations from '../shared/validations/addgroup';
-
+const isEmpty = require('lodash/isEmpty');
+const Promise = require('bluebird');
+const commonValidations = require('../shared/validations/addgroup');
 const User = require('../models').User;
 const Group = require('../models').Group;
 const GroupUser = require('../models').GroupUser;

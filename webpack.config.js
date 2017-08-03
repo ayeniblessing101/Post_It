@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   devtool: 'source-map',
   entry:
-    path.join(__dirname, './app/client/post_it/index.js'),
+    path.join(__dirname, '../Post_It/app/client/post_it/index.js'),
   output: {
     path: path.resolve(__dirname, './app/client/dist'),
     // path: path.resolve(__dirname, 'client'),
@@ -16,10 +16,11 @@ module.exports = {
       {
         test: /\.js$/,
         include: [
-          path.join(__dirname, 'client'),
+          path.join(__dirname, 'app/client'),
           path.join(__dirname, 'app/server/shared')
         ],
-        loaders: ['babel-loader']
+        loaders: ['babel-loader'],
+        exclude: /node_modules/
       },
       { test: /\.css$/, loaders: ['style-loader', 'css-loader'] },
       {
@@ -41,7 +42,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: '../app/client/post_it/index.html'
+      template: './app/client/post_it/index.html'
     })
   ]
 

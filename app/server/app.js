@@ -1,10 +1,11 @@
-import express from 'express';
-import path from 'path';
-import historyApiFallback from 'connect-history-api-fallback';
-import webpack from 'webpack';
-import webpackMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../webpack.config';
+const express = require('express');
+const path = require('path');
+const historyApiFallback = require('connect-history-api-fallback');
+const webpack = require('webpack');
+const webpackMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackConfig = require('../../webpack.config');
+
 
 const app = express();
 

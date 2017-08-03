@@ -1,7 +1,7 @@
-import Validator from 'validator';
-import isEmpty from 'lodash/isEmpty';
+const Validator = require('validator');
+const isEmpty = require('lodash/isEmpty');
 
-export default function validateInput(data) {
+exports.validateInput = (data) => {
   const errors = {};
 
   if (Validator.isEmpty(data.groupname)) {
@@ -12,4 +12,4 @@ export default function validateInput(data) {
     errors,
     isValid: isEmpty(errors)
   };
-}
+};
