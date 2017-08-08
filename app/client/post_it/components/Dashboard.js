@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from "./Header";
-const avatar1 = require("/opt/lampp/htdocs/Post_It/app/client/post_it/images/avatar1.png");
-const avatar2 = require("/opt/lampp/htdocs/Post_It/app/client/post_it/images/avatar2.png");
-const avatar3 = require("/opt/lampp/htdocs/Post_It/app/client/post_it/images/friend-group2.jpg");
+const avatar1 = require("../images/avatar1.png");
+const avatar2 = require("../images/avatar2.png");
+const avatar3 = require("../images/friend-group2.jpg");
 import Sidebar from "./Sidebar";
 
 

@@ -1,7 +1,7 @@
 // import validateInput from '../shared/validations/signup';
 const isEmpty = require('lodash/isEmpty');
 const Promise = require('bluebird');
-const commonValidations = require('../shared/validations/addgroup');
+const commonValidations = require('../shared/validations/signup');
 
 // const express = require('express');
 
