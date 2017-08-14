@@ -233,3 +233,11 @@ footer form{
 .errorMsg{
   color: red;
 }
+
+.emptyMessage {
+  margin-left: 20%;
+}
+
+.modal h4 {
+  color: #000000!important;
+}

@@ -28,10 +28,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/fonts', express.static('./app/fonts'));
+
+app.use('/', userRoute);
+
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/post_it/index.html'));
 });
-app.use('/', userRoute);
 
 app.use(historyApiFallback({
   verbose: true

@@ -21,10 +21,6 @@ class AddUser extends React.Component{
                       <form>
                         <div className="input-field">
                           <input classID="icon_prefix" type="text" className="validate" />
-                          <label htmlFor="icon_prefix">Group Name</label>
-                        </div>
-                        <div className="input-field">
-                          <input classID="icon_prefix" type="text" className="validate" />
                           <label htmlFor="icon_prefix">Username</label>
                         </div>
                         <div className="input-field ">

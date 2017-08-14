@@ -7,6 +7,7 @@ const avatar3 = require("../images/friend-group2.jpg");
 import Sidebar from "./Sidebar";
 
 
+
 class Dashboard extends React.Component{
   render(){
     return(

@@ -1,7 +1,10 @@
-// import validateInput from '../shared/validations/signup';
+// import {validateInput} from '../shared/validations/signup';
+import Validator from 'validator';
 const isEmpty = require('lodash/isEmpty');
 const Promise = require('bluebird');
-const commonValidations = require('../shared/validations/signup');
+
+//const validateInput = require('../shared/validations/signup');
+//const commonValidations = require('../shared/validations/signup');
 
 // const express = require('express');
 
@@ -15,23 +18,7 @@ const jwt = require('jsonwebtoken');
 
 const salt = bcrypt.genSaltSync(saltRounds);
 
-function validateInput(data, otherValidations) {
-  const { errors } = otherValidations(data);
 
-  return Promise.all([
-    User.findOne({ where: { username: data.username }, }).then((user) => {
-      if (user) { errors.username = 'Username already Exist'; }
-    }),
-    User.findOne({ where: { email: data.email }, }).then((user) => {
-      if (user) { errors.email = 'Email already Exist'; }
-    })
-  ]).then(() => {
-    return {
-      errors,
-      isValid: isEmpty(errors)
-    };
-  });
-}
 
 exports.identify = (req, res) => {
   User.findOne({
@@ -53,25 +40,80 @@ exports.identify = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-  validateInput(req.body, commonValidations).then(({ errors, isValid }) => {
-    if (!isValid) {
-      res.status(400).json(errors);
-    } else {
-      User.create({
-        username: req.body.username,
-        password: bcrypt.hashSync((req.body.password), salt),
-        confirm_password: bcrypt.hashSync((req.body.password), salt),
-        email: req.body.email
-      })
-      .then((newuser) => {
-        res.status(201).send({ success: true });
-      })
-      .catch((err) => {
-        res.status(500).send({ error: err });
-      });
+
+  function validateInput(data) {
+    const errors = {};
+
+    if (Validator.isEmpty(data.username)) {
+      errors.username = 'This field required';
     }
-  });
+    if (Validator.isEmpty(data.email)) {
+      errors.email = 'This field required';
+    }
+    if (!Validator.isEmail(data.email)) {
+      errors.email = 'Email is not valid';
+    }
+    if (Validator.isEmpty(data.password)) {
+      errors.password = 'This field required';
+    }
+    if (Validator.isEmpty(data.confirm_password)) {
+      errors.confirm_password = 'This field required';
+    }
+    if (!Validator.equals(data.password, data.confirm_password)) {
+      errors.confirm_password = 'Password must Match';
+    }
+    return {
+      errors,
+      isValid: isEmpty(errors)
+    };
+  }
+
+  const { errors, isValid } = validateInput(req.body);
+
+  // validateInput(req.body).then(({ errors, isValid }) => {
+  if (!isValid) {
+    res.status(400).send(errors);
+  } else {
+    User.findOne({
+      where: {
+        username: req.body.username
+      },
+    })
+    .then((user, err) => {
+      if (err) throw err;
+      if (user) {
+        errors.username = 'Username already exists';
+      }
+      User.findOne({
+        where: {
+          email: req.body.email
+        },
+      })
+      .then((user, err) => {
+        if (err) throw err;
+        if (user) {
+          errors.email = 'Email already exists';
+        }
+        if (!isEmpty(errors)) {
+            res.status(400).send(errors);
+          } else {
+            const userData = {
+              username: req.body.username,
+              email: req.body.email,
+              password: bcrypt.hashSync(req.body.password, salt)
+            };
+            User.create(userData)
+            .then(user => {
+              res.status(201).send({ success: true, message: 'Signup was successful'});
+            })
+            .catch(error => res.status(400).send(error));
+          }
+      });
+    });
+  }
+  // })
 };
+
 // sigin a user
 exports.login = (req, res) => {
   if (req.body.username === '') {
@@ -92,7 +134,6 @@ exports.login = (req, res) => {
           const token = jwt.sign({
             data: user
           }, 'secret', { expiresIn: 1440 });
-          // res.status(200).send({ message: 'Authentication Successful', Token: token });
           res.json({ token });
         } else {
           res.status(401).json({ errors: { form: 'Invalid Credentials' } });

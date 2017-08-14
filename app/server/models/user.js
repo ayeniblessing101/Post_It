@@ -5,12 +5,11 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     confirm_password: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-      }
-    }
-  });
+  }, { underscored: true });
+  User.associate = (models) => {
+      // associations can be defined here
+    // User.hasMany(models.Group, { foreignKey: 'user_id' });
+    User.belongsToMany(models.Group, { through: models.GroupUser, as: 'group', foreignKey: 'user_id' });
+  };
   return User;
 };

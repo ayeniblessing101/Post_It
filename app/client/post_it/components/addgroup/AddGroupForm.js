@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createGroup } from '../../actions/creategroupActions';
 import { addFlashMessage } from '../../actions/flashMessages'
-import validateInput from '../../../../server/shared/validations/addgroup';
+import {validateInput} from '../../../../server/shared/validations/addgroup';
 import FlashMessagesList from '../flash/FlashMessagesList';
 
 class AddGroupForm extends React.Component{
@@ -36,14 +36,15 @@ class AddGroupForm extends React.Component{
       this.setState({ errors: {}, isLoading: true });
       this.props.createGroup(this.state).then(
         () => {
-          this.props.addFlashMessage({
-            type: 'success',
-            text: 'Group created successfully'
-          });
+          //this.props.addFlashMessage({
+            //type: 'success',
+            //text: 'Group created successfully'
+          //});
+          this.context.router.history.push('/groups')
         },
-
+        ({ data }) => this.setState({ errors: data, isLoading:false })
       );
-      ({ data }) => this.setState({ errors: data, isLoading:false })
+
     }
   }
 
@@ -94,6 +95,10 @@ class AddGroupForm extends React.Component{
 AddGroupForm.propTypes = {
   createGroup: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
+}
+
+AddGroupForm.contextTypes = {
+  router: PropTypes.object.isRequired
 }
 
 export default connect(null, { createGroup, addFlashMessage })(AddGroupForm);
