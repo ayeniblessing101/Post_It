@@ -5,9 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   devtool: 'source-map',
   entry:
-    path.join(__dirname, '../Post_It/app/client/post_it/index.js'),
+    path.join(__dirname, 'app/client/post_it/index.js'),
   output: {
-    path: path.resolve(__dirname, './app/client/dist'),
+    path: path.join(__dirname, '/app/client/post_it/assets/dist/js'),
     // path: path.resolve(__dirname, 'client'),
     filename: 'bundle.js',
   },
@@ -39,11 +39,11 @@ module.exports = {
   node: {
     net: 'empty',
     dns: 'empty'
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './app/client/post_it/index.html'
-    })
-  ]
+  }
+  // plugins: [
+  //   new HtmlWebpackPlugin({
+  //     template: './app/client/post_it/index.html'
+  //   })
+  // ]
 
 };

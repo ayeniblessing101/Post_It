@@ -25,7 +25,7 @@ class GroupsPage extends React.Component{
 
   render(){
     const { groups } = this.state;
-  
+
     return(
       <div>
         <Header />
