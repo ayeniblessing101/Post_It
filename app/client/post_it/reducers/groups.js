@@ -5,7 +5,9 @@ const initialState = [];
 export default (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_GROUPS:
-      return action.groups;
+      return [
+        ...action.groups
+      ];
     default:
       return state;
   }
