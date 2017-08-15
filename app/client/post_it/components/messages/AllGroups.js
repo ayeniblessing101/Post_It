@@ -1,12 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { fetchGroups } from '../../actions/creategroupActions';
 
 //const avatar2 = require("../images/avatar2.png");
 //const avatar3 = require("../images/friend-group2.jpg");
 
 class AllGroups extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      groups: this.props.groups
+    }
+  }
+
+  componentDidMount() {
+    this.props.fetchGroups();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      groups: nextProps.groups
+    })
+  }
   render(){
-    const groups = this.props.groups;
+    const groups = this.state.groups;
     return (
       <div>
         <div className="col s12 m4 l3 ">
@@ -20,7 +39,7 @@ class AllGroups extends React.Component{
                 <div className="collapsible-header">
                   <span className="new badge red">4</span>
                   <i className="material-icons">filter_drama</i>
-                  {group.group_name}
+                  <Link to={'/group/' + group.id} >{group.group_name}</Link>
                 </div>
               </li>
             )}
@@ -31,4 +50,8 @@ class AllGroups extends React.Component{
   }
 }
 
-export default AllGroups;
+const mapStateToProps = state => ({
+  groups: state.groups
+})
+
+export default connect(mapStateToProps, { fetchGroups })(AllGroups);

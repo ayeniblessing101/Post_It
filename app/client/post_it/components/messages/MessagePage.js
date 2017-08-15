@@ -11,14 +11,19 @@ class MessagePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      statusMessage: this.props.message
+      statusMessage: this.props.message,
     }
   }
+
   componentWillMount() {
+    const groupId  = this.props.match.params.id;
+    console.log(this.props)
+    // console.log('groupId', groupId);
     this.setState({
-      groupId: this.props.match.params.id
+      groupId
     });
   }
+
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     if(this.state.statusMessage !== nextProps.message){
@@ -27,6 +32,7 @@ class MessagePage extends React.Component {
       });
     }
   }
+
   render(){
     const { addUserToGroup } = this.props;
     return(
@@ -39,6 +45,7 @@ class MessagePage extends React.Component {
             groups={this.props.groups}
             addUserToGroup={addUserToGroup}
             selectedGroupId={this.state.groupId}
+            selectedGroupName={this.state.selectedGroupName}
             statusMessage={this.state.statusMessage}
             />
           </div>
@@ -54,7 +61,7 @@ MessagePage.propTypes = {
 }
 
 MessagePage.defaultProps = {
-  message: ""
+  message: ''
 }
 
 function mapStateToProps(state, props) {
