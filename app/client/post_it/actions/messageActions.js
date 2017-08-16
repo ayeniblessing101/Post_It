@@ -35,6 +35,14 @@ export function postMessage(groupId, message) {
   );
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * Fetch all Groups.
+ * @param {Object} groupId - groupdId.
+ *@returns {data} - returns data pertaining to the message.
+ */
+>>>>>>> updates
 export function getMessages(groupId) {
   return dispatch => (
     axios.get(`/api/group/${groupId}/messages`)

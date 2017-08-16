@@ -47588,69 +47588,10 @@ function encodeTag(tag, primitive, cls, reporter) {
 
 /***/ }),
 /* 375 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getAllMessages = exports.postMessageStatus = undefined;
-exports.postMessage = postMessage;
-exports.getMessages = getMessages;
-
-var _axios = __webpack_require__(55);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _types = __webpack_require__(35);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Fetch all Groups.
- * @param {Object} message- status.
- *@returns {message} - returns message.
- */
-var postMessageStatus = exports.postMessageStatus = function postMessageStatus(message) {
-  return {
-    type: _types.POST_MESSAGE,
-    message: message
-  };
-};
-
-var getAllMessages = exports.getAllMessages = function getAllMessages(messages) {
-  return {
-    type: _types.SET_MESSAGES,
-    messages: messages
-  };
-};
-
-/**
- * Fetch all Groups.
- * @param {Object} groupId - groupdId.
- *@returns {status} - returns status.
- */
-function postMessage(groupId, message) {
-  return function (dispatch) {
-    return _axios2.default.post('/api/group/' + groupId + '/message', { message: message }).then(function (_ref) {
-      var data = _ref.data;
-
-      dispatch(postMessageStatus(data.data));
-    });
-  };
-}
-
-function getMessages(groupId) {
-  return function (dispatch) {
-    return _axios2.default.get('/api/group/' + groupId + '/messages').then(function (_ref2) {
-      var data = _ref2.data;
-
-      dispatch(getAllMessages(data.data));
-    });
-  };
-}
+throw new Error("Module build failed: SyntaxError: Unexpected token (38:1)\n\n\u001b[0m \u001b[90m 36 | \u001b[39m}\n \u001b[90m 37 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\n \u001b[90m    | \u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\n \u001b[90m 40 | \u001b[39m\u001b[90m/**\u001b[39m\n \u001b[90m 41 | \u001b[39m\u001b[90m * Fetch all Groups.\u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 376 */
@@ -82535,7 +82476,11 @@ var AddGroupForm = function (_React$Component) {
           _this2.context.router.history.push('/groups');
         }, function (_ref) {
           var data = _ref.data;
-          return _this2.setState({ errors: data, isLoading: false });
+          return _this2.setState({
+            groupname: '',
+            errors: data,
+            isLoading: false
+          });
         });
       }
     }
@@ -83124,8 +83069,7 @@ var LoginForm = function (_React$Component) {
     _this.state = {
       username: '',
       password: '',
-      errors: {},
-      isLoading: false
+      errors: {}
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
@@ -83155,7 +83099,11 @@ var LoginForm = function (_React$Component) {
         this.props.login(this.state).then(function (res) {
           return _this2.context.router.history.push('/groups');
         }, function (err) {
-          return _this2.setState({ errors: err.data.errors, isLoading: false });
+          return _this2.setState({
+            errors: err.data.errors,
+            username: '',
+            password: ''
+          });
         });
       }
     }
@@ -83170,8 +83118,7 @@ var LoginForm = function (_React$Component) {
       var _state = this.state,
           errors = _state.errors,
           username = _state.username,
-          password = _state.password,
-          isLoading = _state.isLoading;
+          password = _state.password;
 
       return _react2.default.createElement(
         'div',
@@ -83250,7 +83197,7 @@ var LoginForm = function (_React$Component) {
                         { className: 'input-field col s12' },
                         _react2.default.createElement(
                           'button',
-                          { className: 'btn waves-effect waves-light', disabled: isLoading, type: 'submit', name: 'action' },
+                          { className: 'btn waves-effect waves-light', type: 'submit', name: 'action' },
                           'Submit',
                           _react2.default.createElement(
                             'i',
@@ -84168,7 +84115,14 @@ var SignupForm = function (_React$Component) {
           _this3.context.router.history.push('/login');
         }, function (_ref) {
           var data = _ref.data;
-          return _this3.setState({ errors: data, isLoading: false });
+          return _this3.setState({
+            errors: data,
+            isLoading: false,
+            username: '',
+            email: '',
+            password: '',
+            confirm_password: ''
+          });
         });
       }
     }
@@ -84191,7 +84145,7 @@ var SignupForm = function (_React$Component) {
               { className: 'row' },
               _react2.default.createElement(
                 'div',
-                { className: 'col s12 m6 l6 welcome' },
+                { className: 'col s12 m12 l6 welcome' },
                 _react2.default.createElement(
                   'h1',
                   null,
@@ -84212,7 +84166,7 @@ var SignupForm = function (_React$Component) {
               ),
               _react2.default.createElement(
                 'div',
-                { className: 'col s12 m6 l6 reg_form' },
+                { className: 'col s12 m12 l6 reg_form' },
                 _react2.default.createElement(
                   'div',
                   { className: 'reg_form_cen' },
@@ -86108,7 +86062,7 @@ exports = module.exports = __webpack_require__(833)(undefined);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf'); /* IE9 Compat Modes */\n  src: local('Oswald'), local('Oswald'),\n    url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf') format('truetype'), /* Safari, Android, iOS */\n    /* url('../fonts/open-sans-v13-latin-regular.eot?#iefix') format('embedded-opentype'), IE6-IE8\n    url('../fonts/open-sans-v13-latin-regular.woff2') format('woff2'), /* Super Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.woff') format('woff'), /* Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.svg#OpenSans') format('svg'); Legacy iOS */\n}\n\nbody{\n  font-family: 'Oswald', sans-serif;\n  margin: 0;\n  overflow-x: hidden;\n  color: #686868;\n  font-weight: 300;\n  color: #ffffff;}\n\nhtml,body,.container{\n  height:100%;}\n\na{\n  color: #000000;\n}\n\n.login-register {\nbackground: url(" + __webpack_require__(856) + ") no-repeat center center / cover !important;\nheight: 100%;\nwidth: 100%;\nposition: fixed;}\n\n#wrapper {\n  width: 100%; }\n\n.wrapper_cen{\nwidth: 850px;\nmargin: 5% auto;}\n\n.wrapper_cen2{\nwidth: 850px;\nmargin: 10% auto;}\n\n.welcome{\n  color: #ffffff;\n  margin-top: 5%;}\n\n  .stay_up{\n    margin-top: 0!important;}\n\n.welcome h1{\n  color: #ffffff;\n  font-size: 40px;\n  font-weight: bold;\n  margin-bottom: 30px;}\n\n.welcome p{\n  font-size: 18px;\n  padding: 0;\n  line-height: 19px;\n  margin-bottom: 30px;}\n\n.my_btn {\n    display: inline-block;\n    font-weight: bold;\n    line-height: 1.25;\n    text-align: center;\n    white-space: nowrap;\n    vertical-align: middle;\n    user-select: none;\n    position: relative;}\n\n.btn-white {\n    color: #fff;}\n\n.btn-border {\n    border: solid 2px;}\n\n.btn-md {\n    padding: 1rem 3.5rem;\n    font-size: 1rem;\n    border-radius: 0.3rem;}\n\n.reg_form_cen{\n  width: 350px;\n  margin: 0 auto;\n  background-color: #ffffff;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  padding-bottom: 3%;\n  padding-top: 3%;}\n\n.reg_form_cen h4{\n  padding: 0px;\n  color: #686868;\n  font-size: 18px;\n  text-align: center;\n  font-weight: bold;}\n\n.reg_form_cen form{\n  margin-left: 13.5%;}\n\n.reg_form_cen p{\n  color: #686868;\n  font-size: 13px;\n  text-align: center;\n  font-weight: normal;\n}\n\n.reg_form_cen input[type=\"password\"] {\n  width: 300px;}\n\n.reg_form_cen input[type=\"text\"] {\n  width: 300px;}\n\n.btn, .btn:hover {\nbackground-color: #3F4257!important;\nwidth: 200px;\ncolor: #ffffff; }\n\nnav{\n  background-color: #3F4257!important;\n}\n\nnav a{\n  font-size: 40px;\n  padding-left:20px;\n}\n.mycontainer\n{\n  display:table;\n  width: 100%;\n  margin-top: -50px;\n  padding: 50px 0 0 0; /*set left/right padding according to needs*/\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  color: #000000;\n}\n\n.row\n{\n  display: table-row;\n  margin-top: -50px!important;\n  height: 100vh;\n}\n.col-md-2 {\n  background: #ffffff!important;\n  border-right: 1px #e5e5e5 solid;\n  height: 100vh;\n\n}\n.col-md-10 {\n  background: #EDF2F6!important;\n  height: 150vh;\n  width: 100%;\n}\n\nul.navbar_sidebar{\n  list-style-type: none;\n  padding-top: 20%;\n}\n\nul.navbar_sidebar li{\n  text-align: left;\n  padding-bottom: 20%;\n  font-size: 18px;\n  margin-left: 0px;\n}\n\nul.navbar_sidebar li a{\n  color: #000000;\n}\n\n.small-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding:90px;\n  text-align:center;\n  margin-right:20px;\n  margin-bottom: 20px;\n\n}\n\n.small-cards img{\n  border-radius:100%;\n  width:120px;\n}\n\n.box{\n  border: 1px solid #000000;\n}\n\n.large-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding-left:70px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n  margin-top: 50px;\n}\n\n.large-cards input[type=\"text\"] {\n  width: 320px;}\n\n.large-cards textarea {\n}\n\n.allMessageCard{\n  margin-top: 50px;\n}\n\n.message-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding-left:30px!important;\n  padding-right:30px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n  margin-top: 50px;\n}\ninput{\n  color:#000000!important;\n}\n\nfooter form{\n  position: sticky;\n}\n\n.errorMsg{\n  color: red;\n}\n\n.emptyMessage {\n  margin-left: 20%;\n}\n\n.modal h4 {\n  color: #000000!important;\n}\n\n#message_form {\n  width: 500px;\n\n}\n\n#message_form input {\n  border: 2px solid #717274;\n  border-radius: 7px;\n  padding: 3px;\n\n}\n", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf'); /* IE9 Compat Modes */\n  src: local('Oswald'), local('Oswald'),\n    url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf') format('truetype'), /* Safari, Android, iOS */\n    /* url('../fonts/open-sans-v13-latin-regular.eot?#iefix') format('embedded-opentype'), IE6-IE8\n    url('../fonts/open-sans-v13-latin-regular.woff2') format('woff2'), /* Super Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.woff') format('woff'), /* Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.svg#OpenSans') format('svg'); Legacy iOS */\n}\n\nbody{\n  font-family: 'Oswald', sans-serif;\n  margin: 0;\n  overflow-x: hidden;\n  color: #686868;\n  font-weight: 300;\n  color: #ffffff;}\n\nhtml,body,.container{\n  height:100%;}\n\na{\n  color: #000000;\n}\n\n.login-register {\nbackground: url(" + __webpack_require__(856) + ") no-repeat center center / cover !important;\nheight: 100%;\nwidth: 100%;\nposition: fixed;}\n\n#wrapper {\n  width: 100%; }\n\n.wrapper_cen{\nwidth: 850px;\nmargin: 5% auto;}\n\n.wrapper_cen2{\nwidth: 850px;\nmargin: 10% auto;}\n\n.welcome{\n  color: #ffffff;\n  margin-top: 5%;}\n\n  .stay_up{\n    margin-top: 0!important;}\n\n.welcome h1{\n  color: #ffffff;\n  font-size: 40px;\n  font-weight: bold;\n  margin-bottom: 30px;}\n\n.welcome p{\n  font-size: 18px;\n  padding: 0;\n  line-height: 19px;\n  margin-bottom: 30px;}\n\n.my_btn {\n    display: inline-block;\n    font-weight: bold;\n    line-height: 1.25;\n    text-align: center;\n    white-space: nowrap;\n    vertical-align: middle;\n    user-select: none;\n    position: relative;}\n\n.btn-white {\n    color: #fff;}\n\n.btn-border {\n    border: solid 2px;}\n\n.btn-md {\n    padding: 1rem 3.5rem;\n    font-size: 1rem;\n    border-radius: 0.3rem;}\n\n.reg_form_cen{\n  width: 350px;\n  margin: 0 auto;\n  background-color: #ffffff;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  padding-bottom: 3%;\n  padding-top: 3%;}\n\n.reg_form_cen h4{\n  padding: 0px;\n  color: #686868;\n  font-size: 18px;\n  text-align: center;\n  font-weight: bold;}\n\n.reg_form_cen form{\n  margin-left: 13.5%;}\n\n.reg_form_cen p{\n  color: #686868;\n  font-size: 13px;\n  text-align: center;\n  font-weight: normal;\n}\n\n.reg_form_cen input[type=\"password\"] {\n  width: 300px;}\n\n.reg_form_cen input[type=\"text\"] {\n  width: 300px;}\n\n.btn, .btn:hover {\nbackground-color: #3F4257!important;\nwidth: 200px;\ncolor: #ffffff; }\n\nnav{\n  background-color: #3F4257!important;\n}\n\nnav a{\n  font-size: 40px;\n  padding-left:20px;\n}\n.mycontainer\n{\n  display:table;\n  width: 100%;\n  margin-top: -50px;\n  padding: 50px 0 0 0; /*set left/right padding according to needs*/\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  color: #000000;\n}\n\n.row\n{\n  display: table-row;\n  margin-top: -50px!important;\n  height: 100vh;\n}\n.col-md-2 {\n  background: #ffffff!important;\n  border-right: 1px #e5e5e5 solid;\n  height: 100vh;\n\n}\n.col-md-10 {\n  background: #EDF2F6!important;\n  height: 150vh;\n  width: 100%;\n}\n\nul.navbar_sidebar{\n  list-style-type: none;\n  padding-top: 20%;\n}\n\nul.navbar_sidebar li{\n  text-align: left;\n  padding-bottom: 20%;\n  font-size: 18px;\n  margin-left: 0px;\n}\n\nul.navbar_sidebar li a{\n  color: #000000;\n}\n\n.small-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding:90px;\n  text-align:center;\n  margin-right:20px;\n  margin-bottom: 20px;\n\n}\n\n.small-cards img{\n  border-radius:100%;\n  width:120px;\n}\n\n.box{\n  border: 1px solid #000000;\n}\n\n.large-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding-left:70px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n  margin-top: 50px;\n}\n\n.large-cards input[type=\"text\"] {\n  width: 320px;}\n\n.large-cards textarea {\n}\n\n.allMessageCard{\n  margin-top: 50px;\n}\n\n.message-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding-left:30px!important;\n  padding-right:30px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n  margin-top: 50px;\n}\ninput{\n  color:#000000!important;\n}\n\nfooter form{\n  position: sticky;\n}\n\n.errorMsg{\n  color: red;\n}\n\n.emptyMessage {\n  margin-left: 20%;\n}\n\n.modal h4 {\n  color: #000000!important;\n}\n\n#message_form {\n  width: 500px;\n\n}\n\n#message_form input {\n  border: 2px solid #717274;\n  border-radius: 7px;\n  padding: 3px;\n\n}\n\n.alert-success {\n    background-color: #dff0d8;\n    border-color: #d0e9c6;\n    color: #3c763d;\n}\n.alert {\n  padding: .75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: .25rem;\n}\n\n.alert-danger {\n  background-color: #f2dede;\n  border-color: #ebcccc;\n  color: #a94442;\n}\n\n.close {\n  position: relative;\n  top: -.75rem;\n  right: -1.25rem;\n  padding: .75rem 1.25rem;\n  color: inherit;\n}\n\nbutton.close {\n  padding: 0;\n  cursor: pointer;\n  background: 0 0;\n  border: 0;\n  -webkit-appearance: none;\n}\n.close {\n  float: right;\n  font-size: 1.5rem;\n  font-weight: 700;\n  line-height: 1;\n  color: #000;\n  text-shadow: 0 1px 0 #fff;\n  opacity: .5;\n}\n", ""]);
 
 // exports
 

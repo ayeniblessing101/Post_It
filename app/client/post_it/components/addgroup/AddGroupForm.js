@@ -40,7 +40,11 @@ class AddGroupForm extends React.Component{
           //});
           this.context.router.history.push('/groups')
         },
-        ({ data }) => this.setState({ errors: data, isLoading:false })
+        ({ data }) => this.setState({
+          groupname: '',
+          errors: data,
+          isLoading:false
+        })
       );
 
     }

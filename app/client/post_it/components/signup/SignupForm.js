@@ -67,7 +67,14 @@ class SignupForm extends React.Component{
           });
           this.context.router.history.push('/login')
         },
-        ({ data }) => this.setState({ errors: data, isLoading:false })
+        ({ data }) => this.setState({
+          errors: data,
+          isLoading:false,
+          username: '',
+          email: '',
+          password: '',
+          confirm_password: '',
+        })
       );
     }
 
@@ -79,7 +86,7 @@ class SignupForm extends React.Component{
         <section classID="wrapper" className="login-register">
           <div className="wrapper_cen">
             <div className="row">
-              <div className="col s12 m6 l6 welcome">
+              <div className="col s12 m12 l6 welcome">
                 <h1>Welcome to the Biggest<br />
                   Social Network in the World
                 </h1>
@@ -90,7 +97,7 @@ class SignupForm extends React.Component{
 
                 <a href="#" className="my_btn btn-md btn-border btn-white">Register Now!</a>
               </div>
-              <div className="col s12 m6 l6 reg_form">
+              <div className="col s12 m12 l6 reg_form">
                 <div className="reg_form_cen">
                   <h4>Register to PostIt</h4>
                   <form className="col s12" onSubmit={this.handleSubmit}>
