@@ -26,7 +26,7 @@ class MessageBoard extends React.Component{
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.postMessage(this.props.selectedGroupId, this.state.message)
+    this.props.postMessage(this.props.selectedGroupId, this.state.message);
     this.setState({
       message: ''
     });
@@ -41,7 +41,8 @@ class MessageBoard extends React.Component{
     const groups = this.props.groups;
     const selectedGroupId = this.props.selectedGroupId;
     const statusMessage = this.props.statusMessage;
-    const { addUserToGroup } = this.props
+    const { addUserToGroup } = this.props;
+
     return(
       <div>
         <div className="col s12 m10 l10 col-md-10">

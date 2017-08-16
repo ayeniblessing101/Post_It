@@ -47588,10 +47588,74 @@ function encodeTag(tag, primitive, cls, reporter) {
 
 /***/ }),
 /* 375 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: SyntaxError: Unexpected token (38:1)\n\n\u001b[0m \u001b[90m 36 | \u001b[39m}\n \u001b[90m 37 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\n \u001b[90m    | \u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\n \u001b[90m 40 | \u001b[39m\u001b[90m/**\u001b[39m\n \u001b[90m 41 | \u001b[39m\u001b[90m * Fetch all Groups.\u001b[39m\u001b[0m\n");
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getAllMessages = exports.postMessageStatus = undefined;
+exports.postMessage = postMessage;
+exports.getMessages = getMessages;
+
+var _axios = __webpack_require__(55);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _types = __webpack_require__(35);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Fetch all Groups.
+ * @param {Object} message- status.
+ *@returns {message} - returns message.
+ */
+var postMessageStatus = exports.postMessageStatus = function postMessageStatus(message) {
+  return {
+    type: _types.POST_MESSAGE,
+    message: message
+  };
+};
+
+var getAllMessages = exports.getAllMessages = function getAllMessages(messages) {
+  return {
+    type: _types.SET_MESSAGES,
+    messages: messages
+  };
+};
+
+/**
+ * Fetch all Groups.
+ * @param {Object} groupId - groupdId.
+ *@returns {status} - returns status.
+ */
+function postMessage(groupId, message) {
+  return function (dispatch) {
+    return _axios2.default.post('/api/group/' + groupId + '/message', { message: message }).then(function (_ref) {
+      var data = _ref.data;
+
+      dispatch(postMessageStatus(data.data));
+    });
+  };
+}
+
+/**
+ * Fetch all Groups.
+ * @param {Object} groupId - groupdId.
+ *@returns {data} - returns data pertaining to the message.
+ */
+function getMessages(groupId) {
+  return function (dispatch) {
+    return _axios2.default.get('/api/group/' + groupId + '/messages').then(function (_ref2) {
+      var data = _ref2.data;
+
+      dispatch(getAllMessages(data.data));
+    });
+  };
+}
 
 /***/ }),
 /* 376 */
@@ -82444,6 +82508,8 @@ var AddGroupForm = function (_React$Component) {
       errors: {},
       isLoading: false
     };
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
     return _this;
   }
 
@@ -83326,13 +83392,19 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactMaterialize = __webpack_require__(143);
 
+var _reactRedux = __webpack_require__(17);
+
 var _TextFieldGroup = __webpack_require__(101);
 
 var _TextFieldGroup2 = _interopRequireDefault(_TextFieldGroup);
 
 var _adduser = __webpack_require__(815);
 
-var _reactRedux = __webpack_require__(17);
+var _flashMessages = __webpack_require__(98);
+
+var _FlashMessagesList = __webpack_require__(376);
+
+var _FlashMessagesList2 = _interopRequireDefault(_FlashMessagesList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -83369,7 +83441,8 @@ var AddUserModal = function (_React$Component) {
     value: function isValid() {
       var _validateInput = (0, _adduser.validateInput)(this.state),
           errors = _validateInput.errors,
-          isValid = _validateInput.isValid;
+          isValid = _validateInput.isValid,
+          addFlashMessage = _validateInput.addFlashMessage;
 
       if (!isValid) {
         this.setState({ errors: errors });
@@ -83389,7 +83462,17 @@ var AddUserModal = function (_React$Component) {
         this.props.addUserToGroup(groupId, {
           username: this.state.username
         }).then(function () {
-          console.log(_this2.props.statusMessage);
+          // console.log(this.props.statusMessage);
+          _this2.props.addFlashMessage({
+            type: 'success',
+            text: 'User has been add to Group Successfully'
+          });
+        }, function (_ref) {
+          var data = _ref.data;
+          return _this2.setState({
+            errors: data,
+            username: ''
+          });
         });
       }
     }
@@ -83417,6 +83500,7 @@ var AddUserModal = function (_React$Component) {
               null,
               'Add User'
             ) },
+          _react2.default.createElement(_FlashMessagesList2.default, null),
           _react2.default.createElement(
             'form',
             { onSubmit: this.handleSubmit },
@@ -83451,10 +83535,11 @@ var AddUserModal = function (_React$Component) {
 }(_react2.default.Component);
 
 AddUserModal.propTypes = {
-  addUserToGroup: _propTypes2.default.func.isRequired
+  addUserToGroup: _propTypes2.default.func.isRequired,
+  addFlashMessage: _propTypes2.default.func.isRequired
 };
 
-exports.default = (0, _reactRedux.connect)()(AddUserModal);
+exports.default = (0, _reactRedux.connect)(null, { addFlashMessage: _flashMessages.addFlashMessage })(AddUserModal);
 
 /***/ }),
 /* 801 */
@@ -83673,6 +83758,7 @@ var MessageBoard = function (_React$Component) {
       var statusMessage = this.props.statusMessage;
       var addUserToGroup = this.props.addUserToGroup;
 
+
       return _react2.default.createElement(
         'div',
         null,
@@ -83768,6 +83854,10 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = __webpack_require__(17);
 
+var _moment = __webpack_require__(0);
+
+var _moment2 = _interopRequireDefault(_moment);
+
 var _messageActions = __webpack_require__(375);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -83836,7 +83926,7 @@ var MessageForm = function (_React$Component) {
               _react2.default.createElement(
                 'span',
                 { className: 'right' },
-                message.createdAt
+                (0, _moment2.default)(message.createdAt, _moment2.default.ISO_8601).fromNow()
               ),
               _react2.default.createElement(
                 'p',

@@ -16,6 +16,8 @@ class AddGroupForm extends React.Component{
       errors: {},
       isLoading: false
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   isValid() {
@@ -46,12 +48,13 @@ class AddGroupForm extends React.Component{
           isLoading:false
         })
       );
-
     }
   }
 
   handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   render(){

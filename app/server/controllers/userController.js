@@ -33,10 +33,11 @@ exports.identify = (req, res) => {
 };
 
 exports.signup = (req, res) => {
+
   /**
-   * Set Current User.
-   * @param {Object} data - user.
-   * @returns {errors} - returns errors.
+   * Validates and check if input fields are empty.
+   * @param {Object} data - groupdId.
+   *@returns {status} - returns status.
    */
   function validateInput(data) {
     const errors = {};
@@ -86,33 +87,15 @@ exports.signup = (req, res) => {
           email: req.body.email
         },
       })
-      .then((newUser, err) => {
-<<<<<<< HEAD
+      .then((newUser) => {
         // if (err) {
         //   console.log('no user found');
         // }
-=======
-        if (err) throw err;
->>>>>>> updates
         if (newUser) {
           errors.email = 'Email already exists';
         }
         if (!isEmpty(errors)) {
           res.status(400).send(errors);
-<<<<<<< HEAD
-          } else {
-            const userData = {
-              username: req.body.username,
-              email: req.body.email,
-              password: bcrypt.hashSync(req.body.password, salt)
-            };
-            User.create(userData)
-            .then(user => {
-              res.status(201).send({ success: true, message: 'Signup was successful'});
-            })
-            .catch(error => res.status(400).send(error));
-          }
-=======
         } else {
           const userData = {
             username: req.body.username,
@@ -125,7 +108,6 @@ exports.signup = (req, res) => {
           })
           .catch(error => res.status(400).send(error));
         }
->>>>>>> updates
       });
     });
   }

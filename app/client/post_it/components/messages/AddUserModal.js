@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, Modal, Icon, Row, Input} from 'react-materialize';
+import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { validateInput } from '../../../../server/shared/validations/adduser';
-import { connect } from 'react-redux';
+import { addFlashMessage } from '../../actions/flashMessages';
+import FlashMessagesList from '../flash/FlashMessagesList';
 
 //const avatar2 = require("../images/avatar2.png");
 //const avatar3 = require("../images/friend-group2.jpg");
@@ -20,7 +22,7 @@ class AddUserModal extends React.Component{
   }
 
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid, addFlashMessage } = validateInput(this.state);
 
     if(!isValid) {
       this.setState({ errors });
@@ -37,15 +39,23 @@ class AddUserModal extends React.Component{
       this.props.addUserToGroup(groupId, {
         username: this.state.username
       }).then(() => {
-        console.log(this.props.statusMessage);
-      });
+        // console.log(this.props.statusMessage);
+        this.props.addFlashMessage({
+        type: 'success',
+        text: 'User has been add to Group Successfully'
+        });
+      },
+        ({ data }) => this.setState({
+          errors: data,
+          username: ''
+        })
+      );
     }
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
 
   render(){
     const { errors, username}  = this.state;
@@ -54,6 +64,7 @@ class AddUserModal extends React.Component{
         <Modal
           header='Add User to Group'
           trigger={<Button>Add User</Button>}>
+          <FlashMessagesList />
           <form onSubmit={this.handleSubmit} >
            { errors.form && <div className="alert alert-danger">{errors.form}</div> }
             <TextFieldGroup
@@ -79,7 +90,8 @@ class AddUserModal extends React.Component{
 }
 
 AddUserModal.propTypes = {
-  addUserToGroup: PropTypes.func.isRequired
+  addUserToGroup: PropTypes.func.isRequired,
+  addFlashMessage: PropTypes.func.isRequired,
 }
 
-export default connect()(AddUserModal);
+export default connect(null, { addFlashMessage })(AddUserModal);

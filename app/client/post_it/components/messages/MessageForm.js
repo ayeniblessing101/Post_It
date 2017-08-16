@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { getMessages } from '../../actions/messageActions';
 
 //const avatar2 = require("../images/avatar2.png");
@@ -33,7 +34,7 @@ class MessageForm extends React.Component{
           {
             this.state.messages.map(message => (
               <div key={message.id}>
-                <b>{message.User.username}</b><span className="right">{message.createdAt}</span>
+                <b>{message.User.username}</b><span className="right">{ moment(message.createdAt, moment.ISO_8601).fromNow() }</span>
                 <p>{message.message_body}</p>
                 <hr/><br/>
               </div>
