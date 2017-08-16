@@ -1,16 +1,35 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import AddUserModal from './AddUserModal';
 import MessageForm from './MessageForm';
 import AllGroups from './AllGroups';
-import PropTypes from 'prop-types';
+import { postMessage } from '../../actions/messageActions';
 
 class MessageBoard extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      groups: this.props.groups
+      groups: this.props.groups,
+      message: ''
     }
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.postMessage(this.props.selectedGroupId, this.state.message)
+    this.setState({
+      message: ''
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -18,8 +37,6 @@ class MessageBoard extends React.Component{
       groups: this.props.groups
     })
   }
-
-
   render(){
     const groups = this.props.groups;
     const selectedGroupId = this.props.selectedGroupId;
@@ -48,10 +65,10 @@ class MessageBoard extends React.Component{
                  </a>
                  <ul>
                    <li>
-                     <form id="message_form">
+                     <form id="message_form" onSubmit={this.handleSubmit}>
                        <div className="col s12">
-                         <input classID="message" type="text"
-                           placeholder="click here to type ypur message" className="validate" />
+                         <input classID="message" name="message" value={this.state.message} onChange={this.handleChange} type="text"
+                           placeholder="click here to type your message" className="validate" />
                        </div>
                      </form>
                    </li>
@@ -71,4 +88,4 @@ MessageBoard.propTypes = {
 }
 
 
-export default MessageBoard;
+export default connect(null, { postMessage })(MessageBoard);

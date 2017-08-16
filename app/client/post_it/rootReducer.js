@@ -4,10 +4,12 @@ import flashMessages from './reducers/flashMessages';
 import auth from './reducers/auth';
 import groups from './reducers/groups';
 import groupUpdate from './reducers/user';
+import messagesReducer from './reducers/messagesReducer';
 
 export default combineReducers({
   flashMessages,
   auth,
   groups,
-  groupUpdate
+  groupUpdate,
+  messages: messagesReducer
 });

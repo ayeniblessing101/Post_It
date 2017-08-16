@@ -15003,6 +15003,8 @@ var DELETE_FLASH_MESSAGE = exports.DELETE_FLASH_MESSAGE = 'DELETE_FLASH_MESSAGE'
 var SET_CURRENT_USER = exports.SET_CURRENT_USER = 'SET_CURRENT_USER';
 var SET_GROUPS = exports.SET_GROUPS = 'SET_GROUPS';
 var ADD_USER_TO_GROUP = exports.ADD_USER_TO_GROUP = 'ADD_USER_TO_GROUP';
+var POST_MESSAGE = exports.POST_MESSAGE = 'POST_MESSAGE';
+var SET_MESSAGES = exports.SET_MESSAGES = 'SET_MESSAGES';
 
 /***/ }),
 /* 38 */
@@ -51107,13 +51109,18 @@ var _user = __webpack_require__(811);
 
 var _user2 = _interopRequireDefault(_user);
 
+var _messagesReducer = __webpack_require__(810);
+
+var _messagesReducer2 = _interopRequireDefault(_messagesReducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
   flashMessages: _flashMessages2.default,
   auth: _auth2.default,
   groups: _groups2.default,
-  groupUpdate: _user2.default
+  groupUpdate: _user2.default,
+  messages: _messagesReducer2.default
 });
 
 /***/ }),
@@ -82430,8 +82437,6 @@ var AddGroupForm = function (_React$Component) {
       errors: {},
       isLoading: false
     };
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.handleChange = _this.handleChange.bind(_this);
     return _this;
   }
 
@@ -83579,6 +83584,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(15);
 
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRedux = __webpack_require__(24);
+
 var _AddUserModal = __webpack_require__(799);
 
 var _AddUserModal2 = _interopRequireDefault(_AddUserModal);
@@ -83591,11 +83602,11 @@ var _AllGroups = __webpack_require__(800);
 
 var _AllGroups2 = _interopRequireDefault(_AllGroups);
 
-var _propTypes = __webpack_require__(3);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _messageActions = __webpack_require__(904);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -83612,12 +83623,29 @@ var MessageBoard = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (MessageBoard.__proto__ || Object.getPrototypeOf(MessageBoard)).call(this, props));
 
     _this.state = {
-      groups: _this.props.groups
+      groups: _this.props.groups,
+      message: ''
     };
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
     return _this;
   }
 
   _createClass(MessageBoard, [{
+    key: 'handleChange',
+    value: function handleChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      this.props.postMessage(this.props.selectedGroupId, this.state.message);
+      this.setState({
+        message: ''
+      });
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState({
@@ -83676,12 +83704,12 @@ var MessageBoard = function (_React$Component) {
                     null,
                     _react2.default.createElement(
                       'form',
-                      { id: 'message_form' },
+                      { id: 'message_form', onSubmit: this.handleSubmit },
                       _react2.default.createElement(
                         'div',
                         { className: 'col s12' },
-                        _react2.default.createElement('input', { classID: 'message', type: 'text',
-                          placeholder: 'click here to type ypur message', className: 'validate' })
+                        _react2.default.createElement('input', { classID: 'message', name: 'message', value: this.state.message, onChange: this.handleChange, type: 'text',
+                          placeholder: 'click here to type your message', className: 'validate' })
                       )
                     )
                   )
@@ -83702,7 +83730,7 @@ MessageBoard.propTypes = {
   addUserToGroup: _propTypes2.default.func.isRequired
 };
 
-exports.default = MessageBoard;
+exports.default = (0, _reactRedux.connect)(null, { postMessage: _messageActions.postMessage })(MessageBoard);
 
 /***/ }),
 /* 802 */
@@ -83725,6 +83753,10 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _reactRedux = __webpack_require__(24);
+
+var _messageActions = __webpack_require__(904);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -83739,13 +83771,30 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MessageForm = function (_React$Component) {
   _inherits(MessageForm, _React$Component);
 
-  function MessageForm() {
+  function MessageForm(props) {
     _classCallCheck(this, MessageForm);
 
-    return _possibleConstructorReturn(this, (MessageForm.__proto__ || Object.getPrototypeOf(MessageForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (MessageForm.__proto__ || Object.getPrototypeOf(MessageForm)).call(this, props));
+
+    _this.state = {
+      messages: _this.props.messages
+    };
+    return _this;
   }
 
   _createClass(MessageForm, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.getMessages(this.props.groupId);
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.setState({
+        messages: nextProps.messages
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       //console.log('Here.....', this.state.groupId, this.state.messages);
@@ -83762,72 +83811,29 @@ var MessageForm = function (_React$Component) {
           ),
           _react2.default.createElement('hr', null),
           _react2.default.createElement('br', null),
-          _react2.default.createElement(
-            'b',
-            null,
-            'blessing3823'
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: 'right' },
-            '12:00'
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at laoreet turpis. Maecenas rhoncus gravida mattis.Curabitur semper sed mauris sed scelerisque.'
-          ),
-          _react2.default.createElement('hr', null),
-          _react2.default.createElement('br', null),
-          _react2.default.createElement(
-            'b',
-            null,
-            'taiwo690'
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: 'right' },
-            '13:00'
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at laoreet turpis. Maecenas rhoncus gravida mattis.Curabitur semper sed mauris sed scelerisque.'
-          ),
-          _react2.default.createElement('hr', null),
-          _react2.default.createElement('br', null),
-          _react2.default.createElement(
-            'b',
-            null,
-            'mazimary'
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: 'right' },
-            '14:00'
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at laoreet turpis. Maecenas rhoncus gravida mattis.Curabitur semper sed mauris sed scelerisque.'
-          ),
-          _react2.default.createElement('hr', null),
-          _react2.default.createElement('br', null),
-          _react2.default.createElement(
-            'b',
-            null,
-            'ewa'
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: 'right' },
-            '14:05'
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at laoreet turpis. Maecenas rhoncus gravida mattis.Curabitur semper sed mauris sed scelerisque.'
-          )
+          this.state.messages.map(function (message) {
+            return _react2.default.createElement(
+              'div',
+              { key: message.id },
+              _react2.default.createElement(
+                'b',
+                null,
+                message.User.username
+              ),
+              _react2.default.createElement(
+                'span',
+                { className: 'right' },
+                message.createdAt
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                message.message_body
+              ),
+              _react2.default.createElement('hr', null),
+              _react2.default.createElement('br', null)
+            );
+          })
         )
       );
     }
@@ -83836,7 +83842,13 @@ var MessageForm = function (_React$Component) {
   return MessageForm;
 }(_react2.default.Component);
 
-exports.default = MessageForm;
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    messages: state.messages
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { getMessages: _messageActions.getMessages })(MessageForm);
 
 /***/ }),
 /* 803 */
@@ -84500,6 +84512,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _types = __webpack_require__(37);
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var initialState = [];
 
 exports.default = function () {
@@ -84508,14 +84522,44 @@ exports.default = function () {
 
   switch (action.type) {
     case _types.SET_GROUPS:
-      return action.groups;
+      return [].concat(_toConsumableArray(action.groups));
     default:
       return state;
   }
 };
 
 /***/ }),
-/* 810 */,
+/* 810 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _types = __webpack_require__(37);
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var initialState = [];
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  switch (action.type) {
+    case _types.SET_MESSAGES:
+      return [].concat(_toConsumableArray(action.messages));
+    case _types.POST_MESSAGE:
+      return [].concat(_toConsumableArray(state), [action.message]);
+    default:
+      return state;
+  }
+};
+
+/***/ }),
 /* 811 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -93975,6 +94019,72 @@ exports.createContext = Script.createContext = function (context) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 904 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getAllMessages = exports.postMessageStatus = undefined;
+exports.postMessage = postMessage;
+exports.getMessages = getMessages;
+
+var _axios = __webpack_require__(75);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _types = __webpack_require__(37);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Fetch all Groups.
+ * @param {Object} message- status.
+ *@returns {message} - returns message.
+ */
+var postMessageStatus = exports.postMessageStatus = function postMessageStatus(message) {
+  return {
+    type: _types.POST_MESSAGE,
+    message: message
+  };
+};
+
+var getAllMessages = exports.getAllMessages = function getAllMessages(messages) {
+  return {
+    type: _types.SET_MESSAGES,
+    messages: messages
+  };
+};
+
+/**
+ * Fetch all Groups.
+ * @param {Object} groupId - groupdId.
+ *@returns {status} - returns status.
+ */
+function postMessage(groupId, message) {
+  return function (dispatch) {
+    return _axios2.default.post('/api/group/' + groupId + '/message', { message: message }).then(function (_ref) {
+      var data = _ref.data;
+
+      dispatch(postMessageStatus(data.data));
+    });
+  };
+}
+
+function getMessages(groupId) {
+  return function (dispatch) {
+    return _axios2.default.get('/api/group/' + groupId + '/messages').then(function (_ref2) {
+      var data = _ref2.data;
+
+      dispatch(getAllMessages(data.data));
+    });
+  };
+}
 
 /***/ })
 /******/ ]);

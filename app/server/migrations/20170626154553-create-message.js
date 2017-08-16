@@ -15,21 +15,23 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: 'Groups',
-          key: 'id'
+          key: 'id',
+          as: 'group_id'
         }
       },
       user_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
-          key: 'id'
+          key: 'id',
+          as: 'user_id'
         }
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }

@@ -99,11 +99,11 @@ exports.get_groups = (req, res) => {
       res.status(200).send(allGroups);
     })
     .catch((err) => {
-      res.status(500).send(err, 'An error occurres, try again');
+      res.status(500).send(err, 'An error occurred, try again');
     });
   })
   .catch((err) => {
-    res.status(500).send(err, 'An error occurres, try again');
+    res.status(500).send(err, 'An error occurred, try again');
   });
 };
 
