@@ -18,8 +18,6 @@ const jwt = require('jsonwebtoken');
 
 const salt = bcrypt.genSaltSync(saltRounds);
 
-
-
 exports.identify = (req, res) => {
   User.findOne({
     where: {
@@ -89,13 +87,15 @@ exports.signup = (req, res) => {
           email: req.body.email
         },
       })
-      .then((user, err) => {
-        if (err) throw err;
-        if (user) {
+      .then((newUser, err) => {
+        // if (err) {
+        //   console.log('no user found');
+        // }
+        if (newUser) {
           errors.email = 'Email already exists';
         }
         if (!isEmpty(errors)) {
-            res.status(400).send(errors);
+          res.status(400).send(errors);
           } else {
             const userData = {
               username: req.body.username,

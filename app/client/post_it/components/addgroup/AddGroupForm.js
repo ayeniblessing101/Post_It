@@ -16,8 +16,6 @@ class AddGroupForm extends React.Component{
       errors: {},
       isLoading: false
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   isValid() {

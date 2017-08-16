@@ -7,6 +7,8 @@ module.exports = (req, res, next) => {
   const authorizationHeader = req.headers['authorization'];
   let token;
 
+  console.log('I came here');
+
   if (authorizationHeader) {
     token = authorizationHeader.split(' ')[1];
   }

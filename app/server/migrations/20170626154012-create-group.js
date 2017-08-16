@@ -17,16 +17,16 @@ module.exports = {
           key: 'id'
         }
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
-  down: queryInterface/* ,Sequelize*/ =>
+  down: queryInterface =>
     queryInterface.dropTable('Groups'),
 };

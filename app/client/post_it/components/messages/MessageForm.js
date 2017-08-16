@@ -1,36 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getMessages } from '../../actions/messageActions';
 
 //const avatar2 = require("../images/avatar2.png");
 //const avatar3 = require("../images/friend-group2.jpg");
 
 class MessageForm extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      messages: this.props.messages
+    };
+  }
+
+  componentDidMount() {
+    this.props.getMessages(this.props.groupId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      messages: nextProps.messages
+    });
+  }
   render(){
     //console.log('Here.....', this.state.groupId, this.state.messages);
     return (
       <div>
-      <div className="col s12 m4 l8 message-cards">
-        <h4>Title</h4>
-        <hr/><br/>
-        <b>blessing3823</b><span className="right">12:00</span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at laoreet turpis.
-          Maecenas rhoncus gravida mattis.Curabitur semper sed mauris sed scelerisque.</p>
-        <hr/><br/>
-        <b>taiwo690</b><span className="right">13:00</span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at laoreet turpis.
-          Maecenas rhoncus gravida mattis.Curabitur semper sed mauris sed scelerisque.</p>
+        <div className="col s12 m4 l8 message-cards">
+          <h4>Title</h4>
           <hr/><br/>
-          <b>mazimary</b><span className="right">14:00</span>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at laoreet turpis.
-            Maecenas rhoncus gravida mattis.Curabitur semper sed mauris sed scelerisque.</p>
-            <hr/><br/>
-            <b>ewa</b><span className="right">14:05</span>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at laoreet turpis.
-              Maecenas rhoncus gravida mattis.Curabitur semper sed mauris sed scelerisque.</p>
+          {
+            this.state.messages.map(message => (
+              <div key={message.id}>
+                <b>{message.User.username}</b><span className="right">{message.createdAt}</span>
+                <p>{message.message_body}</p>
+                <hr/><br/>
+              </div>
+            ))
+          }
         </div>
       </div>
     );
   }
 }
 
-export default MessageForm;
+const mapStateToProps = state => ({
+  messages: state.messages
+});
+
+export default connect(mapStateToProps, { getMessages })(MessageForm);
