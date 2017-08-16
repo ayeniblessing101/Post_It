@@ -15,7 +15,6 @@ class LoginForm extends React.Component{
       username: '',
       password: '',
       errors: {},
-      isLoading: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -36,7 +35,11 @@ class LoginForm extends React.Component{
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(
         (res) => this.context.router.history.push('/groups'),
-        (err) => this.setState({ errors: err.data.errors, isLoading: false })
+        (err) => this.setState({
+          errors: err.data.errors,
+          username: '',
+          password: ''
+        })
       );
     }
   }
@@ -46,7 +49,7 @@ class LoginForm extends React.Component{
   }
 
   render() {
-    const { errors, username, password, isLoading } = this.state;
+    const { errors, username, password } = this.state;
     return(
       <div>
         <section classID="wrapper" className="login-register">
@@ -87,7 +90,7 @@ class LoginForm extends React.Component{
                         type="password"
                       />
                       <div className="input-field col s12">
-                        <button className="btn waves-effect waves-light" disabled={isLoading} type="submit" name="action">Submit
+                        <button className="btn waves-effect waves-light" type="submit" name="action">Submit
                           <i className="material-icons right">send</i>
                         </button>
                         <br /><br />

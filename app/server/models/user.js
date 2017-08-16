@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     confirm_password: DataTypes.STRING
-  }, { underscored: true });
+  });
   User.associate = (models) => {
       // associations can be defined here
     // User.hasMany(models.Group, { foreignKey: 'user_id' });

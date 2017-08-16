@@ -3,8 +3,8 @@ import Validator from 'validator';
 const isEmpty = require('lodash/isEmpty');
 const Promise = require('bluebird');
 
-//const validateInput = require('../shared/validations/signup');
-//const commonValidations = require('../shared/validations/signup');
+// const validateInput = require('../shared/validations/signup');
+// const commonValidations = require('../shared/validations/signup');
 
 // const express = require('express');
 
@@ -18,19 +18,12 @@ const jwt = require('jsonwebtoken');
 
 const salt = bcrypt.genSaltSync(saltRounds);
 
-
-
 exports.identify = (req, res) => {
   User.findOne({
     where: {
-      username: req.params.identifier,
+      $or: [{ username: req.params.identifier }, { email: req.body.email }]
       // email: req.params.identifier,
     },
-    orWhere: [
-      {
-        email: req.params.identifier
-      }
-    ],
     attributes: ['id', 'username', 'email']
   })
   .then(
@@ -40,7 +33,11 @@ exports.identify = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-
+  /**
+   * Set Current User.
+   * @param {Object} data - user.
+   * @returns {errors} - returns errors.
+   */
   function validateInput(data) {
     const errors = {};
 
@@ -89,25 +86,25 @@ exports.signup = (req, res) => {
           email: req.body.email
         },
       })
-      .then((user, err) => {
+      .then((newUser, err) => {
         if (err) throw err;
-        if (user) {
+        if (newUser) {
           errors.email = 'Email already exists';
         }
         if (!isEmpty(errors)) {
-            res.status(400).send(errors);
-          } else {
-            const userData = {
-              username: req.body.username,
-              email: req.body.email,
-              password: bcrypt.hashSync(req.body.password, salt)
-            };
-            User.create(userData)
-            .then(user => {
-              res.status(201).send({ success: true, message: 'Signup was successful'});
-            })
-            .catch(error => res.status(400).send(error));
-          }
+          res.status(400).send(errors);
+        } else {
+          const userData = {
+            username: req.body.username,
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, salt)
+          };
+          User.create(userData)
+          .then((user) => {
+            res.status(201).send({ success: true, message: 'Signup was successful' });
+          })
+          .catch(error => res.status(400).send(error));
+        }
       });
     });
   }

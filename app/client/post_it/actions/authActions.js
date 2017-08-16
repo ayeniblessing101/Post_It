@@ -20,7 +20,7 @@ export function setCurrentUser(user) {
  * @returns {token} - removes token.
  */
 export function logout() {
-  return dispatch => {
+  return (dispatch) => {
     localStorage.removeItem('jwtToken');
     setAuthorizationToken(false);
     dispatch(setCurrentUser({}));
@@ -33,7 +33,7 @@ export function logout() {
  * @returns {token} - returns token.
  */
 export function login(data) {
-  return dispatch => {
+  return (dispatch) => {
     return axios.post('/api/user/signin', data).then((res) => {
       const token = res.data.token;
       localStorage.setItem('jwtToken', token);
