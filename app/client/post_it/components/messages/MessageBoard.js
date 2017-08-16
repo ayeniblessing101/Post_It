@@ -68,6 +68,7 @@ class MessageBoard extends React.Component{
                    <li>
                      <form id="message_form" onSubmit={this.handleSubmit}>
                        <div className="col s12">
+                         <input name="user"></input>
                          <input classID="message" name="message" value={this.state.message} onChange={this.handleChange} type="text"
                            placeholder="click here to type your message" className="validate" />
                        </div>

@@ -14,7 +14,6 @@ class MessageForm extends React.Component{
       messages: this.props.messages
     };
   }
-
   componentDidMount() {
     this.props.getMessages(this.props.groupId);
   }

@@ -83807,6 +83807,7 @@ var MessageBoard = function (_React$Component) {
                       _react2.default.createElement(
                         'div',
                         { className: 'col s12' },
+                        _react2.default.createElement('input', { name: 'user' }),
                         _react2.default.createElement('input', { classID: 'message', name: 'message', value: this.state.message, onChange: this.handleChange, type: 'text',
                           placeholder: 'click here to type your message', className: 'validate' })
                       )
