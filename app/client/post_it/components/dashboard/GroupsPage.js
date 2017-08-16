@@ -27,7 +27,7 @@ class GroupsPage extends React.Component{
     const { groups } = this.state;
 
     return(
-      <div>
+      <div id="groupsPage">
         <Header />
         <div className="mycontainer" >
           <div className="row">

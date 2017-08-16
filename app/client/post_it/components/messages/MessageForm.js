@@ -24,16 +24,26 @@ class MessageForm extends React.Component{
     });
   }
   render(){
-    //console.log('Here.....', this.state.groupId, this.state.messages);
+    // console.log(this.props.group);
+    const { group } = this.props;
+    const groupId = parseInt(this.props.groupId, 10);
+    let groupName = 'No Group Found';
+    group.map((currentGroup) => {
+      let { id, group_name } = currentGroup;
+      if(id === groupId){
+        groupName = group_name;
+      }
+    })
     return (
       <div>
+        <div className="col s12 m4 l8 groupHeader">
+          <h5>{groupName}</h5>
+        </div>
         <div className="col s12 m4 l8 message-cards">
-          <h4>Title</h4>
-          <hr/><br/>
           {
             this.state.messages.map(message => (
               <div key={message.id}>
-                <b>{message.User.username}</b><span className="right">{ moment(message.createdAt, moment.ISO_8601).fromNow() }</span>
+                <b className="senderName">{message.User.username}</b><span className="right">{ moment(message.createdAt, moment.ISO_8601).fromNow() }</span>
                 <p>{message.message_body}</p>
                 <hr/><br/>
               </div>
@@ -46,7 +56,8 @@ class MessageForm extends React.Component{
 }
 
 const mapStateToProps = state => ({
-  messages: state.messages
+  messages: state.messages,
+  group: state.groups
 });
 
 export default connect(mapStateToProps, { getMessages })(MessageForm);
