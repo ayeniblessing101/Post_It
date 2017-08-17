@@ -16,7 +16,7 @@ const GroupsList = ({ groups }) => {
   );
 
   const groupsList = (
-    <div className="col s12 m10 l10 col-md-10 no-float">
+    <div id="groupsList" className="col s12 m10 l10 col-md-10 no-float">
       <div className="mycontainer">
         <div className="row ">
           <h4>All Groups</h4>

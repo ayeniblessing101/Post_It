@@ -1,7 +1,8 @@
 // import {validateInput} from '../shared/validations/signup';
 import Validator from 'validator';
+import checkNum from '../utils/numberValidation';
+
 const isEmpty = require('lodash/isEmpty');
-const Promise = require('bluebird');
 
 // const validateInput = require('../shared/validations/signup');
 // const commonValidations = require('../shared/validations/signup');
@@ -41,15 +42,14 @@ exports.signup = (req, res) => {
    */
   function validateInput(data) {
     const errors = {};
-
     if (Validator.isEmpty(data.username)) {
       errors.username = 'This field required';
     }
     if (Validator.isEmpty(data.email)) {
       errors.email = 'This field required';
     }
-    if (!Validator.isEmail(data.email)) {
-      errors.email = 'Email is not valid';
+    if (!checkNum(data.phoneNo)) {
+      errors.phoneNo = 'This field required';
     }
     if (Validator.isEmpty(data.password)) {
       errors.password = 'This field required';
@@ -66,6 +66,7 @@ exports.signup = (req, res) => {
     };
   }
 
+  console.log(req.body);
   const { errors, isValid } = validateInput(req.body);
 
   // validateInput(req.body).then(({ errors, isValid }) => {
@@ -100,6 +101,7 @@ exports.signup = (req, res) => {
           const userData = {
             username: req.body.username,
             email: req.body.email,
+            phone: parseInt(req.body.phoneNo, 10),
             password: bcrypt.hashSync(req.body.password, salt)
           };
           User.create(userData)

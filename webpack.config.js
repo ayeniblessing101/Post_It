@@ -37,7 +37,10 @@ module.exports = {
     extensions: ['.js', '.css']
   },
   node: {
+    console: true,
+    fs: 'empty',
     net: 'empty',
+    tls: 'empty',
     dns: 'empty'
   }
   // plugins: [

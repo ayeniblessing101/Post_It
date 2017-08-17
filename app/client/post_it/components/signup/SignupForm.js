@@ -11,6 +11,7 @@ class SignupForm extends React.Component{
     this.state = {
       username: '',
       email: '',
+      phoneNo: '',
       password: '',
       confirm_password: '',
       errors: {},
@@ -72,6 +73,7 @@ class SignupForm extends React.Component{
           isLoading:false,
           username: '',
           email: '',
+          phone: '',
           password: '',
           confirm_password: '',
         })
@@ -119,6 +121,14 @@ class SignupForm extends React.Component{
                         value = {this.state.email}
                         field = "email"
                         type="text"
+                      />
+                      <TextFieldGroup
+                        error = {errors.phone}
+                        label = "Phone Number"
+                        onChange = {this.handleChange}
+                        value = {this.state.phoneNo}
+                        field = "phoneNo"
+                        type="number"
                       />
                       <TextFieldGroup
                         error = {errors.password}

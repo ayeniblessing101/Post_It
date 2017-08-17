@@ -37,6 +37,7 @@ class MessageBoard extends React.Component{
       groups: this.props.groups
     })
   }
+
   render(){
     const groups = this.props.groups;
     const selectedGroupId = this.props.selectedGroupId;
@@ -47,7 +48,6 @@ class MessageBoard extends React.Component{
       <div>
         <div className="col s12 m10 l10 col-md-10">
           <div className="mycontainer">
-          <br/>
             <AddUserModal
               addUserToGroup={addUserToGroup}
               groupId={selectedGroupId}
@@ -68,9 +68,15 @@ class MessageBoard extends React.Component{
                    <li>
                      <form id="message_form" onSubmit={this.handleSubmit}>
                        <div className="col s12">
-                         <input name="user"></input>
-                         <input classID="message" name="message" value={this.state.message} onChange={this.handleChange} type="text"
-                           placeholder="click here to type your message" className="validate" />
+                         <input
+                           classID="message"
+                           name="message"
+                           onChange={this.handleChange}
+                           value={this.state.message}
+                           type="text"
+                           placeholder="click here to type your message"
+                           className="validate"
+                        />
                        </div>
                      </form>
                    </li>
