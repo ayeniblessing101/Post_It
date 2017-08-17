@@ -83768,6 +83768,11 @@ var MessageBoard = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'mycontainer' },
+            _react2.default.createElement(_AddUserModal2.default, {
+              addUserToGroup: addUserToGroup,
+              groupId: selectedGroupId,
+              statusMessage: statusMessage
+            }),
             _react2.default.createElement(
               'div',
               { className: 'row' },
@@ -84152,6 +84157,7 @@ var SignupForm = function (_React$Component) {
     _this.state = {
       username: '',
       email: '',
+      phoneNo: '',
       password: '',
       confirm_password: '',
       errors: {},
@@ -84226,6 +84232,7 @@ var SignupForm = function (_React$Component) {
             isLoading: false,
             username: '',
             email: '',
+            phone: '',
             password: '',
             confirm_password: ''
           });
@@ -84304,6 +84311,14 @@ var SignupForm = function (_React$Component) {
                         value: this.state.email,
                         field: 'email',
                         type: 'text'
+                      }),
+                      _react2.default.createElement(_TextFieldGroup2.default, {
+                        error: errors.phone,
+                        label: 'Phone Number',
+                        onChange: this.handleChange,
+                        value: this.state.phoneNo,
+                        field: 'phoneNo',
+                        type: 'number'
                       }),
                       _react2.default.createElement(_TextFieldGroup2.default, {
                         error: errors.password,
@@ -84905,6 +84920,10 @@ var _isEmpty = __webpack_require__(46);
 
 var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
+var _numberValidation = __webpack_require__(969);
+
+var _numberValidation2 = _interopRequireDefault(_numberValidation);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function validateInput(data) {
@@ -84915,6 +84934,9 @@ function validateInput(data) {
   }
   if (_validator2.default.isEmpty(data.email)) {
     errors.email = 'This field required';
+  }
+  if (!(0, _numberValidation2.default)(data.phoneNo)) {
+    errors.phoneNo = 'This field required';
   }
   if (!_validator2.default.isEmail(data.email)) {
     errors.email = 'Email is not valid';
@@ -94145,6 +94167,88 @@ exports.createContext = Script.createContext = function (context) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 905 */,
+/* 906 */,
+/* 907 */,
+/* 908 */,
+/* 909 */,
+/* 910 */,
+/* 911 */,
+/* 912 */,
+/* 913 */,
+/* 914 */,
+/* 915 */,
+/* 916 */,
+/* 917 */,
+/* 918 */,
+/* 919 */,
+/* 920 */,
+/* 921 */,
+/* 922 */,
+/* 923 */,
+/* 924 */,
+/* 925 */,
+/* 926 */,
+/* 927 */,
+/* 928 */,
+/* 929 */,
+/* 930 */,
+/* 931 */,
+/* 932 */,
+/* 933 */,
+/* 934 */,
+/* 935 */,
+/* 936 */,
+/* 937 */,
+/* 938 */,
+/* 939 */,
+/* 940 */,
+/* 941 */,
+/* 942 */,
+/* 943 */,
+/* 944 */,
+/* 945 */,
+/* 946 */,
+/* 947 */,
+/* 948 */,
+/* 949 */,
+/* 950 */,
+/* 951 */,
+/* 952 */,
+/* 953 */,
+/* 954 */,
+/* 955 */,
+/* 956 */,
+/* 957 */,
+/* 958 */,
+/* 959 */,
+/* 960 */,
+/* 961 */,
+/* 962 */,
+/* 963 */,
+/* 964 */,
+/* 965 */,
+/* 966 */,
+/* 967 */,
+/* 968 */,
+/* 969 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+const checkNum = (num) => {
+  const rawNum = parseInt(num, 10);
+  if (isNaN(rawNum)) {
+    return false;
+  }
+  return true;
+};
+
+
+/* harmony default export */ __webpack_exports__["default"] = (checkNum);
+
 
 /***/ })
 /******/ ]);

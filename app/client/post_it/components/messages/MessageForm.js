@@ -43,7 +43,11 @@ class MessageForm extends React.Component{
           {
             this.state.messages.map(message => (
               <div key={message.id}>
-                <b className="senderName">{message.User.username}</b><span className="right">{ moment(message.createdAt, moment.ISO_8601).fromNow() }</span>
+                <b className="senderName">
+                  {message.User.username}</b>
+                <span className="right">
+                  { moment(message.createdAt, moment.ISO_8601).fromNow() }
+                </span>
                 <p>{message.message_body}</p>
                 <hr/><br/>
               </div>

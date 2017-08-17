@@ -1,5 +1,6 @@
 import Validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
+import checkNum from '../../utils/numberValidation';
 
 export default function validateInput(data) {
   const errors = {};
@@ -9,6 +10,9 @@ export default function validateInput(data) {
   }
   if (Validator.isEmpty(data.email)) {
     errors.email = 'This field required';
+  }
+  if (!checkNum(data.phoneNo)) {
+    errors.phoneNo = 'This field required';
   }
   if (!Validator.isEmail(data.email)) {
     errors.email = 'Email is not valid';
