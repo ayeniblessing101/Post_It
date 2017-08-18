@@ -27,6 +27,7 @@
   "homepage": "https://github.com/ayeniblessing101/Post_It#readme",
   "dependencies": {
     "axios": "0.12.0",
+    "babel-preset-stage-0": "^6.24.1",
     "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.0",
