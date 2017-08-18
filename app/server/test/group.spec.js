@@ -6,7 +6,7 @@ const chaiHttp = require('chai-http');
 
 const app = require('../app.js');
 
-const request = supertest(app);
+const request = supertest.agent(app);
 const expect = chai.expect;
 const User = require('../models').User;
 
@@ -23,27 +23,26 @@ describe('Routes: group', () => {
   // This function will run before every test to clear database
   beforeEach((done) => {
     User
-    .destroy({ where: {} })
+    .destroy({ where: {}, truncate: true, cascade: true, restartIdentity: true })
     .then(() => User.create({
       username: 'john',
       email: 'john@gmail.com',
-      password: '1234'
+      password: '1234',
+      phone: '2348064476683'
     }))
     .then((user) => {
       Group
-      .destroy({ where: {} })
+      .destroy({ where: {}, truncate: true, cascade: true, restartIdentity: true })
       .then(() => Group.bulkCreate([{
-        id: 1,
         group_name: 'Family',
-        user_id: user.id
+        user_id: user.dataValues.id
       }, {
-        id: 2,
         group_name: 'Colleagues',
-        user_id: user.id
+        user_id: user.dataValues.id
       }]))
       .then((groups) => {
         fakeGroup = groups[0];
-        token = jwt.sign({ id: user.id }, 'secret');
+        token = jwt.sign({ id: user.dataValues.id }, 'secret');
         done();
       });
     });
@@ -53,11 +52,11 @@ describe('Routes: group', () => {
       it('creates a new group', (done) => {
         // Test's logic...
         request.post('/api/group')
-        .set('Authorization', `JWT ${token}`)
-        .send({ group_name: 'Old class mates' })
+        .set('Authorization', `Basic ${token}`)
+        .send({ groupname: 'Old class mates' })
         .expect(200)
         .end((err, res) => {
-          expect(res.body.error).to.equal(false);
+          expect(res.body.status).to.equal(true);
           expect(res.body).to.have.a.property('message');
           // expect(res.body.group_name).to.equal('Old class mates');
           // expect(res.body).to.have.a.property('message', 'success');
@@ -65,13 +64,13 @@ describe('Routes: group', () => {
         });
       });
     });
-    describe('status 401', () => {
-      it('throws error when group name exist', (done) => {
+    describe('status 400', () => {
+      it('throws an error when group name exist', (done) => {
     // Test's logic...
         request.post('/api/group')
-        .set('Authorization', `JWT ${token}`)
-        .send({ group_name: 'Old class mates' })
-        .expect(401)
+        .set('Authorization', `Basic ${token}`)
+        .send({ groupname: 'Colleagues' })
+        .expect(400)
         .end((err, res) => {
           done(err);
         });
