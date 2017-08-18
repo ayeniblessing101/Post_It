@@ -6,9 +6,6 @@ module.exports = (req, res, next) => {
   // || (req.query && req.query.access_token) || (req.headers['x-access-token']);
   const authorizationHeader = req.headers['authorization'];
   let token;
-
-  console.log('I came here');
-
   if (authorizationHeader) {
     token = authorizationHeader.split(' ')[1];
   }

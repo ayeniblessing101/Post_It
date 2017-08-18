@@ -18,6 +18,7 @@ exports.create_group = (req, res) => {
     const errors = {};
 
     if (Validator.isEmpty(data.groupname)) {
+      console.log('I came here to validate')
       errors.groupname = 'This field required';
     }
     return {
@@ -32,15 +33,16 @@ exports.create_group = (req, res) => {
   if (!isValid) {
     res.status(400).send(errors);
   } else {
-    const userId = req.decoded.data.id;
+    const userId = req.decoded.id;
     Group.findOne({
       where: {
         group_name: req.body.groupname,
         user_id: userId
       },
     })
-    .then((group, err) => {
-      if (err) throw err;
+    .then((group) => {
+      // if (err) throw err;
+      console.log('I came here down');
       if (group) {
         errors.groupname = 'Groupname already exists';
       }
@@ -58,7 +60,7 @@ exports.create_group = (req, res) => {
             user_id: userId
           })
           .then((groupMembers) => {
-            res.status(200).send({ status: true, message: 'Successful', data: groupMembers });
+            // res.status(200).send({ status: true, message: 'Successful', data: groupMembers });
           });
           res.status(200).send({ status: true, message: 'Successful', data: group });
         })
