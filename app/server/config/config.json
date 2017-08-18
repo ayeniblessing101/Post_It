@@ -7,10 +7,7 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
-    "password": "root",
-    "database": "post_it",
-    "host": "127.0.0.1",
+    "use_env_variable": "DATABASE_URL",
     "dialect": "postgres"
   },
   "production": {
