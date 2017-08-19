@@ -19,5 +19,5 @@ exclude_paths:
 - "node_modules/"
 - ".nyc_output"
 - "coverage"
-- **.min.js
-- **.min.css
+- "**.min.js"
+- "**.min.css"
