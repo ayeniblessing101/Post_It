@@ -48,11 +48,11 @@ describe('Routes: signup', () => {
         .send(user)
         .expect(201)
         .end((err, res) => {
-          console.log(res.body, 'New user');
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.a.property('status');
           expect(res.body).to.have.a.property('message');
-          expect(res.body).to.have.a.property('message', 'Signup was successful');
+          expect(res.body).to.have.a.property('message',
+          'Signup was successful');
           expect(res.body).to.have.a.property('status', true);
           done();
         });
@@ -75,7 +75,8 @@ describe('Routes: signup', () => {
           expect(res.status).to.equal(400);
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.a.property('username');
-          expect(res.body).to.have.a.property('username', 'Username already exists');
+          expect(res.body).to.have.a.property('username',
+          'Username already exists');
           done();
         });
       });

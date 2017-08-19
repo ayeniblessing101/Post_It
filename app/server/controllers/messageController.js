@@ -9,7 +9,8 @@ const Group = require('../models').Group;
 exports.post_message = (req, res) => {
   // console.log(req.body.message)
   if (req.body.message === '') {
-    return res.status(404).send({ status: false, message: 'message body cannot be empty' });
+    return res.status(404).send({ status: false,
+      message: 'message body cannot be empty' });
   }
   const userId = req.decoded.data.id;
   Group.findById(req.params.id)
@@ -57,7 +58,8 @@ exports.post_message = (req, res) => {
         });
     }
   })
-  // return res.status(200).send({ status: true, message: 'Successful', data: message });
+  // return res.status(200).send({ status: true, message:
+  // 'Successful', data: message });
   .catch((err) => {
     return res.status(500).send(err, 'An error occurred, try again');
   });
@@ -80,6 +82,8 @@ exports.get_messages = (req, res) => {
     }]
   })
   .then((messages) => {
-    res.status(200).send({ status: true, message: 'Successful', data: messages });
+    res.status(200).send({ status: true,
+      message: 'Successful',
+      data: messages });
   });
 };

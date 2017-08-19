@@ -34,7 +34,6 @@ exports.identify = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-
   /**
    * Validates and check if input fields are empty.
    * @param {Object} data - groupdId.
@@ -104,7 +103,8 @@ exports.signup = (req, res) => {
           };
           User.create(userData)
           .then((user) => {
-            res.status(201).send({ status: true, message: 'Signup was successful' });
+            res.status(201).send({ status: true,
+              message: 'Signup was successful' });
           })
           .catch(error => res.status(400).send(error));
         }

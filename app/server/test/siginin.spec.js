@@ -65,7 +65,7 @@ describe('Routes: signin', () => {
         request.post('/api/user/signin')
         .send(user)
         .expect(401)
-        .end((err, res) => {
+        .end((err) => {
           done(err);
         });
       });
@@ -80,7 +80,7 @@ describe('Routes: signin', () => {
         request.post('/api/user/signin')
         .send(user)
         .expect(401)
-        .end((err, res) => {
+        .end((err) => {
           done(err);
         });
       });
@@ -94,7 +94,7 @@ describe('Routes: signin', () => {
         request.post('/api/user/signin')
         .send(user)
         .expect(401)
-        .end((err, res) => {
+        .end((err) => {
           done(err);
         });
       });
