@@ -19,7 +19,7 @@ let fakeGroup;
 // const should = chai.should();
 chai.use(chaiHttp);
 
-describe('Routes: group', () => {
+describe('Routes: post_message', () => {
   // This function will run before every test to clear database
   beforeEach((done) => {
     User
@@ -40,44 +40,36 @@ describe('Routes: group', () => {
         cascade: true,
         restartIdentity: true })
       .then(() => Group.bulkCreate([{
+        id: 1,
         group_name: 'Family',
         user_id: user.dataValues.id
       }, {
+        id: 2,
         group_name: 'Colleagues',
         user_id: user.dataValues.id
       }]))
       .then((groups) => {
-        fakeGroup = groups[0];
+        fakeGroup = groups[0].dataValues;
         token = jwt.sign({ id: user.dataValues.id }, 'secret');
         done();
       });
     });
   });
-  describe('POST /api/group', () => {
+  describe('POST /api/group/:id/message', () => {
     describe('status 200', () => {
-      it('creates a new group', (done) => {
+      it('post a message', (done) => {
         // Test's logic...
-        request.post('/api/group')
+        request.post(`/api/group/${fakeGroup.id}/message`)
         .set('Authorization', `Basic ${token}`)
-        .send({ groupname: 'Old class mates' })
+        .send({
+          message: 'john',
+          priority: '3'
+        })
         .expect(200)
         .end((err, res) => {
-          expect(res.body.status).to.equal(true);
-          expect(res.body).to.have.a.property('message');
+          // expect(res.body.data).to.have.a.property('message_body');
           // expect(res.body.group_name).to.equal('Old class mates');
           // expect(res.body).to.have.a.property('message', 'success');
-          done(err);
-        });
-      });
-    });
-    describe('status 400', () => {
-      it('throws an error when group name exist', (done) => {
-    // Test's logic...
-        request.post('/api/group')
-        .set('Authorization', `Basic ${token}`)
-        .send({ groupname: 'Colleagues' })
-        .expect(400)
-        .end((err) => {
           done(err);
         });
       });
