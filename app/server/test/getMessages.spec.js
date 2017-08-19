@@ -80,7 +80,7 @@ describe('Routes: get_messages', () => {
         .set('Authorization', `Basic ${token}`)
         .expect(200)
         .end((err, res) => {
-          console.log(res.body);
+          // console.log(res.body);
           expect(res.body.status).to.equal(true);
           expect(res.body[0].message_body).to.eql('Testing Testin');
           expect(res.body[1].message_body).to.eql('Hello');
