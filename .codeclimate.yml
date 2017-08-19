@@ -16,6 +16,8 @@ ratings:
   paths:
   - "**.js"
 exclude_paths:
-- "node_modules/"
-- ".nyc_output"
-- "coverage"
+- node_modules/
+- .nyc_output
+- coverage
+- **.min.js
+- **.min.css

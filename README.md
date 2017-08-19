@@ -1,6 +1,6 @@
 # Post_It
 [![Build Status](https://travis-ci.org/ayeniblessing101/Post_It.svg?branch=development)](https://travis-ci.org/ayeniblessing101/Post_It)
-[![Coverage Status](https://coveralls.io/repos/github/ayeniblessing101/Post_It/badge.svg?branch=master)](https://coveralls.io/github/ayeniblessing101/Post_It?branch=development)
+[![Coverage Status](https://coveralls.io/repos/github/ayeniblessing101/Post_It/badge.svg?branch=development)](https://coveralls.io/github/ayeniblessing101/Post_It?branch=development)
 [![Test Coverage](https://codeclimate.com/github/ayeniblessing101/Post_It/badges/coverage.svg)](https://codeclimate.com/github/ayeniblessing101/Post_It/coverage)
 [![Code Climate](https://codeclimate.com/github/ayeniblessing101/Post_It/badges/gpa.svg)](https://codeclimate.com/github/ayeniblessing101/Post_It)
 
