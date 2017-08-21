@@ -6,7 +6,6 @@ import AddUserModal from './AddUserModal';
 import MessageForm from './MessageForm';
 import AllGroups from './AllGroups';
 import AllUsers from './AllUsers';
-import { postMessage } from '../../actions/messageActions';
 
 class MessageBoard extends React.Component{
   constructor(props) {
@@ -44,7 +43,6 @@ class MessageBoard extends React.Component{
     const selectedGroupId = this.props.selectedGroupId;
     const statusMessage = this.props.statusMessage;
     const { addUserToGroup } = this.props;
-
     return(
       <div>
         <div className="col s12 m10 l10 col-md-10">
@@ -62,28 +60,6 @@ class MessageBoard extends React.Component{
                 groupId={selectedGroupId}
               />
               <AllUsers />
-              {/*<div className="fixed-action-btn horizontal click-to-toggle">
-                   <a className="btn-floating btn-large red">
-                     <i className="large material-icons">mode_edit</i>
-                   </a>
-                   <ul>
-                     <li>
-                       <form id="message_form" onSubmit={this.handleSubmit}>
-                         <div className="col s12">
-                           <input
-                             classID="message"
-                             name="message"
-                             onChange={this.handleChange}
-                             value={this.state.message}
-                             type="text"
-                             placeholder="click here to type your message"
-                             className="validate"
-                          />
-                         </div>
-                       </form>
-                     </li>
-                   </ul>
-                </div>*/}
             </div>
           </div>
         </div>
@@ -97,4 +73,4 @@ MessageBoard.propTypes = {
 }
 
 
-export default connect(null, { postMessage })(MessageBoard);
+export default connect(null)(MessageBoard);

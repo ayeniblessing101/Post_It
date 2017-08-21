@@ -216,7 +216,7 @@ ul.navbar_sidebar li a{
 }
 
 #messageBoard {
-  margin-top: 10px;
+  margin-top: 1px;
 }
 
 .message-cards{
@@ -228,7 +228,7 @@ ul.navbar_sidebar li a{
   margin-bottom: 20px;
 }
 .message-cards-board{
-  height: 400px;
+  height: 370px;
   padding-left:30px!important;
   padding-right:30px!important;
   padding-top:15px!important;
@@ -257,6 +257,11 @@ input{
 
 footer form{
   position: sticky;
+}
+
+.materialize-textarea {
+  height: 100px !important;
+  padding-bottom: 2px !important;
 }
 
 .errorMsg{
@@ -344,4 +349,8 @@ button.close {
 
 .mySelect{
   margin-top: 18px;
+}
+
+.messageBtn{
+  width:140px !important;
 }
