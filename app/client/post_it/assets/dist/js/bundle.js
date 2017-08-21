@@ -18862,7 +18862,9 @@ var Header = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var isAuthenticated = this.props.auth.isAuthenticated;
+      var _props$auth = this.props.auth,
+          isAuthenticated = _props$auth.isAuthenticated,
+          user = _props$auth.user;
       // const { user } = this.props.userData
       // const authUser = {user.data.username}
 
@@ -18912,9 +18914,10 @@ var Header = function (_React$Component) {
                   'li',
                   null,
                   _react2.default.createElement(
-                    'i',
-                    { className: 'material-icons' },
-                    'perm_identity'
+                    'form',
+                    { id: 'searchForm' },
+                    _react2.default.createElement('input', { type: 'text', placeholder: 'Search for Friends',
+                      id: 'searchBar' })
                   )
                 ),
                 _react2.default.createElement(
@@ -18922,8 +18925,14 @@ var Header = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '#', className: 'dropdown-button', 'data-activates': 'dropdown1' },
-                    'Welcome'
+                    { to: '#', className: 'dropdown-button',
+                      'data-activates': 'dropdown1' },
+                    'Welcome ',
+                    _react2.default.createElement(
+                      'span',
+                      { className: 'authUser' },
+                      user.data.username
+                    )
                   )
                 ),
                 _react2.default.createElement(
@@ -18931,7 +18940,8 @@ var Header = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '#', onClick: this.logout.bind(this) },
+                    { to: '#',
+                      onClick: this.logout.bind(this) },
                     _react2.default.createElement(
                       'i',
                       { className: 'material-icons' },
@@ -55303,6 +55313,10 @@ var _AllGroups = __webpack_require__(453);
 
 var _AllGroups2 = _interopRequireDefault(_AllGroups);
 
+var _AllUsers = __webpack_require__(905);
+
+var _AllUsers2 = _interopRequireDefault(_AllUsers);
+
 var _messageActions = __webpack_require__(171);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -55370,12 +55384,7 @@ var MessageBoard = function (_React$Component) {
           { className: 'col s12 m10 l10 col-md-10' },
           _react2.default.createElement(
             'div',
-            { className: 'mycontainer' },
-            _react2.default.createElement(_AddUserModal2.default, {
-              addUserToGroup: addUserToGroup,
-              groupId: selectedGroupId,
-              statusMessage: statusMessage
-            }),
+            { id: 'messageBoard', className: 'mycontainer' },
             _react2.default.createElement(
               'div',
               { className: 'row' },
@@ -55385,45 +55394,7 @@ var MessageBoard = function (_React$Component) {
               _react2.default.createElement(_MessageForm2.default, {
                 groupId: selectedGroupId
               }),
-              _react2.default.createElement(
-                'div',
-                { className: 'fixed-action-btn horizontal click-to-toggle' },
-                _react2.default.createElement(
-                  'a',
-                  { className: 'btn-floating btn-large red' },
-                  _react2.default.createElement(
-                    'i',
-                    { className: 'large material-icons' },
-                    'mode_edit'
-                  )
-                ),
-                _react2.default.createElement(
-                  'ul',
-                  null,
-                  _react2.default.createElement(
-                    'li',
-                    null,
-                    _react2.default.createElement(
-                      'form',
-                      { id: 'message_form', onSubmit: this.handleSubmit },
-                      _react2.default.createElement(
-                        'div',
-                        { className: 'col s12' },
-                        _react2.default.createElement('input', {
-                          classID: 'message',
-                          name: 'message',
-                          onChange: this.handleChange,
-                          value: this.state.message,
-                          type: 'text',
-                          placeholder: 'click here to type your message',
-                          className: 'validate'
-                        })
-                      )
-                    )
-                  )
-                )
-              ),
-              _react2.default.createElement('div', { className: 'col s12 m4 l1' })
+              _react2.default.createElement(_AllUsers2.default, null)
             )
           )
         )
@@ -55498,6 +55469,9 @@ var MessageForm = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.getMessages(this.props.groupId);
+      $(document).ready(function () {
+        $('select').material_select();
+      });
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -55527,39 +55501,87 @@ var MessageForm = function (_React$Component) {
         null,
         _react2.default.createElement(
           'div',
-          { className: 'col s12 m4 l8 groupHeader' },
+          { className: 'col s12 m4 l6 message-cards' },
           _react2.default.createElement(
-            'h5',
-            null,
-            groupName
+            'div',
+            { className: 'message-cards-board' },
+            _react2.default.createElement(
+              'h5',
+              null,
+              groupName
+            ),
+            this.state.messages.map(function (message) {
+              return _react2.default.createElement(
+                'div',
+                { key: message.id },
+                _react2.default.createElement(
+                  'b',
+                  { className: 'senderName' },
+                  message.User.username
+                ),
+                _react2.default.createElement(
+                  'span',
+                  { className: 'right' },
+                  (0, _moment2.default)(message.createdAt, _moment2.default.ISO_8601).fromNow()
+                ),
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  message.message_body
+                ),
+                _react2.default.createElement('hr', null),
+                _react2.default.createElement('br', null)
+              );
+            })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'message-cards-form' },
+            _react2.default.createElement(
+              'form',
+              { onSubmit: this.handleSubmit },
+              _react2.default.createElement(
+                'div',
+                { className: 'input-field col s8' },
+                _react2.default.createElement('input', {
+                  placeholder: 'Write your message Here',
+                  id: 'message',
+                  type: 'text',
+                  onChange: this.handleChange,
+                  value: this.state.message,
+                  className: 'validate'
+                })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'col s4 mySelect' },
+                _react2.default.createElement(
+                  'select',
+                  { className: 'browser-default' },
+                  _react2.default.createElement(
+                    'option',
+                    { value: '', disabled: true, selected: true },
+                    'Select Priority'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: '1' },
+                    'Normal'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: '2' },
+                    'Critical'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    { value: '3' },
+                    'Urgent'
+                  )
+                )
+              )
+            )
           )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col s12 m4 l8 message-cards' },
-          this.state.messages.map(function (message) {
-            return _react2.default.createElement(
-              'div',
-              { key: message.id },
-              _react2.default.createElement(
-                'b',
-                { className: 'senderName' },
-                message.User.username
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'right' },
-                (0, _moment2.default)(message.createdAt, _moment2.default.ISO_8601).fromNow()
-              ),
-              _react2.default.createElement(
-                'p',
-                null,
-                message.message_body
-              ),
-              _react2.default.createElement('hr', null),
-              _react2.default.createElement('br', null)
-            );
-          })
         )
       );
     }
@@ -58795,7 +58817,7 @@ exports = module.exports = __webpack_require__(185)(undefined);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf'); /* IE9 Compat Modes */\n  src: local('Oswald'), local('Oswald'),\n    url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf') format('truetype'), /* Safari, Android, iOS */\n    /* url('../fonts/open-sans-v13-latin-regular.eot?#iefix') format('embedded-opentype'), IE6-IE8\n    url('../fonts/open-sans-v13-latin-regular.woff2') format('woff2'), /* Super Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.woff') format('woff'), /* Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.svg#OpenSans') format('svg'); Legacy iOS */\n}\n\nbody{\n  font-family: 'Oswald', sans-serif;\n  margin: 0;\n  overflow-x: hidden;\n  color: #686868;\n  font-weight: 300;\n}\n/*\nhtml,body,.container{\n  height:100%;}*/\n\na{\n  color: #000000;\n}\n\n.login-register {\nbackground: url(" + __webpack_require__(529) + ") no-repeat center center / cover !important;\nheight: 100%;\nwidth: 100%;\nposition: fixed;}\n\n#wrapper {\n  width: 100%; }\n\n.wrapper_cen{\nwidth: 850px;\nmargin: 5% auto;}\n\n.wrapper_cen2{\nwidth: 850px;\nmargin: 10% auto;}\n\n.welcome{\n  color: #ffffff;\n  margin-top: 5%;}\n\n  .stay_up{\n    margin-top: 0!important;}\n\n.welcome h1{\n  color: #ffffff;\n  font-size: 40px;\n  font-weight: bold;\n  margin-bottom: 30px;}\n\n.welcome p{\n  font-size: 18px;\n  padding: 0;\n  line-height: 19px;\n  margin-bottom: 30px;}\n\n.my_btn {\n    display: inline-block;\n    font-weight: bold;\n    line-height: 1.25;\n    text-align: center;\n    white-space: nowrap;\n    vertical-align: middle;\n    user-select: none;\n    position: relative;}\n\n.btn-white {\n    color: #fff;}\n\n.btn-border {\n    border: solid 2px;}\n\n.btn-md {\n    padding: 1rem 3.5rem;\n    font-size: 1rem;\n    border-radius: 0.3rem;}\n\n.reg_form_cen{\n  width: 350px;\n  margin: 0 auto;\n  background-color: #ffffff;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  padding-bottom: 3%;\n  padding-top: 3%;}\n\n.reg_form_cen h4{\n  padding: 0px;\n  color: #686868;\n  font-size: 18px;\n  text-align: center;\n  font-weight: bold;}\n\n.reg_form_cen form{\n  margin-left: 13.5%;}\n\n.reg_form_cen p{\n  color: #686868;\n  font-size: 13px;\n  text-align: center;\n  font-weight: normal;\n}\n\n.reg_form_cen input[type=\"password\"] {\n  width: 300px;}\n\n.reg_form_cen input[type=\"text\"] {\n  width: 300px;}\n\n.btn, .btn:hover {\nbackground-color: #3F4257!important;\nwidth: 200px;\ncolor: #ffffff; }\n\nnav{\n  background-color: #3F4257!important;\n}\n\nnav a{\n  font-size: 40px;\n  padding-left:20px;\n}\n.mycontainer\n{\n  display:table;\n  width: 100%;\n  margin-top: -50px;\n  padding: 50px 0 0 0; /*set left/right padding according to needs*/\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  color: #000000;\n  height: 100%;\n}\n\n.row\n{\n  display: table-row;\n  margin-top: -50px!important;\n}\n.col-md-2 {\n  border-right: 1px #e5e5e5 solid;\n  height: 100vh;\n\n}\n.col-md-10 {\n  background: #EDF2F6!important;\n  height: 100vh;\n  width: 100%;\n}\n#sidebar{\n  background-color: #ffffff;\n}\nul.navbar_sidebar{\n  list-style-type: none;\n  padding-top: 20%;\n}\n\nul.navbar_sidebar li{\n  text-align: left;\n  padding-bottom: 20%;\n  font-size: 18px;\n  margin-left: 0px;\n}\n\nul.navbar_sidebar li a{\n  color: #000000;\n}\n\n.small-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding:90px;\n  text-align:center;\n  margin-right:20px;\n  margin-bottom: 20px;\n\n}\n\n.small-cards img{\n  border-radius:100%;\n  width:120px;\n}\n\n.box{\n  border: 1px solid #000000;\n}\n\n.large-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding-left:70px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n  margin-top: 50px;\n}\n\n.large-cards input[type=\"text\"] {\n  width: 320px;}\n\n.large-cards textarea {\n}\n\n.allMessageCard{\n  margin-top: 50px;\n}\n\n.message-cards{\n  background-color: #ffffff!important;\n  height: 450px;\n  overflow-y: scroll;\n\n  padding-left:30px!important;\n  padding-right:30px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n}\n.groupHeader{\n  background-color: #fff !important;\n  padding-left:30px!important;\n  padding-right:30px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-top: 50px;\n}\n\ninput{\n  color:#000000!important;\n}\n\nfooter form{\n  position: sticky;\n}\n\n.errorMsg{\n  color: red;\n}\n\n.emptyMessage {\n  margin-left: 20%;\n}\n\n.modal h4 {\n  color: #000000!important;\n}\n\n#message_form {\n  width: 500px;\n\n}\n\n#message_form input {\n  border: 2px solid #717274;\n  border-radius: 7px;\n  padding: 3px;\n\n}\n\n.alert-success {\n    background-color: #dff0d8;\n    border-color: #d0e9c6;\n    color: #3c763d;\n}\n.alert {\n  padding: .75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: .25rem;\n}\n\n.alert-danger {\n  background-color: #f2dede;\n  border-color: #ebcccc;\n  color: #a94442;\n}\n\n.close {\n  position: relative;\n  top: -.75rem;\n  right: -1.25rem;\n  padding: .75rem 1.25rem;\n  color: inherit;\n}\n\nbutton.close {\n  padding: 0;\n  cursor: pointer;\n  background: 0 0;\n  border: 0;\n  -webkit-appearance: none;\n}\n.close {\n  float: right;\n  font-size: 1.5rem;\n  font-weight: 700;\n  line-height: 1;\n  color: #000;\n  text-shadow: 0 1px 0 #fff;\n  opacity: .5;\n}\n\n.senderName{\n  text-transform: capitalize;\n}\n", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf'); /* IE9 Compat Modes */\n  src: local('Oswald'), local('Oswald'),\n    url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf') format('truetype'), /* Safari, Android, iOS */\n    /* url('../fonts/open-sans-v13-latin-regular.eot?#iefix') format('embedded-opentype'), IE6-IE8\n    url('../fonts/open-sans-v13-latin-regular.woff2') format('woff2'), /* Super Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.woff') format('woff'), /* Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.svg#OpenSans') format('svg'); Legacy iOS */\n}\n\nbody{\n  font-family: 'Oswald', sans-serif;\n  margin: 0;\n  overflow-x: hidden;\n  color: #686868;\n  font-weight: 300;\n}\n/*\nhtml,body,.container{\n  height:100%;}*/\n\na{\n  color: #000000;\n}\n\n.login-register {\nbackground: url(" + __webpack_require__(529) + ") no-repeat center center / cover !important;\nheight: 100%;\nwidth: 100%;\nposition: fixed;}\n\n#wrapper {\n  width: 100%; }\n\n.wrapper_cen{\nwidth: 850px;\nmargin: 5% auto;}\n\n.wrapper_cen2{\nwidth: 850px;\nmargin: 10% auto;}\n\n.welcome{\n  color: #ffffff;\n  margin-top: 5%;}\n\n  .stay_up{\n    margin-top: 0!important;}\n\n.welcome h1{\n  color: #ffffff;\n  font-size: 40px;\n  font-weight: bold;\n  margin-bottom: 30px;}\n\n.welcome p{\n  font-size: 18px;\n  padding: 0;\n  line-height: 19px;\n  margin-bottom: 30px;}\n\n.my_btn {\n    display: inline-block;\n    font-weight: bold;\n    line-height: 1.25;\n    text-align: center;\n    white-space: nowrap;\n    vertical-align: middle;\n    user-select: none;\n    position: relative;}\n\n.btn-white {\n    color: #fff;}\n\n.btn-border {\n    border: solid 2px;}\n\n.btn-md {\n    padding: 1rem 3.5rem;\n    font-size: 1rem;\n    border-radius: 0.3rem;}\n\n.reg_form_cen{\n  width: 350px;\n  margin: 0 auto;\n  background-color: #ffffff;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  padding-bottom: 3%;\n  padding-top: 3%;}\n\n.reg_form_cen h4{\n  padding: 0px;\n  color: #686868;\n  font-size: 18px;\n  text-align: center;\n  font-weight: bold;}\n\n.reg_form_cen form{\n  margin-left: 13.5%;}\n\n.reg_form_cen p{\n  color: #686868;\n  font-size: 13px;\n  text-align: center;\n  font-weight: normal;\n}\n\n.reg_form_cen input[type=\"password\"] {\n  width: 300px;}\n\n.reg_form_cen input[type=\"text\"] {\n  width: 300px;}\n\n.btn, .btn:hover {\nbackground-color: #3F4257!important;\nwidth: 200px;\ncolor: #ffffff; }\n\nnav{\n  background-color: #3F4257!important;\n}\n\nnav a{\n  font-size: 40px;\n  padding-left:20px;\n}\n.mycontainer\n{\n  display:table;\n  width: 100%;\n  margin-top: -50px;\n  padding: 50px 0 0 0; /*set left/right padding according to needs*/\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  color: #000000;\n  height: 100%;\n}\n\n.row\n{\n  display: table-row;\n  margin-top: 0px!important;\n}\n.col-md-2 {\n  border-right: 1px #e5e5e5 solid;\n  height: 100vh;\n\n}\n.col-md-10 {\n  background: #EDF2F6!important;\n  height: 100vh;\n  width: 100%;\n}\n#sidebar{\n  background-color: #ffffff;\n}\nul.navbar_sidebar{\n  list-style-type: none;\n  padding-top: 20%;\n}\n\nul.navbar_sidebar li{\n  text-align: left;\n  padding-bottom: 20%;\n  font-size: 18px;\n  margin-left: 0px;\n}\n\nul.navbar_sidebar li a{\n  color: #000000;\n}\n\n.small-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding:90px;\n  text-align:center;\n  margin-right:20px;\n  margin-bottom: 20px;\n\n}\n\n.small-cards img{\n  border-radius:100%;\n  width:120px;\n}\n\n.box{\n  border: 1px solid #000000;\n}\n\n.large-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding-left:70px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n  margin-top: 50px;\n}\n\n.large-cards input[type=\"text\"] {\n  width: 320px;}\n\n.large-cards textarea {\n}\n\n.allMessageCard{\n  margin-top: 0px;\n}\n\n#messageBoard {\n  margin-top: 10px;\n}\n\n.message-cards{\n  background-color: #ffffff!important;\n  border-radius: 3px;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n}\n.message-cards-board{\n  height: 400px;\n  padding-left:30px!important;\n  padding-right:30px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  overflow-y: scroll;\n}\n.message-cards-form{\n  margin-top: 50px;\n  border-top: 1px dotted #E6ECF5;\n  padding: 5px;\n}\n.groupHeader{\n  background-color: #fff !important;\n  padding-left:30px!important;\n  padding-right:30px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-top: 50px;\n}\n\ninput{\n  color:#000000!important;\n}\n\nfooter form{\n  position: sticky;\n}\n\n.errorMsg{\n  color: red;\n}\n\n.emptyMessage {\n  margin-left: 20%;\n}\n\n.modal h4 {\n  color: #000000!important;\n}\n\n#message_form {\n  width: 500px;\n\n}\n\n#message_form input {\n  border: 2px solid #717274;\n  border-radius: 7px;\n  padding: 3px;\n\n}\n\n.alert-success {\n    background-color: #dff0d8;\n    border-color: #d0e9c6;\n    color: #3c763d;\n}\n.alert {\n  padding: .75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: .25rem;\n}\n\n.alert-danger {\n  background-color: #f2dede;\n  border-color: #ebcccc;\n  color: #a94442;\n}\n\n.close {\n  position: relative;\n  top: -.75rem;\n  right: -1.25rem;\n  padding: .75rem 1.25rem;\n  color: inherit;\n}\n\nbutton.close {\n  padding: 0;\n  cursor: pointer;\n  background: 0 0;\n  border: 0;\n  -webkit-appearance: none;\n}\n.close {\n  float: right;\n  font-size: 1.5rem;\n  font-weight: 700;\n  line-height: 1;\n  color: #000;\n  text-shadow: 0 1px 0 #fff;\n  opacity: .5;\n}\n\n.senderName, .authUser{\n  text-transform: capitalize;\n}\n\n#searchForm{\n  width: 200px;\n}\n\n#searchBar {\n  border: 1px solid #3F4257;\n  border-radius: 3px;\n  background-color: #fff;\n  color: #000;\n  padding: 2px;\n}\n\n.mySelect{\n  margin-top: 18px;\n}\n", ""]);
 
 // exports
 
@@ -94199,6 +94221,129 @@ exports.createContext = Script.createContext = function (context) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 905 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRouterDom = __webpack_require__(16);
+
+var _reactRedux = __webpack_require__(18);
+
+var _creategroupActions = __webpack_require__(77);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+//const avatar2 = require("../images/avatar2.png");
+//const avatar3 = require("../images/friend-group2.jpg");
+
+var AllUsers = function (_React$Component) {
+  _inherits(AllUsers, _React$Component);
+
+  function AllUsers(props) {
+    _classCallCheck(this, AllUsers);
+
+    var _this = _possibleConstructorReturn(this, (AllUsers.__proto__ || Object.getPrototypeOf(AllUsers)).call(this, props));
+
+    _this.state = {
+      groups: _this.props.groups
+    };
+    return _this;
+  }
+
+  _createClass(AllUsers, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.fetchGroups();
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.setState({
+        groups: nextProps.groups
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var groups = this.state.groups;
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'col s12 m4 l3 ' },
+          _react2.default.createElement(
+            'ul',
+            {
+              className: 'collapsible allMessageCard',
+              'data-collapsible': 'accordion'
+            },
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'collapsible-header' },
+                _react2.default.createElement(
+                  _reactRouterDom.Link,
+                  { to: '#' },
+                  'Blessing'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'collapsible-header' },
+                _react2.default.createElement(
+                  _reactRouterDom.Link,
+                  { to: '#' },
+                  'Dolapo'
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return AllUsers;
+}(_react2.default.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    groups: state.groups
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchGroups: _creategroupActions.fetchGroups })(AllUsers);
 
 /***/ })
 /******/ ]);

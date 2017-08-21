@@ -16,6 +16,9 @@ class MessageForm extends React.Component{
   }
   componentDidMount() {
     this.props.getMessages(this.props.groupId);
+    $(document).ready(function() {
+      $('select').material_select();
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,23 +39,45 @@ class MessageForm extends React.Component{
     })
     return (
       <div>
-        <div className="col s12 m4 l8 groupHeader">
-          <h5>{groupName}</h5>
-        </div>
-        <div className="col s12 m4 l8 message-cards">
-          {
-            this.state.messages.map(message => (
-              <div key={message.id}>
-                <b className="senderName">
-                  {message.User.username}</b>
-                <span className="right">
-                  { moment(message.createdAt, moment.ISO_8601).fromNow() }
-                </span>
-                <p>{message.message_body}</p>
-                <hr/><br/>
+        <div className="col s12 m4 l6 message-cards">
+          <div className="message-cards-board">
+            <h5>{groupName}</h5>
+            {
+              this.state.messages.map(message => (
+                <div key={message.id}>
+                  <b className="senderName">
+                    {message.User.username}</b>
+                  <span className="right">
+                    { moment(message.createdAt, moment.ISO_8601).fromNow() }
+                  </span>
+                  <p>{message.message_body}</p>
+                  <hr/><br/>
+                </div>
+              ))
+            }
+          </div>
+          <div className="message-cards-form">
+            <form onSubmit={this.handleSubmit}>
+              <div className="input-field col s8">
+                <input
+                  placeholder="Write your message Here"
+                  id="message"
+                  type="text"
+                  onChange={this.handleChange}
+                  value={this.state.message}
+                  className="validate"
+                />
               </div>
-            ))
-          }
+              <div className="col s4 mySelect">
+                <select className="browser-default">
+                  <option value="" disabled selected>Select Priority</option>
+                  <option value="1">Normal</option>
+                  <option value="2">Critical</option>
+                  <option value="3">Urgent</option>
+                </select>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     );

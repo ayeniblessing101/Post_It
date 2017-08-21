@@ -11,7 +11,7 @@ class Header extends React.Component{
     // this.context.router.history.push('/login')
   }
   render(){
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
     // const { user } = this.props.userData
     // const authUser = {user.data.username}
     return(
@@ -25,9 +25,24 @@ class Header extends React.Component{
             <div className="nav-wrapper">
               <Link to="#" className="brand-logo">PostIt</Link>
               <ul classID="nav-mobile" className="right hide-on-med-and-down">
-                <li><i className="material-icons">perm_identity</i></li>
-                <li><Link to="#" className="dropdown-button" data-activates="dropdown1">Welcome</Link></li>
-                <li><Link to="#" onClick={this.logout.bind(this)}><i className="material-icons">power_settings_new</i></Link></li>
+                <li>
+                  <form id="searchForm">
+                    <input type="text" placeholder="Search for Friends"
+                      id="searchBar"/>
+                  </form>
+                </li>
+                <li>
+                  <Link to="#" className="dropdown-button"
+                    data-activates="dropdown1">
+                    Welcome <span className="authUser">{user.data.username}</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="#"
+                  onClick={this.logout.bind(this)}>
+                    <i className="material-icons">power_settings_new</i>
+                  </Link>
+                </li>
               </ul>
             </div>
           </nav>

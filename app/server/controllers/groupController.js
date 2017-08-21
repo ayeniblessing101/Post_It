@@ -60,7 +60,7 @@ exports.create_group = (req, res) => {
           .then((groupMembers) => {
             res.status(200).send({ status: true, message: 'Successful', data: groupMembers });
           });
-          res.status(200).send({ status: true, message: 'Successful', data: group });
+          return res.status(200).send({ status: true, message: 'Successful', data: group });
         })
         .catch(error => res.status(400).send(error));
       }
