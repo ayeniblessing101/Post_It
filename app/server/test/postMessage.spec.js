@@ -6,7 +6,7 @@ const chaiHttp = require('chai-http');
 
 const app = require('../app.js');
 
-const request = supertest(app);
+const request = supertest.agent(app);
 const expect = chai.expect;
 const User = require('../models').User;
 
@@ -19,60 +19,57 @@ let fakeGroup;
 // const should = chai.should();
 chai.use(chaiHttp);
 
-describe('Routes: group', () => {
+describe('Routes: post_message', () => {
   // This function will run before every test to clear database
   beforeEach((done) => {
     User
-    .destroy({ where: {} })
+    .destroy({ where: {},
+      truncate: true,
+      cascade: true,
+      restartIdentity: true })
     .then(() => User.create({
       username: 'john',
       email: 'john@gmail.com',
-      password: '1234'
+      password: '1234',
+      phone: '2348064476683'
     }))
     .then((user) => {
       Group
-      .destroy({ where: {} })
+      .destroy({ where: {},
+        truncate: true,
+        cascade: true,
+        restartIdentity: true })
       .then(() => Group.bulkCreate([{
         id: 1,
         group_name: 'Family',
-        user_id: user.id
+        user_id: user.dataValues.id
       }, {
         id: 2,
         group_name: 'Colleagues',
-        user_id: user.id
+        user_id: user.dataValues.id
       }]))
       .then((groups) => {
-        fakeGroup = groups[0];
-        token = jwt.sign({ id: user.id }, 'secret');
+        fakeGroup = groups[0].dataValues;
+        token = jwt.sign({ id: user.dataValues.id }, 'secret');
         done();
       });
     });
   });
-  describe('POST /api/group', () => {
+  describe('POST /api/group/:id/message', () => {
     describe('status 200', () => {
-      it('creates a new group', (done) => {
+      it('post a message', (done) => {
         // Test's logic...
-        request.post('/api/group')
-        .set('Authorization', `JWT ${token}`)
-        .send({ group_name: 'Old class mates' })
+        request.post(`/api/group/${fakeGroup.id}/message`)
+        .set('Authorization', `Basic ${token}`)
+        .send({
+          message: 'john',
+          priority: '3'
+        })
         .expect(200)
         .end((err, res) => {
-          expect(res.body.error).to.equal(false);
-          expect(res.body).to.have.a.property('message');
+          // expect(res.body.data).to.have.a.property('message_body');
           // expect(res.body.group_name).to.equal('Old class mates');
           // expect(res.body).to.have.a.property('message', 'success');
-          done(err);
-        });
-      });
-    });
-    describe('status 401', () => {
-      it('throws error when group name exist', (done) => {
-    // Test's logic...
-        request.post('/api/group')
-        .set('Authorization', `JWT ${token}`)
-        .send({ group_name: 'Old class mates' })
-        .expect(401)
-        .end((err, res) => {
           done(err);
         });
       });

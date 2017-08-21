@@ -24,6 +24,7 @@ describe('Routes: signup', () => {
        .then(() => {
          User.create({
            email: 'blessing@gmail.com',
+           phone: '2348064476683',
            username: 'blessing',
            password: '1234'
          });
@@ -39,7 +40,9 @@ describe('Routes: signup', () => {
         const user = {
           email: 'tobi@gmail.com',
           username: 'tobi',
-          password: '1234'
+          password: '1234',
+          phoneNo: '2348066193821',
+          confirm_password: '1234'
         };
         request.post('/api/user/signup')
         .send(user)
@@ -48,7 +51,8 @@ describe('Routes: signup', () => {
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.a.property('status');
           expect(res.body).to.have.a.property('message');
-          expect(res.body).to.have.a.property('message', 'Successful');
+          expect(res.body).to.have.a.property('message',
+          'Signup was successful');
           expect(res.body).to.have.a.property('status', true);
           done();
         });
@@ -60,38 +64,41 @@ describe('Routes: signup', () => {
         const user = {
           email: 'tobi@gmail.com',
           username: 'tobi',
-          password: '1234'
+          password: '1234',
+          phoneNo: '2348066193821',
+          confirm_password: '1234'
         };
         request.post('/api/user/signup')
         .send(user)
-        .expect(401)
+        .expect(400)
         .end((err, res) => {
+          expect(res.status).to.equal(400);
           expect(res.body).to.be.an('object');
-          expect(res.body).to.have.a.property('status');
-          expect(res.body).to.have.a.property('message');
-          expect(res.body).to.have.a.property('message', 'Username already exist');
-          expect(res.body).to.have.a.property('status', false);
+          expect(res.body).to.have.a.property('username');
+          expect(res.body).to.have.a.property('username',
+          'Username already exists');
           done();
         });
       });
     });
-    describe('status 401', () => {
+    describe('status 400', () => {
       it('returns email already exists', (done) => {
       // Test's logic...
         const user = {
           email: 'tobi@gmail.com',
           username: 'max',
-          password: '1234'
+          password: '1234',
+          phoneNo: '2348066193821',
+          confirm_password: '1234'
         };
         request.post('/api/user/signup')
         .send(user)
-        .expect(401)
+        .expect(400)
         .end((err, res) => {
+          expect(res.status).to.equal(400);
           expect(res.body).to.be.an('object');
-          expect(res.body).to.have.a.property('status');
-          expect(res.body).to.have.a.property('message');
-          expect(res.body).to.have.a.property('message', 'Email already exist');
-          expect(res.body).to.have.a.property('status', false);
+          expect(res.body).to.have.a.property('email');
+          expect(res.body).to.have.a.property('email', 'Email already exists');
           done();
         });
       });

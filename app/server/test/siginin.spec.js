@@ -4,6 +4,11 @@ const supertest = require('supertest');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
+const saltRounds = 10;
+const bcrypt = require('bcrypt');
+
+const salt = bcrypt.genSaltSync(saltRounds);
+
 const app = require('../app.js');
 
 const request = supertest(app);
@@ -25,7 +30,7 @@ describe('Routes: signin', () => {
          User.create({
            email: 'john@mail.net',
            username: 'John',
-           password: '12345'
+           password: bcrypt.hashSync('12345', salt)
          });
          done();
        })
@@ -44,7 +49,8 @@ describe('Routes: signin', () => {
         .send(users)
         .expect(200)
         .end((err, res) => {
-          expect(res.body).to.include.keys('Token', 'message');
+          console.log(res.body);
+          expect(res.body).to.include.keys('token');
           done(err);
         });
       });
@@ -59,7 +65,7 @@ describe('Routes: signin', () => {
         request.post('/api/user/signin')
         .send(user)
         .expect(401)
-        .end((err, res) => {
+        .end((err) => {
           done(err);
         });
       });
@@ -74,7 +80,7 @@ describe('Routes: signin', () => {
         request.post('/api/user/signin')
         .send(user)
         .expect(401)
-        .end((err, res) => {
+        .end((err) => {
           done(err);
         });
       });
@@ -88,7 +94,7 @@ describe('Routes: signin', () => {
         request.post('/api/user/signin')
         .send(user)
         .expect(401)
-        .end((err, res) => {
+        .end((err) => {
           done(err);
         });
       });

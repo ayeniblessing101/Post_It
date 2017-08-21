@@ -32,15 +32,15 @@ exports.create_group = (req, res) => {
   if (!isValid) {
     res.status(400).send(errors);
   } else {
-    const userId = req.decoded.data.id;
+    const userId = req.decoded.id;
     Group.findOne({
       where: {
         group_name: req.body.groupname,
         user_id: userId
       },
     })
-    .then((group, err) => {
-      if (err) throw err;
+    .then((group) => {
+      // if (err) throw err;
       if (group) {
         errors.groupname = 'Groupname already exists';
       }
@@ -57,10 +57,13 @@ exports.create_group = (req, res) => {
             group_id: group.id,
             user_id: userId
           })
-          .then((groupMembers) => {
-            res.status(200).send({ status: true, message: 'Successful', data: groupMembers });
+          .then(() => {
+            // res.status(200).send({ status: true, message:
+            // 'Successful', data: groupMembers });
           });
-          return res.status(200).send({ status: true, message: 'Successful', data: group });
+          return res.status(200).send({
+            status: true, message: 'Successful', data: group
+          });
         })
         .catch(error => res.status(400).send(error));
       }
@@ -126,13 +129,13 @@ exports.add_user = (req, res) => {
           },
           defaults: {
             user_id: user.id,
-            group_id: req.params.id
+            group_id: parseInt(req.params.id, 10)
           }
         })
         .spread((Usergroup, created) => {
           if (created) {
             res.status(201).send({
-              success: true,
+              status: true,
               message: 'User has been successfully added to group',
               data: Usergroup
             });
@@ -142,7 +145,7 @@ exports.add_user = (req, res) => {
           }
         });
       } else {
-        res.status(404).send({ message: 'User does not exist' })
+        res.status(404).send({ message: 'User does not exist' });
       }
     });
   } else {

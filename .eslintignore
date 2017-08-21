@@ -1,0 +1,4 @@
+node_modules
+app/client/post_it/assets
+app/client/post_it/template/
+app/client/post_it/dist/js/
