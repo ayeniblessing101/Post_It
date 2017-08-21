@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Textarea } from 'react-materialize';
 import moment from 'moment';
-import { getMessages } from '../../actions/messageActions';
+import { getMessages, postMessage } from '../../actions/messageActions';
 
 //const avatar2 = require("../images/avatar2.png");
 //const avatar3 = require("../images/friend-group2.jpg");
@@ -11,11 +12,32 @@ class MessageForm extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      messages: this.props.messages
-    };
+      messages: this.props.messages,
+      message: ''
+    }
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.postMessage(this.props.groupId, this.state.message);
+    this.setState({
+      message: ''
+    });
+  }
+
   componentDidMount() {
     this.props.getMessages(this.props.groupId);
+    $(document).ready(function() {
+      $('select').material_select();
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,23 +58,53 @@ class MessageForm extends React.Component{
     })
     return (
       <div>
-        <div className="col s12 m4 l8 groupHeader">
-          <h5>{groupName}</h5>
-        </div>
-        <div className="col s12 m4 l8 message-cards">
-          {
-            this.state.messages.map(message => (
-              <div key={message.id}>
-                <b className="senderName">
-                  {message.User.username}</b>
-                <span className="right">
-                  { moment(message.createdAt, moment.ISO_8601).fromNow() }
-                </span>
-                <p>{message.message_body}</p>
-                <hr/><br/>
+        <div className="col s12 m4 l6 message-cards">
+          <div className="message-cards-board">
+            <h5>{groupName}</h5>
+            {
+              this.state.messages.map(message => (
+                <div key={message.id}>
+                  <b className="senderName">
+                    {message.User.username}</b>
+                  <span className="right">
+                    { moment(message.createdAt, moment.ISO_8601).fromNow() }
+                  </span>
+                  <p>{message.message_body}</p>
+                  <hr/><br/>
+                </div>
+              ))
+            }
+          </div>
+          <div className="message-cards-form">
+            <form onSubmit={this.handleSubmit}>
+              <div className="input-field col s8">
+                <textarea
+                  placeholder="Write your message Here"
+                  id="message"
+                  type="text"
+                  name="message"
+                  onChange={this.handleChange}
+                  value={this.state.message}
+                  className="materialize-textarea"
+                ></textarea>
               </div>
-            ))
-          }
+              <div className="col s4 mySelect">
+                <select
+                  className="browser-default"
+                  value={this.state.value}
+                  onChange={this.handleChange}>
+                  <option value="" disabled selected>Select Priority</option>
+                  <option value="1">Normal</option>
+                  <option value="2">Critical</option>
+                  <option value="3">Urgent</option>
+                </select>
+                <br></br>
+                <button className="btn messageBtn" type="submit">
+                  <i className="material-icons">send</i>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     );
@@ -64,4 +116,4 @@ const mapStateToProps = state => ({
   group: state.groups
 });
 
-export default connect(mapStateToProps, { getMessages })(MessageForm);
+export default connect(mapStateToProps, { getMessages, postMessage })(MessageForm);
