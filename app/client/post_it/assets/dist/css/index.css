@@ -22,15 +22,23 @@ body{
 html,body,.container{
   height:100%;}*/
 
-a{
+a {
   color: #000000;
 }
 
 .login-register {
-background: url(bg2.jpg) no-repeat center center / cover !important;
+background: url(../../images/bg2.jpg) no-repeat center center / cover !important;
 height: 100%;
 width: 100%;
-position: fixed;}
+position: fixed;
+}
+
+.resetPasswordForm {
+  background: url(../../images/bg2.jpg) no-repeat center center / cover !important;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
 
 #wrapper {
   width: 100%; }
@@ -83,12 +91,17 @@ margin: 10% auto;}
     font-size: 1rem;
     border-radius: 0.3rem;}
 
+.reg_form {
+    background-color: #fff;
+    width: 100%;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 .reg_form_cen{
   width: 350px;
   margin: 0 auto;
   background-color: #ffffff;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
   padding-bottom: 3%;
   padding-top: 3%;}
 
@@ -353,4 +366,8 @@ button.close {
 
 .messageBtn{
   width:140px !important;
+}
+
+.forgotPassword{
+  cursor: pointer;
 }

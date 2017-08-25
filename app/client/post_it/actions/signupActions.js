@@ -3,10 +3,10 @@ import axios from 'axios';
 /**
  * Handles sigup Request.
  * @param {Object} userData - user id.
- *@returns {userData} - returns group.
+ *@returns {void} .
  */
 exports.userSignupRequest = (userData) => {
-  return dispatch => {
+  return (dispatch) => {
     return axios.post('/api/user/signup', userData);
   };
 };
@@ -14,10 +14,10 @@ exports.userSignupRequest = (userData) => {
 /**
  * Checks if a User exist.
  * @param {Object} identifier - user id.
- *@returns {identifier} - returns group.
+ *@returns {void} .
  */
 exports.isUserExists = (identifier) => {
-  return dispatch => {
+  return (dispatch) => {
     return axios.get(`/api/user/signup/${identifier}`);
   };
 };
