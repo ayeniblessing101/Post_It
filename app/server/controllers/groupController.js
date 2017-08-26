@@ -32,7 +32,7 @@ exports.create_group = (req, res) => {
   if (!isValid) {
     res.status(400).send(errors);
   } else {
-    const userId = req.decoded.id;
+    const userId = req.decoded.data.id;
     Group.findOne({
       where: {
         group_name: req.body.groupname,
