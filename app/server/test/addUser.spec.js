@@ -28,10 +28,10 @@ describe('Routes: add_user', () => {
       cascade: true,
       restartIdentity: true })
     .then(() => User.create({
-      username: 'john',
-      email: 'john@gmail.com',
-      password: '1234',
-      phone: '2348064476683'
+      email: 'blessing@gmail.com',
+      phone: '2348064476683',
+      username: 'blessing',
+      password: '1234'
     }))
     .then((user) => {
       Group
@@ -62,7 +62,7 @@ describe('Routes: add_user', () => {
         request.post(`/api/group/${fakeGroup.id}/user`)
         .set('Authorization', `Basic ${token}`)
         .send({
-          username: 'john',
+          username: 'blessing',
         })
         .expect(201)
         .end((err, res) => {
@@ -82,9 +82,10 @@ describe('Routes: add_user', () => {
     // Test's logic...
         request.post(`/api/group/${fakeGroup.id}/user`)
         .set('Authorization', `Basic ${token}`)
-        .send({ username: 'john' })
+        .send({ username: 'blessing' })
         .expect(401)
-        .end((err) => {
+        .end((err, res) => {
+          expect(res.body.status).to.equal(true);
           done(err);
         });
       });
