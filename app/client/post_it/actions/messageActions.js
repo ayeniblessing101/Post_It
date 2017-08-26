@@ -1,11 +1,7 @@
 import axios from 'axios';
 import { POST_MESSAGE, SET_MESSAGES } from './types';
 
-/**
- * Fetch all Groups.
- * @param {Object} message- status.
- *@returns {message} - returns message.
- */
+
 export const postMessageStatus = message => (
   {
     type: POST_MESSAGE,
@@ -22,9 +18,10 @@ export const getAllMessages = messages => (
 
 
 /**
- * Fetch all Groups.
- * @param {Object} groupId - groupdId.
- *@returns {status} - returns status.
+ * Post a message.
+ * @param {integer} groupId - groupdId.
+ * @param {string} message - groupdId.
+ *@returns {void} - dispatches an action to the redux store.
  */
 export function postMessage(groupId, message) {
   return dispatch => (
@@ -38,7 +35,7 @@ export function postMessage(groupId, message) {
 /**
  * Fetch all Groups.
  * @param {Object} groupId - groupdId.
- *@returns {data} - returns data pertaining to the message.
+ *@returns {void} - dispatch an action to get all messages to the store.
  */
 export function getMessages(groupId) {
   return dispatch => (

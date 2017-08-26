@@ -9,6 +9,7 @@ import GroupsPage from "./dashboard/GroupsPage";
 import AddGroup from "./addgroup/AddGroupPage";
 import AddUser from "./AddUser";
 import GroupPage from "./messages/MessagePage";
+import ResetPasswordPage from "./resetpassword/ResetPasswordPage";
 //import GroupPage from "./message/MessagePage";
 
 import requireAuth from '../utils/requireAuth';
@@ -19,6 +20,7 @@ const Routes = () => {
       <Switch>
         <Route exact path='/' component={SignUpForm} />
         <Route path='/login' component={Login} />
+        <Route path='/user/password/verify' component={ResetPasswordPage} />
         <Route path='/groups' component={requireAuth(GroupsPage)} />
         <Route path='/group/:id' component={requireAuth(GroupPage)} />
         <Route path='/add-group' component={requireAuth(AddGroup)} />

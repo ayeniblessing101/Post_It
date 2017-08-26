@@ -1,23 +1,21 @@
 // import {validateInput} from '../shared/validations/signup';
 import Validator from 'validator';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 import checkNum from '../utils/numberValidation';
+// import forgotPasswordMail from '../utils/forgetPasswordMail';
 
 const isEmpty = require('lodash/isEmpty');
-
-// const validateInput = require('../shared/validations/signup');
-// const commonValidations = require('../shared/validations/signup');
-
-// const express = require('express');
-
-// const router = express.Router();
-
-const User = require('../models').User;
 
 const saltRounds = 10;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const salt = bcrypt.genSaltSync(saltRounds);
+const User = require('../models').User;
+const ForgotPassword = require('../models').ForgotPassword;
+// const ForgotPasswords = require('../models').ForgotPasswords;
+
 
 exports.identify = (req, res) => {
   User.findOne({
@@ -141,4 +139,130 @@ exports.login = (req, res) => {
       }
     });
   }
+};
+
+// Method to handle forgot Password
+exports.forgotPassword = (req, res) => {
+  if (req.body.email === '') {
+    res.status(401).send({
+      status: false, message: 'Email is required' });
+  } else {
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then((user) => {
+      if (user) {
+        ForgotPassword.create({
+          user_email: user.email,
+          reset_password_token: crypto.randomBytes(32).toString('hex'),
+          reset_password_expires: Date.now() + 3600000
+        })
+        .then((result) => {
+          res.status(201)
+          .send({ status: false, message: 'Successful' });
+          const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, // secure:true for port 465, secure:false for port 587
+            auth: {
+              user: 'ayeniblessing32@gmail.com',
+              pass: 'Welcome3000#'
+            }
+          });
+          // setup email data with unicode symbols
+          const mailOptions = {
+            from: 'Post It', // sender address
+            to: user.email, // list of receivers
+            subject: 'Post It || Reset Password', // Subject line
+            // text: 'Hello world ?', // plain text body
+            html: `<b>Hello </b>
+              http://localhost:3000/user/password/verify?token=${result.reset_password_token}&email=${user.email}` // html body
+          };
+          // send mail with defined transport object
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              return res.send(error);
+            }
+            res.send('Message %s sent: %s', info.messageId, info.response);
+          });
+        })
+        .catch((error) => {
+          return res.status(400).send({
+            error
+          });
+        });
+      } else {
+        res.status(400).send({
+          message: 'Cannot find user with that email'
+        });
+      }
+    });
+  }
+};
+
+exports.checkToken = (req, res) => {
+  const token = (req.query.token).toString()
+  if (typeof token !== 'string') {
+    return res.status(400).send({
+      message: 'Token must be a string'
+    });
+  }
+  ForgotPassword.findOne({
+    where: {
+      reset_password_token: req.query.token
+    }
+  })
+  .then((tokenVerified) => {
+    if (tokenVerified) {
+      res.status(200).send({
+        message: 'Token Found!'
+      });
+    } else {
+      res.status(400).send({
+        message: 'Token not found'
+      });
+    }
+  }).catch((error) => {
+    res.status(400).send({
+      error
+    });
+  });
+};
+
+exports.resetPassword = (req, res) => {
+  if (req.body.newPassword === '') {
+    return res.status(401).send({
+      status: false, message: 'New Password is required' });
+  }
+
+  if (req.body.confirmPassword === '') {
+    return res.status(401).send({
+      status: false, message: 'Please Confirm your new Password' });
+  }
+
+  if (req.body.confirmPassword !== req.body.confirmPassword) {
+    return res.status(401).send({
+      status: false, message: 'Password does not match' });
+  }
+  User.findOne({
+    where: {
+      email: req.body.email
+    }
+  })
+  .then((user) => {
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+    const password = bcrypt.hashSync(req.body.newPassword, salt);
+    user.update({
+      password
+    })
+    .then((newUser) => {
+      res.status(200).send({
+        message: 'Password updated succesfully'
+      })
+    })
+  });
 };
