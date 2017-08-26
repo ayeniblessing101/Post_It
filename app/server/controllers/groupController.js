@@ -141,7 +141,8 @@ exports.add_user = (req, res) => {
             });
           } else {
             res.status(401)
-              .send({ message: ' User has already been added to this group' });
+              .send({ status: true,
+                message: ' User has already been added to this group' });
           }
         });
       } else {
