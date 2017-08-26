@@ -3,6 +3,7 @@ import { Button, Card, Row, Col } from 'react-materialize';
 import { Link } from 'react-router-dom';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { connect } from 'react-redux';
+import ForgetPasswordModal from './ForgetPasswordModal';
 import { login } from '../../actions/authActions';
 import PropTypes from 'prop-types';
 import validateInput from '../../../../server/shared/validations/login';
@@ -97,8 +98,17 @@ class LoginForm extends React.Component{
                       </div>
                     </div>
                   </form>
-                  <p>Do not have an account? <Link to="/" className="blue-text text-darken-2"><b>Sign Up</b></Link></p>
-                  <br />
+                  <div className="row">
+                    <div className="col s6"><ForgetPasswordModal /></div>
+                    <div className="col s6">
+                      <p>
+                        Do not have an account?
+                        <Link to="/" className="blue-text text-darken-2">
+                            <b>Sign Up</b>
+                        </Link>
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

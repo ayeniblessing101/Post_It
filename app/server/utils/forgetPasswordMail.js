@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-export default function sendMail(receivers, messageBody) {
+export default function forgotPasswordMail(receiver, messageBody) {
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -16,14 +16,14 @@ export default function sendMail(receivers, messageBody) {
   // setup email data with unicode symbols
   const mailOptions = {
     from: '"Ayeni Blessing 👻" <ayeniblessing@gmail.com>', // sender address
-    to: receivers, // list of receivers
-    subject: 'Post It', // Subject line
+    to: receiver, // list of receivers
+    subject: 'Post It - Reset Password', // Subject line
     text: messageBody, // plain text body
     html: messageBody // html body
   };
 
   // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
+  transporter.forgotPasswordMail(mailOptions, (error, info) => {
     if (error) {
       return console.log(error);
     }

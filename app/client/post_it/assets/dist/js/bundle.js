@@ -15305,7 +15305,7 @@ var _types = __webpack_require__(32);
 /**
  * Add Flash Message.
  * @param {Object} message - groups.
- * @returns {message} - returns message.
+ * @returns {void} - .
  */
 function addFlashMessage(message) {
   return {
@@ -15317,7 +15317,7 @@ function addFlashMessage(message) {
 /**
  * Deletes flash message.
  * @param {Object} id - groups.
- * @returns {id} - id.
+ * @returns {void} - id.
  */
 function deleteFlashMessage(id) {
   return {
@@ -22282,7 +22282,65 @@ if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 115 */,
+/* 115 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.forgotPassword = forgotPassword;
+exports.checkToken = checkToken;
+exports.resetPassword = resetPassword;
+
+var _axios = __webpack_require__(50);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * .
+ * @param {string} email - email.
+ * @returns {void}
+ */
+function forgotPassword(email) {
+  return function (dispatch) {
+    return _axios2.default.post('/api/password/forgot', email);
+  };
+}
+
+/**
+ * Check if Token matches with token in the database.
+ * @param {string} token - token.
+ * @param {string} email - email.
+ * @returns {void}
+ */
+function checkToken(token, email) {
+  return function (dispatch) {
+    return _axios2.default.get('/api/password/token/check', {
+      params: {
+        token: token,
+        email: email
+      } });
+  };
+}
+
+/**
+ * Reset Password.
+ * @param {string} newPassword - New Password.
+ * @param {string} email - The author of the book.
+ * @returns {void}
+ */
+function resetPassword(newPassword, email) {
+  return function (dispatch) {
+    return _axios2.default.post('/api/password/verify', { newPassword: newPassword, email: email });
+  };
+}
+
+/***/ }),
 /* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44383,7 +44441,219 @@ module.exports = function xor(a, b) {
 };
 
 /***/ }),
-/* 351 */,
+/* 351 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var strictUriEncode = __webpack_require__(845);
+var objectAssign = __webpack_require__(11);
+var decodeComponent = __webpack_require__(496);
+
+function encoderForArrayFormat(opts) {
+	switch (opts.arrayFormat) {
+		case 'index':
+			return function (key, value, index) {
+				return value === null ? [
+					encode(key, opts),
+					'[',
+					index,
+					']'
+				].join('') : [
+					encode(key, opts),
+					'[',
+					encode(index, opts),
+					']=',
+					encode(value, opts)
+				].join('');
+			};
+
+		case 'bracket':
+			return function (key, value) {
+				return value === null ? encode(key, opts) : [
+					encode(key, opts),
+					'[]=',
+					encode(value, opts)
+				].join('');
+			};
+
+		default:
+			return function (key, value) {
+				return value === null ? encode(key, opts) : [
+					encode(key, opts),
+					'=',
+					encode(value, opts)
+				].join('');
+			};
+	}
+}
+
+function parserForArrayFormat(opts) {
+	var result;
+
+	switch (opts.arrayFormat) {
+		case 'index':
+			return function (key, value, accumulator) {
+				result = /\[(\d*)\]$/.exec(key);
+
+				key = key.replace(/\[\d*\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				}
+
+				if (accumulator[key] === undefined) {
+					accumulator[key] = {};
+				}
+
+				accumulator[key][result[1]] = value;
+			};
+
+		case 'bracket':
+			return function (key, value, accumulator) {
+				result = /(\[\])$/.exec(key);
+				key = key.replace(/\[\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				} else if (accumulator[key] === undefined) {
+					accumulator[key] = [value];
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+
+		default:
+			return function (key, value, accumulator) {
+				if (accumulator[key] === undefined) {
+					accumulator[key] = value;
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+	}
+}
+
+function encode(value, opts) {
+	if (opts.encode) {
+		return opts.strict ? strictUriEncode(value) : encodeURIComponent(value);
+	}
+
+	return value;
+}
+
+function keysSorter(input) {
+	if (Array.isArray(input)) {
+		return input.sort();
+	} else if (typeof input === 'object') {
+		return keysSorter(Object.keys(input)).sort(function (a, b) {
+			return Number(a) - Number(b);
+		}).map(function (key) {
+			return input[key];
+		});
+	}
+
+	return input;
+}
+
+exports.extract = function (str) {
+	return str.split('?')[1] || '';
+};
+
+exports.parse = function (str, opts) {
+	opts = objectAssign({arrayFormat: 'none'}, opts);
+
+	var formatter = parserForArrayFormat(opts);
+
+	// Create an object with no prototype
+	// https://github.com/sindresorhus/query-string/issues/47
+	var ret = Object.create(null);
+
+	if (typeof str !== 'string') {
+		return ret;
+	}
+
+	str = str.trim().replace(/^(\?|#|&)/, '');
+
+	if (!str) {
+		return ret;
+	}
+
+	str.split('&').forEach(function (param) {
+		var parts = param.replace(/\+/g, ' ').split('=');
+		// Firefox (pre 40) decodes `%3D` to `=`
+		// https://github.com/sindresorhus/query-string/pull/37
+		var key = parts.shift();
+		var val = parts.length > 0 ? parts.join('=') : undefined;
+
+		// missing `=` should be `null`:
+		// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+		val = val === undefined ? null : decodeComponent(val);
+
+		formatter(decodeComponent(key), val, ret);
+	});
+
+	return Object.keys(ret).sort().reduce(function (result, key) {
+		var val = ret[key];
+		if (Boolean(val) && typeof val === 'object' && !Array.isArray(val)) {
+			// Sort object keys, not values
+			result[key] = keysSorter(val);
+		} else {
+			result[key] = val;
+		}
+
+		return result;
+	}, Object.create(null));
+};
+
+exports.stringify = function (obj, opts) {
+	var defaults = {
+		encode: true,
+		strict: true,
+		arrayFormat: 'none'
+	};
+
+	opts = objectAssign(defaults, opts);
+
+	var formatter = encoderForArrayFormat(opts);
+
+	return obj ? Object.keys(obj).sort().map(function (key) {
+		var val = obj[key];
+
+		if (val === undefined) {
+			return '';
+		}
+
+		if (val === null) {
+			return encode(key, opts);
+		}
+
+		if (Array.isArray(val)) {
+			var result = [];
+
+			val.slice().forEach(function (val2) {
+				if (val2 === undefined) {
+					return;
+				}
+
+				result.push(formatter(key, val2, result.length));
+			});
+
+			return result.join('&');
+		}
+
+		return encode(key, opts) + '=' + encode(val, opts);
+	}).filter(function (x) {
+		return x.length > 0;
+	}).join('&') : '';
+};
+
+
+/***/ }),
 /* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -51008,6 +51278,10 @@ var _MessagePage = __webpack_require__(457);
 
 var _MessagePage2 = _interopRequireDefault(_MessagePage);
 
+var _ResetPasswordPage = __webpack_require__(459);
+
+var _ResetPasswordPage2 = _interopRequireDefault(_ResetPasswordPage);
+
 var _requireAuth = __webpack_require__(468);
 
 var _requireAuth2 = _interopRequireDefault(_requireAuth);
@@ -51028,6 +51302,7 @@ var Routes = function Routes() {
       null,
       _react2.default.createElement(Route, { exact: true, path: '/', component: _SignupPage2.default }),
       _react2.default.createElement(Route, { path: '/login', component: _LoginPage2.default }),
+      _react2.default.createElement(Route, { path: '/user/password/verify', component: _ResetPasswordPage2.default }),
       _react2.default.createElement(Route, { path: '/groups', component: (0, _requireAuth2.default)(_GroupsPage2.default) }),
       _react2.default.createElement(Route, { path: '/group/:id', component: (0, _requireAuth2.default)(_MessagePage2.default) }),
       _react2.default.createElement(Route, { path: '/add-group', component: (0, _requireAuth2.default)(_AddGroupPage2.default) }),
@@ -53388,11 +53663,6 @@ var _types = __webpack_require__(32);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Fetch all Groups.
- * @param {Object} message- status.
- *@returns {message} - returns message.
- */
 var postMessageStatus = exports.postMessageStatus = function postMessageStatus(message) {
   return {
     type: _types.POST_MESSAGE,
@@ -53408,9 +53678,10 @@ var getAllMessages = exports.getAllMessages = function getAllMessages(messages) 
 };
 
 /**
- * Fetch all Groups.
- * @param {Object} groupId - groupdId.
- *@returns {status} - returns status.
+ * Post a message.
+ * @param {integer} groupId - groupdId.
+ * @param {string} message - groupdId.
+ *@returns {void} - dispatches an action to the redux store.
  */
 function postMessage(groupId, message) {
   return function (dispatch) {
@@ -53425,7 +53696,7 @@ function postMessage(groupId, message) {
 /**
  * Fetch all Groups.
  * @param {Object} groupId - groupdId.
- *@returns {data} - returns data pertaining to the message.
+ *@returns {void} - dispatch an action to get all messages to the store.
  */
 function getMessages(groupId) {
   return function (dispatch) {
@@ -53453,7 +53724,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Handles sigup Request.
  * @param {Object} userData - user id.
- *@returns {userData} - returns group.
+ *@returns {void} .
  */
 exports.userSignupRequest = function (userData) {
   return function (dispatch) {
@@ -53464,7 +53735,7 @@ exports.userSignupRequest = function (userData) {
 /**
  * Checks if a User exist.
  * @param {Object} identifier - user id.
- *@returns {identifier} - returns group.
+ *@returns {void} .
  */
 exports.isUserExists = function (identifier) {
   return function (dispatch) {
@@ -54217,7 +54488,178 @@ FlashMessage.propTypes = {
 exports.default = FlashMessage;
 
 /***/ }),
-/* 449 */,
+/* 449 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactMaterialize = __webpack_require__(56);
+
+var _reactRedux = __webpack_require__(15);
+
+var _TextFieldGroup = __webpack_require__(51);
+
+var _TextFieldGroup2 = _interopRequireDefault(_TextFieldGroup);
+
+var _forgotpassword = __webpack_require__(471);
+
+var _forgotPasswordAction = __webpack_require__(115);
+
+var _flashMessages = __webpack_require__(41);
+
+var _FlashMessagesList = __webpack_require__(65);
+
+var _FlashMessagesList2 = _interopRequireDefault(_FlashMessagesList);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+//const avatar2 = require("../images/avatar2.png");
+//const avatar3 = require("../images/friend-group2.jpg");
+
+var ForgetPasswordModal = function (_React$Component) {
+  _inherits(ForgetPasswordModal, _React$Component);
+
+  function ForgetPasswordModal(props) {
+    _classCallCheck(this, ForgetPasswordModal);
+
+    var _this = _possibleConstructorReturn(this, (ForgetPasswordModal.__proto__ || Object.getPrototypeOf(ForgetPasswordModal)).call(this, props));
+
+    _this.state = {
+      email: '',
+      errors: {}
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(ForgetPasswordModal, [{
+    key: 'isValid',
+    value: function isValid() {
+      var _validateInput = (0, _forgotpassword.validateInput)(this.state),
+          errors = _validateInput.errors,
+          isValid = _validateInput.isValid,
+          email = _validateInput.email,
+          addFlashMessage = _validateInput.addFlashMessage;
+
+      if (!isValid) {
+        this.setState({ errors: errors });
+      }
+
+      return isValid;
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      this.setState({
+        email: ''
+      });
+      if (this.isValid()) {
+        this.setState({ errors: {}, isLoading: true });
+        this.props.forgotPassword(this.state).then(function () {
+          _this2.props.addFlashMessage({
+            type: 'success',
+            text: 'Please check your email and follow the instruction'
+          });
+        }, function () {
+          _this2.props.addFlashMessage({
+            type: 'error',
+            text: 'Incorrect email'
+          });
+        });
+      }
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state = this.state,
+          errors = _state.errors,
+          email = _state.email;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          _reactMaterialize.Modal,
+          {
+            header: 'Recover Password',
+            trigger: _react2.default.createElement(
+              'p',
+              { className: 'forgotPassword' },
+              'Forgot Password?'
+            ) },
+          _react2.default.createElement(_FlashMessagesList2.default, null),
+          _react2.default.createElement(
+            'form',
+            { onSubmit: this.handleSubmit },
+            errors.form && _react2.default.createElement(
+              'div',
+              { className: 'alert alert-danger' },
+              errors.form
+            ),
+            _react2.default.createElement(_TextFieldGroup2.default, {
+              label: 'Email',
+              field: 'email',
+              onChange: this.handleChange,
+              type: 'text',
+              value: email
+            }),
+            _react2.default.createElement(
+              _reactMaterialize.Button,
+              {
+                className: 'btn waves-effect waves-light',
+                type: 'submit'
+              },
+              'Reset'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ForgetPasswordModal;
+}(_react2.default.Component);
+
+ForgetPasswordModal.propTypes = {
+  forgotPassword: _propTypes2.default.func.isRequired,
+  addFlashMessage: _propTypes2.default.func.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(null, { forgotPassword: _forgotPasswordAction.forgotPassword, addFlashMessage: _flashMessages.addFlashMessage })(ForgetPasswordModal);
+
+/***/ }),
 /* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -54243,6 +54685,10 @@ var _TextFieldGroup = __webpack_require__(51);
 var _TextFieldGroup2 = _interopRequireDefault(_TextFieldGroup);
 
 var _reactRedux = __webpack_require__(15);
+
+var _ForgetPasswordModal = __webpack_require__(449);
+
+var _ForgetPasswordModal2 = _interopRequireDefault(_ForgetPasswordModal);
 
 var _authActions = __webpack_require__(82);
 
@@ -54421,20 +54867,32 @@ var LoginForm = function (_React$Component) {
                     )
                   ),
                   _react2.default.createElement(
-                    'p',
-                    null,
-                    'Do not have an account? ',
+                    'div',
+                    { className: 'row' },
                     _react2.default.createElement(
-                      _reactRouterDom.Link,
-                      { to: '/', className: 'blue-text text-darken-2' },
+                      'div',
+                      { className: 'col s6' },
+                      _react2.default.createElement(_ForgetPasswordModal2.default, null)
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'col s6' },
                       _react2.default.createElement(
-                        'b',
+                        'p',
                         null,
-                        'Sign Up'
+                        'Do not have an account?',
+                        _react2.default.createElement(
+                          _reactRouterDom.Link,
+                          { to: '/', className: 'blue-text text-darken-2' },
+                          _react2.default.createElement(
+                            'b',
+                            null,
+                            'Sign Up'
+                          )
+                        )
                       )
                     )
-                  ),
-                  _react2.default.createElement('br', null)
+                  )
                 )
               )
             )
@@ -55416,8 +55874,320 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, { addUserToGroup: _c
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
 
 /***/ }),
-/* 458 */,
-/* 459 */,
+/* 458 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactMaterialize = __webpack_require__(56);
+
+var _reactRouterDom = __webpack_require__(17);
+
+var _queryString = __webpack_require__(351);
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
+var _TextFieldGroup = __webpack_require__(51);
+
+var _TextFieldGroup2 = _interopRequireDefault(_TextFieldGroup);
+
+var _reactRedux = __webpack_require__(15);
+
+var _authActions = __webpack_require__(82);
+
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reset_password = __webpack_require__(473);
+
+var _FlashMessagesList = __webpack_require__(65);
+
+var _FlashMessagesList2 = _interopRequireDefault(_FlashMessagesList);
+
+var _forgotPasswordAction = __webpack_require__(115);
+
+var _flashMessages = __webpack_require__(41);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ResetPasswordForm = function (_React$Component) {
+  _inherits(ResetPasswordForm, _React$Component);
+
+  function ResetPasswordForm(props) {
+    _classCallCheck(this, ResetPasswordForm);
+
+    var _this = _possibleConstructorReturn(this, (ResetPasswordForm.__proto__ || Object.getPrototypeOf(ResetPasswordForm)).call(this, props));
+
+    _this.state = {
+      newPassword: '',
+      confirmNewPassword: '',
+      errors: {}
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(ResetPasswordForm, [{
+    key: 'isValid',
+    value: function isValid() {
+      var _validateInput = (0, _reset_password.validateInput)(this.state),
+          errors = _validateInput.errors,
+          isValid = _validateInput.isValid;
+
+      if (!isValid) {
+        this.setState({ errors: errors });
+      }
+      return isValid;
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      if (this.isValid()) {
+        var query = _queryString2.default.parse(this.props.location.search);
+        var email = query.email;
+        this.setState({ errors: {} });
+        if (this.state.newPassword === this.state.confirmNewPassword) {
+          this.props.resetPassword(this.state.newPassword, email).then(function (res) {
+            return _this2.context.router.history.push('/login');
+          }, function (err) {
+            return _this2.setState({
+              errors: err.data.errors,
+              newPassword: '',
+              confirmNewPassword: ''
+            });
+          });
+        } else {
+          this.props.addFlashMessage({
+            type: 'error',
+            text: 'Password does not Match'
+          });
+        }
+      }
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state = this.state,
+          errors = _state.errors,
+          newPassword = _state.newPassword,
+          confirmNewPassword = _state.confirmNewPassword,
+          addFlashMessage = _state.addFlashMessage;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'section',
+          { classID: 'wrapper', className: 'resetPasswordForm' },
+          _react2.default.createElement(
+            'div',
+            { className: 'wrapper_cen2' },
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'col s12 m12 l12 reg_form' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'reg_form_cen' },
+                  _react2.default.createElement(
+                    'h4',
+                    null,
+                    'Reset Password'
+                  ),
+                  _react2.default.createElement(_FlashMessagesList2.default, null),
+                  _react2.default.createElement(
+                    'form',
+                    { className: 'col s12', onSubmit: this.handleSubmit },
+                    errors.form && _react2.default.createElement(
+                      'div',
+                      { className: 'alert alert-danger' },
+                      errors.form
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: '' },
+                      _react2.default.createElement(_TextFieldGroup2.default, {
+                        error: errors.newPassword,
+                        label: 'New Password',
+                        field: 'newPassword',
+                        onChange: this.handleChange,
+                        value: newPassword,
+                        type: 'password'
+                      }),
+                      _react2.default.createElement(_TextFieldGroup2.default, {
+                        error: errors.confirmNewPassword,
+                        label: 'Confirm New Password',
+                        field: 'confirmNewPassword',
+                        value: confirmNewPassword,
+                        onChange: this.handleChange,
+                        type: 'password'
+                      }),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'input-field col s12' },
+                        _react2.default.createElement(
+                          'button',
+                          { className: 'btn waves-effect waves-light', type: 'submit', name: 'action' },
+                          'Submit',
+                          _react2.default.createElement(
+                            'i',
+                            { className: 'material-icons right' },
+                            'send'
+                          )
+                        ),
+                        _react2.default.createElement('br', null),
+                        _react2.default.createElement('br', null)
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ResetPasswordForm;
+}(_react2.default.Component);
+
+ResetPasswordForm.propTypes = {
+  resetPassword: _propTypes2.default.func.isRequired
+};
+
+ResetPasswordForm.contextTypes = {
+  router: _propTypes2.default.object.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(null, { resetPassword: _forgotPasswordAction.resetPassword, addFlashMessage: _flashMessages.addFlashMessage })((0, _reactRouterDom.withRouter)(ResetPasswordForm));
+
+/***/ }),
+/* 459 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(console) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _queryString = __webpack_require__(351);
+
+var _queryString2 = _interopRequireDefault(_queryString);
+
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRedux = __webpack_require__(15);
+
+var _ResetPasswordForm = __webpack_require__(458);
+
+var _ResetPasswordForm2 = _interopRequireDefault(_ResetPasswordForm);
+
+var _forgotPasswordAction = __webpack_require__(115);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ResetPasswordPage = function (_React$Component) {
+  _inherits(ResetPasswordPage, _React$Component);
+
+  function ResetPasswordPage(props) {
+    _classCallCheck(this, ResetPasswordPage);
+
+    var _this = _possibleConstructorReturn(this, (ResetPasswordPage.__proto__ || Object.getPrototypeOf(ResetPasswordPage)).call(this, props));
+
+    _this.state = {
+      ok: false
+    };
+    return _this;
+  }
+
+  _createClass(ResetPasswordPage, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var query = _queryString2.default.parse(this.props.location.search);
+      var token = query.token;
+      var email = query.email;
+      console.log(token);
+      this.props.checkToken(token, email).then(function () {
+        _this2.setState({
+          ok: true
+        });
+      }, function () {
+        //
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      console.log(this.props);
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.state.ok && _react2.default.createElement(_ResetPasswordForm2.default, null)
+      );
+    }
+  }]);
+
+  return ResetPasswordPage;
+}(_react2.default.Component);
+
+ResetPasswordPage.propTypes = {
+  checkToken: _propTypes2.default.func.isRequired
+};
+
+exports.default = (0, _reactRedux.connect)(null, { checkToken: _forgotPasswordAction.checkToken })(ResetPasswordPage);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
+
+/***/ }),
 /* 460 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -55801,10 +56571,6 @@ var _reactDom = __webpack_require__(113);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _index = __webpack_require__(912);
-
-var _index2 = _interopRequireDefault(_index);
-
 var _reactRedux = __webpack_require__(15);
 
 var _reduxThunk = __webpack_require__(414);
@@ -56176,7 +56942,28 @@ exports.validateInput = function (data) {
 };
 
 /***/ }),
-/* 471 */,
+/* 471 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Validator = __webpack_require__(61);
+var isEmpty = __webpack_require__(39);
+
+exports.validateInput = function (data) {
+  var errors = {};
+  if (Validator.isEmpty(data.email)) {
+    errors.email = 'This field is required';
+  }
+
+  return {
+    errors: errors,
+    isValid: isEmpty(errors)
+  };
+};
+
+/***/ }),
 /* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -56216,7 +57003,31 @@ function validateInput(data) {
 }
 
 /***/ }),
-/* 473 */,
+/* 473 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Validator = __webpack_require__(61);
+var isEmpty = __webpack_require__(39);
+
+exports.validateInput = function (data) {
+  var errors = {};
+  if (Validator.isEmpty(data.newPassword)) {
+    errors.newPassword = 'This field is required';
+  }
+  if (Validator.isEmpty(data.confirmNewPassword)) {
+    errors.confirmNewPassword = 'This field is required';
+  }
+
+  return {
+    errors: errors,
+    isValid: isEmpty(errors)
+  };
+};
+
+/***/ }),
 /* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -58606,7 +59417,107 @@ function now() {
 
 
 /***/ }),
-/* 496 */,
+/* 496 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var token = '%[a-f0-9]{2}';
+var singleMatcher = new RegExp(token, 'gi');
+var multiMatcher = new RegExp('(' + token + ')+', 'gi');
+
+function decodeComponents(components, split) {
+	try {
+		// Try to decode the entire string first
+		return decodeURIComponent(components.join(''));
+	} catch (err) {
+		// Do nothing
+	}
+
+	if (components.length === 1) {
+		return components;
+	}
+
+	split = split || 1;
+
+	// Split the array in 2 parts
+	var left = components.slice(0, split);
+	var right = components.slice(split);
+
+	return Array.prototype.concat.call([], decodeComponents(left), decodeComponents(right));
+}
+
+function decode(input) {
+	try {
+		return decodeURIComponent(input);
+	} catch (err) {
+		var tokens = input.match(singleMatcher);
+
+		for (var i = 1; i < tokens.length; i++) {
+			input = decodeComponents(tokens, i).join('');
+
+			tokens = input.match(singleMatcher);
+		}
+
+		return input;
+	}
+}
+
+function customDecodeURIComponent(input) {
+	// Keep track of all the replacements and prefill the map with the `BOM`
+	var replaceMap = {
+		'%FE%FF': '\uFFFD\uFFFD',
+		'%FF%FE': '\uFFFD\uFFFD'
+	};
+
+	var match = multiMatcher.exec(input);
+	while (match) {
+		try {
+			// Decode as big chunks as possible
+			replaceMap[match[0]] = decodeURIComponent(match[0]);
+		} catch (err) {
+			var result = decode(match[0]);
+
+			if (result !== match[0]) {
+				replaceMap[match[0]] = result;
+			}
+		}
+
+		match = multiMatcher.exec(input);
+	}
+
+	// Add `%C2` at the end of the map to make sure it does not replace the combinator before everything else
+	replaceMap['%C2'] = '\uFFFD';
+
+	var entries = Object.keys(replaceMap);
+
+	for (var i = 0; i < entries.length; i++) {
+		// Replace all decoded components
+		var key = entries[i];
+		input = input.replace(new RegExp(key, 'g'), replaceMap[key]);
+	}
+
+	return input;
+}
+
+module.exports = function (encodedURI) {
+	if (typeof encodedURI !== 'string') {
+		throw new TypeError('Expected `encodedURI` to be of type `string`, got `' + typeof encodedURI + '`');
+	}
+
+	try {
+		encodedURI = encodedURI.replace(/\+/g, ' ');
+
+		// Try the built in decoder first
+		return decodeURIComponent(encodedURI);
+	} catch (err) {
+		// Fallback to a more advanced decoder
+		return customDecodeURIComponent(encodedURI);
+	}
+};
+
+
+/***/ }),
 /* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -91306,7 +92217,19 @@ module.exports = 0;
 
 
 /***/ }),
-/* 845 */,
+/* 845 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = function (str) {
+	return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+		return '%' + c.charCodeAt(0).toString(16).toUpperCase();
+	});
+};
+
+
+/***/ }),
 /* 846 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -94334,57 +95257,6 @@ exports.createContext = Script.createContext = function (context) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
-
-/***/ }),
-/* 912 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(913);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(847)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!./index.css", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!./index.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 913 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(494)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "@font-face {\n  font-family: 'Oswald';\n  font-style: normal;\n  font-weight: 400;\n  src: url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf'); /* IE9 Compat Modes */\n  src: local('Oswald'), local('Oswald'),\n    url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf') format('truetype'), /* Safari, Android, iOS */\n    /* url('../fonts/open-sans-v13-latin-regular.eot?#iefix') format('embedded-opentype'), IE6-IE8\n    url('../fonts/open-sans-v13-latin-regular.woff2') format('woff2'), /* Super Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.woff') format('woff'), /* Modern Browsers\n    url('../fonts/open-sans-v13-latin-regular.svg#OpenSans') format('svg'); Legacy iOS */\n}\n\nbody{\n  font-family: 'Oswald', sans-serif;\n  margin: 0;\n  overflow-x: hidden;\n  color: #686868;\n  font-weight: 300;\n}\n/*\nhtml,body,.container{\n  height:100%;}*/\n\na{\n  color: #000000;\n}\n\n.login-register {\nbackground: url(" + __webpack_require__(914) + ") no-repeat center center / cover !important;\nheight: 100%;\nwidth: 100%;\nposition: fixed;}\n\n#wrapper {\n  width: 100%; }\n\n.wrapper_cen{\nwidth: 850px;\nmargin: 5% auto;}\n\n.wrapper_cen2{\nwidth: 850px;\nmargin: 10% auto;}\n\n.welcome{\n  color: #ffffff;\n  margin-top: 5%;}\n\n  .stay_up{\n    margin-top: 0!important;}\n\n.welcome h1{\n  color: #ffffff;\n  font-size: 40px;\n  font-weight: bold;\n  margin-bottom: 30px;}\n\n.welcome p{\n  font-size: 18px;\n  padding: 0;\n  line-height: 19px;\n  margin-bottom: 30px;}\n\n.my_btn {\n    display: inline-block;\n    font-weight: bold;\n    line-height: 1.25;\n    text-align: center;\n    white-space: nowrap;\n    vertical-align: middle;\n    user-select: none;\n    position: relative;}\n\n.btn-white {\n    color: #fff;}\n\n.btn-border {\n    border: solid 2px;}\n\n.btn-md {\n    padding: 1rem 3.5rem;\n    font-size: 1rem;\n    border-radius: 0.3rem;}\n\n.reg_form_cen{\n  width: 350px;\n  margin: 0 auto;\n  background-color: #ffffff;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  padding-bottom: 3%;\n  padding-top: 3%;}\n\n.reg_form_cen h4{\n  padding: 0px;\n  color: #686868;\n  font-size: 18px;\n  text-align: center;\n  font-weight: bold;}\n\n.reg_form_cen form{\n  margin-left: 13.5%;}\n\n.reg_form_cen p{\n  color: #686868;\n  font-size: 13px;\n  text-align: center;\n  font-weight: normal;\n}\n\n.reg_form_cen input[type=\"password\"] {\n  width: 300px;}\n\n.reg_form_cen input[type=\"text\"] {\n  width: 300px;}\n\n.btn, .btn:hover {\nbackground-color: #3F4257!important;\nwidth: 200px;\ncolor: #ffffff; }\n\nnav{\n  background-color: #3F4257!important;\n}\n\nnav a{\n  font-size: 40px;\n  padding-left:20px;\n}\n.mycontainer\n{\n  display:table;\n  width: 100%;\n  margin-top: -50px;\n  padding: 50px 0 0 0; /*set left/right padding according to needs*/\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  color: #000000;\n  height: 100%;\n}\n\n.row\n{\n  display: table-row;\n  margin-top: 0px!important;\n}\n.col-md-2 {\n  border-right: 1px #e5e5e5 solid;\n  height: 100vh;\n\n}\n.col-md-10 {\n  background: #EDF2F6!important;\n  height: 100vh;\n  width: 100%;\n}\n#sidebar{\n  background-color: #ffffff;\n}\nul.navbar_sidebar{\n  list-style-type: none;\n  padding-top: 20%;\n}\n\nul.navbar_sidebar li{\n  text-align: left;\n  padding-bottom: 20%;\n  font-size: 18px;\n  margin-left: 0px;\n}\n\nul.navbar_sidebar li a{\n  color: #000000;\n}\n\n.small-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding:90px;\n  text-align:center;\n  margin-right:20px;\n  margin-bottom: 20px;\n\n}\n\n.small-cards img{\n  border-radius:100%;\n  width:120px;\n}\n\n.box{\n  border: 1px solid #000000;\n}\n\n.large-cards{\n  background-color: #ffffff!important;\n  border-radius:5px;\n  padding-left:70px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n  margin-top: 50px;\n}\n\n.large-cards input[type=\"text\"] {\n  width: 320px;}\n\n.large-cards textarea {\n}\n\n.allMessageCard{\n  margin-top: 0px;\n}\n\n#messageBoard {\n  margin-top: 1px;\n}\n\n.message-cards{\n  background-color: #ffffff!important;\n  border-radius: 3px;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-bottom: 20px;\n}\n.message-cards-board{\n  height: 370px;\n  padding-left:30px!important;\n  padding-right:30px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  overflow-y: scroll;\n}\n.message-cards-form{\n  margin-top: 50px;\n  border-top: 1px dotted #E6ECF5;\n  padding: 5px;\n}\n.groupHeader{\n  background-color: #fff !important;\n  padding-left:30px!important;\n  padding-right:30px!important;\n  padding-top:15px!important;\n  padding-bottom:15px!important;\n  text-align:left;\n  margin-right:0px;\n  margin-top: 50px;\n}\n\ninput{\n  color:#000000!important;\n}\n\nfooter form{\n  position: sticky;\n}\n\n.materialize-textarea {\n  height: 100px !important;\n  padding-bottom: 2px !important;\n}\n\n.errorMsg{\n  color: red;\n}\n\n.emptyMessage {\n  margin-left: 20%;\n}\n\n.modal h4 {\n  color: #000000!important;\n}\n\n#message_form {\n  width: 500px;\n\n}\n\n#message_form input {\n  border: 2px solid #717274;\n  border-radius: 7px;\n  padding: 3px;\n\n}\n\n.alert-success {\n    background-color: #dff0d8;\n    border-color: #d0e9c6;\n    color: #3c763d;\n}\n.alert {\n  padding: .75rem 1.25rem;\n  margin-bottom: 1rem;\n  border: 1px solid transparent;\n  border-radius: .25rem;\n}\n\n.alert-danger {\n  background-color: #f2dede;\n  border-color: #ebcccc;\n  color: #a94442;\n}\n\n.close {\n  position: relative;\n  top: -.75rem;\n  right: -1.25rem;\n  padding: .75rem 1.25rem;\n  color: inherit;\n}\n\nbutton.close {\n  padding: 0;\n  cursor: pointer;\n  background: 0 0;\n  border: 0;\n  -webkit-appearance: none;\n}\n.close {\n  float: right;\n  font-size: 1.5rem;\n  font-weight: 700;\n  line-height: 1;\n  color: #000;\n  text-shadow: 0 1px 0 #fff;\n  opacity: .5;\n}\n\n.senderName, .authUser{\n  text-transform: capitalize;\n}\n\n#searchForm{\n  width: 200px;\n}\n\n#searchBar {\n  border: 1px solid #3F4257;\n  border-radius: 3px;\n  background-color: #fff;\n  color: #000;\n  padding: 2px;\n}\n\n.mySelect{\n  margin-top: 18px;\n}\n\n.messageBtn{\n  width:140px !important;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 914 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "e570c60cda6c242107cc132dd912965f.jpg";
 
 /***/ })
 /******/ ]);
