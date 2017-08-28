@@ -33,7 +33,7 @@ export function postMessage(groupId, message) {
 }
 
 /**
- * Fetch all Groups.
+ * Fetch all Messages.
  * @param {Object} groupId - groupdId.
  *@returns {void} - dispatch an action to get all messages to the store.
  */

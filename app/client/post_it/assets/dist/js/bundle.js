@@ -14187,6 +14187,7 @@ var SET_GROUPS = exports.SET_GROUPS = 'SET_GROUPS';
 var ADD_USER_TO_GROUP = exports.ADD_USER_TO_GROUP = 'ADD_USER_TO_GROUP';
 var POST_MESSAGE = exports.POST_MESSAGE = 'POST_MESSAGE';
 var SET_MESSAGES = exports.SET_MESSAGES = 'SET_MESSAGES';
+var SET_GROUP_USERS = exports.SET_GROUP_USERS = 'SET_GROUP_USERS';
 
 /***/ }),
 /* 33 */
@@ -18165,8 +18166,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createGroup = createGroup;
 exports.setGroups = setGroups;
+exports.setGroupUsers = setGroupUsers;
 exports.addUserStatus = addUserStatus;
 exports.fetchGroups = fetchGroups;
+exports.fetchGroupUsers = fetchGroupUsers;
 exports.addUserToGroup = addUserToGroup;
 
 var _axios = __webpack_require__(50);
@@ -18178,7 +18181,7 @@ var _types = __webpack_require__(32);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Fetch all Groups.
+ * Creates a Group.
  * @param {Object} group - groups.
  *@returns {group} - returns group.
  */
@@ -18201,9 +18204,22 @@ function setGroups(groups) {
 }
 
 /**
- * Fetch all Groups.
- * @param {Object} status - status.
- *@returns {status} - returns status.
+ * Fetch all Users in a group.
+ * @param {Object} groupUsers - groupUsers.
+ * @returns {groupUsers} - returns groupUsers.
+ */
+function setGroupUsers(groupUsers) {
+  return {
+    type: _types.SET_GROUP_USERS,
+    groupUsers: groupUsers
+  };
+}
+
+/**
+ * Add user to a group.
+ * @param {boolean} status - status.
+ * @param {string} message - message.
+ * @returns {status} - returns status.
  */
 function addUserStatus(status, message) {
   return {
@@ -18215,7 +18231,7 @@ function addUserStatus(status, message) {
 
 /**
  * Fetch all Groups.
- * @returns {res} - The group id and group name.
+ * @returns {void} .
  */
 function fetchGroups() {
   return function (dispatch) {
@@ -18229,14 +18245,31 @@ function fetchGroups() {
 }
 
 /**
- * Add user to a group.
- * @param {Object} groupId - The Id of the group.
- * @param {Object} userID - The Id of the user.
- *@returns {groupId} - The groupId.
+ * Dispatches an action to fetch all users in a group.
+ * @param {Object} groupId - groupdId.
+ * @returns {void} - The group id and group name.
+ */
+function fetchGroupUsers(groupId) {
+  return function (dispatch) {
+    return _axios2.default.get('/api/group/' + groupId + '/messages').then(function (_ref) {
+      var data = _ref.data;
+
+      dispatch(setGroupUsers(data.data));
+    }).catch(function (error) {
+      throw error;
+    });
+  };
+}
+
+/**
+ * Dispatches an action to add user to a group.
+ * @param {integer} groupId - The Id of the group.
+ * @param {user} user - The Id of the group.
+ *@returns {void} - returns void.
  */
 function addUserToGroup(groupId, user) {
   return function (dispatch) {
-    return _axios2.default.post('/api/group/' + groupId + '/user', user).then(function (response) {
+    return _axios2.default.post('/api/group/' + groupId + '/user', user).then(function () {
       dispatch(addUserStatus(true));
     }).catch(function (error) {
       var message = error.data.message;
@@ -51352,6 +51385,10 @@ var _messagesReducer = __webpack_require__(466);
 
 var _messagesReducer2 = _interopRequireDefault(_messagesReducer);
 
+var _groupUsersReducer = __webpack_require__(915);
+
+var _groupUsersReducer2 = _interopRequireDefault(_groupUsersReducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
@@ -51359,6 +51396,7 @@ exports.default = (0, _redux.combineReducers)({
   auth: _auth2.default,
   groups: _groups2.default,
   groupUpdate: _user2.default,
+  groupUsers: _groupUsersReducer2.default,
   messages: _messagesReducer2.default
 });
 
@@ -53694,7 +53732,7 @@ function postMessage(groupId, message) {
 }
 
 /**
- * Fetch all Groups.
+ * Fetch all Messages.
  * @param {Object} groupId - groupdId.
  *@returns {void} - dispatch an action to get all messages to the store.
  */
@@ -95254,6 +95292,38 @@ exports.createContext = Script.createContext = function (context) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 912 */,
+/* 913 */,
+/* 914 */,
+/* 915 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _types = __webpack_require__(32);
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var initialState = [];
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  switch (action.type) {
+    case _types.SET_GROUP_USERS:
+      return [].concat(_toConsumableArray(action.groupUsers));
+    default:
+      return state;
+  }
+};
 
 /***/ })
 /******/ ]);

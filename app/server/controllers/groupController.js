@@ -153,3 +153,28 @@ exports.add_user = (req, res) => {
     res.status(401).send({ message: 'username or email is required' });
   }
 };
+
+
+// Method to get all users in a group
+exports.get_users = (req, res) => {
+  // console.log(req.params.id);
+  Group.findAll({
+    where: {
+      id: req.params.id
+    },
+    attributes: ['id'],
+    include: [{
+      model: User,
+      as: 'members',
+      attributes: ['id', 'username'],
+      through: {
+        attributes: []
+      },
+    }],
+  })
+  .then((users) => {
+    res.status(200).send({ status: true,
+      message: 'Successful',
+      data: users });
+  });
+};

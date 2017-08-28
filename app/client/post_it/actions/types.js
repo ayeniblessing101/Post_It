@@ -5,3 +5,4 @@ export const SET_GROUPS = 'SET_GROUPS';
 export const ADD_USER_TO_GROUP = 'ADD_USER_TO_GROUP';
 export const POST_MESSAGE = 'POST_MESSAGE';
 export const SET_MESSAGES = 'SET_MESSAGES';
+export const SET_GROUP_USERS = 'SET_GROUP_USERS';
