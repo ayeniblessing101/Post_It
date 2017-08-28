@@ -15,7 +15,7 @@ export default function sendMail(receivers, messageBody) {
 
   // setup email data with unicode symbols
   const mailOptions = {
-    from: '"Ayeni Blessing 👻" <ayeniblessing@gmail.com>', // sender address
+    from: '"Ayeni Blessing " <ayeniblessing@gmail.com>', // sender address
     to: receivers, // list of receivers
     subject: 'Post It', // Subject line
     text: messageBody, // plain text body
@@ -23,10 +23,10 @@ export default function sendMail(receivers, messageBody) {
   };
 
   // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions, (error, info, res) => {
     if (error) {
-      return console.log(error);
+      return res.send(error);
     }
-    console.log('Message %s sent: %s', info.messageId, info.response);
+    res.send('Message %s sent: %s', info.messageId, info.response);
   });
 }

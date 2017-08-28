@@ -1,4 +1,3 @@
-require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
@@ -7,7 +6,6 @@ const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../../webpack.config');
-
 
 const app = express();
 

@@ -2,7 +2,7 @@ const Group = require('../models').Group;
 const User = require('../models').User;
 
 export default function getGroupUserEmail(id, message, user) {
-  const emailUsers = [];
+  const userPhoneNumbers = [];
   Group.findOne({
     where: {
       id,
@@ -11,14 +11,14 @@ export default function getGroupUserEmail(id, message, user) {
     include: [{
       model: User,
       as: 'members',
-      attributes: ['email', 'phone'],
+      attributes: ['phone'],
       through: { attributes: [] }
     }]
   })
-  .then((email) => {
-    const emails = email.members;
-    emails.map((userEmail) => {
-      emailUsers.push(userEmail.email);
+  .then((phone) => {
+    const phoneNumbers = phone.members;
+    phoneNumbers.map((phoneNumber) => {
+      userPhoneNumbers.push(phoneNumber.phone);
     });
   });
   return {
@@ -32,6 +32,6 @@ export default function getGroupUserEmail(id, message, user) {
         username: user.username
       }
     },
-    emailUsers,
+    userPhoneNumbers,
   };
 }
