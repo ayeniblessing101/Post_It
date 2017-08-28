@@ -25,7 +25,7 @@ export const getAllMessages = messages => (
  */
 export function postMessage(groupId, message) {
   return dispatch => (
-    axios.post(`/api/group/${groupId}/message`, { message })
+    axios.post(`/api/group/${groupId}/message`, message)
     .then(({ data }) => {
       dispatch(postMessageStatus(data.data));
     })

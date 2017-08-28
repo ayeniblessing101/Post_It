@@ -14,6 +14,9 @@ module.exports = {
       priority_level: {
         type: Sequelize.STRING
       },
+      message_status: {
+        type: Sequelize.STRING
+      },
       group_id: {
         type: Sequelize.INTEGER,
         references: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Textarea } from 'react-materialize';
+import { Textarea, Span } from 'react-materialize';
 import moment from 'moment';
 import { getMessages, postMessage } from '../../actions/messageActions';
 
@@ -13,7 +13,8 @@ class MessageForm extends React.Component{
     super(props);
     this.state = {
       messages: this.props.messages,
-      message: ''
+      message: '',
+      priority: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -27,9 +28,14 @@ class MessageForm extends React.Component{
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.postMessage(this.props.groupId, this.state.message);
+    // console.log('here',this.state.message);
+    this.props.postMessage(this.props.groupId, {
+      message: this.state.message,
+      priority: this.state.priority
+    });
     this.setState({
-      message: ''
+      message: '',
+      priority: ''
     });
   }
 
@@ -55,7 +61,9 @@ class MessageForm extends React.Component{
       if(id === groupId){
         groupName = group_name;
       }
-    })
+    });
+    let priority_level = '';
+
     return (
       <div>
         <div className="col s12 m4 l6 message-cards">
@@ -69,7 +77,12 @@ class MessageForm extends React.Component{
                   <span className="right">
                     { moment(message.createdAt, moment.ISO_8601).fromNow() }
                   </span>
-                  <p>{message.message_body}</p>
+                  <p>
+                    {message.message_body}
+                   <span className="new badge red"
+                      data-badge-caption={message.priority_level}>
+                    </span>
+                  </p>
                   <hr/><br/>
                 </div>
               ))
@@ -91,12 +104,13 @@ class MessageForm extends React.Component{
               <div className="col s4 mySelect">
                 <select
                   className="browser-default"
-                  value={this.state.value}
+                  value={this.state.priority}
+                  name="priority"
                   onChange={this.handleChange}>
                   <option value="" disabled selected>Select Priority</option>
-                  <option value="1">Normal</option>
-                  <option value="2">Critical</option>
-                  <option value="3">Urgent</option>
+                  <option value="Normal">Normal</option>
+                  <option value="Critical">Critical</option>
+                  <option value="Urgent">Urgent</option>
                 </select>
                 <br></br>
                 <button className="btn messageBtn" type="submit">

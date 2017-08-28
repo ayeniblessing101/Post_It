@@ -262,7 +262,7 @@ exports.resetPassword = (req, res) => {
     .then((newUser) => {
       res.status(200).send({
         message: 'Password updated succesfully'
-      })
-    })
+      });
+    });
   });
 };

@@ -17,15 +17,12 @@ class MessagePage extends React.Component {
 
   componentWillMount() {
     const groupId  = this.props.match.params.id;
-    console.log(this.props)
-    // console.log('groupId', groupId);
     this.setState({
       groupId
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if(this.state.statusMessage !== nextProps.message){
       this.setState({
         statusMessage: nextProps.message

@@ -53685,7 +53685,7 @@ var getAllMessages = exports.getAllMessages = function getAllMessages(messages) 
  */
 function postMessage(groupId, message) {
   return function (dispatch) {
-    return _axios2.default.post('/api/group/' + groupId + '/message', { message: message }).then(function (_ref) {
+    return _axios2.default.post('/api/group/' + groupId + '/message', message).then(function (_ref) {
       var data = _ref.data;
 
       dispatch(postMessageStatus(data.data));
@@ -55148,7 +55148,7 @@ exports.default = (0, _reactRedux.connect)(null, { addFlashMessage: _flashMessag
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(console) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -55170,6 +55170,8 @@ var _reactRedux = __webpack_require__(15);
 
 var _creategroupActions = __webpack_require__(64);
 
+var _messageActions = __webpack_require__(440);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -55190,7 +55192,8 @@ var AllGroups = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (AllGroups.__proto__ || Object.getPrototypeOf(AllGroups)).call(this, props));
 
     _this.state = {
-      groups: _this.props.groups
+      groups: _this.props.groups,
+      messages: _this.props.messages
     };
     return _this;
   }
@@ -55199,18 +55202,22 @@ var AllGroups = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.fetchGroups();
+      this.props.getMessages(this.state.groupId);
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState({
-        groups: nextProps.groups
+        groups: nextProps.groups,
+        messages: nextProps.messages
       });
     }
   }, {
     key: 'render',
     value: function render() {
       var groups = this.state.groups;
+      console.log(this.state.messages);
+      var allNewMessages = this.state.messages.length;
       return _react2.default.createElement(
         'div',
         null,
@@ -55233,7 +55240,7 @@ var AllGroups = function (_React$Component) {
                   _react2.default.createElement(
                     'span',
                     { className: 'new badge red' },
-                    '4'
+                    allNewMessages
                   ),
                   _react2.default.createElement(
                     'i',
@@ -55259,11 +55266,13 @@ var AllGroups = function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    groups: state.groups
+    groups: state.groups,
+    messages: state.messages
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchGroups: _creategroupActions.fetchGroups })(AllGroups);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchGroups: _creategroupActions.fetchGroups, getMessages: _messageActions.getMessages })(AllGroups);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
 
 /***/ }),
 /* 454 */
@@ -55431,8 +55440,6 @@ var _AllUsers2 = _interopRequireDefault(_AllUsers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -55448,29 +55455,12 @@ var MessageBoard = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (MessageBoard.__proto__ || Object.getPrototypeOf(MessageBoard)).call(this, props));
 
     _this.state = {
-      groups: _this.props.groups,
-      message: ''
+      groups: _this.props.groups
     };
-    _this.handleSubmit = _this.handleSubmit.bind(_this);
-    _this.handleChange = _this.handleChange.bind(_this);
     return _this;
   }
 
   _createClass(MessageBoard, [{
-    key: 'handleChange',
-    value: function handleChange(e) {
-      this.setState(_defineProperty({}, e.target.name, e.target.value));
-    }
-  }, {
-    key: 'handleSubmit',
-    value: function handleSubmit(e) {
-      e.preventDefault();
-      this.props.postMessage(this.props.selectedGroupId, this.state.message);
-      this.setState({
-        message: ''
-      });
-    }
-  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState({
@@ -55574,7 +55564,8 @@ var MessageForm = function (_React$Component) {
 
     _this.state = {
       messages: _this.props.messages,
-      message: ''
+      message: '',
+      priority: ''
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
@@ -55590,9 +55581,14 @@ var MessageForm = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
-      this.props.postMessage(this.props.groupId, this.state.message);
+      // console.log('here',this.state.message);
+      this.props.postMessage(this.props.groupId, {
+        message: this.state.message,
+        priority: this.state.priority
+      });
       this.setState({
-        message: ''
+        message: '',
+        priority: ''
       });
     }
   }, {
@@ -55626,6 +55622,8 @@ var MessageForm = function (_React$Component) {
           groupName = group_name;
         }
       });
+      var priority_level = '';
+
       return _react2.default.createElement(
         'div',
         null,
@@ -55657,7 +55655,9 @@ var MessageForm = function (_React$Component) {
                 _react2.default.createElement(
                   'p',
                   null,
-                  message.message_body
+                  message.message_body,
+                  _react2.default.createElement('span', { className: 'new badge red',
+                    'data-badge-caption': message.priority_level })
                 ),
                 _react2.default.createElement('hr', null),
                 _react2.default.createElement('br', null)
@@ -55690,7 +55690,8 @@ var MessageForm = function (_React$Component) {
                   'select',
                   {
                     className: 'browser-default',
-                    value: this.state.value,
+                    value: this.state.priority,
+                    name: 'priority',
                     onChange: this.handleChange },
                   _react2.default.createElement(
                     'option',
@@ -55699,17 +55700,17 @@ var MessageForm = function (_React$Component) {
                   ),
                   _react2.default.createElement(
                     'option',
-                    { value: '1' },
+                    { value: 'Normal' },
                     'Normal'
                   ),
                   _react2.default.createElement(
                     'option',
-                    { value: '2' },
+                    { value: 'Critical' },
                     'Critical'
                   ),
                   _react2.default.createElement(
                     'option',
-                    { value: '3' },
+                    { value: 'Urgent' },
                     'Urgent'
                   )
                 ),
@@ -55748,7 +55749,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, { getMessages: _mess
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(console) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -55806,8 +55807,6 @@ var MessagePage = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       var groupId = this.props.match.params.id;
-      console.log(this.props);
-      // console.log('groupId', groupId);
       this.setState({
         groupId: groupId
       });
@@ -55815,7 +55814,6 @@ var MessagePage = function (_React$Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      console.log(nextProps);
       if (this.state.statusMessage !== nextProps.message) {
         this.setState({
           statusMessage: nextProps.message
@@ -55871,7 +55869,6 @@ function mapStateToProps(state, props) {
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, { addUserToGroup: _creategroupActions.addUserToGroup })(MessagePage);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
 
 /***/ }),
 /* 458 */

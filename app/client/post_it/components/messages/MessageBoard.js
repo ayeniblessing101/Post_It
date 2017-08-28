@@ -12,24 +12,7 @@ class MessageBoard extends React.Component{
     super(props);
     this.state = {
       groups: this.props.groups,
-      message: ''
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.postMessage(this.props.selectedGroupId, this.state.message);
-    this.setState({
-      message: ''
-    });
   }
 
   componentWillReceiveProps(nextProps) {
