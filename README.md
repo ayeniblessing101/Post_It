@@ -1,6 +1,5 @@
 # Post_It
 [![Build Status](https://travis-ci.org/ayeniblessing101/Post_It.svg?branch=development)](https://travis-ci.org/ayeniblessing101/Post_It)
-[![Coverage Status](https://coveralls.io/repos/github/ayeniblessing101/Post_It/badge.svg?branch=development)](https://coveralls.io/github/ayeniblessing101/Post_It?branch=development)
 [![Test Coverage](https://codeclimate.com/github/ayeniblessing101/Post_It/badges/coverage.svg)](https://codeclimate.com/github/ayeniblessing101/Post_It/coverage)
 [![Code Climate](https://codeclimate.com/github/ayeniblessing101/Post_It/badges/gpa.svg)](https://codeclimate.com/github/ayeniblessing101/Post_It)
 
@@ -19,7 +18,6 @@ This directory holds all routes, controllers, middleware, migrations
 
 ## Deployment
 
-This Project is deployed on Heroku
 
 ## Built With
 
@@ -46,8 +44,10 @@ I used [Git](https://git-scm.com/) for versioning. For the versions available, s
 ## Getting Started
 
 * git clone https://github.com/ayeniblessing101/Post_It.git
-* cd into the app directory
-* Run `npm install` to get started
+* Run `npm install` to install all packages
+* Run `sequelize db:migrate` to run pending migrations
+* Run `npm start` to start application
+* type localhost:3000 in browser to access application
 
 ## Folder Structure
 
@@ -125,4 +125,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * Font Awesome
 * Bootstrap
-*
+* Redux
+* React
+* Materialize css
