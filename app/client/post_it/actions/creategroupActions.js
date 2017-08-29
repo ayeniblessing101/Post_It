@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_GROUPS, ADD_USER_TO_GROUP, SET_GROUP_USERS } from './types';
+import { SET_GROUPS, ADD_USER_TO_GROUP } from './types';
 
 /**
  * Creates a Group.
@@ -29,12 +29,12 @@ export function setGroups(groups) {
  * @param {Object} groupUsers - groupUsers.
  * @returns {groupUsers} - returns groupUsers.
  */
-export function setGroupUsers(groupUsers) {
-  return {
-    type: SET_GROUP_USERS,
-    groupUsers
-  };
-}
+// export function setGroupUsers(groupUsers) {
+//   return {
+//     type: SET_GROUP_USERS,
+//     groupUsers
+//   };
+// }
 
 /**
  * Add user to a group.
@@ -70,16 +70,16 @@ export function fetchGroups() {
  * @param {Object} groupId - groupdId.
  * @returns {void} - The group id and group name.
  */
-export function fetchGroupUsers(groupId) {
-  return dispatch => (
-    axios.get(`/api/group/${groupId}/messages`)
-    .then(({ data }) => {
-      dispatch(setGroupUsers(data.data));
-    }).catch((error) => {
-      throw (error);
-    })
-  );
-}
+// export function fetchGroupUsers(groupId) {
+//   return dispatch => (
+//     axios.get(`/api/group/${groupId}/user`)
+//     .then(({ data }) => {
+//       dispatch(setGroupUsers(data.data));
+//     }).catch((error) => {
+//       throw (error);
+//     })
+//   );
+// }
 
 /**
  * Dispatches an action to add user to a group.

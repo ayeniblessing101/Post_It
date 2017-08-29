@@ -39,12 +39,19 @@ class MessageForm extends React.Component{
     });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getMessages(this.props.groupId);
     $(document).ready(function() {
       $('select').material_select();
     });
   }
+
+  // componentDidMount() {
+  //   // console.log('this.props.groupId', this.props.groupId);
+  //   $(document).ready(function() {
+  //     $('select').material_select();
+  //   });
+  // }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -52,7 +59,6 @@ class MessageForm extends React.Component{
     });
   }
   render(){
-    // console.log(this.props.group);
     const { group } = this.props;
     const groupId = parseInt(this.props.groupId, 10);
     let groupName = 'No Group Found';

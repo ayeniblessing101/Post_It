@@ -42,7 +42,7 @@ class MessageBoard extends React.Component{
               <MessageForm
                 groupId={selectedGroupId}
               />
-              <AllUsers />
+              <AllUsers/>
             </div>
           </div>
         </div>

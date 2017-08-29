@@ -76,7 +76,7 @@ exports.get_messages = (req, res) => {
     where: {
       $and: [{ group_id: req.params.id }, { message_status: 'unread' }]
     },
-    attributes: ['id', 'message_body', 'priority_level', 'createdAt'],
+    attributes: ['id', 'message_body', 'priority_level', 'group_id', 'createdAt'],
     include: [{
       model: User,
       attributes: ['id', 'username', 'email'],
