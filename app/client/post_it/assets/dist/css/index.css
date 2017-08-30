@@ -114,7 +114,7 @@ margin: 10% auto;}
 .reg_form_cen form{
   margin-left: 13.5%;}
 
-  
+
 .reg_form_cen p{
   color: #686868;
   font-size: 13px;
@@ -197,6 +197,10 @@ ul.navbar_sidebar li a{
 
 }
 
+.add_user{
+  float: right;
+  margin-right: 1.2%;
+}
 .small-cards img{
   border-radius:100%;
   width:120px;
@@ -370,4 +374,8 @@ button.close {
 
 .forgotPassword{
   cursor: pointer;
+}
+
+.groupName, .groupNames, .userNames {
+  text-transform: capitalize;
 }

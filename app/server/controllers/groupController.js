@@ -1,11 +1,10 @@
 import Validator from 'validator';
-import Sequelize from 'sequelize';
+
 const isEmpty = require('lodash/isEmpty');
 // const commonValidations = require('../shared/validations/addgroup');
 const User = require('../models').User;
 const Group = require('../models').Group;
 const GroupUser = require('../models').GroupUser;
-const Message = require('../models').Message;
 
 exports.create_group = (req, res) => {
   /**
@@ -160,7 +159,7 @@ exports.add_user = (req, res) => {
 // Method to get all users in a group
 exports.get_users = (req, res) => {
   // console.log(req.params.id);
-  Group.findAll({
+  Group.findOne({
     where: {
       id: req.params.id
     },

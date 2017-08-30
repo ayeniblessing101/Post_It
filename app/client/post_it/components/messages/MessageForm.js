@@ -74,7 +74,7 @@ class MessageForm extends React.Component{
       <div>
         <div className="col s12 m4 l6 message-cards">
           <div className="message-cards-board">
-            <h5>{groupName}</h5>
+            <h5 className="groupName">{groupName}</h5>
             {
               this.state.messages.map(message => (
                 <div key={message.id}>
