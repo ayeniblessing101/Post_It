@@ -34,7 +34,7 @@ export function postMessage(groupId, message) {
 
 /**
  * Fetch all Messages.
- * @param {Object} groupId - groupdId.
+ * @param {Integer} groupId - groupdId.
  *@returns {void} - dispatch an action to get all messages to the store.
  */
 export function getMessages(groupId) {

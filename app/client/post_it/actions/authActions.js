@@ -17,7 +17,7 @@ export function setCurrentUser(user) {
 
 /**
  * Handles Logout Request.
- * @returns {token} - removes token.
+ * @returns {void} .
  */
 export function logout() {
   return (dispatch) => {

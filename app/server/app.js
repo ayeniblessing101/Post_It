@@ -35,10 +35,8 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// app.use(historyApiFallback({
-//   verbose: true
-// }));
 
-app.listen(3000, () => console.log('Running on localhost:3000'));
+app.set('port', process.env.PORT || 3000);
+app.listen(app.get('port'), () => console.log('Running on localhost:3000'));
 
 module.exports = app;

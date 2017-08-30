@@ -1,31 +1,49 @@
 
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   devtool: 'source-map',
   entry:
     path.join(__dirname, 'app/client/post_it/index.js'),
   output: {
-    path: path.join(__dirname, '/app/client/post_it/assets/dist/js'),
-    // path: path.resolve(__dirname, 'client'),
+    path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
+    publicPath: '/public/'
   },
+  plugins: [
+    // identifies any duplicate files and de-duplicate them in output
+    new webpack.optimize.DedupePlugin(),
+    // minifies the output of js chunks
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      compress: {
+        warnings: false
+      }
+    }),
+    // allow me to create global constants at compile time
+    new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify('production'),
+          API_HOST: 'https://blessing-post-it.herokuapp.com'
+        }
+    })
+  ],
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         include: [
           path.join(__dirname, 'app/client'),
           path.join(__dirname, 'app/server/shared')
         ],
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        query: {
-          presets: ['react', 'es2015'],
-        },
+        loaders: ['babel-loader'],
+        exclude: /node_modules/
       },
       { test: /\.css$/, loaders: ['style-loader', 'css-loader'] },
+      { test: /\.scss?$/,
+        loader: 'style!css!sass',
+      },
       {
         test: /\.ico$/,
         loader: 'url-loader',
@@ -37,7 +55,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.css']
+    extensions: ['.js', '.css']
   },
   node: {
     console: true,
@@ -46,10 +64,6 @@ module.exports = {
     tls: 'empty',
     dns: 'empty'
   }
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     template: './app/client/post_it/index.html'
-  //   })
-  // ]
+
 
 };

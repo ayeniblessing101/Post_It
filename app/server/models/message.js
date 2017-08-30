@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
     message_body: DataTypes.TEXT,
     priority_level: DataTypes.STRING,
-    read_by: DataTypes.ARRAY(DataTypes.INTEGER),
     group_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER
   });

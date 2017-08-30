@@ -14,9 +14,6 @@ module.exports = {
       priority_level: {
         type: Sequelize.STRING
       },
-      read_by: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER)
-      },
       group_id: {
         type: Sequelize.INTEGER,
         references: {

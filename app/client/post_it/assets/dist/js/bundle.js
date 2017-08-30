@@ -4534,7 +4534,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14), __webpack_require__(81)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15), __webpack_require__(81)(module)))
 
 /***/ }),
 /* 1 */
@@ -6721,7 +6721,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 8 */
@@ -10585,6 +10585,25 @@ module.exports = ReactDOMComponentTree;
 
 /***/ }),
 /* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(780);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(379);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(781);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global window, global*/
@@ -10675,25 +10694,6 @@ function consoleAssert(expression) {
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22)))
-
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Provider__ = __webpack_require__(780);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__ = __webpack_require__(379);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__connect_connect__ = __webpack_require__(781);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Provider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createProvider", function() { return __WEBPACK_IMPORTED_MODULE_0__components_Provider__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connectAdvanced", function() { return __WEBPACK_IMPORTED_MODULE_1__components_connectAdvanced__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "connect", function() { return __WEBPACK_IMPORTED_MODULE_2__connect_connect__["a"]; });
-
-
-
-
-
 
 /***/ }),
 /* 16 */
@@ -11856,7 +11856,7 @@ exports.shallow = function (source) {
     return target;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).Buffer, __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).Buffer, __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 21 */
@@ -12241,7 +12241,7 @@ var ReactComponentTreeHook = {
 };
 
 module.exports = ReactComponentTreeHook;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 22 */
@@ -14153,7 +14153,7 @@ var ReactUpdates = {
 };
 
 module.exports = ReactUpdates;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 32 */
@@ -15305,7 +15305,7 @@ var _types = __webpack_require__(28);
 
 /**
  * Add Flash Message.
- * @param {Object} message - groups.
+ * @param {String} message - groups.
  * @returns {void} - .
  */
 function addFlashMessage(message) {
@@ -15317,7 +15317,7 @@ function addFlashMessage(message) {
 
 /**
  * Deletes flash message.
- * @param {Object} id - groups.
+ * @param {Integer} id - FlashMessage Id.
  * @returns {void} - id.
  */
 function deleteFlashMessage(id) {
@@ -16613,7 +16613,7 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22), __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22), __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 49 */
@@ -16681,7 +16681,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 50 */
@@ -18182,8 +18182,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /**
  * Creates a Group.
- * @param {Object} group - groups.
- *@returns {group} - returns group.
+ * @param {Array} group - groups.
+ *@returns {createGroup} - returns the createGroup function to perform asyn dispatch.
  */
 function createGroup(group) {
   return function (dispatch) {
@@ -18193,7 +18193,7 @@ function createGroup(group) {
 
 /**
  * Fetch all Groups.
- * @param {Object} groups - groups.
+ * @param {Array} groups - groups.
  *@returns {groups} - returns group.
  */
 function setGroups(groups) {
@@ -18205,7 +18205,7 @@ function setGroups(groups) {
 
 /**
  * Fetch all Users in a group.
- * @param {Object} groupUsers - groupUsers.
+ * @param {Array} groupUsers - groupUsers.
  * @returns {groupUsers} - returns groupUsers.
  */
 function setGroupUsers(groupUsers) {
@@ -18217,9 +18217,10 @@ function setGroupUsers(groupUsers) {
 
 /**
  * Add user to a group.
- * @param {boolean} status - status.
+ * @param {Boolean} status - status.
  * @param {string} message - message.
  * @returns {status} - returns status.
+ * @returns {message} - returns message.
  */
 function addUserStatus(status, message) {
   return {
@@ -18246,7 +18247,7 @@ function fetchGroups() {
 
 /**
  * Dispatches an action to fetch all users in a group.
- * @param {Object} groupId - groupdId.
+ * @param {Integer} groupId - groupdId.
  * @returns {void} - The group id and group name.
  */
 function fetchGroupUsers(groupId) {
@@ -18264,7 +18265,7 @@ function fetchGroupUsers(groupId) {
 /**
  * Dispatches an action to add user to a group.
  * @param {integer} groupId - The Id of the group.
- * @param {user} user - The Id of the group.
+ * @param {String} user - The username.
  *@returns {void} - returns void.
  */
 function addUserToGroup(groupId, user) {
@@ -18299,7 +18300,7 @@ var _FlashMessage = __webpack_require__(448);
 
 var _FlashMessage2 = _interopRequireDefault(_FlashMessage);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _propTypes = __webpack_require__(3);
 
@@ -19602,7 +19603,7 @@ function setCurrentUser(user) {
 
 /**
  * Handles Logout Request.
- * @returns {token} - removes token.
+ * @returns {void} .
  */
 function logout() {
   return function (dispatch) {
@@ -19647,7 +19648,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(17);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _propTypes = __webpack_require__(3);
 
@@ -22758,7 +22759,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 120 */
@@ -25918,7 +25919,7 @@ function warning(message) {
   } catch (e) {}
   /* eslint-enable no-empty */
 }
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(15)))
 
 /***/ }),
 /* 154 */
@@ -26183,7 +26184,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = lowPriorityWarning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 157 */
@@ -28379,7 +28380,7 @@ function postMessage(groupId, message) {
 
 /**
  * Fetch all Messages.
- * @param {Object} groupId - groupdId.
+ * @param {Integer} groupId - groupdId.
  *@returns {void} - dispatch an action to get all messages to the store.
  */
 function getMessages(groupId) {
@@ -29130,7 +29131,7 @@ var EventListener = {
 };
 
 module.exports = EventListener;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 188 */
@@ -44487,7 +44488,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   return ReactPropTypes;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 349 */
@@ -46313,7 +46314,7 @@ var ReactMount = {
 };
 
 module.exports = ReactMount;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14), __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15), __webpack_require__(1)))
 
 /***/ }),
 /* 363 */
@@ -50404,7 +50405,7 @@ function warning(message) {
   } catch (e) {}
   /* eslint-enable no-empty */
 }
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(15)))
 
 /***/ }),
 /* 397 */
@@ -53921,7 +53922,7 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _TextFieldGroup = __webpack_require__(51);
 
@@ -54356,7 +54357,7 @@ var _Sidebar = __webpack_require__(84);
 
 var _Sidebar2 = _interopRequireDefault(_Sidebar);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _creategroupActions = __webpack_require__(64);
 
@@ -54548,7 +54549,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactMaterialize = __webpack_require__(56);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _TextFieldGroup = __webpack_require__(51);
 
@@ -54722,7 +54723,7 @@ var _TextFieldGroup = __webpack_require__(51);
 
 var _TextFieldGroup2 = _interopRequireDefault(_TextFieldGroup);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _ForgetPasswordModal = __webpack_require__(449);
 
@@ -55032,7 +55033,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactMaterialize = __webpack_require__(56);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _TextFieldGroup = __webpack_require__(51);
 
@@ -55204,7 +55205,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRouterDom = __webpack_require__(17);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _creategroupActions = __webpack_require__(64);
 
@@ -55334,7 +55335,7 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRouterDom = __webpack_require__(17);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _creategroupActions = __webpack_require__(64);
 
@@ -55449,7 +55450,7 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _AddUserModal = __webpack_require__(452);
 
@@ -55565,7 +55566,7 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _reactMaterialize = __webpack_require__(56);
 
@@ -55818,7 +55819,7 @@ var _Sidebar = __webpack_require__(84);
 
 var _Sidebar2 = _interopRequireDefault(_Sidebar);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _creategroupActions = __webpack_require__(64);
 
@@ -55940,7 +55941,7 @@ var _TextFieldGroup = __webpack_require__(51);
 
 var _TextFieldGroup2 = _interopRequireDefault(_TextFieldGroup);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _authActions = __webpack_require__(82);
 
@@ -56156,7 +56157,7 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _ResetPasswordForm = __webpack_require__(458);
 
@@ -56223,7 +56224,7 @@ ResetPasswordPage.propTypes = {
 };
 
 exports.default = (0, _reactRedux.connect)(null, { checkToken: _forgotPasswordAction.checkToken })(ResetPasswordPage);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 460 */
@@ -56535,7 +56536,7 @@ var _SignupForm = __webpack_require__(460);
 
 var _SignupForm2 = _interopRequireDefault(_SignupForm);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _signupActions = __webpack_require__(441);
 
@@ -56609,7 +56610,7 @@ var _reactDom = __webpack_require__(113);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _reduxThunk = __webpack_require__(415);
 
@@ -56695,6 +56696,13 @@ var initialState = {
   isAuthenticated: false,
   user: {}
 };
+
+/**
+ * Sets cuurent user.
+ * @param {Object} state - groupdId.
+ * @param {Object} action - groupdId.
+ * @returns {state} - returns a new state.
+ */
 
 exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -56947,7 +56955,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(15);
+var _reactRedux = __webpack_require__(14);
 
 var _propTypes = __webpack_require__(3);
 
@@ -77320,7 +77328,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = ReactDOM;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(15)))
 
 /***/ }),
 /* 686 */
@@ -93233,7 +93241,7 @@ function config (name) {
   return String(val).toLowerCase() === 'true';
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14), __webpack_require__(22)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15), __webpack_require__(22)))
 
 /***/ }),
 /* 858 */
