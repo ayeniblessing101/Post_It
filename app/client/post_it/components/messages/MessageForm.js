@@ -39,12 +39,19 @@ class MessageForm extends React.Component{
     });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getMessages(this.props.groupId);
     $(document).ready(function() {
       $('select').material_select();
     });
   }
+
+  // componentDidMount() {
+  //   // console.log('this.props.groupId', this.props.groupId);
+  //   $(document).ready(function() {
+  //     $('select').material_select();
+  //   });
+  // }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -52,7 +59,6 @@ class MessageForm extends React.Component{
     });
   }
   render(){
-    // console.log(this.props.group);
     const { group } = this.props;
     const groupId = parseInt(this.props.groupId, 10);
     let groupName = 'No Group Found';
@@ -68,7 +74,7 @@ class MessageForm extends React.Component{
       <div>
         <div className="col s12 m4 l6 message-cards">
           <div className="message-cards-board">
-            <h5>{groupName}</h5>
+            <h5 className="groupName">{groupName}</h5>
             {
               this.state.messages.map(message => (
                 <div key={message.id}>

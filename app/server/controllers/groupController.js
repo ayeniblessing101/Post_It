@@ -1,12 +1,10 @@
 import Validator from 'validator';
 
-
 const isEmpty = require('lodash/isEmpty');
 // const commonValidations = require('../shared/validations/addgroup');
 const User = require('../models').User;
 const Group = require('../models').Group;
 const GroupUser = require('../models').GroupUser;
-// const Message = require('../models').Message;
 
 exports.create_group = (req, res) => {
   /**
@@ -95,8 +93,11 @@ exports.get_groups = (req, res) => {
           }
         }
       },
-      attributes: ['id', 'group_name'],
-      raw: true
+      raw: true,
+      // include: [{
+      //   model: Message,
+      //   attributes: ['id', 'message_body']
+      // }]
     })
     .then((allGroups) => {
       res.status(200).send(allGroups);
@@ -152,4 +153,29 @@ exports.add_user = (req, res) => {
   } else {
     res.status(401).send({ message: 'username or email is required' });
   }
+};
+
+
+// Method to get all users in a group
+exports.get_users = (req, res) => {
+  // console.log(req.params.id);
+  Group.findOne({
+    where: {
+      id: req.params.id
+    },
+    attributes: ['id'],
+    include: [{
+      model: User,
+      as: 'members',
+      attributes: ['id', 'username'],
+      through: {
+        attributes: []
+      },
+    }],
+  })
+  .then((users) => {
+    res.status(200).send({ status: true,
+      message: 'Successful',
+      data: users });
+  });
 };

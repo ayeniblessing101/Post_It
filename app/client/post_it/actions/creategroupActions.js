@@ -1,14 +1,15 @@
 import axios from 'axios';
-import { SET_GROUPS, ADD_USER_TO_GROUP } from './types';
+import { SET_GROUPS, ADD_USER_TO_GROUP, SET_GROUP_USERS } from './types';
+
 /**
- * Fetch all Groups.
+ * Creates a Group.
  * @param {Object} group - groups.
  *@returns {group} - returns group.
  */
 export function createGroup(group) {
-  return dispatch => {
-    return axios.post('/api/group', group);
-  };
+  return dispatch => (
+    axios.post('/api/group', group)
+  );
 }
 
 /**
@@ -24,9 +25,22 @@ export function setGroups(groups) {
 }
 
 /**
- * Fetch all Groups.
- * @param {Object} status - status.
- *@returns {status} - returns status.
+ * Fetch all Users in a group.
+ * @param {Object} groupUsers - groupUsers.
+ * @returns {groupUsers} - returns groupUsers.
+ */
+export function setGroupUsers(groupUsers) {
+  return {
+    type: SET_GROUP_USERS,
+    groupUsers
+  };
+}
+
+/**
+ * Add user to a group.
+ * @param {boolean} status - status.
+ * @param {string} message - message.
+ * @returns {status} - returns status.
  */
 export function addUserStatus(status, message) {
   return {
@@ -38,29 +52,45 @@ export function addUserStatus(status, message) {
 
 /**
  * Fetch all Groups.
- * @returns {res} - The group id and group name.
+ * @returns {void} .
  */
 export function fetchGroups() {
-  return (dispatch) => {
-    return axios.get('/api/groups').then((response) => {
+  return dispatch => (
+    axios.get('/api/groups').then((response) => {
       const groups = response.data;
       dispatch(setGroups(groups));
     }).catch((error) => {
       throw (error);
-    });
-  };
+    })
+  );
 }
 
 /**
- * Add user to a group.
- * @param {Object} groupId - The Id of the group.
- * @param {Object} userID - The Id of the user.
- *@returns {groupId} - The groupId.
+ * Dispatches an action to fetch all users in a group.
+ * @param {Object} groupId - groupdId.
+ * @returns {void} - The group id and group name.
+ */
+export function fetchGroupUsers(groupId) {
+  return dispatch => (
+    axios.get(`/api/group/${groupId}/users`)
+    .then(({ data }) => {
+      dispatch(setGroupUsers(data.data.members));
+    }).catch((error) => {
+      throw (error);
+    })
+  );
+}
+
+/**
+ * Dispatches an action to add user to a group.
+ * @param {integer} groupId - The Id of the group.
+ * @param {user} user - The Id of the group.
+ *@returns {void} - returns void.
  */
 export function addUserToGroup(groupId, user) {
   return dispatch =>
   axios.post(`/api/group/${groupId}/user`, user)
-    .then((response) => {
+    .then(() => {
       dispatch(addUserStatus(true));
     }).catch((error) => {
       const message = error.data.message;

@@ -63,7 +63,7 @@ class AddUserModal extends React.Component{
       <div>
         <Modal
           header='Add User to Group'
-          trigger={<Button>Add User</Button>}>
+          trigger={<Button className="add_user">Add User</Button>}>
           <FlashMessagesList />
           <form onSubmit={this.handleSubmit} >
            { errors.form && <div className="alert alert-danger">{errors.form}</div> }

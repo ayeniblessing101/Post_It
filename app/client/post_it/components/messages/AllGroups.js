@@ -13,13 +13,13 @@ class AllGroups extends React.Component{
     super(props);
     this.state = {
       groups: this.props.groups,
-      messages: this.props.messages
+      // messages: this.props.messages
     }
   }
 
   componentDidMount() {
     this.props.fetchGroups();
-    this.props.getMessages(this.state.groupId);
+    // this.props.getMessages(this.state.groupId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,8 +30,8 @@ class AllGroups extends React.Component{
   }
   render(){
     const groups = this.state.groups;
-    console.log(this.state.messages);
-    const allNewMessages = (this.state.messages).length;
+
+    {/*const allNewMessages = (this.state.messages).length;*/}
     return (
       <div>
         <div className="col s12 m4 l3 ">
@@ -43,9 +43,9 @@ class AllGroups extends React.Component{
               groups.map((group) =>
               <li key={group.id}>
                 <div className="collapsible-header">
-                  <span className="new badge red">{allNewMessages}</span>
+                  <span className="new badge red">3</span>
                   <i className="material-icons">filter_drama</i>
-                  <Link to={'/group/' + group.id} >{group.group_name}</Link>
+                  <Link to={'/group/' + group.id} className="groupNames">{group.group_name}</Link>
                 </div>
               </li>
             )}
@@ -61,4 +61,4 @@ const mapStateToProps = state => ({
   messages: state.messages
 })
 
-export default connect(mapStateToProps, { fetchGroups, getMessages })(AllGroups);
+export default connect(mapStateToProps, { fetchGroups })(AllGroups);
