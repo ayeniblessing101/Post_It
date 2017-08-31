@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-export default function sendMail(receivers, messageBody) {
+function sendMail(receivers, messageBody) {
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -30,3 +30,5 @@ export default function sendMail(receivers, messageBody) {
     res.send('Message %s sent: %s', info.messageId, info.response);
   });
 }
+
+module.exports = sendMail;

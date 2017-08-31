@@ -1,4 +1,4 @@
-import Validator from 'validator';
+const Validator = require('validator');
 
 const isEmpty = require('lodash/isEmpty');
 // const commonValidations = require('../shared/validations/addgroup');

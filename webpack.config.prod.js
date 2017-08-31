@@ -1,6 +1,9 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const appPath = path.resolve(__dirname, 'app', 'server');
 
 module.exports = {
   devtool: 'source-map',
@@ -9,36 +12,33 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
-    publicPath: '/public/'
+    publicPath: '/'
   },
   plugins: [
-    // identifies any duplicate files and de-duplicate them in output
-    new webpack.optimize.DedupePlugin(),
-    // minifies the output of js chunks
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: {
-        warnings: false
-      }
-    }),
     // allow me to create global constants at compile time
     new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('production'),
-          API_HOST: 'https://blessing-post-it.herokuapp.com'
-        }
-    })
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+        API_HOST: 'https://blessing-post-it.herokuapp.com'
+      }
+    }),
+    new CopyWebpackPlugin([
+      { context: appPath, from: 'index.html', to: 'index.html' }
+    ])
   ],
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         include: [
           path.join(__dirname, 'app/client'),
           path.join(__dirname, 'app/server/shared')
         ],
-        loaders: ['babel-loader'],
-        exclude: /node_modules/
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['react', 'es2015'],
+        },
       },
       { test: /\.css$/, loaders: ['style-loader', 'css-loader'] },
       { test: /\.scss?$/,
@@ -55,7 +55,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.css']
+    extensions: ['.js', '.jsx', '.css']
   },
   node: {
     console: true,
@@ -64,6 +64,4 @@ module.exports = {
     tls: 'empty',
     dns: 'empty'
   }
-
-
 };

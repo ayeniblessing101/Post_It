@@ -1,8 +1,8 @@
 // import {validateInput} from '../shared/validations/signup';
-import Validator from 'validator';
-import crypto from 'crypto';
-import nodemailer from 'nodemailer';
-import checkNum from '../utils/numberValidation';
+const Validator = require('validator');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const checkNum = require('../utils/numberValidation');
 // import forgotPasswordMail from '../utils/forgetPasswordMail';
 
 const isEmpty = require('lodash/isEmpty');
@@ -203,7 +203,7 @@ exports.forgotPassword = (req, res) => {
 };
 
 exports.checkToken = (req, res) => {
-  const token = (req.query.token).toString()
+  const token = (req.query.token).toString();
   if (typeof token !== 'string') {
     return res.status(400).send({
       message: 'Token must be a string'

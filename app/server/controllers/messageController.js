@@ -1,12 +1,13 @@
-import sendMail from '../utils/sendMail';
-import sendSMS from '../utils/sendSMS';
-import getGroupUserEmail from '../utils/getGroupUserEmail';
-import getGroupUserPhoneNumber from '../utils/getGroupUserPhoneNumber';
+const sendMail = require( '../utils/sendMail');
+const sendSMS = require('../utils/sendSMS');
+const getGroupUserEmail = require('../utils/getGroupUserEmail');
+const getGroupUserPhoneNumber = require('../utils/getGroupUserPhoneNumber');
 
 
 const Message = require('../models').Message;
 const User = require('../models').User;
 const Group = require('../models').Group;
+const ReadMessage = require('../models').ReadMessage;
 // Method to post message
 exports.post_message = (req, res) => {
   // console.log(req.body.message)
@@ -85,10 +86,39 @@ exports.get_messages = (req, res) => {
   });
 };
 
-// // Method to update Message to read
-// // exports.updateReadby = (req, res) => {
-// //   Message.findById(123).then( => {
-// //     // project will be an instance of Project and stores the content of the table entry
-// //     // with id 123. if such an entry is not defined you will get null
-// //   })
-// }
+// Method to record message views
+exports.message_views = (req, res) => {
+  const userId = req.decoded.data.id;
+  Message.findOne({
+    where: {
+      id: req.body.message_id
+    }
+  })
+  .then((message) => {
+    if (message) {
+      ReadMessage.findOne({
+        where: {
+          $and: [{ message_id: message.id }, { user_id: userId }]
+        }
+      })
+      .then((response) => {
+        if (response) {
+          return res.status(400).send({ message: 'Message viewed already' });
+        }
+        ReadMessage.create({
+          message_id: message.id,
+          user_id: userId,
+          group_id: message.group_id,
+        })
+        .then(() => res.status(200).send({ message: 'Message created!' }))
+        .catch(error => res.status(400).send({ message: 'An error occured!', error }));
+      })
+      .catch((error) => {
+        res.status(400).send({ error, message: 'An error occured, try again' });
+      });
+    }
+  })
+  .catch((error) => {
+    res.status(400).send({ error, message: 'An error occured, try again' });
+  });
+};
