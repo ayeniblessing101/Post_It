@@ -1,6 +1,6 @@
 # Post_It
 [![Build Status](https://travis-ci.org/ayeniblessing101/Post_It.svg?branch=development)](https://travis-ci.org/ayeniblessing101/Post_It)
-[![Test Coverage](https://codeclimate.com/github/ayeniblessing101/Post_It/badges/coverage.svg)](https://codeclimate.com/github/ayeniblessing101/Post_It/coverage)
+[![Coverage Status](https://coveralls.io/repos/github/ayeniblessing101/Post_It/badge.svg?branch=master)](https://coveralls.io/github/ayeniblessing101/Post_It?branch=master)
 [![Code Climate](https://codeclimate.com/github/ayeniblessing101/Post_It/badges/gpa.svg)](https://codeclimate.com/github/ayeniblessing101/Post_It)
 
 PostIt is a simple web application that allows friends and colleagues create groups for notifications. This way one person can post notifications to everyone by sending a message once. The application allows people create accounts, create groups and add registered users to the groups, and then send messages out to these groups whenever they want.
