@@ -12731,6 +12731,7 @@ var ADD_USER_TO_GROUP = exports.ADD_USER_TO_GROUP = 'ADD_USER_TO_GROUP';
 var POST_MESSAGE = exports.POST_MESSAGE = 'POST_MESSAGE';
 var SET_MESSAGES = exports.SET_MESSAGES = 'SET_MESSAGES';
 var SET_GROUP_USERS = exports.SET_GROUP_USERS = 'SET_GROUP_USERS';
+var UPDATE_READ_STATUS = exports.UPDATE_READ_STATUS = 'UPDATE_READ_STATUS';
 
 /***/ }),
 /* 29 */
@@ -28336,9 +28337,10 @@ module.exports = function transformData(data, headers, fns) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAllMessages = exports.postMessageStatus = undefined;
+exports.messageReadStatus = exports.getAllMessages = exports.postMessageStatus = undefined;
 exports.postMessage = postMessage;
 exports.getMessages = getMessages;
+exports.updateMessageStatus = updateMessageStatus;
 
 var _axios = __webpack_require__(50);
 
@@ -28359,6 +28361,16 @@ var getAllMessages = exports.getAllMessages = function getAllMessages(messages) 
   return {
     type: _types.SET_MESSAGES,
     messages: messages
+  };
+};
+
+var messageReadStatus = exports.messageReadStatus = function messageReadStatus(messageId) {
+  return {
+    type: _types.UPDATE_READ_STATUS,
+    data: {
+      messageId: messageId,
+      updated: true
+    }
   };
 };
 
@@ -28389,6 +28401,22 @@ function getMessages(groupId) {
       var data = _ref2.data;
 
       dispatch(getAllMessages(data.data));
+    });
+  };
+}
+
+/**
+ * change Message status.
+ * @param {Integer} messageId - messageId.
+ * @param {Integer} groupId - groupId.
+ *@returns {void} - dispatch an action to get all messages to the store.
+ */
+function updateMessageStatus(messageId) {
+  return function (dispatch) {
+    return _axios2.default.post('/api/record-message-views', { messageId: messageId }).then(function (_ref3) {
+      var data = _ref3.data;
+
+      dispatch(messageReadStatus(messageId));
     });
   };
 }
@@ -51351,10 +51379,6 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(113);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
 var _SignupPage = __webpack_require__(461);
 
 var _SignupPage2 = _interopRequireDefault(_SignupPage);
@@ -51389,10 +51413,12 @@ var _requireAuth2 = _interopRequireDefault(_requireAuth);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import GroupPage from "./message/MessagePage";
+
 var ReactRouter = __webpack_require__(17);
+
 var Route = ReactRouter.Route;
 var Switch = ReactRouter.Switch;
-//import GroupPage from "./message/MessagePage";
 
 var Routes = function Routes() {
   return _react2.default.createElement(
@@ -51408,7 +51434,8 @@ var Routes = function Routes() {
       _react2.default.createElement(Route, { path: '/group/:id', component: (0, _requireAuth2.default)(_MessagePage2.default) }),
       _react2.default.createElement(Route, { path: '/add-group', component: (0, _requireAuth2.default)(_AddGroupPage2.default) }),
       _react2.default.createElement(Route, { path: '/add-user', component: (0, _requireAuth2.default)(_AddUser2.default) }),
-      _react2.default.createElement(Route, { render: function render() {
+      _react2.default.createElement(Route, {
+        render: function render() {
           return _react2.default.createElement(
             'p',
             null,
@@ -54253,8 +54280,6 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(17);
-
 var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -54343,6 +54368,8 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _reactRedux = __webpack_require__(14);
+
 var _GroupsList = __webpack_require__(446);
 
 var _GroupsList2 = _interopRequireDefault(_GroupsList);
@@ -54354,8 +54381,6 @@ var _Header2 = _interopRequireDefault(_Header);
 var _Sidebar = __webpack_require__(84);
 
 var _Sidebar2 = _interopRequireDefault(_Sidebar);
-
-var _reactRedux = __webpack_require__(14);
 
 var _creategroupActions = __webpack_require__(64);
 
@@ -54428,11 +54453,11 @@ GroupsPage.propTypes = {
   fetchGroups: _propTypes2.default.func.isRequired
 };
 
-function mapStateToProps(state) {
+var mapStateToProps = function mapStateToProps(state) {
   return {
     groups: state.groups
   };
-}
+};
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchGroups: _creategroupActions.fetchGroups })(GroupsPage);
 
@@ -55560,13 +55585,9 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(3);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
 var _reactRedux = __webpack_require__(14);
 
-var _reactMaterialize = __webpack_require__(56);
+var _reactRouterDom = __webpack_require__(17);
 
 var _moment = __webpack_require__(0);
 
@@ -55583,9 +55604,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+// import PropTypes from 'prop-types';
 
-//const avatar2 = require("../images/avatar2.png");
-//const avatar3 = require("../images/friend-group2.jpg");
+// import { Textarea, Span } from 'react-materialize';
+
+
+// const avatar2 = require("../images/avatar2.png");
+// const avatar3 = require("../images/friend-group2.jpg");
 
 var MessageForm = function (_React$Component) {
   _inherits(MessageForm, _React$Component);
@@ -55602,6 +55627,7 @@ var MessageForm = function (_React$Component) {
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleMessageStatus = _this.handleMessageStatus.bind(_this);
     return _this;
   }
 
@@ -55609,6 +55635,12 @@ var MessageForm = function (_React$Component) {
     key: 'handleChange',
     value: function handleChange(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: 'handleMessageStatus',
+    value: function handleMessageStatus(e) {
+      e.preventDefault();
+      this.props.updateMessageStatus(e.target.id);
     }
   }, {
     key: 'handleSubmit',
@@ -55625,8 +55657,8 @@ var MessageForm = function (_React$Component) {
       });
     }
   }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       this.props.getMessages(this.props.groupId);
       $(document).ready(function () {
         $('select').material_select();
@@ -55650,6 +55682,8 @@ var MessageForm = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var group = this.props.group;
 
       var groupId = parseInt(this.props.groupId, 10);
@@ -55662,7 +55696,6 @@ var MessageForm = function (_React$Component) {
           groupName = group_name;
         }
       });
-      var priority_level = '';
 
       return _react2.default.createElement(
         'div',
@@ -55694,9 +55727,18 @@ var MessageForm = function (_React$Component) {
                 ),
                 _react2.default.createElement(
                   'p',
-                  null,
-                  message.message_body,
-                  _react2.default.createElement('span', { className: 'new badge red',
+                  { key: message.id },
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    {
+                      id: message.id,
+                      className: 'messageLink',
+                      to: '#',
+                      onClick: _this2.handleMessageStatus },
+                    message.message_body
+                  ),
+                  _react2.default.createElement('span', {
+                    className: 'new badge red',
                     'data-badge-caption': message.priority_level })
                 ),
                 _react2.default.createElement('hr', null),
@@ -55735,7 +55777,7 @@ var MessageForm = function (_React$Component) {
                     onChange: this.handleChange },
                   _react2.default.createElement(
                     'option',
-                    { value: '', disabled: true, selected: true },
+                    { value: '', disabled: true },
                     'Select Priority'
                   ),
                   _react2.default.createElement(
@@ -55782,7 +55824,7 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { getMessages: _messageActions.getMessages, postMessage: _messageActions.postMessage })(MessageForm);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { getMessages: _messageActions.getMessages, postMessage: _messageActions.postMessage, updateMessageStatus: _messageActions.updateMessageStatus })(MessageForm);
 
 /***/ }),
 /* 457 */
@@ -56833,7 +56875,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _filter = __webpack_require__(919);
+
+var _filter2 = _interopRequireDefault(_filter);
+
 var _types = __webpack_require__(28);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -56848,6 +56896,9 @@ exports.default = function () {
       return [].concat(_toConsumableArray(action.messages));
     case _types.POST_MESSAGE:
       return [].concat(_toConsumableArray(state), [action.message]);
+    case _types.UPDATE_READ_STATUS:
+      var me = (0, _filter2.default)(state, { id: action.data.messageId });
+      return [].concat(_toConsumableArray(state), [action.data.updated]);
     default:
       return state;
   }
@@ -95330,6 +95381,220 @@ exports.createContext = Script.createContext = function (context) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 913 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseForOwn = __webpack_require__(916),
+    createBaseEach = __webpack_require__(917);
+
+/**
+ * The base implementation of `_.forEach` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ */
+var baseEach = createBaseEach(baseForOwn);
+
+module.exports = baseEach;
+
+
+/***/ }),
+/* 914 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseEach = __webpack_require__(913);
+
+/**
+ * The base implementation of `_.filter` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ */
+function baseFilter(collection, predicate) {
+  var result = [];
+  baseEach(collection, function(value, index, collection) {
+    if (predicate(value, index, collection)) {
+      result.push(value);
+    }
+  });
+  return result;
+}
+
+module.exports = baseFilter;
+
+
+/***/ }),
+/* 915 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var createBaseFor = __webpack_require__(918);
+
+/**
+ * The base implementation of `baseForOwn` which iterates over `object`
+ * properties returned by `keysFunc` and invokes `iteratee` for each property.
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+module.exports = baseFor;
+
+
+/***/ }),
+/* 916 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseFor = __webpack_require__(915),
+    keys = __webpack_require__(223);
+
+/**
+ * The base implementation of `_.forOwn` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return object && baseFor(object, iteratee, keys);
+}
+
+module.exports = baseForOwn;
+
+
+/***/ }),
+/* 917 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isArrayLike = __webpack_require__(221);
+
+/**
+ * Creates a `baseEach` or `baseEachRight` function.
+ *
+ * @private
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseEach(eachFunc, fromRight) {
+  return function(collection, iteratee) {
+    if (collection == null) {
+      return collection;
+    }
+    if (!isArrayLike(collection)) {
+      return eachFunc(collection, iteratee);
+    }
+    var length = collection.length,
+        index = fromRight ? length : -1,
+        iterable = Object(collection);
+
+    while ((fromRight ? index-- : ++index < length)) {
+      if (iteratee(iterable[index], index, iterable) === false) {
+        break;
+      }
+    }
+    return collection;
+  };
+}
+
+module.exports = createBaseEach;
+
+
+/***/ }),
+/* 918 */
+/***/ (function(module, exports) {
+
+/**
+ * Creates a base function for methods like `_.forIn` and `_.forOwn`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var index = -1,
+        iterable = Object(object),
+        props = keysFunc(object),
+        length = props.length;
+
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+module.exports = createBaseFor;
+
+
+/***/ }),
+/* 919 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayFilter = __webpack_require__(585),
+    baseFilter = __webpack_require__(914),
+    baseIteratee = __webpack_require__(598),
+    isArray = __webpack_require__(35);
+
+/**
+ * Iterates over elements of `collection`, returning an array of all elements
+ * `predicate` returns truthy for. The predicate is invoked with three
+ * arguments: (value, index|key, collection).
+ *
+ * **Note:** Unlike `_.remove`, this method returns a new array.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [predicate=_.identity] The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ * @see _.reject
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney', 'age': 36, 'active': true },
+ *   { 'user': 'fred',   'age': 40, 'active': false }
+ * ];
+ *
+ * _.filter(users, function(o) { return !o.active; });
+ * // => objects for ['fred']
+ *
+ * // The `_.matches` iteratee shorthand.
+ * _.filter(users, { 'age': 36, 'active': true });
+ * // => objects for ['barney']
+ *
+ * // The `_.matchesProperty` iteratee shorthand.
+ * _.filter(users, ['active', false]);
+ * // => objects for ['fred']
+ *
+ * // The `_.property` iteratee shorthand.
+ * _.filter(users, 'active');
+ * // => objects for ['barney']
+ */
+function filter(collection, predicate) {
+  var func = isArray(collection) ? arrayFilter : baseFilter;
+  return func(collection, baseIteratee(predicate, 3));
+}
+
+module.exports = filter;
+
 
 /***/ })
 /******/ ]);

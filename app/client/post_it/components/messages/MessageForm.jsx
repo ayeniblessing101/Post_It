@@ -1,29 +1,36 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Textarea, Span } from 'react-materialize';
+import { Link } from 'react-router-dom';
+// import { Textarea, Span } from 'react-materialize';
 import moment from 'moment';
-import { getMessages, postMessage } from '../../actions/messageActions';
+import { getMessages, postMessage, updateMessageStatus } from '../../actions/messageActions';
 
-//const avatar2 = require("../images/avatar2.png");
-//const avatar3 = require("../images/friend-group2.jpg");
+// const avatar2 = require("../images/avatar2.png");
+// const avatar3 = require("../images/friend-group2.jpg");
 
-class MessageForm extends React.Component{
+class MessageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messages: this.props.messages,
       message: '',
       priority: ''
-    }
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleMessageStatus = this.handleMessageStatus.bind(this);
   }
 
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
-    })
+    });
+  }
+
+  handleMessageStatus(e) {
+    e.preventDefault();
+    this.props.updateMessageStatus(e.target.id);
   }
 
   handleSubmit(e) {
@@ -39,9 +46,9 @@ class MessageForm extends React.Component{
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getMessages(this.props.groupId);
-    $(document).ready(function() {
+    $(document).ready(() => {
       $('select').material_select();
     });
   }
@@ -58,17 +65,16 @@ class MessageForm extends React.Component{
       messages: nextProps.messages
     });
   }
-  render(){
+  render() {
     const { group } = this.props;
     const groupId = parseInt(this.props.groupId, 10);
     let groupName = 'No Group Found';
     group.map((currentGroup) => {
-      let { id, group_name } = currentGroup;
-      if(id === groupId){
+      const { id, group_name } = currentGroup;
+      if (id === groupId) {
         groupName = group_name;
       }
     });
-    let priority_level = '';
 
     return (
       <div>
@@ -83,13 +89,19 @@ class MessageForm extends React.Component{
                   <span className="right">
                     { moment(message.createdAt, moment.ISO_8601).fromNow() }
                   </span>
-                  <p>
-                    {message.message_body}
-                   <span className="new badge red"
-                      data-badge-caption={message.priority_level}>
-                    </span>
+                  <p key={message.id}>
+                    <Link
+                      id={message.id}
+                      className="messageLink"
+                      to="#"
+                      onClick={this.handleMessageStatus}>
+                      {message.message_body}
+                    </Link>
+                    <span
+                    className="new badge red"
+                    data-badge-caption={message.priority_level} />
                   </p>
-                  <hr/><br/>
+                  <hr /><br />
                 </div>
               ))
             }
@@ -105,7 +117,7 @@ class MessageForm extends React.Component{
                   onChange={this.handleChange}
                   value={this.state.message}
                   className="materialize-textarea"
-                ></textarea>
+                />
               </div>
               <div className="col s4 mySelect">
                 <select
@@ -113,7 +125,7 @@ class MessageForm extends React.Component{
                   value={this.state.priority}
                   name="priority"
                   onChange={this.handleChange}>
-                  <option value="" disabled selected>Select Priority</option>
+                  <option value="" disabled>Select Priority</option>
                   <option value="Normal">Normal</option>
                   <option value="Critical">Critical</option>
                   <option value="Urgent">Urgent</option>
@@ -136,4 +148,6 @@ const mapStateToProps = state => ({
   group: state.groups
 });
 
-export default connect(mapStateToProps, { getMessages, postMessage })(MessageForm);
+export default
+connect(mapStateToProps,
+  { getMessages, postMessage, updateMessageStatus })(MessageForm);
