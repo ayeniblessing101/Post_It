@@ -201,7 +201,6 @@ exports.forgotPassword = (req, res) => {
     });
   }
 };
-
 exports.checkToken = (req, res) => {
   const token = (req.query.token).toString()
   if (typeof token !== 'string') {
