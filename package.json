@@ -5,9 +5,9 @@
   "main": "./app/client/index.js",
   "scripts": {
     "start": "nodemon --watch app/server --exec babel-node -- app/server/app.js",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
-    "test": "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo mocha --timeout 90000  ./app/server/test --compilers js:babel-register",
-    "test-with-coverage": "nyc --reporter=text mocha --timeout 90000 ./app/server/test --compilers js:babel-register"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "test": "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo nyc --reporter=html --reporter=text mocha --timeout 90000  ./app/server/test --compilers js:babel-register",
+    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test"
   },
   "repository": {
     "type": "git",
