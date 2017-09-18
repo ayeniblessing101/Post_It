@@ -1,11 +1,11 @@
 import Validator from 'validator';
-import Sequelize from 'sequelize';
+
 const isEmpty = require('lodash/isEmpty');
 // const commonValidations = require('../shared/validations/addgroup');
 const User = require('../models').User;
 const Group = require('../models').Group;
 const GroupUser = require('../models').GroupUser;
-const Message = require('../models').Message;
+
 
 exports.create_group = (req, res) => {
   /**
