@@ -30,11 +30,11 @@ class MessageBoard extends React.Component{
       <div>
         <div className="col s12 m10 l10 col-md-10">
           <div id="messageBoard" className="mycontainer">
-            {/*<AddUserModal
+            {<AddUserModal
               addUserToGroup={addUserToGroup}
               groupId={selectedGroupId}
               statusMessage={statusMessage}
-              />*/}
+              />}
             <div className="row">
               <AllGroups
                 groups={this.props.groups}
@@ -42,7 +42,7 @@ class MessageBoard extends React.Component{
               <MessageForm
                 groupId={selectedGroupId}
               />
-              <AllUsers/>
+              <AllUsers groupId={selectedGroupId} />
             </div>
           </div>
         </div>

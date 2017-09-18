@@ -6,7 +6,6 @@ const User = require('../models').User;
 const Group = require('../models').Group;
 const GroupUser = require('../models').GroupUser;
 
-
 exports.create_group = (req, res) => {
   /**
    * Fetch all Groups.
@@ -60,7 +59,7 @@ exports.create_group = (req, res) => {
             // res.status(200).send({ status: true, message:
             // 'Successful', data: groupMembers });
           });
-          return res.status(200).send({
+          return res.status(201).send({
             status: true, message: 'Successful', data: group
           });
         })
@@ -160,7 +159,7 @@ exports.add_user = (req, res) => {
 // Method to get all users in a group
 exports.get_users = (req, res) => {
   // console.log(req.params.id);
-  Group.findAll({
+  Group.findOne({
     where: {
       id: req.params.id
     },

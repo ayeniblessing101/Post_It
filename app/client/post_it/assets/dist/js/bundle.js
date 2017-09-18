@@ -18167,8 +18167,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createGroup = createGroup;
 exports.setGroups = setGroups;
+exports.setGroupUsers = setGroupUsers;
 exports.addUserStatus = addUserStatus;
 exports.fetchGroups = fetchGroups;
+exports.fetchGroupUsers = fetchGroupUsers;
 exports.addUserToGroup = addUserToGroup;
 
 var _axios = __webpack_require__(41);
@@ -18207,12 +18209,12 @@ function setGroups(groups) {
  * @param {Object} groupUsers - groupUsers.
  * @returns {groupUsers} - returns groupUsers.
  */
-// export function setGroupUsers(groupUsers) {
-//   return {
-//     type: SET_GROUP_USERS,
-//     groupUsers
-//   };
-// }
+function setGroupUsers(groupUsers) {
+  return {
+    type: _types.SET_GROUP_USERS,
+    groupUsers: groupUsers
+  };
+}
 
 /**
  * Add user to a group.
@@ -18248,16 +18250,17 @@ function fetchGroups() {
  * @param {Object} groupId - groupdId.
  * @returns {void} - The group id and group name.
  */
-// export function fetchGroupUsers(groupId) {
-//   return dispatch => (
-//     axios.get(`/api/group/${groupId}/user`)
-//     .then(({ data }) => {
-//       dispatch(setGroupUsers(data.data));
-//     }).catch((error) => {
-//       throw (error);
-//     })
-//   );
-// }
+function fetchGroupUsers(groupId) {
+  return function (dispatch) {
+    return _axios2.default.get('/api/group/' + groupId + '/users').then(function (_ref) {
+      var data = _ref.data;
+
+      dispatch(setGroupUsers(data.data.members));
+    }).catch(function (error) {
+      throw error;
+    });
+  };
+}
 
 /**
  * Dispatches an action to add user to a group.
@@ -55254,7 +55257,7 @@ var AddUserModal = function (_React$Component) {
             header: 'Add User to Group',
             trigger: _react2.default.createElement(
               _reactMaterialize.Button,
-              null,
+              { className: 'add_user' },
               'Add User'
             ) },
           _react2.default.createElement(_FlashMessagesList2.default, null),
@@ -55404,7 +55407,7 @@ var AllGroups = function (_React$Component) {
                   ),
                   _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '/group/' + group.id },
+                    { to: '/group/' + group.id, className: 'groupNames' },
                     group.group_name
                   )
                 )
@@ -55469,33 +55472,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AllUsers = function (_React$Component) {
   _inherits(AllUsers, _React$Component);
 
-  function AllUsers(props) {
+  function AllUsers() {
     _classCallCheck(this, AllUsers);
 
-    var _this = _possibleConstructorReturn(this, (AllUsers.__proto__ || Object.getPrototypeOf(AllUsers)).call(this, props));
-
-    _this.state = {
-      groups: _this.props.groups
-    };
-    return _this;
+    return _possibleConstructorReturn(this, (AllUsers.__proto__ || Object.getPrototypeOf(AllUsers)).apply(this, arguments));
   }
 
   _createClass(AllUsers, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.props.fetchGroups();
+    key: 'componentWillMount',
+
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //     groups: this.props.groups
+    //   }
+    // }
+
+    value: function componentWillMount() {
+      this.props.fetchGroupUsers(this.props.groupId);
     }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.setState({
-        groups: nextProps.groups
-      });
-    }
+
+    // componentWillReceiveProps(nextProps) {
+    //   this.setState({
+    //     groups: nextProps.groups
+    //   })
+    // }
+
   }, {
     key: 'render',
     value: function render() {
-      var groups = this.state.groups;
+      var groupUsers = this.props.groupUsers;
       return _react2.default.createElement(
         'div',
         null,
@@ -55508,32 +55514,21 @@ var AllUsers = function (_React$Component) {
               className: 'collapsible allMessageCard',
               'data-collapsible': 'accordion'
             },
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                'div',
-                { className: 'collapsible-header' },
+            groupUsers.map(function (groupUser) {
+              return _react2.default.createElement(
+                'li',
+                { key: groupUser.id },
                 _react2.default.createElement(
-                  _reactRouterDom.Link,
-                  { to: '#' },
-                  'Blessing'
+                  'div',
+                  { className: 'collapsible-header' },
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '#', className: 'userNames' },
+                    groupUser.username
+                  )
                 )
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                'div',
-                { className: 'collapsible-header' },
-                _react2.default.createElement(
-                  _reactRouterDom.Link,
-                  { to: '#' },
-                  'Dolapo'
-                )
-              )
-            )
+              );
+            })
           )
         )
       );
@@ -55545,11 +55540,11 @@ var AllUsers = function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    groups: state.groups
+    groupUsers: state.groupUsers
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchGroups: _creategroupActions.fetchGroups })(AllUsers);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchGroupUsers: _creategroupActions.fetchGroupUsers })(AllUsers);
 
 /***/ }),
 /* 456 */
@@ -55638,6 +55633,11 @@ var MessageBoard = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { id: 'messageBoard', className: 'mycontainer' },
+            _react2.default.createElement(_AddUserModal2.default, {
+              addUserToGroup: addUserToGroup,
+              groupId: selectedGroupId,
+              statusMessage: statusMessage
+            }),
             _react2.default.createElement(
               'div',
               { className: 'row' },
@@ -55647,7 +55647,7 @@ var MessageBoard = function (_React$Component) {
               _react2.default.createElement(_MessageForm2.default, {
                 groupId: selectedGroupId
               }),
-              _react2.default.createElement(_AllUsers2.default, null)
+              _react2.default.createElement(_AllUsers2.default, { groupId: selectedGroupId })
             )
           )
         )
@@ -55788,7 +55788,7 @@ var MessageForm = function (_React$Component) {
             { className: 'message-cards-board' },
             _react2.default.createElement(
               'h5',
-              null,
+              { className: 'groupName' },
               groupName
             ),
             this.state.messages.map(function (message) {

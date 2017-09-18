@@ -27,7 +27,7 @@ exports.post_message = (req, res) => {
   Message.create({
     message_body: req.body.message,
     priority_level: req.body.priority,
-    message_status: 'unread',
+    read_by: [userId],
     group_id: req.params.id,
     user_id: userId,
   })
@@ -73,9 +73,7 @@ exports.post_message = (req, res) => {
 exports.get_messages = (req, res) => {
   // console.log(req.params.id);
   Message.findAll({
-    where: {
-      $and: [{ group_id: req.params.id }, { message_status: 'unread' }]
-    },
+    where: { group_id: req.params.id },
     attributes: ['id', 'message_body', 'priority_level', 'group_id', 'createdAt'],
     include: [{
       model: User,
@@ -88,3 +86,11 @@ exports.get_messages = (req, res) => {
       data: messages });
   });
 };
+
+// // Method to update Message to read
+// // exports.updateReadby = (req, res) => {
+// //   Message.findById(123).then( => {
+// //     // project will be an instance of Project and stores the content of the table entry
+// //     // with id 123. if such an entry is not defined you will get null
+// //   })
+// }
