@@ -64,7 +64,9 @@ exports.post_message = (req, res) => {
         });
     }
   })
-  .catch(err => res.status(500).send(err, 'An error occurred, try again'));
+  .catch(err => (
+    res.status(500).send(err, 'An error occurred, try again')
+  ));
 };
 
 // Method to get Messages

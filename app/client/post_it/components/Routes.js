@@ -10,10 +10,9 @@ import AddGroup from "./addgroup/AddGroupPage";
 import AddUser from "./AddUser";
 import GroupPage from "./messages/MessagePage";
 import ResetPasswordPage from "./resetpassword/ResetPasswordPage";
-//import GroupPage from "./message/MessagePage";
+import UserPage from "./user/UserPage";
 
 import requireAuth from '../utils/requireAuth';
-
 const Routes = () => {
   return(
     <div>
@@ -25,6 +24,7 @@ const Routes = () => {
         <Route path='/group/:id' component={requireAuth(GroupPage)} />
         <Route path='/add-group' component={requireAuth(AddGroup)} />
         <Route path='/add-user' component={requireAuth(AddUser)} />
+        <Route path='/user/search/' component={requireAuth(UserPage)} />
         <Route render={function () {
           return <p>Not Found</p>
         }} />

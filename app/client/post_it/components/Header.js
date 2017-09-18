@@ -4,16 +4,62 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import{ logout } from '../actions/authActions';
 
-class Header extends React.Component{
+/**
+ * @class Header
+ * @extends {React.Component}
+ */
+class Header extends React.Component {
+  /**
+   * Creates an instance of Header.
+   * @param {any} props
+   * @memberof Header
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchParam: ''
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  /**
+   * redirects to search result page
+   * @memberof Header
+   * @return {void}
+   */
+  handleSubmit() {
+    this.context.router.history.push(`/user/search?q=${this.state.searchParam}`);
+  }
+
+  /**
+   * @param {any} e
+   * @memberof Header
+   * @return {void}
+   */
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+/**
+ * @param {any} e
+ * @memberof Header
+ * @return {void}
+ */
   logout(e) {
     e.preventDefault();
     this.props.logout(this.state);
-    // this.context.router.history.push('/login')
   }
+
+  /**
+   * Renders the header component
+   * @returns {object} - header component
+   * @memberof Header
+   */
   render(){
     const { isAuthenticated, user } = this.props.auth;
-    // const { user } = this.props.userData
-    // const authUser = {user.data.username}
     return(
       <div>
         <div className="navbar-fixed">
@@ -26,9 +72,15 @@ class Header extends React.Component{
               <Link to="#" className="brand-logo">PostIt</Link>
               <ul classID="nav-mobile" className="right hide-on-med-and-down">
                 <li>
-                  <form id="searchForm">
-                    <input type="text" placeholder="Search for Friends"
-                      id="searchBar"/>
+                  <form id="searchForm" onSubmit={this.handleSubmit}>
+                    <input 
+                      type="text" 
+                      name="searchParam" 
+                      placeholder="Search for Friends"
+                      id="searchBar"
+                      value={this.state.searchParam}
+                      onChange={this.handleChange}
+                    />
                   </form>
                 </li>
                 <li>
@@ -53,18 +105,19 @@ class Header extends React.Component{
 }
 
 Header.propTypes = {
-  auth: PropTypes.object.isRequired,
+  auth: PropTypes.shape({}).isRequired,
   logout: PropTypes.func.isRequired
-}
+};
 
 Header.contextTypes = {
   router: PropTypes.object.isRequired
-}
+};
 
-function mapStateToProps(state) {
-  return {
+
+const mapStateToProps = state => (
+  {
     auth: state.auth
-  };
-}
+  }
+);
 
 export default connect(mapStateToProps, { logout })(Header);

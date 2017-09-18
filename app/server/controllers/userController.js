@@ -100,7 +100,7 @@ exports.signup = (req, res) => {
             password: bcrypt.hashSync(req.body.password, salt)
           };
           User.create(userData)
-          .then((user) => {
+          .then(() => {
             res.status(201).send({ status: true,
               message: 'Signup was successful' });
           })
@@ -202,7 +202,7 @@ exports.forgotPassword = (req, res) => {
   }
 };
 exports.checkToken = (req, res) => {
-  const token = (req.query.token).toString()
+  const token = (req.query.token).toString();
   if (typeof token !== 'string') {
     return res.status(400).send({
       message: 'Token must be a string'
@@ -258,10 +258,55 @@ exports.resetPassword = (req, res) => {
     user.update({
       password
     })
-    .then((newUser) => {
+    .then(() => {
       res.status(200).send({
         message: 'Password updated succesfully'
       });
     });
   });
 };
+
+
+exports.search = (req, res) => {
+  let limit = req.query.limit;
+  let offset = req.query.offset;
+  const page = Math.ceil(((req.query.offset) / (req.query.limit)) + 1) || 1;
+  limit = Number(limit) || 10;
+  offset = Number(offset) || 0;
+
+  User.findAndCountAll({
+    where: {
+      username: {
+        $iLike: `%${req.query.q}%`
+      }
+    },
+    attributes: ['username', 'email'],
+    offset,
+    limit
+  }).then((users) => {
+    if (!users) {
+      res.status(404).send({
+        error: 'User not found'
+      });
+    } else {
+      const pageCount = Math.ceil(users.count / limit);
+      const pageSize = limit;
+      const totalCount = users.count;
+
+      res.status(200).send({
+        users: users.rows,
+        page,
+        pageCount,
+        pageSize,
+        totalCount
+      });
+    }
+  }).catch((err) => {
+    res.status(500).send({
+      err,
+      message: 'A fatal error was encountered, Please try again later.',
+      status: 400
+    });
+  });
+};
+
