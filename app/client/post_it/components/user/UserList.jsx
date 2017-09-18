@@ -79,7 +79,7 @@ class UserList extends React.Component {
             <div className="row">
               <div className="col s12 m4 l2" />
               <div className="col s12 m4 l8 large-cards">
-                <h4>Users</h4>
+                <h4>Users</h4>    
                 <table className="striped responsive-table">
                   <thead>
                     <tr>
@@ -95,7 +95,7 @@ class UserList extends React.Component {
                           <td>{user.email}</td>
                         </tr>
                       ))
-                    }           
+                    }         
                   </tbody>
                 </table>
                 <ReactPaginate
