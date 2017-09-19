@@ -12,10 +12,10 @@
     "port": 3001
   },
   "production": {
-    "username": "ypkpfhcpkivgcr",
-    "password": "aa6b024594f6b021bbecfab06b0e7e0aa8a970ee9ca611bfd50caa4002167a25",
-    "database": "d3hd86h3un1iqd",
-    "host": "ec2-54-243-253-17.compute-1.amazonaws.com",
+    "username": "bedthiuijrzcfc",
+    "password": "cffde16af5e7441e688e929f0709ca57f6385aa8c732603c6213a575eebeb570",
+    "database": "d9qp5n40ppcl4k",
+    "host": "ec2-54-163-237-25.compute-1.amazonaws.com",
     "dialect": "postgres",
     "port": 5432
   }
