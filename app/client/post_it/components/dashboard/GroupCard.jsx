@@ -12,7 +12,7 @@ export default function GroupCard({ group }) {
     <div>
       <Link to={`/group/${group.id}`}>
         <div className="col s12 m5 l3 small-cards"><br />
-          <img src={avatar1} />
+          <img src="https://gallery.mailchimp.com/2c8fc6e5a4687e64ef666ab9f/images/649c1942-2e46-4068-a744-f0a9778e2bae.png" />
           <h5><b>{group.group_name}</b></h5>
           6 users in the Group<br /><br /><br />
           <Link to={`/group/${group.id}`} className="btn btn-primary">

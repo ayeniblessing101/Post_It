@@ -54359,7 +54359,7 @@ function GroupCard(_ref) {
         'div',
         { className: 'col s12 m5 l3 small-cards' },
         _react2.default.createElement('br', null),
-        _react2.default.createElement('img', { src: avatar1 }),
+        _react2.default.createElement('img', { src: 'https://gallery.mailchimp.com/2c8fc6e5a4687e64ef666ab9f/images/649c1942-2e46-4068-a744-f0a9778e2bae.png' }),
         _react2.default.createElement(
           'h5',
           null,
