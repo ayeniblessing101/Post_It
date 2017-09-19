@@ -7,12 +7,18 @@ const avatar1 = require('../../images/avatar1.png');
 // const avatar2 = require("../../images/avatar2.png");
 // const avatar3 = require("../../images/friend-group2.jpg");
 
+/**
+ * Renders GroupCard component
+ * @export
+ * @param {any} { group }
+ * @returns {object} - GroupCard component
+ */
 export default function GroupCard({ group }) {
   return (
     <div>
       <Link to={`/group/${group.id}`}>
         <div className="col s12 m5 l3 small-cards"><br />
-          <img src={avatar1} />
+          <img src={avatar1} alt="avater" />
           <h5><b>{group.group_name}</b></h5>
           6 users in the Group<br /><br /><br />
           <Link to={`/group/${group.id}`} className="btn btn-primary">

@@ -11,8 +11,16 @@ import FlashMessagesList from '../flash/FlashMessagesList';
 
 // const avatar2 = require("../images/avatar2.png");
 // const avatar3 = require("../images/friend-group2.jpg");
-
+/**
+ * @class ForgetPasswordModal
+ * @extends {React.Component}
+ */
 class ForgetPasswordModal extends React.Component {
+  /**
+   * Creates an instance of ForgetPasswordModal.
+   * @param {any} props
+   * @memberof ForgetPasswordModal
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -34,6 +42,11 @@ class ForgetPasswordModal extends React.Component {
     return isValid;
   }
 
+  /**
+   * @param {any} e
+   * @memberof ForgetPasswordModal
+   * @return {void}
+   */
   handleSubmit(e) {
     e.preventDefault();
     this.setState({
@@ -57,12 +70,21 @@ class ForgetPasswordModal extends React.Component {
     }
   }
 
+  /**
+   * @param {any} e
+   * @memberof ForgetPasswordModal
+   * @return {void}
+   */
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
   }
 
+  /**
+   * @returns {object} - Forget Password modal component
+   * @memberof ForgetPasswordModal
+   */
   render() {
     const { errors, email } = this.state;
     return (

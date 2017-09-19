@@ -15,7 +15,7 @@ export function createGroup(group) {
 /**
  * Fetch all Groups.
  * @param {Array} groups - groups.
- *@returns {groups} - returns group.
+ * @returns {void}
  */
 export function setGroups(groups) {
   return {
@@ -27,7 +27,7 @@ export function setGroups(groups) {
 /**
  * Fetch all Users in a group.
  * @param {Array} groupUsers - groupUsers.
- * @returns {groupUsers} - returns groupUsers.
+ * @returns {void}
  */
 export function setGroupUsers(groupUsers) {
   return {
@@ -40,8 +40,7 @@ export function setGroupUsers(groupUsers) {
  * Add user to a group.
  * @param {Boolean} status - status.
  * @param {string} message - message.
- * @returns {status} - returns status.
- * @returns {message} - returns message.
+ * @returns {void} - returns void.
  */
 export function addUserStatus(status, message) {
   return {

@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TextFieldGroup = ({ field, value, label, error, type, onChange, checkUserExits }) => {
-  return(
+const TextFieldGroup =
+({ field, value, label, error, type, onChange, checkUserExits }) => {
+  return (
     <div>
       <div className="input-field col s12">
         <label htmlFor="username">{label}</label>
-        <input classID="username"
+        <input
+          classID="username"
           type={type}
           name={field}
           value={value}

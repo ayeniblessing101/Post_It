@@ -16732,7 +16732,8 @@ var TextFieldGroup = function TextFieldGroup(_ref) {
         { htmlFor: 'username' },
         label
       ),
-      _react2.default.createElement('input', { classID: 'username',
+      _react2.default.createElement('input', {
+        classID: 'username',
         type: type,
         name: field,
         value: value,
@@ -17961,7 +17962,7 @@ function createGroup(group) {
 /**
  * Fetch all Groups.
  * @param {Array} groups - groups.
- *@returns {groups} - returns group.
+ * @returns {void}
  */
 function setGroups(groups) {
   return {
@@ -17973,7 +17974,7 @@ function setGroups(groups) {
 /**
  * Fetch all Users in a group.
  * @param {Array} groupUsers - groupUsers.
- * @returns {groupUsers} - returns groupUsers.
+ * @returns {void}
  */
 function setGroupUsers(groupUsers) {
   return {
@@ -17986,8 +17987,7 @@ function setGroupUsers(groupUsers) {
  * Add user to a group.
  * @param {Boolean} status - status.
  * @param {string} message - message.
- * @returns {status} - returns status.
- * @returns {message} - returns message.
+ * @returns {void} - returns void.
  */
 function addUserStatus(status, message) {
   return {
@@ -18405,7 +18405,8 @@ var FlashMessagesList = function (_React$Component) {
       var _this2 = this;
 
       var messages = this.props.messages.map(function (message) {
-        return _react2.default.createElement(_FlashMessage2.default, { key: message.id,
+        return _react2.default.createElement(_FlashMessage2.default, {
+          key: message.id,
           message: message,
           deleteFlashMessage: _this2.props.deleteFlashMessage
         });
@@ -18426,6 +18427,11 @@ FlashMessagesList.propTypes = {
   deleteFlashMessage: _propTypes2.default.func.isRequired
 };
 
+/**
+ * takes a state in the store (messages) and passes it to the component as props
+ * @param {object} state
+ * @returns
+ */
 function mapStateToProps(state) {
   return {
     messages: state.flashMessages
@@ -19901,7 +19907,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Set Current User.
  * @param {Object} user - user.
- * @returns {user} - returns user.
+ * @returns {void}
  */
 function setCurrentUser(user) {
   return {
@@ -19925,7 +19931,7 @@ function logout() {
 /**
  * Handles Login Request.
  * @param {Object} data - accepts user data(username and password).
- * @returns {token} - returns token.
+ * @returns {void}
  */
 function login(data) {
   return function (dispatch) {
@@ -53754,7 +53760,7 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(console) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -53772,6 +53778,11 @@ var _types = __webpack_require__(24);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * post message status
+ * @param {any} message
+ * @return {void}
+ */
 var postMessageStatus = exports.postMessageStatus = function postMessageStatus(message) {
   return {
     type: _types.POST_MESSAGE,
@@ -53779,6 +53790,11 @@ var postMessageStatus = exports.postMessageStatus = function postMessageStatus(m
   };
 };
 
+/**
+ * action to fetch all messages
+ * @param {any} messages
+ * @return {void}
+ */
 var getAllMessages = exports.getAllMessages = function getAllMessages(messages) {
   return {
     type: _types.SET_MESSAGES,
@@ -53823,7 +53839,6 @@ function getMessages(groupId) {
       var data = _ref2.data;
 
       dispatch(getAllMessages(data.data));
-      console.log(groupId);
     });
   };
 }
@@ -53836,14 +53851,11 @@ function getMessages(groupId) {
  */
 function updateMessageStatus(messageId) {
   return function (dispatch) {
-    return _axios2.default.post('/api/record-message-views', { messageId: messageId }).then(function (_ref3) {
-      var data = _ref3.data;
-
+    return _axios2.default.post('/api/record-message-views', { messageId: messageId }).then(function () {
       dispatch(messageReadStatus(messageId));
     });
   };
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
 /* 441 */
@@ -54097,9 +54109,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class AddGroupForm
+ * @extends {React.Component}
+ */
 var AddGroupForm = function (_React$Component) {
   _inherits(AddGroupForm, _React$Component);
 
+  /**
+   * Creates an instance of AddGroupForm.
+   * @param {any} props
+   * @memberof AddGroupForm
+   */
   function AddGroupForm(props) {
     _classCallCheck(this, AddGroupForm);
 
@@ -54128,6 +54149,13 @@ var AddGroupForm = function (_React$Component) {
 
       return isValid;
     }
+
+    /**
+     * @param {any} e
+     * @memberof AddGroupForm
+     * @return {void}
+     */
+
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
@@ -54137,10 +54165,6 @@ var AddGroupForm = function (_React$Component) {
       if (this.isValid()) {
         this.setState({ errors: {}, isLoading: true });
         this.props.createGroup(this.state).then(function () {
-          //this.props.addFlashMessage({
-          //type: 'success',
-          //text: 'Group created successfully'
-          //});
           _this2.context.router.history.push('/groups');
         }, function (_ref) {
           var data = _ref.data;
@@ -54152,11 +54176,25 @@ var AddGroupForm = function (_React$Component) {
         });
       }
     }
+
+    /**
+     * @param {any} e
+     * @memberof AddGroupForm
+     * @return {void}
+     */
+
   }, {
     key: 'handleChange',
     value: function handleChange(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
+
+    /**
+     * Reander AddGroup Form component
+     * @returns {object} Add group form component
+     * @memberof AddGroupForm
+     */
+
   }, {
     key: 'render',
     value: function render() {
@@ -54282,6 +54320,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * Renders AddGroup Page Component
+ * @class AddGroupPage
+ * @extends {React.Component}
+ */
 var AddGroupPage = function (_React$Component) {
   _inherits(AddGroupPage, _React$Component);
 
@@ -54346,6 +54389,12 @@ var avatar1 = __webpack_require__(540);
 // const avatar2 = require("../../images/avatar2.png");
 // const avatar3 = require("../../images/friend-group2.jpg");
 
+/**
+ * Renders GroupCard component
+ * @export
+ * @param {any} { group }
+ * @returns {object} - GroupCard component
+ */
 function GroupCard(_ref) {
   var group = _ref.group;
 
@@ -54359,7 +54408,7 @@ function GroupCard(_ref) {
         'div',
         { className: 'col s12 m5 l3 small-cards' },
         _react2.default.createElement('br', null),
-        _react2.default.createElement('img', { src: avatar1 }),
+        _react2.default.createElement('img', { src: avatar1, alt: 'avater' }),
         _react2.default.createElement(
           'h5',
           null,
@@ -54516,9 +54565,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * renders groups page compoent
+ * @class GroupsPage
+ * @extends {React.Component}
+ */
 var GroupsPage = function (_React$Component) {
   _inherits(GroupsPage, _React$Component);
 
+  /**
+   * Creates an instance of GroupsPage.
+   * @memberof GroupsPage
+   */
   function GroupsPage() {
     _classCallCheck(this, GroupsPage);
 
@@ -54529,12 +54587,24 @@ var GroupsPage = function (_React$Component) {
     };
     return _this;
   }
+  /**
+   * @memberof GroupsPage
+   * @return {void}
+   */
+
 
   _createClass(GroupsPage, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.fetchGroups();
     }
+
+    /**
+     * @param {any} nextProps 
+     * @memberof GroupsPage
+     * @return {void}
+     */
+
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
@@ -54542,6 +54612,12 @@ var GroupsPage = function (_React$Component) {
         groups: nextProps.groups
       });
     }
+
+    /**
+     * @returns {object} groupsPage Component
+     * @memberof GroupsPage
+     */
+
   }, {
     key: 'render',
     value: function render() {
@@ -54618,9 +54694,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class FlashMessage
+ * @extends {React.Component}
+ */
 var FlashMessage = function (_React$Component) {
   _inherits(FlashMessage, _React$Component);
 
+  /**
+   * Creates an instance of FlashMessage.
+   * @param {any} props 
+   * @memberof FlashMessage
+   */
   function FlashMessage(props) {
     _classCallCheck(this, FlashMessage);
 
@@ -54629,12 +54714,21 @@ var FlashMessage = function (_React$Component) {
     _this.onClick = _this.onClick.bind(_this);
     return _this;
   }
+  /**
+   * @memberof FlashMessage
+   */
+
 
   _createClass(FlashMessage, [{
     key: 'onClick',
     value: function onClick() {
       this.props.deleteFlashMessage(this.props.message.id);
     }
+    /**
+     * @returns {object} flash message component
+     * @memberof FlashMessage
+     */
+
   }, {
     key: 'render',
     value: function render() {
@@ -54726,10 +54820,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // const avatar2 = require("../images/avatar2.png");
 // const avatar3 = require("../images/friend-group2.jpg");
-
+/**
+ * @class ForgetPasswordModal
+ * @extends {React.Component}
+ */
 var ForgetPasswordModal = function (_React$Component) {
   _inherits(ForgetPasswordModal, _React$Component);
 
+  /**
+   * Creates an instance of ForgetPasswordModal.
+   * @param {any} props
+   * @memberof ForgetPasswordModal
+   */
   function ForgetPasswordModal(props) {
     _classCallCheck(this, ForgetPasswordModal);
 
@@ -54759,6 +54861,13 @@ var ForgetPasswordModal = function (_React$Component) {
 
       return isValid;
     }
+
+    /**
+     * @param {any} e
+     * @memberof ForgetPasswordModal
+     * @return {void}
+     */
+
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
@@ -54783,11 +54892,24 @@ var ForgetPasswordModal = function (_React$Component) {
         });
       }
     }
+
+    /**
+     * @param {any} e
+     * @memberof ForgetPasswordModal
+     * @return {void}
+     */
+
   }, {
     key: 'handleChange',
     value: function handleChange(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
+
+    /**
+     * @returns {object} - Forget Password modal component
+     * @memberof ForgetPasswordModal
+     */
+
   }, {
     key: 'render',
     value: function render() {

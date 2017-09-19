@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { POST_MESSAGE, SET_MESSAGES, UPDATE_READ_STATUS } from './types';
 
-
+/**
+ * post message status
+ * @param {any} message
+ * @return {void}
+ */
 export const postMessageStatus = message => (
   {
     type: POST_MESSAGE,
@@ -9,6 +13,11 @@ export const postMessageStatus = message => (
   }
 );
 
+/**
+ * action to fetch all messages
+ * @param {any} messages
+ * @return {void}
+ */
 export const getAllMessages = messages => (
   {
     type: SET_MESSAGES,
@@ -52,7 +61,6 @@ export function getMessages(groupId) {
     axios.get(`/api/group/${groupId}/messages`)
     .then(({ data }) => {
       dispatch(getAllMessages(data.data));
-      console.log(groupId);
     })
   );
 }
@@ -66,7 +74,7 @@ export function getMessages(groupId) {
 export function updateMessageStatus(messageId) {
   return dispatch => (
     axios.post('/api/record-message-views', { messageId })
-    .then(({ data }) => {
+    .then(() => {
       dispatch(messageReadStatus(messageId));
     })
   );

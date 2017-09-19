@@ -6,7 +6,7 @@ import { SET_CURRENT_USER } from './types';
 /**
  * Set Current User.
  * @param {Object} user - user.
- * @returns {user} - returns user.
+ * @returns {void}
  */
 export function setCurrentUser(user) {
   return {
@@ -30,7 +30,7 @@ export function logout() {
 /**
  * Handles Login Request.
  * @param {Object} data - accepts user data(username and password).
- * @returns {token} - returns token.
+ * @returns {void}
  */
 export function login(data) {
   return (dispatch) => {
