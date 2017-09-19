@@ -18039,9 +18039,11 @@ function addUserToGroup(groupId, user) {
   return function (dispatch) {
     return _axios2.default.post('/api/group/' + groupId + '/user', user).then(function () {
       dispatch(addUserStatus(true));
+      return true;
     }).catch(function (error) {
       var message = error.data.message;
       dispatch(addUserStatus(false, message));
+      return false;
     });
   };
 }
@@ -53754,7 +53756,7 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(console) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -53822,8 +53824,7 @@ function getMessages(groupId) {
     return _axios2.default.get('/api/group/' + groupId + '/messages').then(function (_ref2) {
       var data = _ref2.data;
 
-      dispatch(getAllMessages(data.data));
-      console.log(groupId);
+      dispatch(getAllMessages(data.messages));
     });
   };
 }
@@ -53843,7 +53844,6 @@ function updateMessageStatus(messageId) {
     });
   };
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
 /* 441 */
@@ -55254,19 +55254,24 @@ var AddUserModal = function (_React$Component) {
         this.setState({ errors: {} });
         this.props.addUserToGroup(groupId, {
           username: this.state.username
-        }).then(function () {
-          _this2.props.addFlashMessage({
-            type: 'success',
-            text: 'User has been add to Group Successfully'
-          });
-        }, function (_ref) {
-          var data = _ref.data;
-          return _this2.setState({
-            errors: data,
-            username: ''
-          });
+        }).then(function (res) {
+          if (res) {
+            _this2.props.addFlashMessage({
+              type: 'success',
+              text: 'User has been add to Group Successfully'
+            });
+          } else {
+            _this2.props.addFlashMessage({
+              type: 'error',
+              text: 'User has already been added to Group'
+            });
+          }
         });
       }
+      this.setState({
+        username: '',
+        errors: {}
+      });
     }
   }, {
     key: 'handleChange',
@@ -55778,6 +55783,7 @@ var MessageForm = function (_React$Component) {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
+      if (!this.state.message || !this.state.priority) {}
       this.props.postMessage(this.props.groupId, {
         message: this.state.message,
         priority: this.state.priority
@@ -55807,7 +55813,9 @@ var MessageForm = function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      var allMessages = void 0;
       var group = this.props.group;
+      var messages = this.state.messages;
 
       var groupId = parseInt(this.props.groupId, 10);
       var groupName = 'No Group Found';
@@ -55819,6 +55827,49 @@ var MessageForm = function (_React$Component) {
           groupName = group_name;
         }
       });
+
+      if (messages.length > 0) {
+        allMessages = messages.map(function (message) {
+          return _react2.default.createElement(
+            'div',
+            { key: message.id },
+            _react2.default.createElement(
+              'b',
+              { className: 'senderName' },
+              message.User.username
+            ),
+            _react2.default.createElement(
+              'span',
+              { className: 'right' },
+              (0, _moment2.default)(message.createdAt, _moment2.default.ISO_8601).fromNow()
+            ),
+            _react2.default.createElement(
+              'p',
+              { key: message.id },
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                {
+                  id: message.id,
+                  className: 'messageLink',
+                  to: '#',
+                  onClick: _this2.handleMessageStatus },
+                message.message_body
+              ),
+              _react2.default.createElement('span', {
+                className: 'new badge ' + message.priority_level.toLowerCase(),
+                'data-badge-caption': message.priority_level })
+            ),
+            _react2.default.createElement('hr', null),
+            _react2.default.createElement('br', null)
+          );
+        });
+      } else {
+        allMessages = _react2.default.createElement(
+          'h6',
+          null,
+          'No messages to show'
+        );
+      }
 
       return _react2.default.createElement(
         'div',
@@ -55834,40 +55885,7 @@ var MessageForm = function (_React$Component) {
               { className: 'groupName' },
               groupName
             ),
-            this.state.messages.map(function (message) {
-              return _react2.default.createElement(
-                'div',
-                { key: message.id },
-                _react2.default.createElement(
-                  'b',
-                  { className: 'senderName' },
-                  message.User.username
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { className: 'right' },
-                  (0, _moment2.default)(message.createdAt, _moment2.default.ISO_8601).fromNow()
-                ),
-                _react2.default.createElement(
-                  'p',
-                  { key: message.id },
-                  _react2.default.createElement(
-                    _reactRouterDom.Link,
-                    {
-                      id: message.id,
-                      className: 'messageLink',
-                      to: '#',
-                      onClick: _this2.handleMessageStatus },
-                    message.message_body
-                  ),
-                  _react2.default.createElement('span', {
-                    className: 'new badge red',
-                    'data-badge-caption': message.priority_level })
-                ),
-                _react2.default.createElement('hr', null),
-                _react2.default.createElement('br', null)
-              );
-            })
+            allMessages
           ),
           _react2.default.createElement(
             'div',
@@ -55882,6 +55900,7 @@ var MessageForm = function (_React$Component) {
                   placeholder: 'Write your message Here',
                   id: 'message',
                   type: 'text',
+                  required: true,
                   name: 'message',
                   onChange: this.handleChange,
                   value: this.state.message,
@@ -55895,6 +55914,7 @@ var MessageForm = function (_React$Component) {
                   'select',
                   {
                     className: 'browser-default',
+                    required: true,
                     value: this.state.priority,
                     name: 'priority',
                     onChange: this.handleChange },

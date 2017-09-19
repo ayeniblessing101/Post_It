@@ -38,18 +38,24 @@ class AddUserModal extends React.Component {
       this.setState({ errors: {} });
       this.props.addUserToGroup(groupId, {
         username: this.state.username
-      }).then(() => {
-        this.props.addFlashMessage({
-          type: 'success',
-          text: 'User has been add to Group Successfully'
-        });
-      },
-        ({ data }) => this.setState({
-          errors: data,
-          username: ''
-        })
-      );
+      }).then((res) => {
+        if (res) {
+          this.props.addFlashMessage({
+            type: 'success',
+            text: 'User has been add to Group Successfully'
+          });
+        } else {
+          this.props.addFlashMessage({
+            type: 'error',
+            text: 'User has already been added to Group'
+          });
+        }
+      });
     }
+    this.setState({
+      username: '',
+      errors: {}
+    });
   }
 
   handleChange(e) {

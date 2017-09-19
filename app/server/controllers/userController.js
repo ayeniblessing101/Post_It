@@ -128,7 +128,7 @@ exports.login = (req, res) => {
         if (bcrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({
             data: user
-          }, 'secret', { expiresIn: 1440 });
+          }, 'secret', { expiresIn: 144444440 });
           res.json({ token });
         } else {
           res.status(401).json({ errors: { form: 'Invalid Credentials' } });

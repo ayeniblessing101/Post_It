@@ -147,7 +147,7 @@ exports.add_user = (req, res) => {
               data: Usergroup
             });
           } else {
-            res.status(401)
+            res.status(400)
               .send({ status: true,
                 message: ' User has already been added to this group' });
           }
