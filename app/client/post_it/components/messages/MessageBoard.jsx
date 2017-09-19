@@ -7,26 +7,26 @@ import MessageForm from './MessageForm';
 import AllGroups from './AllGroups';
 import AllUsers from './AllUsers';
 
-class MessageBoard extends React.Component{
+class MessageBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       groups: this.props.groups,
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       groups: this.props.groups
-    })
+    });
   }
 
-  render(){
+  render() {
     const groups = this.props.groups;
-    const selectedGroupId = this.props.selectedGroupId;
+    const selectedGroupId = Number(this.props.selectedGroupId);
     const statusMessage = this.props.statusMessage;
     const { addUserToGroup } = this.props;
-    return(
+    return (
       <div>
         <div className="col s12 m10 l10 col-md-10">
           <div id="messageBoard" className="mycontainer">
@@ -52,8 +52,9 @@ class MessageBoard extends React.Component{
 }
 
 MessageBoard.propTypes = {
-  addUserToGroup: PropTypes.func.isRequired
-}
+  addUserToGroup: PropTypes.func.isRequired,
+  selectedGroupId: PropTypes.number.isRequired
+};
 
 
 export default connect(null)(MessageBoard);

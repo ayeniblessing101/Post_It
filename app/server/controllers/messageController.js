@@ -10,7 +10,6 @@ const Group = require('../models').Group;
 const ReadMessage = require('../models').ReadMessage;
 // Method to post message
 exports.post_message = (req, res) => {
-  // console.log(req.body.message)
   if (req.body.message === '') {
     return res.status(404).send({ status: false,
       message: 'message body cannot be empty' });
@@ -93,18 +92,13 @@ exports.get_messages = (req, res) => {
           }
         })
         .then((messageResponse) => {
-          console.log(messageResponse)
           if (messageResponse) {
             messagesArray.push(messageResponse);
           }
         });
       }
-      console.log('MessageArray', messagesArray);
       return res.status(200).send(messagesArray);
     }
-    // res.status(200).send({ status: true,
-    //   message: 'Successful',
-    //   data: messages });
     res.status(400).send({ message: 'No messages to display' });
   });
 };

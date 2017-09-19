@@ -1,10 +1,12 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 // import { Textarea, Span } from 'react-materialize';
 import moment from 'moment';
-import { getMessages, postMessage, updateMessageStatus } from '../../actions/messageActions';
+import { getMessages, postMessage, updateMessageStatus }
+from '../../actions/messageActions';
 
 // const avatar2 = require("../images/avatar2.png");
 // const avatar3 = require("../images/friend-group2.jpg");
@@ -35,7 +37,6 @@ class MessageForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    // console.log('here',this.state.message);
     this.props.postMessage(this.props.groupId, {
       message: this.state.message,
       priority: this.state.priority
@@ -123,7 +124,7 @@ class MessageForm extends React.Component {
                   <option value="Critical">Critical</option>
                   <option value="Urgent">Urgent</option>
                 </select>
-                <br></br>
+                <br />
                 <button className="btn messageBtn" type="submit">
                   <i className="material-icons">send</i>
                 </button>
@@ -135,6 +136,12 @@ class MessageForm extends React.Component {
     );
   }
 }
+
+MessageForm.propTypes = {
+  postMessage: PropTypes.func.isRequired,
+  updateMessageStatus: PropTypes.func.isRequired,
+};
+
 
 const mapStateToProps = state => ({
   messages: state.messages,

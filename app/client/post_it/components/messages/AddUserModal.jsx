@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Modal, Icon, Row, Input} from 'react-materialize';
+import { Button, Modal } from 'react-materialize';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { validateInput } from '../../../../server/shared/validations/adduser';
 import { addFlashMessage } from '../../actions/flashMessages';
 import FlashMessagesList from '../flash/FlashMessagesList';
 
-//const avatar2 = require("../images/avatar2.png");
-//const avatar3 = require("../images/friend-group2.jpg");
+// const avatar2 = require("../images/avatar2.png");
+// const avatar3 = require("../images/friend-group2.jpg");
 
-class AddUserModal extends React.Component{
+class AddUserModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,9 +22,9 @@ class AddUserModal extends React.Component{
   }
 
   isValid() {
-    const { errors, isValid, addFlashMessage } = validateInput(this.state);
+    const { errors, isValid } = validateInput(this.state);
 
-    if(!isValid) {
+    if (!isValid) {
       this.setState({ errors });
     }
 
@@ -34,15 +34,14 @@ class AddUserModal extends React.Component{
   handleSubmit(e) {
     e.preventDefault();
     const groupId = this.props.groupId;
-    if(this.isValid()) {
+    if (this.isValid()) {
       this.setState({ errors: {} });
       this.props.addUserToGroup(groupId, {
         username: this.state.username
       }).then(() => {
-        // console.log(this.props.statusMessage);
         this.props.addFlashMessage({
-        type: 'success',
-        text: 'User has been add to Group Successfully'
+          type: 'success',
+          text: 'User has been add to Group Successfully'
         });
       },
         ({ data }) => this.setState({
@@ -57,8 +56,8 @@ class AddUserModal extends React.Component{
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  render(){
-    const { errors, username}  = this.state;
+  render() {
+    const { errors, username } = this.state;
     return (
       <div>
         <Modal
@@ -66,13 +65,14 @@ class AddUserModal extends React.Component{
           trigger={<Button className="add_user">Add User</Button>}>
           <FlashMessagesList />
           <form onSubmit={this.handleSubmit} >
-           { errors.form && <div className="alert alert-danger">{errors.form}</div> }
+            { errors.form &&
+              <div className="alert alert-danger">{errors.form}</div> }
             <TextFieldGroup
-              error = {errors.username}
-              label = "Username"
-              onChange = {this.handleChange}
-              value = {username}
-              field = "username"
+              error={errors.username}
+              label="Username"
+              onChange={this.handleChange}
+              value={username}
+              field="username"
               type="text"
             />
             <Button
@@ -92,6 +92,6 @@ class AddUserModal extends React.Component{
 AddUserModal.propTypes = {
   addUserToGroup: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
-}
+};
 
 export default connect(null, { addFlashMessage })(AddUserModal);

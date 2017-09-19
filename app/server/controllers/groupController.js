@@ -164,7 +164,6 @@ exports.add_user = (req, res) => {
 
 // Method to get all users in a group
 exports.get_users = (req, res) => {
-  // console.log(req.params.id);
   Group.findOne({
     where: {
       id: req.params.id

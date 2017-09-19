@@ -84,9 +84,6 @@ exports.signup = (req, res) => {
         },
       })
       .then((newUser) => {
-        // if (err) {
-        //   console.log('no user found');
-        // }
         if (newUser) {
           errors.email = 'Email already exists';
         }
