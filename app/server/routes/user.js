@@ -11,6 +11,7 @@ router.post('/user/signup', userController.signup);
 router.post('/password/forgot', userController.forgotPassword);
 router.get('/password/token/check', userController.checkToken);
 router.post('/password/verify', userController.resetPassword);
+router.get('/user/search', userController.search);
 router.get('/user/signup/:identifier', userController.identify);
 router.post('/user/signin', userController.login);
 router.post('/group', verifyToken, groupController.create_group);

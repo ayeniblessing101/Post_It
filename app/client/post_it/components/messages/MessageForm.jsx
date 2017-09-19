@@ -53,13 +53,6 @@ class MessageForm extends React.Component {
     });
   }
 
-  // componentDidMount() {
-  //   // console.log('this.props.groupId', this.props.groupId);
-  //   $(document).ready(function() {
-  //     $('select').material_select();
-  //   });
-  // }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       messages: nextProps.messages

@@ -6,6 +6,7 @@ import groups from './reducers/groups';
 import groupUpdate from './reducers/user';
 import messagesReducer from './reducers/messagesReducer';
 import groupUsers from './reducers/groupUsersReducer';
+import users from './reducers/users';
 
 export default combineReducers({
   flashMessages,
@@ -13,5 +14,6 @@ export default combineReducers({
   groups,
   groupUpdate,
   groupUsers,
+  users,
   messages: messagesReducer
 });

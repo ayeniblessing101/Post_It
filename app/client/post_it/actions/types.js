@@ -7,3 +7,4 @@ export const POST_MESSAGE = 'POST_MESSAGE';
 export const SET_MESSAGES = 'SET_MESSAGES';
 export const SET_GROUP_USERS = 'SET_GROUP_USERS';
 export const UPDATE_READ_STATUS = 'UPDATE_READ_STATUS';
+export const GET_ALL_USERS = 'GET_ALL_USERS';
