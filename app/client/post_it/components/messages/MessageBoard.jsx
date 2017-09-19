@@ -23,7 +23,7 @@ class MessageBoard extends React.Component {
 
   render() {
     const groups = this.props.groups;
-    const selectedGroupId = Number(this.props.selectedGroupId);
+    const selectedGroupId = this.props.selectedGroupId;
     const statusMessage = this.props.statusMessage;
     const { addUserToGroup } = this.props;
     return (
@@ -53,7 +53,6 @@ class MessageBoard extends React.Component {
 
 MessageBoard.propTypes = {
   addUserToGroup: PropTypes.func.isRequired,
-  selectedGroupId: PropTypes.number.isRequired
 };
 
 

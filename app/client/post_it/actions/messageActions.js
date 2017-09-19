@@ -52,6 +52,7 @@ export function getMessages(groupId) {
     axios.get(`/api/group/${groupId}/messages`)
     .then(({ data }) => {
       dispatch(getAllMessages(data.data));
+      console.log(groupId);
     })
   );
 }

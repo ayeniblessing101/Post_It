@@ -53754,7 +53754,7 @@ module.exports = function spread(callback) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(console) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -53823,6 +53823,7 @@ function getMessages(groupId) {
       var data = _ref2.data;
 
       dispatch(getAllMessages(data.data));
+      console.log(groupId);
     });
   };
 }
@@ -53842,6 +53843,7 @@ function updateMessageStatus(messageId) {
     });
   };
 }
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
 /* 441 */
@@ -55650,7 +55652,7 @@ var MessageBoard = function (_React$Component) {
     key: 'render',
     value: function render() {
       var groups = this.props.groups;
-      var selectedGroupId = Number(this.props.selectedGroupId);
+      var selectedGroupId = this.props.selectedGroupId;
       var statusMessage = this.props.statusMessage;
       var addUserToGroup = this.props.addUserToGroup;
 
@@ -55689,8 +55691,7 @@ var MessageBoard = function (_React$Component) {
 }(_react2.default.Component);
 
 MessageBoard.propTypes = {
-  addUserToGroup: _propTypes2.default.func.isRequired,
-  selectedGroupId: _propTypes2.default.number.isRequired
+  addUserToGroup: _propTypes2.default.func.isRequired
 };
 
 exports.default = (0, _reactRedux.connect)(null)(MessageBoard);
