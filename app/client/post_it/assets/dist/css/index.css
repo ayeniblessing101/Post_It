@@ -161,6 +161,10 @@ nav a{
   background-color: blue !important;
 }
 
+.center {
+  text-align: center !important;
+}
+
 .row
 {
   display: table-row;

@@ -72,6 +72,7 @@ class UserList extends React.Component {
    * @return {object} - UserList component
    */
   render() {
+    const { users } = this.state;
     return (
       <div>
         <div className="col s12 m10 l10 col-md-10">
@@ -89,16 +90,22 @@ class UserList extends React.Component {
                   </thead>
                   <tbody>
                     {
-                      this.props.users.users.map(user => (
+                      users.length > 0 ? users.users.map(user => (
                         <tr key={user.id}>
                           <td>{user.username}</td>
                           <td>{user.email}</td>
                         </tr>
-                      ))
-                    }         
+                      )) : (
+                        <tr>
+                          <td className="center" col="2" colSpan="2">No user found</td>
+                        </tr>
+                      )
+                    }
                   </tbody>
                 </table>
-                <ReactPaginate
+                {
+                  users.length > 5 &&
+                  <ReactPaginate
                   previousLabel={'previous'}
                   nextLabel={'next'}
                   breakLabel={<a href="">...</a>}
@@ -111,6 +118,7 @@ class UserList extends React.Component {
                   subContainerClassName={'pages pagination'}
                   activeClassName={'active'}
                 />
+                }
               </div>
               <div className="col s12 m4 l2" />
             </div>

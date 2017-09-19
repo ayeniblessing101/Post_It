@@ -56938,6 +56938,8 @@ var UserList = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var users = this.state.users;
+
       return _react2.default.createElement(
         'div',
         null,
@@ -56983,7 +56985,7 @@ var UserList = function (_React$Component) {
                   _react2.default.createElement(
                     'tbody',
                     null,
-                    this.props.users.users.map(function (user) {
+                    users.length > 0 ? users.users.map(function (user) {
                       return _react2.default.createElement(
                         'tr',
                         { key: user.id },
@@ -56998,10 +57000,18 @@ var UserList = function (_React$Component) {
                           user.email
                         )
                       );
-                    })
+                    }) : _react2.default.createElement(
+                      'tr',
+                      null,
+                      _react2.default.createElement(
+                        'td',
+                        { className: 'center', col: '2', colSpan: '2' },
+                        'No user found'
+                      )
+                    )
                   )
                 ),
-                _react2.default.createElement(_reactPaginate2.default, {
+                users.length > 5 && _react2.default.createElement(_reactPaginate2.default, {
                   previousLabel: 'previous',
                   nextLabel: 'next',
                   breakLabel: _react2.default.createElement(
