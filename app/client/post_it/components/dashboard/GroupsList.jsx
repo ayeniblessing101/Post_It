@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import GroupCard from './GroupCard';
+
 const isEmpty = require('lodash/isEmpty');
 // const avatar1 = require("../../images/avatar1.png");
 // const avatar2 = require("../../images/avatar2.png");
@@ -24,7 +24,8 @@ const GroupsList = ({ groups }) => {
           <div className="mycontainer">
             <div className="row ">
               {
-                groups.map((group , i) => { return <GroupCard group={group} key={i} />
+                groups.map((group, i) => {
+                  return <GroupCard group={group} key={i} />;
                 })
               }
             </div>
@@ -37,10 +38,10 @@ const GroupsList = ({ groups }) => {
   return (
       isEmpty(groups) ? emptyMessage : groupsList
   );
-}
+};
 
 GroupsList.propTypes = {
   groups: PropTypes.array.isRequired,
-}
+};
 
 export default GroupsList;

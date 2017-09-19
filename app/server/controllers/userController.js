@@ -1,8 +1,8 @@
 // import {validateInput} from '../shared/validations/signup';
-import Validator from 'validator';
-import crypto from 'crypto';
-import nodemailer from 'nodemailer';
-import checkNum from '../utils/numberValidation';
+const Validator = require('validator');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const checkNum = require('../utils/numberValidation');
 // import forgotPasswordMail from '../utils/forgetPasswordMail';
 
 const isEmpty = require('lodash/isEmpty');
@@ -84,9 +84,6 @@ exports.signup = (req, res) => {
         },
       })
       .then((newUser) => {
-        // if (err) {
-        //   console.log('no user found');
-        // }
         if (newUser) {
           errors.email = 'Email already exists';
         }

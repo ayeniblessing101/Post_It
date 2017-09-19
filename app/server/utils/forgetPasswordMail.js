@@ -25,8 +25,8 @@ export default function forgotPasswordMail(receiver, messageBody) {
   // send mail with defined transport object
   transporter.forgotPasswordMail(mailOptions, (error, info) => {
     if (error) {
-      return console.log(error);
+      return (error);
     }
-    console.log('Message %s sent: %s', info.messageId, info.response);
+    return ('Message %s sent: %s', info.messageId, info.response);
   });
 }

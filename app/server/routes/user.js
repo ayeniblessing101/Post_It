@@ -20,5 +20,7 @@ router.post('/group/:id/user', verifyToken, groupController.add_user);
 router.get('/group/:id/users', verifyToken, groupController.get_users);
 router.post('/group/:id/message', verifyToken, messageController.post_message);
 router.get('/group/:id/messages', verifyToken, messageController.get_messages);
+router.post('/record-message-views',
+    verifyToken, messageController.message_views);
 
 module.exports = router;

@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Modal, Icon, Row, Input} from 'react-materialize';
+import {Button, Modal } from 'react-materialize';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { validateInput } from '../../../../server/shared/validations/forgotpassword';
+import { validateInput } 
+ from '../../../../server/shared/validations/forgotpassword';
 import { forgotPassword } from '../../actions/forgotPasswordAction';
 import { addFlashMessage } from '../../actions/flashMessages';
 import FlashMessagesList from '../flash/FlashMessagesList';
 
-//const avatar2 = require("../images/avatar2.png");
-//const avatar3 = require("../images/friend-group2.jpg");
+// const avatar2 = require("../images/avatar2.png");
+// const avatar3 = require("../images/friend-group2.jpg");
 
-class ForgetPasswordModal extends React.Component{
-  constructor(props){
+class ForgetPasswordModal extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
       email: '',
@@ -23,9 +24,10 @@ class ForgetPasswordModal extends React.Component{
   }
 
   isValid() {
-    const { errors, isValid, email, addFlashMessage } = validateInput(this.state);
+    const { errors, isValid, email, addFlashMessage } 
+       = validateInput(this.state);
 
-    if(!isValid) {
+    if (!isValid) {
       this.setState({ errors });
     }
 
@@ -55,13 +57,13 @@ class ForgetPasswordModal extends React.Component{
     }
   }
 
-  handleChange(e){
+  handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
-    })
+    });
   }
 
-  render(){
+  render() {
     const { errors, email } = this.state;
     return (
       <div>
@@ -70,11 +72,12 @@ class ForgetPasswordModal extends React.Component{
           trigger={<p className="forgotPassword">Forgot Password?</p>}>
           <FlashMessagesList />
           <form onSubmit={this.handleSubmit} >
-           { errors.form && <div className="alert alert-danger">{errors.form}</div> }
+            { errors.form &&
+            <div className="alert alert-danger">{errors.form}</div> }
             <TextFieldGroup
-              label = "Email"
-              field = "email"
-              onChange = {this.handleChange}
+              label="Email"
+              field="email"
+              onChange={this.handleChange}
               type="text"
               value={email}
             />
@@ -95,6 +98,7 @@ class ForgetPasswordModal extends React.Component{
 ForgetPasswordModal.propTypes = {
   forgotPassword: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
-}
+};
 
-export default connect(null, { forgotPassword, addFlashMessage })(ForgetPasswordModal);
+export default
+connect(null, { forgotPassword, addFlashMessage })(ForgetPasswordModal);

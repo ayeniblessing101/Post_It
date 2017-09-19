@@ -1,4 +1,4 @@
-import Validator from 'validator';
+const Validator = require('validator');
 
 const isEmpty = require('lodash/isEmpty');
 // const commonValidations = require('../shared/validations/addgroup');
@@ -6,12 +6,18 @@ const User = require('../models').User;
 const Group = require('../models').Group;
 const GroupUser = require('../models').GroupUser;
 
+/**
+   * Creates a new group.
+   * @param {Object} req - request.
+   * @param {Object} res - response.
+   * @returns {data} - returns data of the group created.
+*/
 exports.create_group = (req, res) => {
   /**
-   * Fetch all Groups.
-   * @param {Object} data - errors.
-   * @returns {errors} - returns errors.
-   */
+   * Creates a new group.
+   * @param {Object} data - request.
+   * @returns {errors} - returns errors
+  */
   function validateInput(data) {
     const errors = {};
 
@@ -158,7 +164,6 @@ exports.add_user = (req, res) => {
 
 // Method to get all users in a group
 exports.get_users = (req, res) => {
-  // console.log(req.params.id);
   Group.findOne({
     where: {
       id: req.params.id

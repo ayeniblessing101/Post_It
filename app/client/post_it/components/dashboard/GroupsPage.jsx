@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import GroupsList from './GroupsList';
-import Header from "../Header";
-import Sidebar from "../Sidebar";
 import { connect } from 'react-redux';
+import GroupsList from './GroupsList';
+import Header from '../Header';
+import Sidebar from '../Sidebar';
 import { fetchGroups } from '../../actions/creategroupActions';
 
-class GroupsPage extends React.Component{
+class GroupsPage extends React.Component {
   constructor() {
     super();
     this.state = {
       groups: []
-    }
+    };
   }
   componentDidMount() {
     this.props.fetchGroups();
@@ -23,10 +23,10 @@ class GroupsPage extends React.Component{
     });
   }
 
-  render(){
+  render() {
     const { groups } = this.state;
 
-    return(
+    return (
       <div id="groupsPage">
         <Header />
         <div className="mycontainer" >
@@ -44,12 +44,11 @@ class GroupsPage extends React.Component{
 GroupsPage.propTypes = {
   groups: PropTypes.array.isRequired,
   fetchGroups: PropTypes.func.isRequired
-}
+};
 
-function mapStateToProps(state) {
-  return {
-    groups: state.groups
-  }
-}
+const mapStateToProps = state => ({
+  groups: state.groups
+});
 
-export default connect( mapStateToProps, { fetchGroups } )(GroupsPage);
+
+export default connect(mapStateToProps, { fetchGroups })(GroupsPage);

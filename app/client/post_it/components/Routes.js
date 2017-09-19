@@ -1,20 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Login from './login/LoginPage';
+import SignUpForm from './signup/SignupPage';
+import GroupsPage from './dashboard/GroupsPage';
+import AddGroup from './addgroup/AddGroupPage';
+import AddUser from './AddUser';
+import GroupPage from './messages/MessagePage';
+import ResetPasswordPage from './resetpassword/ResetPasswordPage';
+import UserPage from './user/UserPage';
+import requireAuth from '../utils/requireAuth';
+
 const ReactRouter = require('react-router-dom');
+
 const Route = ReactRouter.Route;
 const Switch = ReactRouter.Switch;
-import SignUpForm from './signup/SignupPage';
-import Login from "./login/LoginPage";
-import GroupsPage from "./dashboard/GroupsPage";
-import AddGroup from "./addgroup/AddGroupPage";
-import AddUser from "./AddUser";
-import GroupPage from "./messages/MessagePage";
-import ResetPasswordPage from "./resetpassword/ResetPasswordPage";
-import UserPage from "./user/UserPage";
-
-import requireAuth from '../utils/requireAuth';
-const Routes = () => {
-  return(
+const Routes = () => (
+  (
     <div>
       <Switch>
         <Route exact path='/' component={SignUpForm} />
@@ -26,11 +27,12 @@ const Routes = () => {
         <Route path='/add-user' component={requireAuth(AddUser)} />
         <Route path='/user/search/' component={requireAuth(UserPage)} />
         <Route render={function () {
-          return <p>Not Found</p>
+          return <p>Not Found</p>;
         }} />
       </Switch>
     </div>
-  );
+  )
 
-};
+);
+
 export default Routes;

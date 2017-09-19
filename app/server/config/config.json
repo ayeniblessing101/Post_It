@@ -12,10 +12,11 @@
     "port": 3001
   },
   "production": {
-    "username": "postgres",
-    "password": "root",
-    "database": "post_it",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "username": "ypkpfhcpkivgcr",
+    "password": "aa6b024594f6b021bbecfab06b0e7e0aa8a970ee9ca611bfd50caa4002167a25",
+    "database": "d3hd86h3un1iqd",
+    "host": "ec2-54-243-253-17.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "port": 5432
   }
 }

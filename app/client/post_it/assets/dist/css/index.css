@@ -379,3 +379,8 @@ button.close {
 .groupName, .groupNames, .userNames {
   text-transform: capitalize;
 }
+
+.messageLink:hover {
+  color: red;
+  text-decoration: underline;
+}

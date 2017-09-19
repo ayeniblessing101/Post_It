@@ -5,10 +5,12 @@ const nexmo = new Nexmo({
   apiSecret: 'b179a2d1fdb4c7b3',
 });
 
-export default function sendSMS(numbers, messageBody) {
+function sendSMS(numbers, messageBody) {
   const from = 'Post It';
   const to = numbers;
   const text = messageBody;
 
   nexmo.message.sendSms(from, to, text);
 }
+
+module.exports = sendSMS;

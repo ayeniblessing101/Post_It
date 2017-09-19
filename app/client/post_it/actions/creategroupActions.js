@@ -3,8 +3,8 @@ import { SET_GROUPS, ADD_USER_TO_GROUP, SET_GROUP_USERS } from './types';
 
 /**
  * Creates a Group.
- * @param {Object} group - groups.
- *@returns {group} - returns group.
+ * @param {Array} group - groups.
+ *@returns {createGroup} - returns the createGroup function to perform asyn dispatch.
  */
 export function createGroup(group) {
   return dispatch => (
@@ -14,7 +14,7 @@ export function createGroup(group) {
 
 /**
  * Fetch all Groups.
- * @param {Object} groups - groups.
+ * @param {Array} groups - groups.
  *@returns {groups} - returns group.
  */
 export function setGroups(groups) {
@@ -26,7 +26,7 @@ export function setGroups(groups) {
 
 /**
  * Fetch all Users in a group.
- * @param {Object} groupUsers - groupUsers.
+ * @param {Array} groupUsers - groupUsers.
  * @returns {groupUsers} - returns groupUsers.
  */
 export function setGroupUsers(groupUsers) {
@@ -38,9 +38,10 @@ export function setGroupUsers(groupUsers) {
 
 /**
  * Add user to a group.
- * @param {boolean} status - status.
+ * @param {Boolean} status - status.
  * @param {string} message - message.
  * @returns {status} - returns status.
+ * @returns {message} - returns message.
  */
 export function addUserStatus(status, message) {
   return {
@@ -67,7 +68,7 @@ export function fetchGroups() {
 
 /**
  * Dispatches an action to fetch all users in a group.
- * @param {Object} groupId - groupdId.
+ * @param {Integer} groupId - groupdId.
  * @returns {void} - The group id and group name.
  */
 export function fetchGroupUsers(groupId) {
@@ -84,7 +85,7 @@ export function fetchGroupUsers(groupId) {
 /**
  * Dispatches an action to add user to a group.
  * @param {integer} groupId - The Id of the group.
- * @param {user} user - The Id of the group.
+ * @param {String} user - The username.
  *@returns {void} - returns void.
  */
 export function addUserToGroup(groupId, user) {

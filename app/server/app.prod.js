@@ -1,21 +1,8 @@
 
 const express = require('express');
 const path = require('path');
-const webpack = require('webpack');
-const webpackMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const webpackConfig = require('../../webpack.config');
 
 const app = express();
-
-const compiler = webpack(webpackConfig);
-
-app.use(webpackMiddleware(compiler, {
-  hot: true,
-  publicPath: webpackConfig.output.publicPath,
-  noInfo: true
-}));
-app.use(webpackHotMiddleware(compiler));
 
 const logger = require('morgan');
 const userRoute = require('../server/routes/user');
@@ -31,7 +18,7 @@ app.use('/fonts', express.static('./app/fonts'));
 app.use('/api', userRoute);
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, '..', '..', 'public', 'index.html'));
 });
 
 

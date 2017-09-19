@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Button, Card, Row, Col } from 'react-materialize';
 import { Link } from 'react-router-dom';
-import TextFieldGroup from '../common/TextFieldGroup';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TextFieldGroup from '../common/TextFieldGroup';
 import ForgetPasswordModal from './ForgetPasswordModal';
 import { login } from '../../actions/authActions';
-import PropTypes from 'prop-types';
 import validateInput from '../../../../server/shared/validations/login';
 import FlashMessagesList from '../flash/FlashMessagesList';
 
-class LoginForm extends React.Component{
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +36,7 @@ class LoginForm extends React.Component{
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(
         (res) => this.context.router.history.push('/groups'),
-        (err) => this.setState({
+        err => this.setState({
           errors: err.data.errors,
           username: '',
           password: ''
@@ -46,12 +46,12 @@ class LoginForm extends React.Component{
   }
 
   handleChange(e) {
-    this.setState({ [e.target.name ]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
     const { errors, username, password } = this.state;
-    return(
+    return (
       <div>
         <section classID="wrapper" className="login-register">
           <div className="wrapper_cen2">
@@ -60,38 +60,44 @@ class LoginForm extends React.Component{
                 <h1>Welcome to the Biggest<br />
                   Social Network in the World
                 </h1>
-                <p>We are the best and biggest social network with 5 billion active
+                <p>We are the best and biggest social network
+                  with 5 billion active
                   users all around the world. Create account, create group
                   add other users to your group and post messages
                 </p>
 
-                <a href="#" className="my_btn btn-md btn-border btn-white">Register Now!</a>
+                <a
+                href="#"
+                className="my_btn btn-md btn-border btn-white">Register Now!</a>
               </div>
               <div className="col s12 m6 reg_form">
                 <div className="reg_form_cen">
                   <h4>Login to PostIt</h4>
                   <FlashMessagesList />
                   <form className="col s12" onSubmit={this.handleSubmit}>
-                    { errors.form && <div className="alert alert-danger">{errors.form}</div> }
+                    { errors.form &&
+                    <div className="alert alert-danger">{errors.form}</div> }
                     <div className="">
                       <TextFieldGroup
-                        error = {errors.username}
-                        label = "Username"
-                        onChange = {this.handleChange}
-                        value = {username}
-                        field = "username"
+                        error={errors.username}
+                        label="Username"
+                        onChange={this.handleChange}
+                        value={username}
+                        field="username"
                         type="text"
                       />
                       <TextFieldGroup
-                        error = {errors.password}
-                        label = "Password"
-                        onChange = {this.handleChange}
-                        value = {password}
-                        field = "password"
+                        error={errors.password}
+                        label="Password"
+                        onChange={this.handleChange}
+                        value={password}
+                        field="password"
                         type="password"
                       />
                       <div className="input-field col s12">
-                        <button className="btn waves-effect waves-light" type="submit" name="action">Submit
+                        <button
+                           className="btn waves-effect waves-light"
+                           type="submit" name="action">Submit
                           <i className="material-icons right">send</i>
                         </button>
                         <br /><br />
@@ -104,7 +110,7 @@ class LoginForm extends React.Component{
                       <p>
                         Do not have an account?
                         <Link to="/" className="blue-text text-darken-2">
-                            <b>Sign Up</b>
+                          <b>Sign Up</b>
                         </Link>
                       </p>
                     </div>
@@ -115,7 +121,7 @@ class LoginForm extends React.Component{
           </div>
         </section>
       </div>
-    )
+    );
   }
 }
 

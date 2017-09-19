@@ -1,15 +1,15 @@
-import sendMail from '../utils/sendMail';
-import sendSMS from '../utils/sendSMS';
-import getGroupUserEmail from '../utils/getGroupUserEmail';
-import getGroupUserPhoneNumber from '../utils/getGroupUserPhoneNumber';
+const sendMail = require('../utils/sendMail');
+const sendSMS = require('../utils/sendSMS');
+const getGroupUserEmail = require('../utils/getGroupUserEmail');
+const getGroupUserPhoneNumber = require('../utils/getGroupUserPhoneNumber');
 
 
 const Message = require('../models').Message;
 const User = require('../models').User;
 const Group = require('../models').Group;
+const ReadMessage = require('../models').ReadMessage;
 // Method to post message
 exports.post_message = (req, res) => {
-  // console.log(req.body.message)
   if (req.body.message === '') {
     return res.status(404).send({ status: false,
       message: 'message body cannot be empty' });
@@ -38,30 +38,30 @@ exports.post_message = (req, res) => {
     const { userPhoneNumbers } = getGroupUserPhoneNumber(req.params.id,
       message, req.decoded.data);
     switch (req.body.priority) {
-      case 'Critical':
-        sendMail(emailUsers, message.message_body);
-        return res.status(201).send({
-          data
-        });
-      case 'Urgent':
-        sendMail(emailUsers, message.message_body);
-        sendSMS(userPhoneNumbers, message.message_body);
-        return res.status(201).send({
-          data
-        });
-      default:
-        return res.status(201).send({
-          data: {
-            id: message.id,
-            message_body: message.message_body,
-            priority_level: message.priority_level,
-            createdAt: message.createdAt,
-            User: {
-              id: req.decoded.data.id,
-              username: req.decoded.data.username
-            }
+    case 'Critical':
+      sendMail(emailUsers, message.message_body);
+      return res.status(201).send({
+        data
+      });
+    case 'Urgent':
+      sendMail(emailUsers, message.message_body);
+      sendSMS(userPhoneNumbers, message.message_body);
+      return res.status(201).send({
+        data
+      });
+    default:
+      return res.status(201).send({
+        data: {
+          id: message.id,
+          message_body: message.message_body,
+          priority_level: message.priority_level,
+          createdAt: message.createdAt,
+          User: {
+            id: req.decoded.data.id,
+            username: req.decoded.data.username
           }
-        });
+        }
+      });
     }
   })
   .catch(err => (
@@ -71,26 +71,72 @@ exports.post_message = (req, res) => {
 
 // Method to get Messages
 exports.get_messages = (req, res) => {
-  // console.log(req.params.id);
+  const userId = req.decoded.data.id;
   Message.findAll({
     where: { group_id: req.params.id },
-    attributes: ['id', 'message_body', 'priority_level', 'group_id', 'createdAt'],
+    attributes:
+    ['id', 'message_body', 'priority_level', 'group_id', 'createdAt'],
     include: [{
       model: User,
       attributes: ['id', 'username', 'email'],
     }]
   })
   .then((messages) => {
-    res.status(200).send({ status: true,
-      message: 'Successful',
-      data: messages });
+    if (messages) {
+      const messagesArray = [];
+      for (const m of messages) {
+        ReadMessage.findOne({
+          where: {
+            $and: [{ message_id: m.id },
+            { user_id: userId }, { group_id: m.group_id }]
+          }
+        })
+        .then((messageResponse) => {
+          if (messageResponse) {
+            messagesArray.push(messageResponse);
+          }
+        });
+      }
+      return res.status(200).send(messagesArray);
+    }
+    res.status(400).send({ message: 'No messages to display' });
   });
 };
 
-// // Method to update Message to read
-// // exports.updateReadby = (req, res) => {
-// //   Message.findById(123).then( => {
-// //     // project will be an instance of Project and stores the content of the table entry
-// //     // with id 123. if such an entry is not defined you will get null
-// //   })
-// }
+// Method to record message views
+exports.message_views = (req, res) => {
+  const userId = req.decoded.data.id;
+  Message.findOne({
+    where: {
+      id: req.body.messageId
+    }
+  })
+  .then((message) => {
+    if (message) {
+      ReadMessage.findOne({
+        where: {
+          $and: [{ message_id: message.id }, { user_id: userId }]
+        }
+      })
+      .then((response) => {
+        if (response) {
+          return res.status(400).send({ message: 'Message viewed already' });
+        }
+        ReadMessage.create({
+          message_id: message.id,
+          user_id: userId,
+          group_id: message.group_id,
+        })
+        .then(() => res.status(200).send({ message: 'Message created!' }))
+        .catch(error => res.status(400)
+        .send({ message: 'An error occured!', error }));
+      })
+      .catch((error) => {
+        res.status(400).send({ error, message: 'An error occured, try again' });
+      });
+    }
+  })
+  .catch((error) => {
+    res.status(400).send({ error, message: 'An error occured, try again' });
+  });
+};

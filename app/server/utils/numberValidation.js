@@ -7,4 +7,4 @@ const checkNum = (num) => {
 };
 
 
-export default checkNum;
+module.exports = checkNum;

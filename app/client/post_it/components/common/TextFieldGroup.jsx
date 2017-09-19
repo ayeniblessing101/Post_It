@@ -18,8 +18,7 @@ const TextFieldGroup = ({ field, value, label, error, type, onChange, checkUserE
       </div>
     </div>
   );
-
-}
+};
 
 TextFieldGroup.propTypes = {
   field: PropTypes.string.isRequired,
@@ -29,10 +28,10 @@ TextFieldGroup.propTypes = {
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   checkUserExits: PropTypes.func
-}
+};
 
 TextFieldGroup.defaultProps = {
   type: 'text'
-}
+};
 
 export default TextFieldGroup;

@@ -1,7 +1,7 @@
 const Group = require('../models').Group;
 const User = require('../models').User;
 
-export default function getGroupUserEmail(id, message, user) {
+function getGroupUserEmail(id, message, user) {
   const userPhoneNumbers = [];
   Group.findOne({
     where: {
@@ -35,3 +35,5 @@ export default function getGroupUserEmail(id, message, user) {
     userPhoneNumbers,
   };
 }
+
+module.exports = getGroupUserEmail;

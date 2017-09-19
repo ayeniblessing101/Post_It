@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchGroupUsers } from '../../actions/creategroupActions';
 
-//const avatar2 = require("../images/avatar2.png");
-//const avatar3 = require("../images/friend-group2.jpg");
+// const avatar2 = require("../images/avatar2.png");
+// const avatar3 = require("../images/friend-group2.jpg");
 
-class AllUsers extends React.Component{
+class AllUsers extends React.Component {
   // constructor(props) {
   //   super(props);
   //   this.state = {
@@ -24,7 +24,7 @@ class AllUsers extends React.Component{
   //     groups: nextProps.groups
   //   })
   // }
-  render(){
+  render() {
     const groupUsers = this.props.groupUsers;
     return (
       <div>
@@ -33,14 +33,16 @@ class AllUsers extends React.Component{
             className="collapsible allMessageCard"
             data-collapsible="accordion"
           >
-          {
-            groupUsers.map((groupUser) => 
-              <li key={groupUser.id}>
-              <div className="collapsible-header">
-                <Link to='#' className="userNames">{groupUser.username}</Link>
-              </div>
-            </li>
-            )}
+            {
+              groupUsers.map(groupUser =>
+                <li key={groupUser.id}>
+                  <div className="collapsible-header">
+                    <Link
+                    to='#'
+                    className="userNames">{groupUser.username}</Link>
+                  </div>
+                </li>
+              )}
           </ul>
         </div>
       </div>
@@ -50,7 +52,7 @@ class AllUsers extends React.Component{
 
 const mapStateToProps = state => ({
   groupUsers: state.groupUsers
-})
+});
 
 
 export default connect(mapStateToProps, { fetchGroupUsers })(AllUsers);
