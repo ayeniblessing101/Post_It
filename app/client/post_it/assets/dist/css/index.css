@@ -153,6 +153,18 @@ nav a{
   height: 100%;
 }
 
+.critical {
+  background-color: red !important;
+}
+
+.urgent {
+  background-color: blue !important;
+}
+
+.center {
+  text-align: center !important;
+}
+
 .row
 {
   display: table-row;

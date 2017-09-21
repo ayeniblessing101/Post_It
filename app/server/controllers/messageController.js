@@ -74,8 +74,14 @@ exports.post_message = (req, res) => {
 // Method to get Messages
 exports.get_messages = (req, res) => {
   const userId = req.decoded.data.id;
+  const groupId = parseInt(req.params.id, 10);
+  if (isNaN(groupId)) {
+    return res.status(400).send({
+      message: 'Group id must be an integer'
+    });
+  }
   Message.findAll({
-    where: { group_id: req.params.id },
+    where: { group_id: groupId },
     attributes:
     ['id', 'message_body', 'priority_level', 'group_id', 'createdAt'],
     include: [{
@@ -85,21 +91,9 @@ exports.get_messages = (req, res) => {
   })
   .then((messages) => {
     if (messages) {
-      const messagesArray = [];
-      for (const m of messages) {
-        ReadMessage.findOne({
-          where: {
-            $and: [{ message_id: m.id },
-            { user_id: userId }, { group_id: m.group_id }]
-          }
-        })
-        .then((messageResponse) => {
-          if (messageResponse) {
-            messagesArray.push(messageResponse);
-          }
-        });
-      }
-      return res.status(200).send(messagesArray);
+      return res.status(200).send({
+        messages
+      });
     }
     res.status(400).send({ message: 'No messages to display' });
   });
