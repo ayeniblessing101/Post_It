@@ -41,15 +41,16 @@ exports.post_message = (req, res) => {
         data
       });
     case 'Urgent':
-      const { status, payload } = sendMail(emailUsers, message.message_body);
-      if (!status) {
-        return res.status(400).send({
-          message: 'Error sending message',
-          error: payload
-        });
-      }
+      sendMail(emailUsers, message.message_body);
+      // const { status, payload } = sendMail(emailUsers, message.message_body);
+      // if (!status) {
+      //   return res.status(400).send({
+      //     message: 'Error sending message',
+      //     error: payload
+      //   });
+      // }
       return res.status(201).send({
-        data: payload
+        data
       });
     default:
       return res.status(201).send({
