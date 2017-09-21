@@ -1,5 +1,4 @@
 const sendMail = require('../utils/sendMail');
-const sendSMS = require('../utils/sendSMS');
 const getGroupUserEmail = require('../utils/getGroupUserEmail');
 const getGroupUserPhoneNumber = require('../utils/getGroupUserPhoneNumber');
 
@@ -35,8 +34,6 @@ exports.post_message = (req, res) => {
     // method to get all emails
     const { data, emailUsers } = getGroupUserEmail(req.params.id,
       message, req.decoded.data);
-    const { userPhoneNumbers } = getGroupUserPhoneNumber(req.params.id,
-      message, req.decoded.data);
     switch (req.body.priority) {
     case 'Critical':
       sendMail(emailUsers, message.message_body);
@@ -44,10 +41,15 @@ exports.post_message = (req, res) => {
         data
       });
     case 'Urgent':
-      sendMail(emailUsers, message.message_body);
-      sendSMS(userPhoneNumbers, message.message_body);
+      const { status, payload } = sendMail(emailUsers, message.message_body);
+      if (!status) {
+        return res.status(400).send({
+          message: 'Error sending message',
+          error: payload
+        });
+      }
       return res.status(201).send({
-        data
+        data: payload
       });
     default:
       return res.status(201).send({
