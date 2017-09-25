@@ -4,11 +4,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createGroup } from '../../actions/creategroupActions';
-import { addFlashMessage } from '../../actions/flashMessages'
-import {validateInput} from '../../../../server/shared/validations/addgroup';
+import { addFlashMessage } from '../../actions/flashMessages';
+import { validateInput } from '../../../../server/shared/validations/addgroup';
 import FlashMessagesList from '../flash/FlashMessagesList';
 
-class AddGroupForm extends React.Component{
+/**
+ * @class AddGroupForm
+ * @extends {React.Component}
+ */
+class AddGroupForm extends React.Component {
+  /**
+   * Creates an instance of AddGroupForm.
+   * @param {any} props
+   * @memberof AddGroupForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -23,43 +32,54 @@ class AddGroupForm extends React.Component{
   isValid() {
     const { errors, isValid } = validateInput(this.state);
 
-    if(!isValid) {
+    if (!isValid) {
       this.setState({ errors });
     }
 
     return isValid;
   }
 
+  /**
+   * @param {any} e
+   * @memberof AddGroupForm
+   * @return {void}
+   */
   handleSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props.createGroup(this.state).then(
         () => {
-          //this.props.addFlashMessage({
-            //type: 'success',
-            //text: 'Group created successfully'
-          //});
-          this.context.router.history.push('/groups')
+          this.context.router.history.push('/groups');
         },
         ({ data }) => this.setState({
           groupname: '',
           errors: data,
-          isLoading:false
+          isLoading: false
         })
       );
     }
   }
 
+  /**
+   * @param {any} e
+   * @memberof AddGroupForm
+   * @return {void}
+   */
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
-    })
+    });
   }
 
-  render(){
-    const { errors, groupname, isLoading, addFlashMessage }  = this.state;
-    return(
+  /**
+   * Reander AddGroup Form component
+   * @returns {object} Add group form component
+   * @memberof AddGroupForm
+   */
+  render() {
+    const { errors, groupname, isLoading, addFlashMessage } = this.state;
+    return (
       <div>
         <div className="col s12 m10 l10 col-md-10">
           <div className="mycontainer">
@@ -72,11 +92,11 @@ class AddGroupForm extends React.Component{
                   { errors.form && <div className="alert alert-danger">{errors.form}</div> }
                   <div className="">
                     <TextFieldGroup
-                      error = {errors.groupname}
-                      label = "Group Name"
-                      onChange = {this.handleChange}
-                      value = {groupname}
-                      field = "groupname"
+                      error={errors.groupname}
+                      label="Group Name"
+                      onChange={this.handleChange}
+                      value={groupname}
+                      field="groupname"
                       type="text"
                     />
                     <div className="input-field col s12">
@@ -85,7 +105,7 @@ class AddGroupForm extends React.Component{
                       <br /><br />
                     </div>
                   </div>
-                  <br/><br/>
+                  <br /><br />
                 </form>
               </div>
               <div className="col s12 m4 l2"></div>
@@ -100,10 +120,10 @@ class AddGroupForm extends React.Component{
 AddGroupForm.propTypes = {
   createGroup: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
-}
+};
 
 AddGroupForm.contextTypes = {
   router: PropTypes.object.isRequired
-}
+};
 
 export default connect(null, { createGroup, addFlashMessage })(AddGroupForm);
