@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import AddGroupForm from './AddGroupForm';
-import Header from "../Header";
-import Sidebar from "../Sidebar";
+import Header from '../Header';
+import Sidebar from '../Sidebar';
 
-
-class AddGroupPage extends React.Component{
-  render(){
-    return(
+/**
+ * Renders AddGroup Page Component
+ * @class AddGroupPage
+ * @extends {React.Component}
+ */
+class AddGroupPage extends React.Component {
+  render() {
+    return (
       <div>
         <Header />
         <div className="mycontainer" >
