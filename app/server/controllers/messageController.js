@@ -42,18 +42,11 @@ exports.post_message = (req, res) => {
       });
     case 'Urgent':
       sendMail(emailUsers, message.message_body);
-      // const { status, payload } = sendMail(emailUsers, message.message_body);
-      // if (!status) {
-      //   return res.status(400).send({
-      //     message: 'Error sending message',
-      //     error: payload
-      //   });
-      // }
-      return res.status(201).send({
+      return res.status(200).send({
         data
       });
     default:
-      return res.status(201).send({
+      return res.status(200).send({
         data: {
           id: message.id,
           message_body: message.message_body,
@@ -134,6 +127,6 @@ exports.message_views = (req, res) => {
     }
   })
   .catch((error) => {
-    res.status(400).send({ error, message: 'An error occured, try again' });
+    res.status(500).send({ error, message: 'An error occured, try again' });
   });
 };

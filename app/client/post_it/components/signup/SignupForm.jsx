@@ -22,21 +22,21 @@ class SignupForm extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkUserExits = this.checkUserExits.bind(this);
   }
-  handleChange(e){
+  handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  isValid(){
+  isValid() {
     const { errors, isValid } = validateInput(this.state);
 
-    if(!isValid){
+    if (!isValid) {
       this.setState({ errors });
     }
 
     return isValid;
   }
 
-  checkUserExits(e){
+  checkUserExits(e) {
     const field = e.target.name;
     const val = e.target.value;
     if (val !== '') {

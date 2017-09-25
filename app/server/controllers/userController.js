@@ -1,9 +1,8 @@
-// import {validateInput} from '../shared/validations/signup';
+
 const Validator = require('validator');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const checkNum = require('../utils/numberValidation');
-// import forgotPasswordMail from '../utils/forgetPasswordMail';
 
 const isEmpty = require('lodash/isEmpty');
 
@@ -14,14 +13,11 @@ const jwt = require('jsonwebtoken');
 const salt = bcrypt.genSaltSync(saltRounds);
 const User = require('../models').User;
 const ForgotPassword = require('../models').ForgotPassword;
-// const ForgotPasswords = require('../models').ForgotPasswords;
-
 
 exports.identify = (req, res) => {
   User.findOne({
     where: {
       $or: [{ username: req.params.identifier }, { email: req.body.email }]
-      // email: req.params.identifier,
     },
     attributes: ['id', 'username', 'email']
   })
@@ -35,7 +31,7 @@ exports.signup = (req, res) => {
   /**
    * Validates and check if input fields are empty.
    * @param {Object} data - groupdId.
-   *@returns {status} - returns status.
+   * @returns {status} - returns status.
    */
   function validateInput(data) {
     const errors = {};
@@ -64,7 +60,6 @@ exports.signup = (req, res) => {
   }
 
   const { errors, isValid } = validateInput(req.body);
-  // validateInput(req.body).then(({ errors, isValid }) => {
   if (!isValid) {
     res.status(400).send(errors);
   } else {
@@ -88,7 +83,7 @@ exports.signup = (req, res) => {
           errors.email = 'Email already exists';
         }
         if (!isEmpty(errors)) {
-          res.status(400).send(errors);
+          res.status(401).send(errors);
         } else {
           const userData = {
             username: req.body.username,
@@ -101,12 +96,11 @@ exports.signup = (req, res) => {
             res.status(201).send({ status: true,
               message: 'Signup was successful' });
           })
-          .catch(error => res.status(400).send(error));
+          .catch(error => res.status(500).send(error));
         }
       });
     });
   }
-  // })
 };
 
 // sigin a user
@@ -162,7 +156,7 @@ exports.forgotPassword = (req, res) => {
           const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
-            secure: true, // secure:true for port 465, secure:false for port 587
+            secure: true,
             auth: {
               user: 'ayeniblessing32@gmail.com',
               pass: 'Welcome3000#'
@@ -170,12 +164,13 @@ exports.forgotPassword = (req, res) => {
           });
           // setup email data with unicode symbols
           const mailOptions = {
-            from: 'Post It', // sender address
-            to: user.email, // list of receivers
-            subject: 'Post It || Reset Password', // Subject line
-            // text: 'Hello world ?', // plain text body
+            from: 'Post It',
+            to: user.email,
+            subject: 'Post It || Reset Password',
+
             html: `<b>Hello </b>
-              http://localhost:3000/user/password/verify?token=${result.reset_password_token}&email=${user.email}` // html body
+            https://blessing-post-it.herokuapp.com/user/password/verify?token=
+            ${result.reset_password_token}&email=${user.email}`
           };
           // send mail with defined transport object
           transporter.sendMail(mailOptions, (error, info) => {
@@ -186,12 +181,12 @@ exports.forgotPassword = (req, res) => {
           });
         })
         .catch((error) => {
-          return res.status(400).send({
+          return res.status(500).send({
             error
           });
         });
       } else {
-        res.status(400).send({
+        res.status(404).send({
           message: 'Cannot find user with that email'
         });
       }
@@ -216,12 +211,12 @@ exports.checkToken = (req, res) => {
         message: 'Token Found!'
       });
     } else {
-      res.status(400).send({
+      res.status(404).send({
         message: 'Token not found'
       });
     }
   }).catch((error) => {
-    res.status(400).send({
+    res.status(500).send({
       error
     });
   });
@@ -302,7 +297,7 @@ exports.search = (req, res) => {
     res.status(500).send({
       err,
       message: 'A fatal error was encountered, Please try again later.',
-      status: 400
+      status: 500
     });
   });
 };

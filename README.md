@@ -3,128 +3,108 @@
 [![Coverage Status](https://coveralls.io/repos/github/ayeniblessing101/Post_It/badge.svg?branch=development)](https://coveralls.io/github/ayeniblessing101/Post_It?branch=development)
 [![Code Climate](https://codeclimate.com/github/ayeniblessing101/Post_It/badges/gpa.svg)](https://codeclimate.com/github/ayeniblessing101/Post_It)
 
-PostIt is a simple web application that allows friends and colleagues create groups for notifications. This way one person can post notifications to everyone by sending a message once. The application allows people create accounts, create groups and add registered users to the groups, and then send messages out to these groups whenever they want.
+## introduction
+* **`PostIt`** is a simple web application that allows friends and colleagues create groups for notifications. 
+* It has the following features;
+  * Users can sign up and sign in with a unique username and email
+  * Users can create groups
+  * Users can add other registered users to a goup
+  * Users can search for other registered users in the appliction
+  * Users can reset password
+  * Users can post message(s) to a group
+  * Search result is paginated 
+* A demo of the app can be accessed on heroku via [here](https://blessing-post-it.herokuapp.com)  
 
+## Dependencies
 
-#### Templates
-For this version, all html files and stylesheets, images, bootstrap are stored into the template directory
+### Development Dependencies
+* The following depencies are required by the app during developmment
+  *  **[Babel-register](https://www.npmjs.com/package/babel-register)** - This framework helps to compile from es6 to es5
+  *  **[css-loader](https://www.npmjs.com/package/css-loader)** - The  css-loader is used with webpack and it interprets @import and url() like import/require()
+  *  **[eslint](https://www.npmjs.com/package/eslint)** - This is a javascript syntax highlighter used to highligh syntax error during the development of this app
+  *  **[babel-cli](https://www.npmjs.com/package/babel-cli)** - It enables the app scripts to be tested with babel from the command line
+  *  **[babel-core](https://www.npmjs.com/package/babel-core)** - It compiles es6 used in the app to es5
+  *  **[babel-eslint](https://www.npmjs.com/package/babel-eslint)** - Used with ESlint to lint syntax errors
+  *  **[babel-loader](https://www.npmjs.com/package/babel-loader)** - Used with Webpack to transpile javascript codes
+  *  **[babel-plugin-react-html-attrs](https://www.npmjs.com/package/babel-plugin-react-html-attrs)** - It help convert JSX `class` attribute into `className` 
 
-#### Client
+### Dependencies
+*  **[axios](https://www.npmjs.com/package/axios)** - Used to make GET and POST requests to external API's
+*  **[bcrypt-nodejs](https://www.npmjs.com/package/bcrypt-nodejs)** - Used to hash user's password before saving to the database
+*  **[body-parser](https://www.npmjs.com/package/body-parser)** - Enables the app to get params from request body
+*  **[url-loader](https://www.npmjs.com/package/url-loader)** - It enables the app to use background images in the scss files
+*  **[chai](https://www.npmjs.com/package/chai)** - Asscertion library used for the backend testing
+*  **[chai-http](https://www.npmjs.com/package/chai-http)** - Used to make server request during testing
+*  **[coveralls](https://www.npmjs.com/package/coveralls)** - Display test coverage
+*  **[express](https://www.npmjs.com/package/express)** - Used as the web server for this application
+*  **[extract-text-webpack-plugin](https://www.npmjs.com/package/extract-text-webpack-plugin)** - Moves the app's css into a separate file
+*  **[file-loader](https://www.npmjs.com/package/file-loader)** - It enables the app to load files directly into scripts
+*  **[jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)** - Enables the app to implement JWT authentication.
+*  **[lodash](https://www.npmjs.com/package/lodash)** - Used to perform filter on objects
+*  **[pg](https://www.npmjs.com/package/pg)**, **[pg-hstore](https://www.npmjs.com/package/pg-hstore)**, **[sequelize](https://www.npmjs.com/package/sequelize)** - Used to create database models and for performing database operations
+*  **[react](https://www.npmjs.com/package/react)** - Used with **[react-dom](https://www.npmjs.com/package/react-dom)** enables the app to use the React architecture
+*  **[react-paginate](https://www.npmjs.com/package/react-paginate)** - Used to implement pagination on documents and usesr's page
+*  **[react-redux](https://www.npmjs.com/package/react-redux)** - Enables the app to implement the redux architecture in the react way
+*  **[react-router-dom](https://www.npmjs.com/package/react-router-dom)** - Used to perform app routing
+*  **[redux](https://www.npmjs.com/package/redux)** - The architecture library that the app is build on
+*  **[redux-thunk](https://www.npmjs.com/package/redux-thunk)** - Enables the app to make axios request using the redux implementation
+*  **[validator](https://www.npmjs.com/package/validator)** - Used to validate user input during server request
+*  **[webpack](https://www.npmjs.com/package/react-router-dom)** - Used to bundle the app's js and scss files for usage in the browser
+*  **[query-string](https://www.npmjs.com/package/query-string)** - Used to get query params from props created by react-router-dom
 
+## Front End Dependencies
+*  **[Materialize CSS](http://materializecss.com/)** - All part of the app was styled with this css framework.
+*  **[Material Icons](https://material.io/icons/)** - Iconic font provided by Google.
 
-#### Server
-This directory holds all routes, controllers, middleware, migrations
-
-
-## Deployment
-
-
-## Built With
-
-* [ExpressJs](https://expressjs.com/) - The web framework used
-* [Sequelize](http://docs.sequelizejs.com/) - The ORM used
-* [Postgres](https://www.postgresql.org/) - Database Used
-* [NPM](https://www.npmjs.com/) - Dependency Management
-* [ReactJS](https://facebook.github.io/react/) - Javascript Library for Building User Interfaces used.
-* [Redux](http://redux.js.org/) - For State, Data and Store Management and Action Dispatchions.
 
 ## API Routes
 
-* [Signup] - http://localhost:3000/api/user/signup
-* [Signin] - http://localhost:3000/api/user/signin
-* [Create Group] - http://localhost:3000/api/group
-* [Add User to Group] - http://localhost:3000/api/group/group_id/user
-* [Post Message to a Group] - http://localhost:3000/api/group/group_id/message
-* [Get Messages]  - http://localhost:3000/api/group/group_id/messages
+* [Signup] - http://blessing-post-it.herokuapp.com/api/user/signup
+* [Signin] - http://blessing-post-it.herokuapp.com/api/user/signin
+* [Create Group] - http://blessing-post-it.herokuapp.com/api/group
+* [Add User to Group] - http://blessing-post-it.herokuapp.com/api/group/group_id/user
+* [Post Message to a Group] - http://blessing-post-it.herokuapp.com/api/group/group_id/message
+* [Get Messages]  - http://blessing-post-it.herokuapp.com/api/group/group_id/messages
 
-## Versioning
-
-I used [Git](https://git-scm.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/ayeniblessing101/PostIt).
 
 ## Getting Started
+*  Navigate to a directory of choice using the `terminal`.
+* Clone this repository.
+  * Using HTTP
+  >`https://github.com/ayeniblessing101/Post_It.git`
+*  Navigate to the repo's directory on your computer
+  *  `cd POST_IT`
+* Install all dependencies needed for the app to work
+  * `npm install`
+* Setup database
+  * `sequelize db:migrate`
+* Run application
+  * `npm start`
+* Type localhost:3000 in browser to access application on your local machine
 
-* git clone https://github.com/ayeniblessing101/Post_It.git
-* Run `npm install` to install all packages
-* Run `sequelize db:migrate` to run pending migrations
-* Run `npm start` to start application
-* type localhost:3000 in browser to access application
-
-## Folder Structure
-
-After creation, your project should look like this:
-
-```
-Post_It/
-  app/
-    client/
-      post_it/
-        actions/
-          flashMessages.js
-          signupActions.js
-          types.js
-        assets/
-          font/
-          style/
-        components/
-          common/
-            TextFieldGroup.js
-          flash/
-            FlashMessage.js
-            FlashMessageList.js
-          login/
-            LoginForm.js
-            LoginPage.js
-          signup
-            SignupForm.js
-            SignupPage.js
-          AddGroup.js
-          AddUser.js
-          Dashboard.js
-          Header.js
-          MessageBoard.js
-          PostMessage.js
-          Routes.js
-          Sidebar.js
-        images/
-        reducers/
-    node_modules/
-    server/
-    templates/
-    .babelrc
-    .eslintrc.js
-    .gitignore
-    .sequelizerc
-    package.json
-    webpack.config.js
-```
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](#running-tests) for more information.
-
+## Tests
+* The server side test are witten with mocha and chai backed with supertest and chai-http
+* They are run using the **`coverage`** tool in order to generate test coverage reports.
+* To run the tests, navigate to the project's root folder
+* Run the following commands.
+  * `npm test`
 
 ## Authors
-
 * **Ayeni Blessing** - *Initial work* - [ayeniblessing101](https://github.com/ayeniblessing101/PostIt)
 
-## License
+## Limitations
+N/A
 
+### FAQ
+Not available at the moment
+
+
+## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
-
-* Font Awesome
-* Bootstrap
-* Redux
-* React
-* Materialize css
+* IbukunOluwa Daniel Bamidele
+* Mazi Mary
+* Esther Falayi
+* Celestine
+* Innocent Amadi
