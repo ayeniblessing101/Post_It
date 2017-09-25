@@ -1,5 +1,4 @@
 const sendMail = require('../utils/sendMail');
-const sendSMS = require('../utils/sendSMS');
 const getGroupUserEmail = require('../utils/getGroupUserEmail');
 const getGroupUserPhoneNumber = require('../utils/getGroupUserPhoneNumber');
 
@@ -35,8 +34,6 @@ exports.post_message = (req, res) => {
     // method to get all emails
     const { data, emailUsers } = getGroupUserEmail(req.params.id,
       message, req.decoded.data);
-    const { userPhoneNumbers } = getGroupUserPhoneNumber(req.params.id,
-      message, req.decoded.data);
     switch (req.body.priority) {
     case 'Critical':
       sendMail(emailUsers, message.message_body);
@@ -45,7 +42,13 @@ exports.post_message = (req, res) => {
       });
     case 'Urgent':
       sendMail(emailUsers, message.message_body);
-      sendSMS(userPhoneNumbers, message.message_body);
+      // const { status, payload } = sendMail(emailUsers, message.message_body);
+      // if (!status) {
+      //   return res.status(400).send({
+      //     message: 'Error sending message',
+      //     error: payload
+      //   });
+      // }
       return res.status(201).send({
         data
       });
@@ -72,8 +75,14 @@ exports.post_message = (req, res) => {
 // Method to get Messages
 exports.get_messages = (req, res) => {
   const userId = req.decoded.data.id;
+  const groupId = parseInt(req.params.id, 10);
+  if (isNaN(groupId)) {
+    return res.status(400).send({
+      message: 'Group id must be an integer'
+    });
+  }
   Message.findAll({
-    where: { group_id: req.params.id },
+    where: { group_id: groupId },
     attributes:
     ['id', 'message_body', 'priority_level', 'group_id', 'createdAt'],
     include: [{
@@ -83,21 +92,9 @@ exports.get_messages = (req, res) => {
   })
   .then((messages) => {
     if (messages) {
-      const messagesArray = [];
-      for (const m of messages) {
-        ReadMessage.findOne({
-          where: {
-            $and: [{ message_id: m.id },
-            { user_id: userId }, { group_id: m.group_id }]
-          }
-        })
-        .then((messageResponse) => {
-          if (messageResponse) {
-            messagesArray.push(messageResponse);
-          }
-        });
-      }
-      return res.status(200).send(messagesArray);
+      return res.status(200).send({
+        messages
+      });
     }
     res.status(400).send({ message: 'No messages to display' });
   });

@@ -35,7 +35,6 @@ export const messageReadStatus = messageId => (
   }
 );
 
-
 /**
  * Post a message.
  * @param {integer} groupId - groupdId.
@@ -60,7 +59,7 @@ export function getMessages(groupId) {
   return dispatch => (
     axios.get(`/api/group/${groupId}/messages`)
     .then(({ data }) => {
-      dispatch(getAllMessages(data.data));
+      dispatch(getAllMessages(data.messages));
     })
   );
 }

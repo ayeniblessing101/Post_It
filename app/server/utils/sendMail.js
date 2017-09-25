@@ -23,11 +23,17 @@ function sendMail(receivers, messageBody) {
   };
 
   // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info, res) => {
+  transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      return res.send(error);
+      return {
+        status: 400,
+        payload: error
+      };
     }
-    res.send('Message %s sent: %s', info.messageId, info.response);
+    return {
+      status: 'Message %s sent: %s',
+      payload: info
+    };
   });
 }
 
