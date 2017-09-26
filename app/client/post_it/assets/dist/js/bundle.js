@@ -17707,6 +17707,10 @@ var _isMD = __webpack_require__(898);
 
 var _isMD2 = _interopRequireDefault(_isMD);
 
+var _isHash = __webpack_require__(1521);
+
+var _isHash2 = _interopRequireDefault(_isHash);
+
 var _isJSON = __webpack_require__(894);
 
 var _isJSON2 = _interopRequireDefault(_isJSON);
@@ -17779,6 +17783,14 @@ var _isDataURI = __webpack_require__(881);
 
 var _isDataURI2 = _interopRequireDefault(_isDataURI);
 
+var _isLatLong = __webpack_require__(1522);
+
+var _isLatLong2 = _interopRequireDefault(_isLatLong);
+
+var _isPostalCode = __webpack_require__(1523);
+
+var _isPostalCode2 = _interopRequireDefault(_isPostalCode);
+
 var _ltrim = __webpack_require__(407);
 
 var _ltrim2 = _interopRequireDefault(_ltrim);
@@ -17825,7 +17837,7 @@ var _toString2 = _interopRequireDefault(_toString);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var version = '8.0.0';
+var version = '8.2.0';
 
 var validator = {
   version: version,
@@ -17861,6 +17873,7 @@ var validator = {
   isHexColor: _isHexColor2.default,
   isISRC: _isISRC2.default,
   isMD5: _isMD2.default,
+  isHash: _isHash2.default,
   isJSON: _isJSON2.default,
   isEmpty: _isEmpty2.default,
   isLength: _isLength2.default,
@@ -17875,10 +17888,12 @@ var validator = {
   isISBN: _isISBN2.default,
   isISSN: _isISSN2.default,
   isMobilePhone: _isMobilePhone2.default,
+  isPostalCode: _isPostalCode2.default,
   isCurrency: _isCurrency2.default,
   isISO8601: _isISO2.default,
   isBase64: _isBase2.default,
   isDataURI: _isDataURI2.default,
+  isLatLong: _isLatLong2.default,
   ltrim: _ltrim2.default,
   rtrim: _rtrim2.default,
   trim: _trim2.default,
@@ -47396,7 +47411,10 @@ var OverlayTrigger = function (_Overlay) {
     key: 'showOverlay',
     value: function showOverlay(e) {
       e.preventDefault();
-      $('#' + this.overlayID).modal(this.props.modalOptions).modal('open');
+      var _props$modalOptions = this.props.modalOptions,
+          modalOptions = _props$modalOptions === undefined ? {} : _props$modalOptions;
+
+      $('#' + this.overlayID).modal(modalOptions).modal('open');
     }
   }]);
 
@@ -50861,13 +50879,17 @@ var alpha = exports.alpha = {
   'de-DE': /^[A-ZÄÖÜß]+$/i,
   'es-ES': /^[A-ZÁÉÍÑÓÚÜ]+$/i,
   'fr-FR': /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]+$/i,
-  'nl-NL': /^[A-ZÉËÏÓÖÜ]+$/i,
+  'it-IT': /^[A-ZÀÉÈÌÎÓÒÙ]+$/i,
+  'nb-NO': /^[A-ZÆØÅ]+$/i,
+  'nl-NL': /^[A-ZÁÉËÏÓÖÜÚ]+$/i,
+  'nn-NO': /^[A-ZÆØÅ]+$/i,
   'hu-HU': /^[A-ZÁÉÍÓÖŐÚÜŰ]+$/i,
   'pl-PL': /^[A-ZĄĆĘŚŁŃÓŻŹ]+$/i,
   'pt-PT': /^[A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]+$/i,
   'ru-RU': /^[А-ЯЁ]+$/i,
   'sr-RS@latin': /^[A-ZČĆŽŠĐ]+$/i,
   'sr-RS': /^[А-ЯЂЈЉЊЋЏ]+$/i,
+  'sv-SE': /^[A-ZÅÄÖ]+$/i,
   'tr-TR': /^[A-ZÇĞİıÖŞÜ]+$/i,
   'uk-UA': /^[А-ЩЬЮЯЄIЇҐ]+$/i,
   ar: /^[ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]+$/
@@ -50876,17 +50898,21 @@ var alpha = exports.alpha = {
 var alphanumeric = exports.alphanumeric = {
   'en-US': /^[0-9A-Z]+$/i,
   'cs-CZ': /^[0-9A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+$/i,
-  'da-DK': /^[0-9A-ZÆØÅ]$/i,
+  'da-DK': /^[0-9A-ZÆØÅ]+$/i,
   'de-DE': /^[0-9A-ZÄÖÜß]+$/i,
   'es-ES': /^[0-9A-ZÁÉÍÑÓÚÜ]+$/i,
   'fr-FR': /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]+$/i,
+  'it-IT': /^[0-9A-ZÀÉÈÌÎÓÒÙ]+$/i,
   'hu-HU': /^[0-9A-ZÁÉÍÓÖŐÚÜŰ]+$/i,
-  'nl-NL': /^[0-9A-ZÉËÏÓÖÜ]+$/i,
+  'nb-NO': /^[0-9A-ZÆØÅ]+$/i,
+  'nl-NL': /^[0-9A-ZÁÉËÏÓÖÜÚ]+$/i,
+  'nn-NO': /^[0-9A-ZÆØÅ]+$/i,
   'pl-PL': /^[0-9A-ZĄĆĘŚŁŃÓŻŹ]+$/i,
   'pt-PT': /^[0-9A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]+$/i,
   'ru-RU': /^[0-9А-ЯЁ]+$/i,
   'sr-RS@latin': /^[0-9A-ZČĆŽŠĐ]+$/i,
   'sr-RS': /^[0-9А-ЯЂЈЉЊЋЏ]+$/i,
+  'sv-SE': /^[0-9A-ZÅÄÖ]+$/i,
   'tr-TR': /^[0-9A-ZÇĞİıÖŞÜ]+$/i,
   'uk-UA': /^[0-9А-ЩЬЮЯЄIЇҐ]+$/i,
   ar: /^[٠١٢٣٤٥٦٧٨٩0-9ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]+$/
@@ -51014,7 +51040,7 @@ var default_email_options = {
 
 /* eslint-disable max-len */
 /* eslint-disable no-control-regex */
-var displayName = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\s]*<(.+)>$/i;
+var displayName = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\,\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\s]*<(.+)>$/i;
 var emailUserPart = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~]+$/i;
 var quotedEmailUser = /^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f]))*$/i;
 var emailUserUtf8Part = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+$/i;
@@ -51416,7 +51442,8 @@ var Routes = function Routes() {
       _react2.default.createElement(Route, { path: '/add-group', component: (0, _requireAuth2.default)(_AddGroupPage2.default) }),
       _react2.default.createElement(Route, { path: '/add-user', component: (0, _requireAuth2.default)(_AddUser2.default) }),
       _react2.default.createElement(Route, { path: '/user/search/', component: (0, _requireAuth2.default)(_UserPage2.default) }),
-      _react2.default.createElement(Route, { render: function render() {
+      _react2.default.createElement(Route, {
+        render: function render() {
           return _react2.default.createElement(
             'p',
             null,
@@ -55159,7 +55186,7 @@ var LoginForm = function (_React$Component) {
                 _react2.default.createElement(
                   'p',
                   null,
-                  'We are the best and biggest social network with 5 billion active users all around the world. Create account, create group add other users to your group and post messages'
+                  'We are the best and biggest Messages Platform with 5 billion active users all around the world. Create account, create group add other users to your group and post messages'
                 ),
                 _react2.default.createElement(
                   'a',
@@ -55984,9 +56011,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class MessageForm
+ * @extends {React.Component}
+ */
 var MessageForm = function (_React$Component) {
   _inherits(MessageForm, _React$Component);
 
+  /**
+   * Creates an instance of MessageForm.
+   * @param {any} props
+   * @memberof MessageForm
+   */
   function MessageForm(props) {
     _classCallCheck(this, MessageForm);
 
@@ -56003,17 +56039,38 @@ var MessageForm = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * @param {any} e
+   * @memberof MessageForm
+   * @returns {void}
+   */
+
+
   _createClass(MessageForm, [{
     key: 'handleChange',
     value: function handleChange(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
+
+    /**
+     * @param {any} e
+     * @memberof MessageForm
+     * @return {void}
+     */
+
   }, {
     key: 'handleMessageStatus',
     value: function handleMessageStatus(e) {
       e.preventDefault();
       this.props.updateMessageStatus(e.target.id);
     }
+
+    /**
+     * @param {any} e
+     * @memberof MessageForm
+     * @return {void}
+     */
+
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
@@ -56197,7 +56254,9 @@ var MessageForm = function (_React$Component) {
 
 MessageForm.propTypes = {
   postMessage: _propTypes2.default.func.isRequired,
-  updateMessageStatus: _propTypes2.default.func.isRequired
+  updateMessageStatus: _propTypes2.default.func.isRequired,
+  getMessages: _propTypes2.default.func.isRequired,
+  messages: _propTypes2.default.shape({})
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -56379,25 +56438,21 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMaterialize = __webpack_require__(110);
-
 var _reactRouterDom = __webpack_require__(15);
 
 var _queryString = __webpack_require__(137);
 
 var _queryString2 = _interopRequireDefault(_queryString);
 
-var _TextFieldGroup = __webpack_require__(51);
-
-var _TextFieldGroup2 = _interopRequireDefault(_TextFieldGroup);
-
-var _reactRedux = __webpack_require__(14);
-
-var _authActions = __webpack_require__(83);
-
 var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRedux = __webpack_require__(14);
+
+var _TextFieldGroup = __webpack_require__(51);
+
+var _TextFieldGroup2 = _interopRequireDefault(_TextFieldGroup);
 
 var _reset_password = __webpack_require__(478);
 
@@ -56419,9 +56474,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class ResetPasswordForm
+ * @extends {React.Component}
+ */
 var ResetPasswordForm = function (_React$Component) {
   _inherits(ResetPasswordForm, _React$Component);
 
+  /**
+   * Creates an instance of ResetPasswordForm.
+   * @param {any} props
+   * @memberof ResetPasswordForm
+   */
   function ResetPasswordForm(props) {
     _classCallCheck(this, ResetPasswordForm);
 
@@ -56437,6 +56501,12 @@ var ResetPasswordForm = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * @memberof ResetPasswordForm
+   * @returns {isValid} - checks if the text field are not empty
+   */
+
+
   _createClass(ResetPasswordForm, [{
     key: 'isValid',
     value: function isValid() {
@@ -56449,6 +56519,13 @@ var ResetPasswordForm = function (_React$Component) {
       }
       return isValid;
     }
+
+    /**
+     * @param {any} e
+     * @memberof ResetPasswordForm
+     * @returns {void}
+     */
+
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
@@ -56460,7 +56537,7 @@ var ResetPasswordForm = function (_React$Component) {
         var email = query.email;
         this.setState({ errors: {} });
         if (this.state.newPassword === this.state.confirmNewPassword) {
-          this.props.resetPassword(this.state.newPassword, email).then(function (res) {
+          this.props.resetPassword(this.state.newPassword, email).then(function () {
             return _this2.context.router.history.push('/login');
           }, function (err) {
             return _this2.setState({
@@ -56477,11 +56554,24 @@ var ResetPasswordForm = function (_React$Component) {
         }
       }
     }
+
+    /**
+     * @param {any} e
+     * @memberof ResetPasswordForm
+     * @return {void}
+     */
+
   }, {
     key: 'handleChange',
     value: function handleChange(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
+
+    /**
+     * @memberof ResetPasswordForm
+     * @returns {object} - ResetPasswordForm Component
+     */
+
   }, {
     key: 'render',
     value: function render() {
@@ -56547,7 +56637,9 @@ var ResetPasswordForm = function (_React$Component) {
                         { className: 'input-field col s12' },
                         _react2.default.createElement(
                           'button',
-                          { className: 'btn waves-effect waves-light', type: 'submit', name: 'action' },
+                          {
+                            className: 'btn waves-effect waves-light',
+                            type: 'submit', name: 'action' },
                           'Submit',
                           _react2.default.createElement(
                             'i',
@@ -56623,9 +56715,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class ResetPasswordPage
+ * @extends {React.Component}
+ */
 var ResetPasswordPage = function (_React$Component) {
   _inherits(ResetPasswordPage, _React$Component);
 
+  /**
+   * Creates an instance of ResetPasswordPage.
+   * @param {any} props
+   * @memberof ResetPasswordPage
+   */
   function ResetPasswordPage(props) {
     _classCallCheck(this, ResetPasswordPage);
 
@@ -56636,6 +56737,12 @@ var ResetPasswordPage = function (_React$Component) {
     };
     return _this;
   }
+
+  /**
+   * @memberof ResetPasswordPage
+   * @return {void}
+   */
+
 
   _createClass(ResetPasswordPage, [{
     key: 'componentDidMount',
@@ -57286,7 +57393,9 @@ var UserList = function (_React$Component) {
                       null,
                       _react2.default.createElement(
                         'td',
-                        { className: 'center', col: '2', colSpan: '2' },
+                        {
+                          className: 'center',
+                          col: '2', colSpan: '2' },
                         'No user found'
                       )
                     )
@@ -57540,6 +57649,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+/**
+ * @param {Object} state .
+ * @param {Object} action .
+ * @returns {state} - returns a new state.
+ */
 exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -57579,6 +57693,13 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var initialState = [];
 
+/**
+ * Sets cuurent user.
+ * @param {Object} state - groupdId.
+ * @param {Object} action - groupdId.
+ * @returns {state} - returns a new state.
+ */
+
 exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
   var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -57607,6 +57728,12 @@ var _types = __webpack_require__(24);
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var initialState = [];
+
+/**
+ * @param {Object} state .
+ * @param {Object} action .
+ * @returns {state} - returns a new state.
+ */
 
 exports.default = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -75401,12 +75528,10 @@ function nonZero(len, crypto) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2015-present, Facebook, Inc.
- * All rights reserved.
+ * Copyright (c) 2015-present, Facebook, Inc.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 
@@ -85172,14 +85297,6 @@ var _Icon = __webpack_require__(37);
 
 var _Icon2 = _interopRequireDefault(_Icon);
 
-var _Row = __webpack_require__(109);
-
-var _Row2 = _interopRequireDefault(_Row);
-
-var _Col = __webpack_require__(55);
-
-var _Col2 = _interopRequireDefault(_Col);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -85219,7 +85336,7 @@ var Autocomplete = function (_Component) {
     }
   }, {
     key: 'renderDropdown',
-    value: function renderDropdown(data, minLength) {
+    value: function renderDropdown(data, minLength, limit) {
       var _this2 = this;
 
       var value = this.state.value;
@@ -85229,31 +85346,38 @@ var Autocomplete = function (_Component) {
         return null;
       }
 
+      var matches = Object.keys(data).filter(function (key) {
+        var index = key.toUpperCase().indexOf(value.toUpperCase());
+        return index !== -1 && value.length < key.length;
+      });
+      if (limit) matches = matches.slice(0, limit);
+      if (matches.length === 0) {
+        return null;
+      }
+
       return _react2.default.createElement(
         'ul',
         { className: 'autocomplete-content dropdown-content' },
-        Object.keys(data).map(function (key, idx) {
+        matches.map(function (key, idx) {
           var index = key.toUpperCase().indexOf(value.toUpperCase());
-          if (index !== -1 && value.length < key.length) {
-            return _react2.default.createElement(
-              'li',
-              { key: key + '_' + idx, onClick: function onClick(evt) {
-                  return _this2.setState({ value: key });
-                } },
-              data[key] ? _react2.default.createElement('img', { src: data[key], className: 'right circle' }) : null,
+          return _react2.default.createElement(
+            'li',
+            { key: key + '_' + idx, onClick: function onClick(evt) {
+                return _this2.setState({ value: key });
+              } },
+            data[key] ? _react2.default.createElement('img', { src: data[key], className: 'right circle' }) : null,
+            _react2.default.createElement(
+              'span',
+              null,
+              index !== 0 ? key.substring(0, index) : '',
               _react2.default.createElement(
                 'span',
-                null,
-                index !== 0 ? key.substring(0, index) : '',
-                _react2.default.createElement(
-                  'span',
-                  { className: 'highlight' },
-                  value
-                ),
-                key.length !== index + value.length ? key.substring(index + value.length) : ''
-              )
-            );
-          }
+                { className: 'highlight' },
+                value
+              ),
+              key.length !== index + value.length ? key.substring(index + value.length) : ''
+            )
+          );
         })
       );
     }
@@ -85276,36 +85400,38 @@ var Autocomplete = function (_Component) {
           l = _props.l,
           offset = _props.offset,
           minLength = _props.minLength,
-          props = _objectWithoutProperties(_props, ['className', 'title', 'data', 'icon', 'iconClassName', 's', 'm', 'l', 'offset', 'minLength']);
+          placeholder = _props.placeholder,
+          limit = _props.limit,
+          props = _objectWithoutProperties(_props, ['className', 'title', 'data', 'icon', 'iconClassName', 's', 'm', 'l', 'offset', 'minLength', 'placeholder', 'limit']);
 
       var _id = 'autocomplete-input';
       var sizes = { s: s, m: m, l: l };
-      var classes = {};
+      var classes = {
+        col: true
+      };
       _constants2.default.SIZES.forEach(function (size) {
         classes[size + sizes[size]] = sizes[size];
       });
 
       return _react2.default.createElement(
-        _Row2.default,
-        null,
+        'div',
+        _extends({
+          offset: offset, className: (0, _classnames2.default)('input-field', className, classes) }, props),
+        icon && this.renderIcon(icon, iconClassName),
+        _react2.default.createElement('input', {
+          placeholder: placeholder,
+          className: 'autocomplete',
+          id: _id,
+          onChange: this._onChange,
+          type: 'text',
+          value: this.state.value
+        }),
         _react2.default.createElement(
-          _Col2.default,
-          _extends({ offset: offset, className: (0, _classnames2.default)('input-field', className, classes) }, props),
-          icon && this.renderIcon(icon, iconClassName),
-          _react2.default.createElement('input', {
-            className: 'autocomplete',
-            id: _id,
-            onChange: this._onChange,
-            type: 'text',
-            value: this.state.value
-          }),
-          _react2.default.createElement(
-            'label',
-            { htmlFor: _id },
-            title
-          ),
-          this.renderDropdown(data, minLength)
-        )
+          'label',
+          { htmlFor: _id },
+          title
+        ),
+        this.renderDropdown(data, minLength, limit)
       );
     }
   }]);
@@ -85336,7 +85462,15 @@ Autocomplete.propTypes = {
   /*
    * Determine input length before dropdown
    */
-  minLength: _propTypes2.default.number
+  minLength: _propTypes2.default.number,
+  /**
+   * The max amount of results that can be shown at once. Default: Infinity
+   * */
+  limit: _propTypes2.default.number,
+  /**
+   * Placeholder for input element
+   * */
+  placeholder: _propTypes2.default.string
 };
 
 exports.default = Autocomplete;
@@ -85468,8 +85602,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -85490,113 +85622,75 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var renderTitle = function renderTitle(title, reveal) {
+  return _react2.default.createElement(
+    'span',
+    { className: (0, _classnames2.default)('card-title', 'grey-text', 'text-darken-4', { 'activator': reveal }) },
+    title,
+    reveal && _react2.default.createElement(
+      _Icon2.default,
+      { right: true },
+      'more_vert'
+    )
+  );
+};
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+var renderReveal = function renderReveal(title, reveal) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'card-reveal' },
+    _react2.default.createElement(
+      'span',
+      { className: 'card-title grey-text text-darken-4' },
+      title,
+      _react2.default.createElement(
+        _Icon2.default,
+        { right: true },
+        'close'
+      )
+    ),
+    reveal
+  );
+};
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var renderAction = function renderAction(actions) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'card-action' },
+    actions
+  );
+};
 
-var Card = function (_Component) {
-  _inherits(Card, _Component);
+var Card = function Card(_ref) {
+  var title = _ref.title,
+      header = _ref.header,
+      className = _ref.className,
+      textClassName = _ref.textClassName,
+      actions = _ref.actions,
+      reveal = _ref.reveal,
+      children = _ref.children,
+      props = _objectWithoutProperties(_ref, ['title', 'header', 'className', 'textClassName', 'actions', 'reveal', 'children']);
 
-  function Card(props) {
-    _classCallCheck(this, Card);
+  var classes = { card: true };
 
-    var _this = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
-
-    _this.renderTitle = _this.renderTitle.bind(_this);
-    return _this;
-  }
-
-  _createClass(Card, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          title = _props.title,
-          header = _props.header,
-          className = _props.className,
-          textClassName = _props.textClassName,
-          actions = _props.actions,
-          reveal = _props.reveal,
-          children = _props.children,
-          props = _objectWithoutProperties(_props, ['title', 'header', 'className', 'textClassName', 'actions', 'reveal', 'children']);
-
-      var classes = { card: true };
-      return _react2.default.createElement(
+  return _react2.default.createElement(
+    'div',
+    _extends({}, props, { className: (0, _classnames2.default)(className, classes) }),
+    header,
+    _react2.default.createElement(
+      'div',
+      { className: (0, _classnames2.default)('card-content', textClassName) },
+      title && renderTitle(title, reveal),
+      _react2.default.createElement(
         'div',
-        _extends({}, props, {
-          className: (0, _classnames2.default)(className, classes) }),
-        header,
-        _react2.default.createElement(
-          'div',
-          { className: (0, _classnames2.default)('card-content', textClassName) },
-          title ? this.renderTitle(title, reveal) : null,
-          _react2.default.createElement(
-            'div',
-            null,
-            children
-          )
-        ),
-        this.renderReveal(title, reveal),
-        actions ? this.renderAction(actions) : null
-      );
-    }
-  }, {
-    key: 'renderTitle',
-    value: function renderTitle(title, reveal) {
-      var revealIcon = null;
-      if (reveal) {
-        revealIcon = _react2.default.createElement(
-          _Icon2.default,
-          { right: true },
-          'more_vert'
-        );
-      }
-      var classes = {
-        'card-title': true,
-        'grey-text': true,
-        'text-darken-4': true,
-        'activator': reveal
-      };
-      return _react2.default.createElement(
-        'span',
-        { className: (0, _classnames2.default)(classes) },
-        title,
-        revealIcon
-      );
-    }
-  }, {
-    key: 'renderReveal',
-    value: function renderReveal(title, reveal) {
-      return _react2.default.createElement(
-        'div',
-        { className: 'card-reveal' },
-        _react2.default.createElement(
-          'span',
-          { className: 'card-title grey-text text-darken-4' },
-          title,
-          _react2.default.createElement(
-            _Icon2.default,
-            { right: true },
-            'close'
-          )
-        ),
-        reveal
-      );
-    }
-  }, {
-    key: 'renderAction',
-    value: function renderAction(actions) {
-      return _react2.default.createElement(
-        'div',
-        { className: 'card-action' },
-        actions
-      );
-    }
-  }]);
-
-  return Card;
-}(_react.Component);
+        null,
+        children
+      )
+    ),
+    renderReveal(title, reveal),
+    actions && renderAction(actions)
+  );
+};
 
 Card.propTypes = {
   children: _propTypes2.default.node,
@@ -86487,6 +86581,7 @@ var Dropdown = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this, props));
 
+    _this.idx = 'dropdown_' + (0, _idgen2.default)();
     _this.renderTrigger = _this.renderTrigger.bind(_this);
     return _this;
   }
@@ -86495,7 +86590,6 @@ var Dropdown = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var options = this.props.options || {};
-
       $(this._trigger).dropdown(options);
     }
   }, {
@@ -86511,7 +86605,6 @@ var Dropdown = function (_Component) {
           className = _props.className,
           props = _objectWithoutProperties(_props, ['children', 'className']);
 
-      this.idx = 'dropdown_' + (0, _idgen2.default)();
       delete props.trigger;
       delete props.options;
 
@@ -86554,6 +86647,7 @@ Dropdown.propTypes = {
   trigger: _propTypes2.default.node.isRequired,
   children: _propTypes2.default.node,
   className: _propTypes2.default.string,
+
   /**
    * Options hash for the dropdown
    * more info: http://materializecss.com/dropdown.html#options
@@ -86561,7 +86655,7 @@ Dropdown.propTypes = {
   options: _propTypes2.default.shape({
     inDuration: _propTypes2.default.number,
     outDuration: _propTypes2.default.number,
-    constrain_width: _propTypes2.default.bool,
+    constrainWidth: _propTypes2.default.bool,
     hover: _propTypes2.default.bool,
     gutter: _propTypes2.default.number,
     belowOrigin: _propTypes2.default.bool,
@@ -87459,33 +87553,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-var renderChildren = function renderChildren(children) {
-  var href = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-  if (_react2.default.Children.count(children) === 1 && typeof children === 'string') {
-    return _react2.default.createElement(
-      'a',
-      { href: href },
-      children
-    );
-  } else {
-    return _react2.default.Children.map(children, function (child) {
-      return _react2.default.cloneElement(child);
-    });
-  }
-};
-
 var NavItem = function NavItem(_ref) {
   var divider = _ref.divider,
-      href = _ref.href,
       children = _ref.children,
-      props = _objectWithoutProperties(_ref, ['divider', 'href', 'children']);
+      _ref$href = _ref.href,
+      href = _ref$href === undefined ? '' : _ref$href,
+      props = _objectWithoutProperties(_ref, ['divider', 'children', 'href']);
 
   if (divider) return _react2.default.createElement('li', { className: 'divider' });
   return _react2.default.createElement(
     'li',
     props,
-    renderChildren(children, href)
+    _react2.default.createElement(
+      'a',
+      { href: href },
+      children
+    )
   );
 };
 
@@ -95220,14 +95303,18 @@ var _assertString2 = _interopRequireDefault(_assertString);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function currencyRegex(options) {
+  var decimal_digits = '\\d{' + options.digits_after_decimal[0] + '}';
+  options.digits_after_decimal.forEach(function (digit, index) {
+    if (index !== 0) decimal_digits = decimal_digits + '|\\d{' + digit + '}';
+  });
   var symbol = '(\\' + options.symbol.replace(/\./g, '\\.') + ')' + (options.require_symbol ? '' : '?'),
       negative = '-?',
       whole_dollar_amount_without_sep = '[1-9]\\d*',
       whole_dollar_amount_with_sep = '[1-9]\\d{0,2}(\\' + options.thousands_separator + '\\d{3})*',
       valid_whole_dollar_amounts = ['0', whole_dollar_amount_without_sep, whole_dollar_amount_with_sep],
       whole_dollar_amount = '(' + valid_whole_dollar_amounts.join('|') + ')?',
-      decimal_amount = '(\\' + options.decimal_separator + '\\d{2})?';
-  var pattern = whole_dollar_amount + decimal_amount;
+      decimal_amount = '(\\' + options.decimal_separator + '(' + decimal_digits + '))' + (options.require_decimal ? '' : '?');
+  var pattern = whole_dollar_amount + (options.allow_decimal || options.require_decimal ? decimal_amount : '');
 
   // default is negative sign before symbol, but there are two other options (besides parens)
   if (options.allow_negatives && !options.parens_for_negatives) {
@@ -95278,6 +95365,9 @@ var default_currency_options = {
   allow_negative_sign_placeholder: false,
   thousands_separator: ',',
   decimal_separator: '.',
+  allow_decimal: true,
+  require_decimal: false,
+  digits_after_decimal: [2],
   allow_space_after_digits: false
 };
 
@@ -95575,12 +95665,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.iso8601 = undefined;
-
-exports.default = function (str) {
-  (0, _assertString2.default)(str);
-  return iso8601.test(str);
-};
+exports.default = isISO8601;
 
 var _assertString = __webpack_require__(4);
 
@@ -95590,8 +95675,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* eslint-disable max-len */
 // from http://goo.gl/0ejHHW
-var iso8601 = exports.iso8601 = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
+var iso8601 = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
 /* eslint-enable max-len */
+
+function isISO8601(str) {
+  (0, _assertString2.default)(str);
+  return iso8601.test(str);
+}
+module.exports = exports['default'];
 
 /***/ }),
 /* 890 */
@@ -95935,11 +96026,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* eslint-disable max-len */
 var phones = {
+  'ar-AE': /^((\+?971)|0)?5[024568]\d{7}$/,
   'ar-DZ': /^(\+?213|0)(5|6|7)\d{8}$/,
+  'ar-EG': /^((\+?20)|0)?1[012]\d{8}$/,
+  'ar-JO': /^(\+?962|0)?7[789]\d{7}$/,
   'ar-SY': /^(!?(\+?963)|0)?9\d{8}$/,
   'ar-SA': /^(!?(\+?966)|0)?5\d{8}$/,
   'en-US': /^(\+?1)?[2-9]\d{2}[2-9](?!11)\d{6}$/,
   'cs-CZ': /^(\+?420)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/,
+  'sk-SK': /^(\+?421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/,
   'de-DE': /^(\+?49[ \.\-])?([\(]{1}[0-9]{1,6}[\)])?([0-9 \.\-\/]{3,20})((x|ext|extension)[ ]?[0-9]{1,4})?$/,
   'da-DK': /^(\+?45)?(\d{8})$/,
   'el-GR': /^(\+?30)?(69\d{8})$/,
@@ -95994,9 +96089,15 @@ function isMobilePhone(str, locale) {
   if (locale in phones) {
     return phones[locale].test(str);
   } else if (locale === 'any') {
-    return !!Object.values(phones).find(function (phone) {
-      return phone.test(str);
-    });
+    for (var key in phones) {
+      if (phones.hasOwnProperty(key)) {
+        var phone = phones[key];
+        if (phone.test(str)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
   throw new Error('Invalid locale \'' + locale + '\'');
 }
@@ -96675,7 +96776,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function unescape(str) {
   (0, _assertString2.default)(str);
-  return str.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x2F;/g, '/').replace(/&#96;/g, '`');
+  return str.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#x2F;/g, '/').replace(/&#x5C;/g, '\\').replace(/&#96;/g, '`');
 }
 module.exports = exports['default'];
 
@@ -96910,6 +97011,756 @@ exports.createContext = Script.createContext = function (context) {
 /***/ (function(module, exports) {
 
 /* (ignored) */
+
+/***/ }),
+/* 922 */,
+/* 923 */,
+/* 924 */,
+/* 925 */,
+/* 926 */,
+/* 927 */,
+/* 928 */,
+/* 929 */,
+/* 930 */,
+/* 931 */,
+/* 932 */,
+/* 933 */,
+/* 934 */,
+/* 935 */,
+/* 936 */,
+/* 937 */,
+/* 938 */,
+/* 939 */,
+/* 940 */,
+/* 941 */,
+/* 942 */,
+/* 943 */,
+/* 944 */,
+/* 945 */,
+/* 946 */,
+/* 947 */,
+/* 948 */,
+/* 949 */,
+/* 950 */,
+/* 951 */,
+/* 952 */,
+/* 953 */,
+/* 954 */,
+/* 955 */,
+/* 956 */,
+/* 957 */,
+/* 958 */,
+/* 959 */,
+/* 960 */,
+/* 961 */,
+/* 962 */,
+/* 963 */,
+/* 964 */,
+/* 965 */,
+/* 966 */,
+/* 967 */,
+/* 968 */,
+/* 969 */,
+/* 970 */,
+/* 971 */,
+/* 972 */,
+/* 973 */,
+/* 974 */,
+/* 975 */,
+/* 976 */,
+/* 977 */,
+/* 978 */,
+/* 979 */,
+/* 980 */,
+/* 981 */,
+/* 982 */,
+/* 983 */,
+/* 984 */,
+/* 985 */,
+/* 986 */,
+/* 987 */,
+/* 988 */,
+/* 989 */,
+/* 990 */,
+/* 991 */,
+/* 992 */,
+/* 993 */,
+/* 994 */,
+/* 995 */,
+/* 996 */,
+/* 997 */,
+/* 998 */,
+/* 999 */,
+/* 1000 */,
+/* 1001 */,
+/* 1002 */,
+/* 1003 */,
+/* 1004 */,
+/* 1005 */,
+/* 1006 */,
+/* 1007 */,
+/* 1008 */,
+/* 1009 */,
+/* 1010 */,
+/* 1011 */,
+/* 1012 */,
+/* 1013 */,
+/* 1014 */,
+/* 1015 */,
+/* 1016 */,
+/* 1017 */,
+/* 1018 */,
+/* 1019 */,
+/* 1020 */,
+/* 1021 */,
+/* 1022 */,
+/* 1023 */,
+/* 1024 */,
+/* 1025 */,
+/* 1026 */,
+/* 1027 */,
+/* 1028 */,
+/* 1029 */,
+/* 1030 */,
+/* 1031 */,
+/* 1032 */,
+/* 1033 */,
+/* 1034 */,
+/* 1035 */,
+/* 1036 */,
+/* 1037 */,
+/* 1038 */,
+/* 1039 */,
+/* 1040 */,
+/* 1041 */,
+/* 1042 */,
+/* 1043 */,
+/* 1044 */,
+/* 1045 */,
+/* 1046 */,
+/* 1047 */,
+/* 1048 */,
+/* 1049 */,
+/* 1050 */,
+/* 1051 */,
+/* 1052 */,
+/* 1053 */,
+/* 1054 */,
+/* 1055 */,
+/* 1056 */,
+/* 1057 */,
+/* 1058 */,
+/* 1059 */,
+/* 1060 */,
+/* 1061 */,
+/* 1062 */,
+/* 1063 */,
+/* 1064 */,
+/* 1065 */,
+/* 1066 */,
+/* 1067 */,
+/* 1068 */,
+/* 1069 */,
+/* 1070 */,
+/* 1071 */,
+/* 1072 */,
+/* 1073 */,
+/* 1074 */,
+/* 1075 */,
+/* 1076 */,
+/* 1077 */,
+/* 1078 */,
+/* 1079 */,
+/* 1080 */,
+/* 1081 */,
+/* 1082 */,
+/* 1083 */,
+/* 1084 */,
+/* 1085 */,
+/* 1086 */,
+/* 1087 */,
+/* 1088 */,
+/* 1089 */,
+/* 1090 */,
+/* 1091 */,
+/* 1092 */,
+/* 1093 */,
+/* 1094 */,
+/* 1095 */,
+/* 1096 */,
+/* 1097 */,
+/* 1098 */,
+/* 1099 */,
+/* 1100 */,
+/* 1101 */,
+/* 1102 */,
+/* 1103 */,
+/* 1104 */,
+/* 1105 */,
+/* 1106 */,
+/* 1107 */,
+/* 1108 */,
+/* 1109 */,
+/* 1110 */,
+/* 1111 */,
+/* 1112 */,
+/* 1113 */,
+/* 1114 */,
+/* 1115 */,
+/* 1116 */,
+/* 1117 */,
+/* 1118 */,
+/* 1119 */,
+/* 1120 */,
+/* 1121 */,
+/* 1122 */,
+/* 1123 */,
+/* 1124 */,
+/* 1125 */,
+/* 1126 */,
+/* 1127 */,
+/* 1128 */,
+/* 1129 */,
+/* 1130 */,
+/* 1131 */,
+/* 1132 */,
+/* 1133 */,
+/* 1134 */,
+/* 1135 */,
+/* 1136 */,
+/* 1137 */,
+/* 1138 */,
+/* 1139 */,
+/* 1140 */,
+/* 1141 */,
+/* 1142 */,
+/* 1143 */,
+/* 1144 */,
+/* 1145 */,
+/* 1146 */,
+/* 1147 */,
+/* 1148 */,
+/* 1149 */,
+/* 1150 */,
+/* 1151 */,
+/* 1152 */,
+/* 1153 */,
+/* 1154 */,
+/* 1155 */,
+/* 1156 */,
+/* 1157 */,
+/* 1158 */,
+/* 1159 */,
+/* 1160 */,
+/* 1161 */,
+/* 1162 */,
+/* 1163 */,
+/* 1164 */,
+/* 1165 */,
+/* 1166 */,
+/* 1167 */,
+/* 1168 */,
+/* 1169 */,
+/* 1170 */,
+/* 1171 */,
+/* 1172 */,
+/* 1173 */,
+/* 1174 */,
+/* 1175 */,
+/* 1176 */,
+/* 1177 */,
+/* 1178 */,
+/* 1179 */,
+/* 1180 */,
+/* 1181 */,
+/* 1182 */,
+/* 1183 */,
+/* 1184 */,
+/* 1185 */,
+/* 1186 */,
+/* 1187 */,
+/* 1188 */,
+/* 1189 */,
+/* 1190 */,
+/* 1191 */,
+/* 1192 */,
+/* 1193 */,
+/* 1194 */,
+/* 1195 */,
+/* 1196 */,
+/* 1197 */,
+/* 1198 */,
+/* 1199 */,
+/* 1200 */,
+/* 1201 */,
+/* 1202 */,
+/* 1203 */,
+/* 1204 */,
+/* 1205 */,
+/* 1206 */,
+/* 1207 */,
+/* 1208 */,
+/* 1209 */,
+/* 1210 */,
+/* 1211 */,
+/* 1212 */,
+/* 1213 */,
+/* 1214 */,
+/* 1215 */,
+/* 1216 */,
+/* 1217 */,
+/* 1218 */,
+/* 1219 */,
+/* 1220 */,
+/* 1221 */,
+/* 1222 */,
+/* 1223 */,
+/* 1224 */,
+/* 1225 */,
+/* 1226 */,
+/* 1227 */,
+/* 1228 */,
+/* 1229 */,
+/* 1230 */,
+/* 1231 */,
+/* 1232 */,
+/* 1233 */,
+/* 1234 */,
+/* 1235 */,
+/* 1236 */,
+/* 1237 */,
+/* 1238 */,
+/* 1239 */,
+/* 1240 */,
+/* 1241 */,
+/* 1242 */,
+/* 1243 */,
+/* 1244 */,
+/* 1245 */,
+/* 1246 */,
+/* 1247 */,
+/* 1248 */,
+/* 1249 */,
+/* 1250 */,
+/* 1251 */,
+/* 1252 */,
+/* 1253 */,
+/* 1254 */,
+/* 1255 */,
+/* 1256 */,
+/* 1257 */,
+/* 1258 */,
+/* 1259 */,
+/* 1260 */,
+/* 1261 */,
+/* 1262 */,
+/* 1263 */,
+/* 1264 */,
+/* 1265 */,
+/* 1266 */,
+/* 1267 */,
+/* 1268 */,
+/* 1269 */,
+/* 1270 */,
+/* 1271 */,
+/* 1272 */,
+/* 1273 */,
+/* 1274 */,
+/* 1275 */,
+/* 1276 */,
+/* 1277 */,
+/* 1278 */,
+/* 1279 */,
+/* 1280 */,
+/* 1281 */,
+/* 1282 */,
+/* 1283 */,
+/* 1284 */,
+/* 1285 */,
+/* 1286 */,
+/* 1287 */,
+/* 1288 */,
+/* 1289 */,
+/* 1290 */,
+/* 1291 */,
+/* 1292 */,
+/* 1293 */,
+/* 1294 */,
+/* 1295 */,
+/* 1296 */,
+/* 1297 */,
+/* 1298 */,
+/* 1299 */,
+/* 1300 */,
+/* 1301 */,
+/* 1302 */,
+/* 1303 */,
+/* 1304 */,
+/* 1305 */,
+/* 1306 */,
+/* 1307 */,
+/* 1308 */,
+/* 1309 */,
+/* 1310 */,
+/* 1311 */,
+/* 1312 */,
+/* 1313 */,
+/* 1314 */,
+/* 1315 */,
+/* 1316 */,
+/* 1317 */,
+/* 1318 */,
+/* 1319 */,
+/* 1320 */,
+/* 1321 */,
+/* 1322 */,
+/* 1323 */,
+/* 1324 */,
+/* 1325 */,
+/* 1326 */,
+/* 1327 */,
+/* 1328 */,
+/* 1329 */,
+/* 1330 */,
+/* 1331 */,
+/* 1332 */,
+/* 1333 */,
+/* 1334 */,
+/* 1335 */,
+/* 1336 */,
+/* 1337 */,
+/* 1338 */,
+/* 1339 */,
+/* 1340 */,
+/* 1341 */,
+/* 1342 */,
+/* 1343 */,
+/* 1344 */,
+/* 1345 */,
+/* 1346 */,
+/* 1347 */,
+/* 1348 */,
+/* 1349 */,
+/* 1350 */,
+/* 1351 */,
+/* 1352 */,
+/* 1353 */,
+/* 1354 */,
+/* 1355 */,
+/* 1356 */,
+/* 1357 */,
+/* 1358 */,
+/* 1359 */,
+/* 1360 */,
+/* 1361 */,
+/* 1362 */,
+/* 1363 */,
+/* 1364 */,
+/* 1365 */,
+/* 1366 */,
+/* 1367 */,
+/* 1368 */,
+/* 1369 */,
+/* 1370 */,
+/* 1371 */,
+/* 1372 */,
+/* 1373 */,
+/* 1374 */,
+/* 1375 */,
+/* 1376 */,
+/* 1377 */,
+/* 1378 */,
+/* 1379 */,
+/* 1380 */,
+/* 1381 */,
+/* 1382 */,
+/* 1383 */,
+/* 1384 */,
+/* 1385 */,
+/* 1386 */,
+/* 1387 */,
+/* 1388 */,
+/* 1389 */,
+/* 1390 */,
+/* 1391 */,
+/* 1392 */,
+/* 1393 */,
+/* 1394 */,
+/* 1395 */,
+/* 1396 */,
+/* 1397 */,
+/* 1398 */,
+/* 1399 */,
+/* 1400 */,
+/* 1401 */,
+/* 1402 */,
+/* 1403 */,
+/* 1404 */,
+/* 1405 */,
+/* 1406 */,
+/* 1407 */,
+/* 1408 */,
+/* 1409 */,
+/* 1410 */,
+/* 1411 */,
+/* 1412 */,
+/* 1413 */,
+/* 1414 */,
+/* 1415 */,
+/* 1416 */,
+/* 1417 */,
+/* 1418 */,
+/* 1419 */,
+/* 1420 */,
+/* 1421 */,
+/* 1422 */,
+/* 1423 */,
+/* 1424 */,
+/* 1425 */,
+/* 1426 */,
+/* 1427 */,
+/* 1428 */,
+/* 1429 */,
+/* 1430 */,
+/* 1431 */,
+/* 1432 */,
+/* 1433 */,
+/* 1434 */,
+/* 1435 */,
+/* 1436 */,
+/* 1437 */,
+/* 1438 */,
+/* 1439 */,
+/* 1440 */,
+/* 1441 */,
+/* 1442 */,
+/* 1443 */,
+/* 1444 */,
+/* 1445 */,
+/* 1446 */,
+/* 1447 */,
+/* 1448 */,
+/* 1449 */,
+/* 1450 */,
+/* 1451 */,
+/* 1452 */,
+/* 1453 */,
+/* 1454 */,
+/* 1455 */,
+/* 1456 */,
+/* 1457 */,
+/* 1458 */,
+/* 1459 */,
+/* 1460 */,
+/* 1461 */,
+/* 1462 */,
+/* 1463 */,
+/* 1464 */,
+/* 1465 */,
+/* 1466 */,
+/* 1467 */,
+/* 1468 */,
+/* 1469 */,
+/* 1470 */,
+/* 1471 */,
+/* 1472 */,
+/* 1473 */,
+/* 1474 */,
+/* 1475 */,
+/* 1476 */,
+/* 1477 */,
+/* 1478 */,
+/* 1479 */,
+/* 1480 */,
+/* 1481 */,
+/* 1482 */,
+/* 1483 */,
+/* 1484 */,
+/* 1485 */,
+/* 1486 */,
+/* 1487 */,
+/* 1488 */,
+/* 1489 */,
+/* 1490 */,
+/* 1491 */,
+/* 1492 */,
+/* 1493 */,
+/* 1494 */,
+/* 1495 */,
+/* 1496 */,
+/* 1497 */,
+/* 1498 */,
+/* 1499 */,
+/* 1500 */,
+/* 1501 */,
+/* 1502 */,
+/* 1503 */,
+/* 1504 */,
+/* 1505 */,
+/* 1506 */,
+/* 1507 */,
+/* 1508 */,
+/* 1509 */,
+/* 1510 */,
+/* 1511 */,
+/* 1512 */,
+/* 1513 */,
+/* 1514 */,
+/* 1515 */,
+/* 1516 */,
+/* 1517 */,
+/* 1518 */,
+/* 1519 */,
+/* 1520 */,
+/* 1521 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isHash;
+
+var _assertString = __webpack_require__(4);
+
+var _assertString2 = _interopRequireDefault(_assertString);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var lengths = {
+  md5: 32,
+  md4: 32,
+  sha1: 40,
+  sha256: 64,
+  sha384: 96,
+  sha512: 128,
+  ripemd128: 32,
+  ripemd160: 40,
+  tiger128: 32,
+  tiger160: 40,
+  tiger192: 48,
+  crc32: 8,
+  crc32b: 8
+};
+
+function isHash(str, algorithm) {
+  (0, _assertString2.default)(str);
+  var hash = new RegExp('^[a-f0-9]{' + lengths[algorithm] + '}$');
+  return hash.test(str);
+}
+module.exports = exports['default'];
+
+/***/ }),
+/* 1522 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (str) {
+  (0, _assertString2.default)(str);
+  if (!str.includes(',')) return false;
+  var pair = str.split(',');
+  return lat.test(pair[0]) && long.test(pair[1]);
+};
+
+var _assertString = __webpack_require__(4);
+
+var _assertString2 = _interopRequireDefault(_assertString);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var lat = /^\(?[+-]?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/;
+var long = /^\s?[+-]?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)\)?$/;
+
+module.exports = exports['default'];
+
+/***/ }),
+/* 1523 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.locales = undefined;
+
+exports.default = function (str, locale) {
+  (0, _assertString2.default)(str);
+  if (locale in patterns) {
+    return patterns[locale].test(str);
+  } else if (locale === 'any') {
+    for (var key in patterns) {
+      if (patterns.hasOwnProperty(key)) {
+        var pattern = patterns[key];
+        if (pattern.test(str)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  throw new Error('Invalid locale \'' + locale + '\'');
+};
+
+var _assertString = __webpack_require__(4);
+
+var _assertString2 = _interopRequireDefault(_assertString);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// common patterns
+var threeDigit = /^\d{3}$/;
+var fourDigit = /^\d{4}$/;
+var fiveDigit = /^\d{5}$/;
+var sixDigit = /^\d{6}$/;
+
+var patterns = {
+  AT: fourDigit,
+  AU: sixDigit,
+  BE: fourDigit,
+  CA: /^[ABCEGHJKLMNPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][\s\-]?\d[ABCEGHJ-NPRSTV-Z]\d$/i,
+  CH: fourDigit,
+  CZ: /^\d{3}\s?\d{2}$/,
+  DE: fiveDigit,
+  DK: fourDigit,
+  DZ: fiveDigit,
+  ES: fiveDigit,
+  FI: fiveDigit,
+  FR: /^\d{2}\s?\d{3}$/,
+  GB: /^(gir\s?0aa|[a-z]{1,2}\d[\da-z]?\s?(\d[a-z]{2})?)$/i,
+  GR: /^\d{3}\s?\d{2}$/,
+  IL: fiveDigit,
+  IN: sixDigit,
+  IS: threeDigit,
+  IT: fiveDigit,
+  JP: /^\d{3}\-\d{4}$/,
+  KE: fiveDigit,
+  LI: /^(948[5-9]|949[0-7])$/,
+  MX: fiveDigit,
+  NL: /^\d{4}\s?[a-z]{2}$/i,
+  NO: fourDigit,
+  PL: /^\d{2}\-\d{3}$/,
+  PT: /^\d{4}(\-\d{3})?$/,
+  RO: sixDigit,
+  RU: sixDigit,
+  SA: fiveDigit,
+  SE: /^\d{3}\s?\d{2}$/,
+  TW: /^\d{3}(\d{2})?$/,
+  US: /^\d{5}(-\d{4})?$/,
+  ZA: fourDigit,
+  ZM: fiveDigit
+};
+
+var locales = exports.locales = Object.keys(patterns);
 
 /***/ })
 /******/ ]);

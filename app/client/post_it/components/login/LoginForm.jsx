@@ -81,12 +81,11 @@ class LoginForm extends React.Component {
                 <h1>Welcome to the Biggest<br />
                   Social Network in the World
                 </h1>
-                <p>We are the best and biggest social network
+                <p>We are the best and biggest Messages Platform
                   with 5 billion active
                   users all around the world. Create account, create group
                   add other users to your group and post messages
                 </p>
-
                 <a
                 href="#"
                 className="my_btn btn-md btn-border btn-white">Register Now!</a>

@@ -2,7 +2,11 @@ import shortid from 'shortid';
 import findIndex from 'lodash/findIndex';
 import { ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE } from '../actions/types';
 
-
+/**
+ * @param {Object} state .
+ * @param {Object} action .
+ * @returns {state} - returns a new state.
+ */
 export default (state = [], action = {}) => {
   switch (action.type) { // used to process actions
   case ADD_FLASH_MESSAGE:
