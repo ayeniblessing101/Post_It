@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Modal } from 'react-materialize';
+import { Button, Modal } from 'react-materialize';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { validateInput } 
@@ -31,6 +31,10 @@ class ForgetPasswordModal extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  /**
+   * @returns {isValid}
+   * @memberof ForgetPasswordModal
+   */
   isValid() {
     const { errors, isValid, email, addFlashMessage } 
        = validateInput(this.state);

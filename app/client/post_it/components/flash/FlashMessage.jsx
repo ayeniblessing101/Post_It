@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 class FlashMessage extends React.Component {
   /**
    * Creates an instance of FlashMessage.
-   * @param {any} props 
+   * @param {any} props
    * @memberof FlashMessage
    */
   constructor(props) {
@@ -18,6 +18,7 @@ class FlashMessage extends React.Component {
   }
   /**
    * @memberof FlashMessage
+   * @returns {void}
    */
   onClick() {
     this.props.deleteFlashMessage(this.props.message.id);
@@ -28,16 +29,17 @@ class FlashMessage extends React.Component {
    */
   render() {
     const { id, type, text } = this.props.message;
-      return (
-        <div className={classnames('alert', {
-            'alert-success': type === 'success',
-            'alert-danger': type === 'error'
+    return (
+      <div
+        className={classnames('alert', {
+          'alert-success': type === 'success',
+          'alert-danger': type === 'error'
         })}>
-          <button
-            onClick={this.onClick}
-            className="close"><span>&times;</span></button>
-          {text}
-        </div>
+        <button
+          onClick={this.onClick}
+          className="close"><span>&times;</span></button>
+        {text}
+      </div>
     );
   }
 }

@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 import validateInput from '../../../../server/shared/validations/signup';
 
+/**
+ * @class SignupForm
+ * @extends {React.Component}
+ */
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);
@@ -21,10 +25,20 @@ class SignupForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.checkUserExits = this.checkUserExits.bind(this);
   }
+
+  /**
+   * @param {any} e
+   * @memberof SignupForm
+   * @return {void}
+   */
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  /**
+   * @memberof SignupForm
+   * @return {isValid} - checks if the fields are not empty
+   */
   isValid() {
     const { errors, isValid } = validateInput(this.state);
 
@@ -35,6 +49,11 @@ class SignupForm extends React.Component {
     return isValid;
   }
 
+  /**
+   * @param {any} e
+   * @memberof SignupForm
+   * @return {void}
+   */
   checkUserExits(e) {
     const field = e.target.name;
     const val = e.target.value;
@@ -54,6 +73,11 @@ class SignupForm extends React.Component {
     }
   }
 
+  /**
+   * @param {any} e
+   * @memberof SignupForm
+   * @return {void}
+   */
   handleSubmit(e) {
     e.preventDefault();
 
@@ -79,6 +103,10 @@ class SignupForm extends React.Component {
       );
     }
   }
+  /**
+   * @returns {object} - signup component
+   * @memberof SignupForm
+   */
   render() {
     const { errors } = this.state;
     return (
@@ -168,7 +196,7 @@ class SignupForm extends React.Component {
           </div>
         </section>
       </div>
-    )
+    );
   }
 }
 
@@ -176,12 +204,10 @@ SignupForm.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
   isUserExists: PropTypes.func.isRequired
-}
+};
 
 SignupForm.contextTypes = {
   router: PropTypes.object.isRequired
-}
-
-
+};
 
 export default SignupForm;

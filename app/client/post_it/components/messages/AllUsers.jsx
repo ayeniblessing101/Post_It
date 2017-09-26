@@ -8,17 +8,13 @@ import { fetchGroupUsers } from '../../actions/creategroupActions';
 // const avatar3 = require("../images/friend-group2.jpg");
 
 class AllUsers extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     groups: this.props.groups
-  //   }
-  // }
-
+  /**
+   * @memberof AllUsers
+   * @return {void}
+   */
   componentWillMount() {
     this.props.fetchGroupUsers(this.props.groupId);
   }
-
   // componentWillReceiveProps(nextProps) {
   //   this.setState({
   //     groups: nextProps.groups
@@ -49,6 +45,10 @@ class AllUsers extends React.Component {
     );
   }
 }
+
+AllUsers.prototype = {
+  fetchGroupUsers: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
   groupUsers: state.groupUsers

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import{ logout } from '../actions/authActions';
+import { logout } from '../actions/authActions';
 
 /**
  * @class Header
@@ -29,7 +29,8 @@ class Header extends React.Component {
    * @return {void}
    */
   handleSubmit() {
-    this.context.router.history.push(`/user/search?q=${this.state.searchParam}`);
+    this.context.router.history
+    .push(`/user/search?q=${this.state.searchParam}`);
   }
 
   /**
@@ -58,9 +59,9 @@ class Header extends React.Component {
    * @returns {object} - header component
    * @memberof Header
    */
-  render(){
+  render() {
     const { isAuthenticated, user } = this.props.auth;
-    return(
+    return (
       <div>
         <div className="navbar-fixed">
           <ul classID="dropdown1" className="dropdown-content">
@@ -73,9 +74,9 @@ class Header extends React.Component {
               <ul classID="nav-mobile" className="right hide-on-med-and-down">
                 <li>
                   <form id="searchForm" onSubmit={this.handleSubmit}>
-                    <input 
-                      type="text" 
-                      name="searchParam" 
+                    <input
+                      type="text"
+                      name="searchParam"
                       placeholder="Search for Friends"
                       id="searchBar"
                       value={this.state.searchParam}
@@ -84,13 +85,16 @@ class Header extends React.Component {
                   </form>
                 </li>
                 <li>
-                  <Link to="#" className="dropdown-button"
+                  <Link
+                    to="#" className="dropdown-button"
                     data-activates="dropdown1">
-                    Welcome <span className="authUser">{user.data.username}</span>
+                    Welcome
+                    <span className="authUser">{user.data.username}</span>
                   </Link>
                 </li>
                 <li>
-                  <Link to="#"
+                  <Link
+                    to="#"
                   onClick={this.logout.bind(this)}>
                     <i className="material-icons">power_settings_new</i>
                   </Link>

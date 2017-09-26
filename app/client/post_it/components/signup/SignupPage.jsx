@@ -1,12 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import SignupForm from './SignupForm';
 import { userSignupRequest, isUserExists } from '../../actions/signupActions';
 import { addFlashMessage } from '../../actions/flashMessages';
 
-
+/**
+ * @class SignupPage
+ * @extends {React.Component}
+ */
 class SignupPage extends React.Component {
+  /**
+   * @returns {object} - signup component
+   * @memberof SignupPage
+   */
   render() {
     const { userSignupRequest, addFlashMessage, isUserExists } = this.props;
     return (

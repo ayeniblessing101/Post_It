@@ -18224,9 +18224,10 @@ var Header = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '#', className: 'dropdown-button',
+                    {
+                      to: '#', className: 'dropdown-button',
                       'data-activates': 'dropdown1' },
-                    'Welcome ',
+                    'Welcome',
                     _react2.default.createElement(
                       'span',
                       { className: 'authUser' },
@@ -18239,7 +18240,8 @@ var Header = function (_React$Component) {
                   null,
                   _react2.default.createElement(
                     _reactRouterDom.Link,
-                    { to: '#',
+                    {
+                      to: '#',
                       onClick: this.logout.bind(this) },
                     _react2.default.createElement(
                       'i',
@@ -53962,8 +53964,6 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(15);
-
 var _Header = __webpack_require__(64);
 
 var _Header2 = _interopRequireDefault(_Header);
@@ -53980,6 +53980,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class AddUser
+ * @extends {React.Component}
+ */
 var AddUser = function (_React$Component) {
   _inherits(AddUser, _React$Component);
 
@@ -53991,6 +53995,11 @@ var AddUser = function (_React$Component) {
 
   _createClass(AddUser, [{
     key: 'render',
+
+    /**
+     * @returns {object} - adduser component
+     * @memberof AddUser
+     */
     value: function render() {
       return _react2.default.createElement(
         'div',
@@ -54027,7 +54036,11 @@ var AddUser = function (_React$Component) {
                       _react2.default.createElement(
                         'div',
                         { className: 'input-field' },
-                        _react2.default.createElement('input', { classID: 'icon_prefix', type: 'text', className: 'validate' }),
+                        _react2.default.createElement('input', {
+                          classID: 'icon_prefix',
+                          type: 'text',
+                          className: 'validate'
+                        }),
                         _react2.default.createElement(
                           'label',
                           { htmlFor: 'icon_prefix' },
@@ -54039,7 +54052,10 @@ var AddUser = function (_React$Component) {
                         { className: 'input-field ' },
                         _react2.default.createElement(
                           'button',
-                          { className: 'btn waves-effect waves-light', type: 'submit', name: 'action' },
+                          {
+                            className: 'btn waves-effect waves-light',
+                            type: 'submit',
+                            name: 'action' },
                           'Add'
                         )
                       ),
@@ -54078,8 +54094,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(15);
 
 var _propTypes = __webpack_require__(3);
 
@@ -54465,9 +54479,6 @@ var _GroupCard2 = _interopRequireDefault(_GroupCard);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var isEmpty = __webpack_require__(39);
-// const avatar1 = require("../../images/avatar1.png");
-// const avatar2 = require("../../images/avatar2.png");
-// const avatar3 = require("../../images/friend-group2.jpg");
 
 var GroupsList = function GroupsList(_ref) {
   var groups = _ref.groups;
@@ -54704,7 +54715,7 @@ var FlashMessage = function (_React$Component) {
 
   /**
    * Creates an instance of FlashMessage.
-   * @param {any} props 
+   * @param {any} props
    * @memberof FlashMessage
    */
   function FlashMessage(props) {
@@ -54717,6 +54728,7 @@ var FlashMessage = function (_React$Component) {
   }
   /**
    * @memberof FlashMessage
+   * @returns {void}
    */
 
 
@@ -54740,7 +54752,8 @@ var FlashMessage = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)('alert', {
+        {
+          className: (0, _classnames2.default)('alert', {
             'alert-success': type === 'success',
             'alert-danger': type === 'error'
           }) },
@@ -54846,6 +54859,12 @@ var ForgetPasswordModal = function (_React$Component) {
     _this.handleChange = _this.handleChange.bind(_this);
     return _this;
   }
+
+  /**
+   * @returns {isValid}
+   * @memberof ForgetPasswordModal
+   */
+
 
   _createClass(ForgetPasswordModal, [{
     key: 'isValid',
@@ -54987,8 +55006,6 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMaterialize = __webpack_require__(110);
-
 var _reactRouterDom = __webpack_require__(15);
 
 var _propTypes = __webpack_require__(3);
@@ -55025,6 +55042,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class LoginForm
+ * @extends {React.Component}
+ */
 var LoginForm = function (_React$Component) {
   _inherits(LoginForm, _React$Component);
 
@@ -55043,6 +55064,12 @@ var LoginForm = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * @returns {isValid} - checks if the fields are not empty
+   * @memberof LoginForm
+   */
+
+
   _createClass(LoginForm, [{
     key: 'isValid',
     value: function isValid() {
@@ -55055,6 +55082,13 @@ var LoginForm = function (_React$Component) {
       }
       return isValid;
     }
+
+    /**
+     * @param {any} e 
+     * @memberof LoginForm
+     * @returns {void}
+     */
+
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
@@ -55074,11 +55108,24 @@ var LoginForm = function (_React$Component) {
         });
       }
     }
+
+    /**
+     * @param {any} e 
+     * @memberof LoginForm
+     * @returns {void}
+     */
+
   }, {
     key: 'handleChange',
     value: function handleChange(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
+
+    /**
+     * @returns {object} - LoginForm component
+     * @memberof LoginForm
+     */
+
   }, {
     key: 'render',
     value: function render() {
@@ -55259,6 +55306,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class LoginPage
+ * @extends {React.Component}
+ */
 var LoginPage = function (_React$Component) {
   _inherits(LoginPage, _React$Component);
 
@@ -55333,12 +55384,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// const avatar2 = require("../images/avatar2.png");
-// const avatar3 = require("../images/friend-group2.jpg");
-
+/**
+ * @class AddUserModal
+ * @extends {React.Component}
+ */
 var AddUserModal = function (_React$Component) {
   _inherits(AddUserModal, _React$Component);
 
+  /**
+   * Creates an instance of AddUserModal.
+   * @param {any} props
+   * @memberof AddUserModal
+   */
   function AddUserModal(props) {
     _classCallCheck(this, AddUserModal);
 
@@ -55353,6 +55410,12 @@ var AddUserModal = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * @returns {isValid}
+   * @memberof AddUserModal
+   */
+
+
   _createClass(AddUserModal, [{
     key: 'isValid',
     value: function isValid() {
@@ -55366,6 +55429,13 @@ var AddUserModal = function (_React$Component) {
 
       return isValid;
     }
+
+    /**
+     * @param {any} e 
+     * @memberof AddUserModal
+     * @returns {void}
+     */
+
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
@@ -55396,11 +55466,24 @@ var AddUserModal = function (_React$Component) {
         errors: {}
       });
     }
+
+    /**
+     * @param {any} e
+     * @memberof AddUserModal
+     * @return {void}
+     */
+
   }, {
     key: 'handleChange',
     value: function handleChange(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
+
+    /**
+     * @memberof AddUserModal
+     * @returns {object} - AddUserModal Component
+     */
+
   }, {
     key: 'render',
     value: function render() {
@@ -55496,12 +55579,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-//  const avatar2 = require("../images/avatar2.png");
-// const avatar3 = require("../images/friend-group2.jpg");
-
+/**
+ * @class AllGroups
+ * @extends {React.Component}
+ */
 var AllGroups = function (_React$Component) {
   _inherits(AllGroups, _React$Component);
 
+  /**
+   * Creates an instance of AllGroups.
+   * @param {any} props
+   * @memberof AllGroups
+   */
   function AllGroups(props) {
     _classCallCheck(this, AllGroups);
 
@@ -55514,12 +55603,25 @@ var AllGroups = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * @memberof AllGroups
+   * @return {void}
+   */
+
+
   _createClass(AllGroups, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.fetchGroups();
       // this.props.getMessages(this.state.groupId);
     }
+
+    /**
+     * @param {any} nextProps 
+     * @memberof AllGroups
+     * @return {void}
+     */
+
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
@@ -55528,12 +55630,15 @@ var AllGroups = function (_React$Component) {
         messages: nextProps.messages
       });
     }
+    /**
+     * @memberof AllGroups
+     * @returns {object} - AllGroups Component
+     */
+
   }, {
     key: 'render',
     value: function render() {
       var groups = this.state.groups;
-
-      {/* const allNewMessages = (this.state.messages).length; */}
       return _react2.default.createElement(
         'div',
         null,
@@ -55639,17 +55744,13 @@ var AllUsers = function (_React$Component) {
   _createClass(AllUsers, [{
     key: 'componentWillMount',
 
-    // constructor(props) {
-    //   super(props);
-    //   this.state = {
-    //     groups: this.props.groups
-    //   }
-    // }
-
+    /**
+     * @memberof AllUsers
+     * @return {void}
+     */
     value: function componentWillMount() {
       this.props.fetchGroupUsers(this.props.groupId);
     }
-
     // componentWillReceiveProps(nextProps) {
     //   this.setState({
     //     groups: nextProps.groups
@@ -55698,6 +55799,10 @@ var AllUsers = function (_React$Component) {
   return AllUsers;
 }(_react2.default.Component);
 
+AllUsers.prototype = {
+  fetchGroupUsers: _propTypes2.default.func.isRequired
+};
+
 var mapStateToProps = function mapStateToProps(state) {
   return {
     groupUsers: state.groupUsers
@@ -55722,8 +55827,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(15);
 
 var _propTypes = __webpack_require__(3);
 
@@ -55755,9 +55858,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class MessageBoard
+ * @extends {React.Component}
+ */
 var MessageBoard = function (_React$Component) {
   _inherits(MessageBoard, _React$Component);
 
+  /**
+   * Creates an instance of MessageBoard.
+   * @param {any} props
+   * @memberof MessageBoard
+   */
   function MessageBoard(props) {
     _classCallCheck(this, MessageBoard);
 
@@ -55769,11 +55881,18 @@ var MessageBoard = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * @param {any} nextProps
+   * @memberof MessageBoard
+   * @return {void}
+   */
+
+
   _createClass(MessageBoard, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState({
-        groups: this.props.groups
+        groups: nextProps.groups
       });
     }
   }, {
@@ -56595,6 +56714,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class SignupForm
+ * @extends {React.Component}
+ */
 var SignupForm = function (_React$Component) {
   _inherits(SignupForm, _React$Component);
 
@@ -56619,11 +56742,24 @@ var SignupForm = function (_React$Component) {
     return _this;
   }
 
+  /**
+   * @param {any} e
+   * @memberof SignupForm
+   * @return {void}
+   */
+
+
   _createClass(SignupForm, [{
     key: 'handleChange',
     value: function handleChange(e) {
       this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
+
+    /**
+     * @memberof SignupForm
+     * @return {isValid} - checks if the fields are not empty
+     */
+
   }, {
     key: 'isValid',
     value: function isValid() {
@@ -56637,6 +56773,13 @@ var SignupForm = function (_React$Component) {
 
       return isValid;
     }
+
+    /**
+     * @param {any} e
+     * @memberof SignupForm
+     * @return {void}
+     */
+
   }, {
     key: 'checkUserExits',
     value: function checkUserExits(e) {
@@ -56659,6 +56802,13 @@ var SignupForm = function (_React$Component) {
         });
       }
     }
+
+    /**
+     * @param {any} e
+     * @memberof SignupForm
+     * @return {void}
+     */
+
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(e) {
@@ -56688,6 +56838,11 @@ var SignupForm = function (_React$Component) {
         });
       }
     }
+    /**
+     * @returns {object} - signup component
+     * @memberof SignupForm
+     */
+
   }, {
     key: 'render',
     value: function render() {
@@ -56884,6 +57039,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * @class SignupPage
+ * @extends {React.Component}
+ */
 var SignupPage = function (_React$Component) {
   _inherits(SignupPage, _React$Component);
 
@@ -56895,6 +57054,11 @@ var SignupPage = function (_React$Component) {
 
   _createClass(SignupPage, [{
     key: 'render',
+
+    /**
+     * @returns {object} - signup component
+     * @memberof SignupPage
+     */
     value: function render() {
       var _props = this.props,
           userSignupRequest = _props.userSignupRequest,

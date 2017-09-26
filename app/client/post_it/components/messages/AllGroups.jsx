@@ -4,10 +4,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchGroups } from '../../actions/creategroupActions';
 
-//  const avatar2 = require("../images/avatar2.png");
-// const avatar3 = require("../images/friend-group2.jpg");
 
+/**
+ * @class AllGroups
+ * @extends {React.Component}
+ */
 class AllGroups extends React.Component {
+  /**
+   * Creates an instance of AllGroups.
+   * @param {any} props
+   * @memberof AllGroups
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -16,21 +23,32 @@ class AllGroups extends React.Component {
     };
   }
 
+  /**
+   * @memberof AllGroups
+   * @return {void}
+   */
   componentDidMount() {
     this.props.fetchGroups();
     // this.props.getMessages(this.state.groupId);
   }
 
+  /**
+   * @param {any} nextProps 
+   * @memberof AllGroups
+   * @return {void}
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({
       groups: nextProps.groups,
       messages: nextProps.messages
     });
   }
+  /**
+   * @memberof AllGroups
+   * @returns {object} - AllGroups Component
+   */
   render() {
     const groups = this.state.groups;
-
-    { /* const allNewMessages = (this.state.messages).length; */ }
     return (
       <div>
         <div className="col s12 m4 l3 ">
