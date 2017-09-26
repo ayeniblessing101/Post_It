@@ -23,7 +23,6 @@ export default function GroupCard({ group }) {
           alt="avatar"
           />
           <h5><b>{group.group_name}</b></h5>
-          6 users in the Group<br /><br /><br />
           <Link to={`/group/${group.id}`} className="btn btn-primary">
             Enter Group
           </Link>
