@@ -97,7 +97,11 @@ class UserList extends React.Component {
                         </tr>
                       )) : (
                         <tr>
-                          <td className="center" col="2" colSpan="2">No user found</td>
+                          <td
+                            className="center"
+                            col="2" colSpan="2">
+                            No user found
+                          </td>
                         </tr>
                       )
                     }

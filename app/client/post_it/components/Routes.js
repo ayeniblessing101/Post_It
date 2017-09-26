@@ -18,17 +18,18 @@ const Routes = () => (
   (
     <div>
       <Switch>
-        <Route exact path='/' component={SignUpForm} />
-        <Route path='/login' component={Login} />
-        <Route path='/user/password/verify' component={ResetPasswordPage} />
-        <Route path='/groups' component={requireAuth(GroupsPage)} />
-        <Route path='/group/:id' component={requireAuth(GroupPage)} />
-        <Route path='/add-group' component={requireAuth(AddGroup)} />
-        <Route path='/add-user' component={requireAuth(AddUser)} />
-        <Route path='/user/search/' component={requireAuth(UserPage)} />
-        <Route render={function () {
-          return <p>Not Found</p>;
-        }} />
+        <Route exact path="/" component={SignUpForm} />
+        <Route path="/login" component={Login} />
+        <Route path="/user/password/verify" component={ResetPasswordPage} />
+        <Route path="/groups" component={requireAuth(GroupsPage)} />
+        <Route path="/group/:id" component={requireAuth(GroupPage)} />
+        <Route path="/add-group" component={requireAuth(AddGroup)} />
+        <Route path="/add-user" component={requireAuth(AddUser)} />
+        <Route path="/user/search/" component={requireAuth(UserPage)} />
+        <Route
+          render={() => {
+            return <p>Not Found</p>;
+          }} />
       </Switch>
     </div>
   )

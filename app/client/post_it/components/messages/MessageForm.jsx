@@ -6,7 +6,16 @@ import moment from 'moment';
 import { getMessages, postMessage, updateMessageStatus }
 from '../../actions/messageActions';
 
+/**
+ * @class MessageForm
+ * @extends {React.Component}
+ */
 class MessageForm extends React.Component {
+  /**
+   * Creates an instance of MessageForm.
+   * @param {any} props
+   * @memberof MessageForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -19,21 +28,35 @@ class MessageForm extends React.Component {
     this.handleMessageStatus = this.handleMessageStatus.bind(this);
   }
 
+  /**
+   * @param {any} e
+   * @memberof MessageForm
+   * @returns {void}
+   */
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
   }
 
+  /**
+   * @param {any} e
+   * @memberof MessageForm
+   * @return {void}
+   */
   handleMessageStatus(e) {
     e.preventDefault();
     this.props.updateMessageStatus(e.target.id);
   }
 
+  /**
+   * @param {any} e
+   * @memberof MessageForm
+   * @return {void}
+   */
   handleSubmit(e) {
     e.preventDefault();
     if (!this.state.message || !this.state.priority) {
-      
     }
     this.props.postMessage(this.props.groupId, {
       message: this.state.message,
@@ -147,6 +170,8 @@ class MessageForm extends React.Component {
 MessageForm.propTypes = {
   postMessage: PropTypes.func.isRequired,
   updateMessageStatus: PropTypes.func.isRequired,
+  getMessages: PropTypes.func.isRequired,
+  messages: PropTypes.shape({})
 };
 
 

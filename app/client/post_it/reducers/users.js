@@ -16,14 +16,14 @@ const initialState = {
  */
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-    case GET_ALL_USERS:
-      return {
-        pageNumber: action.users.pageNumber,
-        pageCount: action.users.pageCount,
-        pageSize: action.users.pageSize,
-        users: action.users.users,
-        totalCount: action.users.totalCount
-      };
-    default: return state;
+  case GET_ALL_USERS:
+    return {
+      pageNumber: action.users.pageNumber,
+      pageCount: action.users.pageCount,
+      pageSize: action.users.pageSize,
+      users: action.users.users,
+      totalCount: action.users.totalCount
+    };
+  default: return state;
   }
 };

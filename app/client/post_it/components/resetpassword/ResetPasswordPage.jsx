@@ -1,11 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import queryString from 'query-string';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ResetPasswordForm from './ResetPasswordForm';
 import { checkToken } from '../../actions/forgotPasswordAction';
 
+/**
+ * @class ResetPasswordPage
+ * @extends {React.Component}
+ */
 class ResetPasswordPage extends React.Component {
+  /**
+   * Creates an instance of ResetPasswordPage.
+   * @param {any} props
+   * @memberof ResetPasswordPage
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +22,10 @@ class ResetPasswordPage extends React.Component {
     };
   }
 
+  /**
+   * @memberof ResetPasswordPage
+   * @return {void}
+   */
   componentDidMount() {
     const query = queryString.parse(this.props.location.search);
     const token = query.token;
