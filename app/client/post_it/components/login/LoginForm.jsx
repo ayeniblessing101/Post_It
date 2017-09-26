@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { Button, Card, Row, Col } from 'react-materialize';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,6 +8,10 @@ import { login } from '../../actions/authActions';
 import validateInput from '../../../../server/shared/validations/login';
 import FlashMessagesList from '../flash/FlashMessagesList';
 
+/**
+ * @class LoginForm
+ * @extends {React.Component}
+ */
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +24,10 @@ class LoginForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  /**
+   * @returns {isValid} - checks if the fields are not empty
+   * @memberof LoginForm
+   */
   isValid() {
     const { errors, isValid } = validateInput(this.state);
 
@@ -30,6 +37,11 @@ class LoginForm extends React.Component {
     return isValid;
   }
 
+  /**
+   * @param {any} e 
+   * @memberof LoginForm
+   * @returns {void}
+   */
   handleSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
@@ -45,10 +57,19 @@ class LoginForm extends React.Component {
     }
   }
 
+  /**
+   * @param {any} e 
+   * @memberof LoginForm
+   * @returns {void}
+   */
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  /**
+   * @returns {object} - LoginForm component
+   * @memberof LoginForm
+   */
   render() {
     const { errors, username, password } = this.state;
     return (
@@ -126,11 +147,11 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
-    login: PropTypes.func.isRequired
-}
+  login: PropTypes.func.isRequired
+};
 
 LoginForm.contextTypes = {
   router: PropTypes.object.isRequired
-}
+};
 
 export default connect(null, { login })(LoginForm);

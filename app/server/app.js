@@ -18,7 +18,7 @@ app.use(webpackMiddleware(compiler, {
 app.use(webpackHotMiddleware(compiler));
 
 const logger = require('morgan');
-const userRoute = require('../server/routes/user');
+const userRoute = require('../server/routes/routes');
 const bodyParser = require('body-parser');
 
 app.use('/', express.static(path.join(__dirname, '../client/post_it/assets')));

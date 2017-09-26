@@ -7,10 +7,16 @@ import { validateInput } from '../../../../server/shared/validations/adduser';
 import { addFlashMessage } from '../../actions/flashMessages';
 import FlashMessagesList from '../flash/FlashMessagesList';
 
-// const avatar2 = require("../images/avatar2.png");
-// const avatar3 = require("../images/friend-group2.jpg");
-
+/**
+ * @class AddUserModal
+ * @extends {React.Component}
+ */
 class AddUserModal extends React.Component {
+  /**
+   * Creates an instance of AddUserModal.
+   * @param {any} props
+   * @memberof AddUserModal
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +27,10 @@ class AddUserModal extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  /**
+   * @returns {isValid}
+   * @memberof AddUserModal
+   */
   isValid() {
     const { errors, isValid } = validateInput(this.state);
 
@@ -31,6 +41,11 @@ class AddUserModal extends React.Component {
     return isValid;
   }
 
+  /**
+   * @param {any} e 
+   * @memberof AddUserModal
+   * @returns {void}
+   */
   handleSubmit(e) {
     e.preventDefault();
     const groupId = this.props.groupId;
@@ -58,10 +73,19 @@ class AddUserModal extends React.Component {
     });
   }
 
+  /**
+   * @param {any} e
+   * @memberof AddUserModal
+   * @return {void}
+   */
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  /**
+   * @memberof AddUserModal
+   * @returns {object} - AddUserModal Component
+   */
   render() {
     const { errors, username } = this.state;
     return (

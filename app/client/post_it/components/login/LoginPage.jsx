@@ -1,6 +1,10 @@
 import React from 'react';
 import LoginForm from './LoginForm';
 
+/**
+ * @class LoginPage
+ * @extends {React.Component}
+ */
 class LoginPage extends React.Component {
   render() {
     return (

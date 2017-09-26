@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AddUserModal from './AddUserModal';
@@ -7,7 +6,16 @@ import MessageForm from './MessageForm';
 import AllGroups from './AllGroups';
 import AllUsers from './AllUsers';
 
+/**
+ * @class MessageBoard
+ * @extends {React.Component}
+ */
 class MessageBoard extends React.Component {
+  /**
+   * Creates an instance of MessageBoard.
+   * @param {any} props
+   * @memberof MessageBoard
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -15,9 +23,14 @@ class MessageBoard extends React.Component {
     };
   }
 
+  /**
+   * @param {any} nextProps
+   * @memberof MessageBoard
+   * @return {void}
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({
-      groups: this.props.groups
+      groups: nextProps.groups
     });
   }
 

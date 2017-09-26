@@ -1,7 +1,6 @@
 const Validator = require('validator');
 
 const isEmpty = require('lodash/isEmpty');
-// const commonValidations = require('../shared/validations/addgroup');
 const User = require('../models').User;
 const Group = require('../models').Group;
 const GroupUser = require('../models').GroupUser;
@@ -31,8 +30,6 @@ exports.create_group = (req, res) => {
   }
 
   const { errors, isValid } = validateInput(req.body);
-
-  // validateInput(req.body).then(({ errors, isValid }) => {
   if (!isValid) {
     res.status(400).send(errors);
   } else {
@@ -44,12 +41,11 @@ exports.create_group = (req, res) => {
       },
     })
     .then((group) => {
-      // if (err) throw err;
       if (group) {
         errors.groupname = 'Groupname already exists';
       }
       if (!isEmpty(errors)) {
-        res.status(400).send(errors);
+        res.status(401).send(errors);
       } else {
         const groupData = {
           group_name: req.body.groupname,
@@ -62,19 +58,15 @@ exports.create_group = (req, res) => {
             user_id: userId
           })
           .then(() => {
-            // res.status(200).send({ status: true, message:
-            // 'Successful', data: groupMembers });
           });
           return res.status(201).send({
             status: true, message: 'Successful', data: group
           });
         })
-        .catch(error => res.status(400).send(error));
+        .catch(error => res.status(500).send(error));
       }
     });
-    // .catch(err => res.status(400).send(err));
   }
-  // })
 };
 
 // get GroupUser
@@ -100,10 +92,6 @@ exports.get_groups = (req, res) => {
         }
       },
       raw: true,
-      // include: [{
-      //   model: Message,
-      //   attributes: ['id', 'message_body']
-      // }]
     })
     .then((allGroups) => {
       res.status(200).send(allGroups);
@@ -128,7 +116,6 @@ exports.add_user = (req, res) => {
       attributes: ['id', 'username', 'email']
     })
     .then((user) => {
-      // res.status(200).send({ data: user });
       if (user) {
         GroupUser.findOrCreate({
           where: {
@@ -147,7 +134,7 @@ exports.add_user = (req, res) => {
               data: Usergroup
             });
           } else {
-            res.status(400)
+            res.status(403)
               .send({ status: true,
                 message: ' User has already been added to this group' });
           }

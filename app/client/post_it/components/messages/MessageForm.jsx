@@ -1,15 +1,10 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-// import { Textarea, Span } from 'react-materialize';
 import moment from 'moment';
 import { getMessages, postMessage, updateMessageStatus }
 from '../../actions/messageActions';
-
-// const avatar2 = require("../images/avatar2.png");
-// const avatar3 = require("../images/friend-group2.jpg");
 
 class MessageForm extends React.Component {
   constructor(props) {
