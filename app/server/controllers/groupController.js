@@ -28,12 +28,11 @@ exports.create_group = (req, res) => {
       isValid: isEmpty(errors)
     };
   }
-
   const { errors, isValid } = validateInput(req.body);
   if (!isValid) {
     res.status(400).send(errors);
   } else {
-    const userId = req.decoded.data.id;
+    const userId = req.decoded.id;
     Group.findOne({
       where: {
         group_name: req.body.groupname,
@@ -45,16 +44,16 @@ exports.create_group = (req, res) => {
         errors.groupname = 'Groupname already exists';
       }
       if (!isEmpty(errors)) {
-        res.status(401).send(errors);
+        res.status(409).send(errors);
       } else {
         const groupData = {
           group_name: req.body.groupname,
           user_id: userId
         };
         Group.create(groupData)
-        .then((group) => {
+        .then((groupNew) => {
           GroupUser.create({
-            group_id: group.id,
+            group_id: groupNew.id,
             user_id: userId
           })
           .then(() => {
@@ -72,7 +71,7 @@ exports.create_group = (req, res) => {
 // get GroupUser
 exports.get_groups = (req, res) => {
   const userId = req.decoded.data.id;
-  // get groups created by the loggin userId
+  // get groups created by the loggedin userId
   GroupUser.findAll({
     where: {
       user_id: userId
@@ -128,15 +127,15 @@ exports.add_user = (req, res) => {
         })
         .spread((Usergroup, created) => {
           if (created) {
-            res.status(201).send({
+            res.status(200).send({
               status: true,
               message: 'User has been successfully added to group',
               data: Usergroup
             });
           } else {
-            res.status(403)
+            res.status(409)
               .send({ status: true,
-                message: ' User has already been added to this group' });
+                message: 'User has already been added to this group' });
           }
         });
       } else {
@@ -144,7 +143,7 @@ exports.add_user = (req, res) => {
       }
     });
   } else {
-    res.status(401).send({ message: 'username or email is required' });
+    res.status(400).send({ message: 'username or email is required' });
   }
 };
 

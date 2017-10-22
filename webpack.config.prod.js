@@ -8,7 +8,7 @@ const appPath = path.resolve(__dirname, 'app', 'server');
 module.exports = {
   devtool: 'source-map',
   entry:
-    path.join(__dirname, 'app/client/post_it/index.js'),
+    path.join(__dirname, 'app/client/index.js'),
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
@@ -51,7 +51,10 @@ module.exports = {
       },
       { test: /\.(png|jpg)$/, loaders: 'file-loader' },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' },
+      {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'file-loader'
+      },
     ]
   },
   resolve: {
@@ -63,5 +66,5 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     dns: 'empty'
-  }
+  },
 };

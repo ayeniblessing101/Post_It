@@ -7,9 +7,8 @@ const chaiHttp = require('chai-http');
 const app = require('../app.js');
 
 const request = supertest.agent(app);
-const expect = chai.expect;
 const User = require('../models').User;
-
+const Message = require('../models').Message;
 const Group = require('../models').Group;
 
 const jwt = require('jsonwebtoken');
@@ -55,15 +54,15 @@ describe('Routes: post_message', () => {
       });
     });
   });
-  describe('POST /api/group/:id/message', () => {
+  describe('POST /api/v1/group/:id/message', () => {
     describe('status 200', () => {
       it('post a message', (done) => {
         // Test's logic...
-        request.post(`/api/group/${fakeGroup.id}/message`)
+        request.post(`/api/v1/group/${fakeGroup.id}/message`)
         .set('Authorization', `Basic ${token}`)
         .send({
-          message: 'john',
-          priority: '3'
+          message_body: 'Hello there',
+          priority_level: 'Normal'
         })
         .expect(200)
         .end((err, res) => {

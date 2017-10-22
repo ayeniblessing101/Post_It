@@ -8,11 +8,11 @@ const userController = require('../controllers/userController');
 const verifyToken = require('../middlewares/jwtauth');
 
 router.post('/user/signup', userController.signup);
-router.post('/password/forgot', userController.forgotPassword);
+router.post('/password/forgot', userController.sendForgotPasswordToken);
 router.get('/password/token/check', userController.checkToken);
 router.post('/password/verify', userController.resetPassword);
 router.get('/user/search', userController.search);
-router.get('/user/signup/:identifier', userController.identify);
+router.get('/user/signup/:id', userController.checkUserExist);
 router.post('/user/signin', userController.login);
 router.post('/group', verifyToken, groupController.create_group);
 router.get('/groups', verifyToken, groupController.get_groups);

@@ -1,0 +1,391 @@
+//colors
+$black: #000000;
+$white: #ffffff;
+$color_ironside_gray_approx: #686868;
+$color_gun_powder_approx: #3f4257;
+$red: red;
+$blue: blue;
+$mercury: #e5e5e5;
+$color_aqua_haze_approx: #edf2f6;
+$color_mystic_approx: #e6ecf5;
+$color_dove_gray_approx: #717274;
+$color_willow_brook_approx: #dff0d8;
+$color_tea_green_approx: #d0e9c6;
+$color_killarney_approx: #3c763d;
+$color_vanilla_ice_approx: #f2dede;
+$color_oyster_pink_approx: #ebcccc;
+$color_apple_blossom_approx: #a94442;
+
+//fonts
+$font_0: Oswald;
+
+//urls
+$url_0: url(/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf);
+$url_1: url(../fonts/open-sans-v13-latin-regular.eot?#iefix);
+$url_2: url(../fonts/open-sans-v13-latin-regular.woff2);
+$url_3: url(../fonts/open-sans-v13-latin-regular.woff);
+$url_4: url(../fonts/open-sans-v13-latin-regular.svg#OpenSans);
+$url_5: url(../../images/bg2.jpg);
+
+//@extend-elements
+//original selectors
+//.btn, .btn:hover
+%extend_1 {
+	background-color: $color_gun_powder_approx!important;
+	width: 200px;
+	color: $white;
+}
+
+
+@font-face {
+	font-family: $font_0;
+	font-style: normal;
+	font-weight: 400;
+	src: $url_0;
+	src: local('Oswald'), local('Oswald'), $url_0 format('truetype'),;
+}
+a {
+	color: $black;
+}
+.login-register {
+	background: $url_5 no-repeat center center / cover !important;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+}
+.resetPasswordForm {
+	background: $url_5 no-repeat center center / cover !important;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+}
+#wrapper {
+	width: 100%;
+}
+.wrapper_cen {
+	width: 850px;
+	margin: 5% auto;
+}
+.wrapper_cen2 {
+	width: 850px;
+	margin: 10% auto;
+}
+.welcome {
+	color: $white;
+	margin-top: 5%;
+	h1 {
+		color: $white;
+		font-size: 40px;
+		font-weight: bold;
+		margin-bottom: 30px;
+	}
+	p {
+		font-size: 18px;
+		padding: 0;
+		line-height: 19px;
+		margin-bottom: 30px;
+	}
+}
+.stay_up {
+	margin-top: 0!important;
+}
+.my_btn {
+	display: inline-block;
+	font-weight: bold;
+	line-height: 1.25;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	//Instead of the line below you could use @include user-select($select)
+	user-select: none;
+	position: relative;
+}
+.btn-white {
+	color: $white;
+}
+.btn-border {
+	border: solid 2px;
+}
+.btn-md {
+	padding: 1rem 3.5rem;
+	font-size: 1rem;
+	//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+	border-radius: 0.3rem;
+}
+.reg_form {
+	background-color: $white;
+	width: 100%;
+	//Instead of the line below you could use @include border-top-right-radius($radius)
+	border-top-right-radius: 5px;
+	//Instead of the line below you could use @include border-bottom-right-radius($radius)
+	border-bottom-right-radius: 5px;
+}
+.reg_form_cen {
+	width: 350px;
+	margin: 0 auto;
+	background-color: $white;
+	h4 {
+		padding: 0;
+		color: $color_ironside_gray_approx;
+		font-size: 18px;
+		text-align: center;
+		font-weight: bold;
+	}
+	form {
+		margin-left: 13.5%;
+	}
+	p {
+		color: $color_ironside_gray_approx;
+		font-size: 13px;
+		text-align: center;
+		font-weight: normal;
+	}
+	input[type="password"] {
+		width: 300px;
+	}
+	input[type="text"] {
+		width: 300px;
+	}
+}
+.btn {
+	@extend %extend_1;
+	&:hover {
+		@extend %extend_1;
+	}
+}
+nav {
+	background-color: $color_gun_powder_approx!important;
+	a {
+		font-size: 40px;
+		padding-left: 20px;
+	}
+}
+.mycontainer {
+	display: table;
+	width: 100%;
+	margin-top: -50px;
+	padding: 50px 0 0;
+	//Instead of the line below you could use @include box-sizing($bs)
+	box-sizing: border-box;
+	color: $black;
+	height: 100%;
+}
+.critical {
+	background-color: $red !important;
+}
+.urgent {
+	background-color: $blue !important;
+}
+.center {
+	text-align: center !important;
+}
+.row {
+	display: table-row;
+	margin-top: 0!important;
+}
+.col-md-2 {
+	border-right: 1px $mercury solid;
+	height: 100vh;
+}
+.col-md-10 {
+	background: $color_aqua_haze_approx!important;
+	height: 100vh;
+	width: 100%;
+}
+#sidebar {
+	background-color: $white;
+}
+.small-cards {
+	background-color: $white!important;
+	//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+	border-radius: 5px;
+	padding: 90px;
+	text-align: center;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	img {
+		//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+		border-radius: 100%;
+		width: 120px;
+	}
+}
+.add_user {
+	float: right;
+	margin-right: 1.2%;
+}
+.box {
+	border: 1px solid $black;
+}
+.large-cards {
+	background-color: $white!important;
+	//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+	border-radius: 5px;
+	padding-left: 70px!important;
+	padding-top: 15px!important;
+	padding-bottom: 15px!important;
+	text-align: left;
+	margin-right: 0;
+	margin-bottom: 20px;
+	margin-top: 50px;
+	input[type="text"] {
+		width: 320px;
+	}
+	textarea {
+	}
+}
+.allMessageCard {
+	margin-top: 0;
+}
+#messageBoard {
+	margin-top: 1px;
+}
+.message-cards {
+	background-color: $white!important;
+	//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+	border-radius: 3px;
+	padding-bottom: 15px!important;
+	text-align: left;
+	margin-right: 0;
+	margin-bottom: 20px;
+}
+.message-cards-board {
+	height: 370px;
+	padding-left: 30px!important;
+	padding-right: 30px!important;
+	padding-top: 15px!important;
+	padding-bottom: 15px!important;
+	overflow-y: scroll;
+}
+.message-cards-form {
+	margin-top: 50px;
+	border-top: 1px dotted $color_mystic_approx;
+	padding: 5px;
+}
+.groupHeader {
+	background-color: $white !important;
+	padding-left: 30px!important;
+	padding-right: 30px!important;
+	padding-top: 15px!important;
+	padding-bottom: 15px!important;
+	text-align: left;
+	margin-right: 0;
+	margin-top: 50px;
+}
+input {
+	color: $black!important;
+}
+.materialize-textarea {
+	height: 100px !important;
+	padding-bottom: 2px !important;
+}
+.errorMsg {
+	color: $red;
+}
+.emptyMessage {
+	margin-left: 20%;
+}
+#message_form {
+	width: 500px;
+	input {
+		border: 2px solid $color_dove_gray_approx;
+		//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+		border-radius: 7px;
+		padding: 3px;
+	}
+}
+.alert-success {
+	background-color: $color_willow_brook_approx;
+	border-color: $color_tea_green_approx;
+	color: $color_killarney_approx;
+}
+.alert {
+	padding: .75rem 1.25rem;
+	margin-bottom: 1rem;
+	border: 1px solid transparent;
+	//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+	border-radius: .25rem;
+}
+.alert-danger {
+	background-color: $color_vanilla_ice_approx;
+	border-color: $color_oyster_pink_approx;
+	color: $color_apple_blossom_approx;
+}
+.close {
+	position: relative;
+	top: -.75rem;
+	right: -1.25rem;
+	padding: .75rem 1.25rem;
+	color: inherit;
+	float: right;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1;
+	color: $black;
+	//Instead of the line below you could use @include text-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+	text-shadow: 0 1px 0 $white;
+	opacity: .5;
+}
+.senderName {
+	text-transform: capitalize;
+}
+.authUser {
+	text-transform: capitalize;
+}
+#searchForm {
+	width: 200px;
+}
+#searchBar {
+	border: 1px solid $color_gun_powder_approx;
+	//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+	border-radius: 3px;
+	background-color: $white;
+	color: $black;
+	padding: 2px;
+}
+.mySelect {
+	margin-top: 18px;
+}
+.messageBtn {
+	width: 140px !important;
+}
+.forgotPassword {
+	cursor: pointer;
+}
+.groupName {
+	text-transform: capitalize;
+}
+.groupNames {
+	text-transform: capitalize;
+}
+.userNames {
+	text-transform: capitalize;
+}
+ul.navbar_sidebar {
+	list-style-type: none;
+	padding-top: 20%;
+	li {
+		text-align: left;
+		padding-bottom: 20%;
+		font-size: 18px;
+		margin-left: 0;
+		a {
+			color: $black;
+		}
+	}
+}
+footer form {
+	position: sticky;
+}
+.modal h4 {
+	color: $black!important;
+}
+button.close {
+	padding: 0;
+	cursor: pointer;
+	background: 0 0;
+	border: 0;
+}
+.messageLink:hover {
+	color: $red;
+	text-decoration: underline;
+}

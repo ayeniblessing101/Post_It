@@ -1,13 +1,12 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
   entry:
-    path.join(__dirname, 'app/client/post_it/index.js'),
+    path.join(__dirname, 'app/client/index.js'),
   output: {
-    path: path.join(__dirname, '/app/client/post_it/assets/dist/js'),
-    // path: path.resolve(__dirname, 'client'),
+    path: path.join(__dirname, 'app/client/assets/dist/js'),
     filename: 'bundle.js',
   },
   module: {
@@ -24,7 +23,12 @@ module.exports = {
           presets: ['react', 'es2015'],
         },
       },
-      { test: /\.css$/, loaders: ['style-loader', 'css-loader'] },
+      { test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })
+      },
       {
         test: /\.ico$/,
         loader: 'url-loader',
@@ -32,7 +36,7 @@ module.exports = {
       },
       { test: /\.(png|jpg)$/, loaders: 'file-loader' },
       {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
       {
         test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -49,11 +53,8 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     dns: 'empty'
-  }
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     template: './app/client/post_it/index.html'
-  //   })
-  // ]
-
+  },
+  plugins: [
+    new ExtractTextPlugin('styles.css'),
+  ]
 };

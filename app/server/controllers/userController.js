@@ -1,8 +1,8 @@
+require('dotenv').config();
 
-const Validator = require('validator');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const checkNum = require('../utils/numberValidation');
+const { validateInput } = require('../validations/signup');
 
 const isEmpty = require('lodash/isEmpty');
 
@@ -14,10 +14,10 @@ const salt = bcrypt.genSaltSync(saltRounds);
 const User = require('../models').User;
 const ForgotPassword = require('../models').ForgotPassword;
 
-exports.identify = (req, res) => {
+exports.checkUserExist = (req, res) => {
   User.findOne({
     where: {
-      $or: [{ username: req.params.identifier }, { email: req.body.email }]
+      $or: [{ username: req.params.userId }, { email: req.body.email }]
     },
     attributes: ['id', 'username', 'email']
   })
@@ -28,37 +28,6 @@ exports.identify = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-  /**
-   * Validates and check if input fields are empty.
-   * @param {Object} data - groupdId.
-   * @returns {status} - returns status.
-   */
-  function validateInput(data) {
-    const errors = {};
-    if (Validator.isEmpty(data.username)) {
-      errors.username = 'This field required';
-    }
-    if (Validator.isEmpty(data.email)) {
-      errors.email = 'This field required';
-    }
-    if (!checkNum(data.phoneNo)) {
-      errors.phoneNo = 'This field required';
-    }
-    if (Validator.isEmpty(data.password)) {
-      errors.password = 'This field required';
-    }
-    if (Validator.isEmpty(data.confirm_password)) {
-      errors.confirm_password = 'This field required';
-    }
-    if (!Validator.equals(data.password, data.confirm_password)) {
-      errors.confirm_password = 'Password must Match';
-    }
-    return {
-      errors,
-      isValid: isEmpty(errors)
-    };
-  }
-
   const { errors, isValid } = validateInput(req.body);
   if (!isValid) {
     res.status(400).send(errors);
@@ -83,7 +52,7 @@ exports.signup = (req, res) => {
           errors.email = 'Email already exists';
         }
         if (!isEmpty(errors)) {
-          res.status(401).send(errors);
+          res.status(409).send(errors);
         } else {
           const userData = {
             username: req.body.username,
@@ -106,9 +75,10 @@ exports.signup = (req, res) => {
 // sigin a user
 exports.login = (req, res) => {
   if (req.body.username === '') {
-    res.status(401).send({ status: false, message: 'Username is required' });
+    // 400 status code -  Bad request
+    res.status(400).send({ status: false, message: 'Username is required' });
   } else if (req.body.password === '') {
-    res.status(401).send({ status: false, message: 'Password is required' });
+    res.status(400).send({ status: false, message: 'Password is required' });
   } else {
     User.findOne({
       where: {
@@ -117,7 +87,8 @@ exports.login = (req, res) => {
     })
     .then((user) => {
       if (!user) {
-        res.status(401).json({ errors: { form: 'Invalid Credentials' } });
+        // 404 status code
+        res.status(404).json({ errors: { form: 'Invalid Credentials' } });
       } else if (user) {
         if (bcrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({
@@ -125,7 +96,8 @@ exports.login = (req, res) => {
           }, 'secret', { expiresIn: 144444440 });
           res.json({ token });
         } else {
-          res.status(401).json({ errors: { form: 'Invalid Credentials' } });
+          // 400 Bad Request
+          res.status(400).json({ errors: { form: 'Invalid Credentials' } });
         }
       }
     });
@@ -133,7 +105,7 @@ exports.login = (req, res) => {
 };
 
 // Method to handle forgot Password
-exports.forgotPassword = (req, res) => {
+exports.sendForgotPasswordToken = (req, res) => {
   if (req.body.email === '') {
     res.status(401).send({
       status: false, message: 'Email is required' });
@@ -158,8 +130,8 @@ exports.forgotPassword = (req, res) => {
             port: 465,
             secure: true,
             auth: {
-              user: 'ayeniblessing32@gmail.com',
-              pass: 'Welcome3000#'
+              user: process.env.EMAIL,
+              pass: process.env.EMAIL_PASSWORD
             }
           });
           // setup email data with unicode symbols

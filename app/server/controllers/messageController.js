@@ -1,16 +1,16 @@
 const sendMail = require('../utils/sendMail');
 const getGroupUserEmail = require('../utils/getGroupUserEmail');
-const getGroupUserPhoneNumber = require('../utils/getGroupUserPhoneNumber');
-
 
 const Message = require('../models').Message;
 const User = require('../models').User;
 const Group = require('../models').Group;
 const ReadMessage = require('../models').ReadMessage;
+
 // Method to post message
 exports.post_message = (req, res) => {
+  console.log('.......', req.decoded.data.id);
   if (req.body.message === '') {
-    return res.status(404).send({ status: false,
+    return res.status(400).send({ status: false,
       message: 'message body cannot be empty' });
   }
   const userId = req.decoded.data.id;
@@ -18,14 +18,14 @@ exports.post_message = (req, res) => {
   .then((group) => {
     if (!group) {
       return res.send({
-        status: 400,
+        status: 404,
         message: 'You cannot post to a group that does not exists'
       });
     }
   });
   Message.create({
-    message_body: req.body.message,
-    priority_level: req.body.priority,
+    message_body: req.body.message_body,
+    priority_level: req.body.priority_level,
     read_by: [userId],
     group_id: req.params.id,
     user_id: userId,
@@ -37,7 +37,7 @@ exports.post_message = (req, res) => {
     switch (req.body.priority) {
     case 'Critical':
       sendMail(emailUsers, message.message_body);
-      return res.status(201).send({
+      return res.status(200).send({
         data
       });
     case 'Urgent':
@@ -67,7 +67,6 @@ exports.post_message = (req, res) => {
 
 // Method to get Messages
 exports.get_messages = (req, res) => {
-  const userId = req.decoded.data.id;
   const groupId = parseInt(req.params.id, 10);
   if (isNaN(groupId)) {
     return res.status(400).send({
