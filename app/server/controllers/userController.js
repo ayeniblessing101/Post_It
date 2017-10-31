@@ -23,8 +23,8 @@ exports.checkUserExist = (req, res) => {
   })
   .then(
     (user) => {
-      res.send({ user });
-    });
+      res.status(200).send({ user });
+    }).catch(error => res.status(500).send(error));
 };
 
 exports.signup = (req, res) => {
@@ -92,7 +92,10 @@ exports.login = (req, res) => {
       } else if (user) {
         if (bcrypt.compareSync(req.body.password, user.password)) {
           const token = jwt.sign({
-            data: user
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            phone: user.phone
           }, 'secret', { expiresIn: 144444440 });
           res.json({ token });
         } else {
@@ -140,9 +143,46 @@ exports.sendForgotPasswordToken = (req, res) => {
             to: user.email,
             subject: 'Post It || Reset Password',
 
-            html: `<b>Hello </b>
-            https://blessing-post-it.herokuapp.com/user/password/verify?token=
-            ${result.reset_password_token}&email=${user.email}`
+            html: `<body style="max-width:100%; color: #000;">
+            <div 
+              style="background-color:#404357; 
+              padding:10px; 
+              color:white; 
+              height: 60px;">
+            <h3 style="text-align: center; font-size: 40px; margin-top: 5px;">
+              PostIt!
+            </h3>
+            </div>
+            <div 
+              style="outline: 0px solid black; 
+              padding-left: 20px; padding-right: 30px; >
+            <div>
+            <h1><strong>Hello, ${user.username}. </strong></h1>
+            <h4>
+              We received a request for a password reset on your PostIt Account.
+            </h4>
+            </div>
+            <p>
+              If you didn't make such request, please ignore this email.
+              Otherwise, please click the button below to reset your password
+            </p>
+            <div style="align-items: center; width: 100%">
+              <a 
+                href=https://blessing-post-it.herokuapp.com/user/password/verify?token=
+                ${result.reset_password_token}&email=${user.email}
+                style="width: 150px; padding:10px 0; text-decoration: none; 
+                cursor: pointer !important; display: block; 
+                border: 1px solid #404357; background-color: #fff; 
+                color: #000000; font-size: 18px; 
+                margin: auto; text-align: center">
+                Reset Password
+              </a>
+            </div>
+                <p style="text-align: right;">Regards, the PostIt team.</p>
+                <br>
+                <br>
+            </div>
+            </body>`
           };
           // send mail with defined transport object
           transporter.sendMail(mailOptions, (error, info) => {

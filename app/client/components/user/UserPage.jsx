@@ -1,6 +1,7 @@
 import React from 'react';
 import UserList from './UserList';
 import Header from '../common/Header';
+import Footer from '../common/Footer';
 import Sidebar from '../common/Sidebar';
 
 /**
@@ -17,6 +18,7 @@ const UserPage = () => (
           <UserList />
         </div>
       </div>
+      <Footer />
     </div>
   )
 );

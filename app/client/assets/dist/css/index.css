@@ -99,6 +99,14 @@ margin: 10% auto;}
     border-bottom-right-radius: 5px;
 }
 
+.reg_form_login {
+  background-color: #fff;
+  width: 100%;
+  margin-top:60px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 .reg_form_cen{
   width: 350px;
   margin: 0 auto;
@@ -411,4 +419,79 @@ nav .brand-logo {
 .signUp, login {
   background-color: transparent;
   border: none;
+}
+
+.Table
+{
+  display: table;
+}
+.Title
+{
+  display: table-caption;
+  text-align: center;
+  font-weight: bold;
+  font-size: larger;
+}
+.Heading
+{
+  display: table-row;
+  font-weight: bold;
+  text-align: center;
+}
+.Row
+{
+  display: table-row;
+}
+.Cell
+{
+  display: table-cell;
+  border: solid;
+  border-width: thin;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.notFound {
+  margin-top: 100px;
+}
+
+.notFound h2{
+  text-align: center;
+  font-size: 180px;
+  margin: 0;
+  padding: 0;
+  color:#979797;
+}
+
+.notFound h3.errorTitle1{
+  text-align: center;
+  font-size: 100px;
+  margin: 0;
+  padding: 0;
+  color:#979797;
+}
+.notFound h4.errorTitle2{
+  text-align: center;
+  font-size: 50px;
+  margin: 0;
+  padding: 0;
+  color:#979797;
+}
+
+.notFound h5.errorDescription{
+  text-align: center;
+  font-size: 20px;
+  margin-top: 20px;
+  color:#979797;
+  padding: 0;
+}
+
+.page-footer {
+  padding-top: 0;
+  background: #404357;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  color: #ffffff;
+  font-size: 0.7em;
+  z-index: 1000;
 }

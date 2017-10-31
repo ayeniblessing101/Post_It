@@ -9,7 +9,7 @@ import { validateInput } from '../../validations/addgroup';
  * @class AddGroupForm
  * @extends {React.Component}
  */
-class AddGroupForm extends React.Component {
+export class AddGroupForm extends React.Component {
   /**
    * Creates an instance of AddGroupForm.
    * @param {any} props
@@ -48,9 +48,9 @@ class AddGroupForm extends React.Component {
         () => {
           this.context.router.history.push('/groups');
         },
-        ({ data }) => this.setState({
+        this.setState({
           groupname: '',
-          errors: data
+          errors: {}
         })
       );
     }

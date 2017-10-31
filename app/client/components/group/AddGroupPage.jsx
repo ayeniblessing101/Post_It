@@ -1,6 +1,7 @@
 import React from 'react';
 import AddGroupForm from './AddGroupForm';
 import Header from '../common/Header';
+import Footer from '../common/Footer';
 import Sidebar from '../common/Sidebar';
 
 /**
@@ -8,7 +9,7 @@ import Sidebar from '../common/Sidebar';
  * @class AddGroupPage
  * @extends {React.Component}
  */
-class AddGroupPage extends React.Component {
+export class AddGroupPage extends React.Component {
   render() {
     return (
       <div>
@@ -19,6 +20,7 @@ class AddGroupPage extends React.Component {
             <AddGroupForm />
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

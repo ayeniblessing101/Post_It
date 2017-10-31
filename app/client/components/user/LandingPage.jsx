@@ -46,7 +46,7 @@ class LandingPage extends React.Component {
                  className="my_btn btn-md btn-border btn-white">
                  Register Now!</a>
               </div>
-              <div className="col s12 m12 l6 reg_form">
+              <div className="col s12 m12 l6 reg_form_login">
                 <div className="reg_form_cen">
                   { this.state.display === 'login' ? (
                     <LoginForm

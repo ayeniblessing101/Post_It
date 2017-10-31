@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../common/Header';
+import Footer from '../common/Footer';
 import Sidebar from '../common/Sidebar';
 
 /**
@@ -49,6 +50,7 @@ class AddUser extends React.Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import GroupsList from './GroupsList';
 import Header from '../common/Header';
+import Footer from '../common/Footer';
 import { fetchGroups } from '../../actions/groupActions';
 
 /**
@@ -55,6 +56,7 @@ class GroupsPage extends React.Component {
             <GroupsList groups={groups} />
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

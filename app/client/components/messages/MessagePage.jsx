@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MessageBoard from './MessageBoard';
 import Header from '../common/Header';
+import Footer from '../common/Footer';
 import { addUserToGroup } from '../../actions/groupActions';
 
 /**
@@ -45,6 +46,7 @@ class MessagePage extends React.Component {
             />
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

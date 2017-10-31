@@ -8,7 +8,7 @@ import { logout } from '../../actions/authenticationActions';
  * @class Header
  * @extends {React.Component}
  */
-class Header extends React.Component {
+export class Header extends React.Component {
   /**
    * Creates an instance of Header.
    * @param {any} props
@@ -17,7 +17,7 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchParam: ''
+      searchParam: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -65,12 +65,13 @@ class Header extends React.Component {
    */
   render() {
     const { isAuthenticated, user } = this.props.auth;
+
     return (
       <div>
         <div className="navbar-fixed">
           <nav>
             <div className="nav-wrapper">
-              <Link to="#" className="brand-logo">PostIt</Link>
+              <Link to="/" className="brand-logo">PostIt</Link>
               <Link
                 to="#"
                 data-activates="mobile-demo"
@@ -80,12 +81,12 @@ class Header extends React.Component {
               <ul className="side-nav" id="mobile-demo">
                 <li>
                   <Link
-                    to="#" className="dropdown-button"
+                    to="#"
                     data-activates="dropdown1">
                     <span className="welcome">Welcome</span>
                     <span
                       className="authUser">
-                      { isAuthenticated ? user.data.username : ''}
+                      { isAuthenticated ? user.username : ''}
                     </span>
                   </Link>
                 </li>
@@ -126,7 +127,7 @@ class Header extends React.Component {
                     <span className="welcome">Welcome</span>
                     <span
                       className="authUser">
-                      { isAuthenticated ? user.data.username : ''}
+                      { isAuthenticated ? user.username : ''}
                     </span>
                   </Link>
                 </li>
@@ -160,6 +161,7 @@ class Header extends React.Component {
                 <li>
                   <Link
                     to="#"
+                    id="logout"
                   onClick={this.logout.bind(this)}>
                     <i className="material-icons">power_settings_new</i>
                   </Link>
@@ -174,7 +176,7 @@ class Header extends React.Component {
 }
 
 Header.propTypes = {
-  auth: PropTypes.shape({}).isRequired,
+  auth: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired
 };
 

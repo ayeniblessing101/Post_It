@@ -7,6 +7,7 @@ import GroupPage from './messages/MessagePage';
 import ResetPasswordPage from './user/ResetPasswordPage';
 import requireAuth from '../utils/requireAuth';
 import UserPage from './user/UserPage';
+import NotFoundPage from './NotFoundPage';
 
 const ReactRouter = require('react-router-dom');
 
@@ -26,7 +27,7 @@ const Routes = () => {
         <Route path="/user/search/" component={requireAuth(UserPage)} />
         <Route
           render={() => {
-            return <p>Not Found</p>;
+            return <NotFoundPage />;
           }}
         />
       </Switch>

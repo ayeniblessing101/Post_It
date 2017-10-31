@@ -59,7 +59,7 @@ exports.create_group = (req, res) => {
           .then(() => {
           });
           return res.status(201).send({
-            status: true, message: 'Successful', data: group
+            status: true, message: 'Successful', data: groupNew
           });
         })
         .catch(error => res.status(500).send(error));
@@ -70,7 +70,7 @@ exports.create_group = (req, res) => {
 
 // get GroupUser
 exports.get_groups = (req, res) => {
-  const userId = req.decoded.data.id;
+  const userId = req.decoded.id;
   // get groups created by the loggedin userId
   GroupUser.findAll({
     where: {
@@ -90,6 +90,7 @@ exports.get_groups = (req, res) => {
           }
         }
       },
+      attributes: [['group_name', 'groupName'], 'user_id', 'id'],
       raw: true,
     })
     .then((allGroups) => {

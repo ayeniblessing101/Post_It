@@ -95,8 +95,9 @@ export function fetchGroupUsers(groupId) {
 export function addUserToGroup(groupId, user) {
   return dispatch =>
   axios.post(`/api/v1/group/${groupId}/user`, user)
-    .then(() => {
-      dispatch(addUserStatus(true));
+    .then((data) => {
+      const message = data.message;
+      dispatch(addUserStatus(true, message));
       return true;
     }).catch((error) => {
       const message = error.data.message;

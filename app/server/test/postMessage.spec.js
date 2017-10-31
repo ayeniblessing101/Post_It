@@ -7,8 +7,9 @@ const chaiHttp = require('chai-http');
 const app = require('../app.js');
 
 const request = supertest.agent(app);
+const expect = chai.expect;
+
 const User = require('../models').User;
-const Message = require('../models').Message;
 const Group = require('../models').Group;
 
 const jwt = require('jsonwebtoken');
@@ -66,9 +67,23 @@ describe('Routes: post_message', () => {
         })
         .expect(200)
         .end((err, res) => {
-          // expect(res.body.data).to.have.a.property('message_body');
-          // expect(res.body.group_name).to.equal('Old class mates');
-          // expect(res.body).to.have.a.property('message', 'success');
+          expect(res.body.data).to.have.a.property('message_body');
+          expect(res.body.data).to.have.a.property('priority_level');
+          done(err);
+        });
+      });
+    });
+    describe('status 404', () => {
+      it('throws an error if group does not exist', (done) => {
+        // Test logic...
+        request.post('/api/v1/group/0/message')
+        .set('Authorization', `Basic ${token}`)
+        .send({
+          message_body: 'Hello there',
+          priority_level: 'Normal'
+        })
+        .expect(404)
+        .end((err, res) => {
           done(err);
         });
       });

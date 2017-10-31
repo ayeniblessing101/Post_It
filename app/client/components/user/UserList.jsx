@@ -62,7 +62,7 @@ class UserList extends React.Component {
     const offset = Math.ceil(selected * this.usersPerPage);
 
     this.setState({ offset }, () => {
-      this.props.getUsers(this.searchParams, offset);
+      this.props.getUsersAction(this.searchParams, offset);
     });
   }
 
@@ -134,9 +134,9 @@ class UserList extends React.Component {
 }
 
 UserList.propTypes = {
-  pageCount: PropTypes.number.isRequired,
   location: PropTypes.object.isRequired,
-  getUsersAction: PropTypes.func.isRequired
+  getUsersAction: PropTypes.func.isRequired,
+
 };
 
 const mapStateToProps = state => ({

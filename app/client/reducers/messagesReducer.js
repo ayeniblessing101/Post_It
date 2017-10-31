@@ -4,6 +4,7 @@ const initialState = [];
 
 /**
  * updates the messages property of the store
+ *
  * @param {Object} state - current state
  * @param {Object} action - action type and action payload
  *

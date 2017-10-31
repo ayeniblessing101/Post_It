@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { getMessages, postMessage, updateMessageStatus }
+import { getMessages, postMessage }
 from '../../actions/messageAction';
 
 /**
@@ -20,12 +20,13 @@ class MessageForm extends React.Component {
     super(props);
     this.state = {
       messages: this.props.messages,
-      message: '',
+      group: this.props.group,
+      groupId: this.props.groupId,
+      message: 'Enter a message',
       priority: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleMessageStatus = this.handleMessageStatus.bind(this);
   }
 
   /**
@@ -40,29 +41,22 @@ class MessageForm extends React.Component {
   }
 
   /**
-   * @param {any} e
-   * @memberof MessageForm
-   * @return {void}
-   */
-  handleMessageStatus(e) {
-    e.preventDefault();
-    this.props.updateMessageStatus(e.target.id);
-  }
-
-  /**
    * @param {any} event
    * @memberof MessageForm
    * @return {void}
    */
   handleSubmit(event) {
     event.preventDefault();
-    this.props.postMessage(this.props.groupId, {
-      message: this.state.message,
-      priority: this.state.priority
-    });
-    this.setState({
-      message: '',
-      priority: ''
+    const message = {
+      message_body: this.state.message,
+      priority_level: this.state.priority
+    };
+    this.props.postMessage(this.state.groupId, message)
+    .then(() => {
+      this.setState({
+        message: '',
+        priority: ''
+      });
     });
   }
 
@@ -75,27 +69,29 @@ class MessageForm extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      messages: nextProps.messages
+      messages: nextProps.messages,
+      group: nextProps.group,
+      grouId: nextProps.groudId
     });
   }
   render() {
     let allMessages;
-    const { group } = this.props;
+    const { group } = this.state;
     const { messages } = this.state;
     const groupId = parseInt(this.props.groupId, 10);
-    let groupName = 'No Group Found';
+    let groupTitle = 'No Group Found';
+
     group.map((currentGroup) => {
-      const { id, currentGroupName } = currentGroup;
-      if (id === groupId) {
-        groupName = currentGroupName;
-      }
+      const { id, groupName } = currentGroup;
+      groupTitle = groupName;
     });
 
     if (messages.length > 0) {
       allMessages = messages.map(message => (
         <div key={message.id}>
           <b className="senderName">
-            {message.User.username}</b>
+            {message.User.username}
+          </b>
           <span className="right">
             { moment(message.createdAt, moment.ISO_8601).fromNow() }
           </span>
@@ -123,11 +119,11 @@ class MessageForm extends React.Component {
       <div>
         <div className="col s12 m12 l6 message-cards">
           <div className="message-cards-board">
-            <h5 className="groupName">{groupName}</h5>
+            <h5 className="groupName">{groupTitle}</h5>
             { allMessages }
           </div>
           <div className="message-cards-form">
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} method="post">
               <div className="input-field col s8">
                 <textarea
                   placeholder="Write your message Here"
@@ -167,7 +163,6 @@ class MessageForm extends React.Component {
 
 MessageForm.propTypes = {
   postMessage: PropTypes.func.isRequired,
-  updateMessageStatus: PropTypes.func.isRequired,
   getMessages: PropTypes.func.isRequired,
   groupId: PropTypes.number.isRequired,
   messages: PropTypes.array.isRequired
@@ -181,4 +176,4 @@ const mapStateToProps = state => ({
 
 export default
 connect(mapStateToProps,
-  { getMessages, postMessage, updateMessageStatus })(MessageForm);
+  { getMessages, postMessage })(MessageForm);

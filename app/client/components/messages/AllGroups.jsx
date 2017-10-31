@@ -62,7 +62,7 @@ class AllGroups extends React.Component {
                   <div className="collapsible-header">
                     <i className="material-icons">filter_drama</i>
                     <Link to={`/group/${group.id}`} className="groupNames">
-                      {group.group_name}
+                      {group.groupName}
                     </Link>
                   </div>
                 </li>

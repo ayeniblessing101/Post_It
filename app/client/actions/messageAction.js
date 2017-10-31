@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { POST_MESSAGE, GET_MESSAGES, UPDATE_READ_STATUS } from './types';
+import { POST_MESSAGE, GET_MESSAGES } from './types';
 
 /**
  * post message status
@@ -22,15 +22,6 @@ export const getAllMessages = messages => (
   {
     type: GET_MESSAGES,
     messages
-  }
-);
-export const messageReadStatus = messageId => (
-  {
-    type: UPDATE_READ_STATUS,
-    data: {
-      messageId,
-      updated: true
-    }
   }
 );
 
@@ -64,20 +55,3 @@ export function getMessages(groupId) {
     })
   );
 }
-
-/**
- * change Message status.
- * @param {Integer} messageId - messageId.
- * @param {Integer} groupId - groupId.
- *
- *@returns {function} - dispatch an action update messages status in the store.
- */
-export function updateMessageStatus(messageId) {
-  return dispatch => (
-    axios.post('/api/v1/record-message-views', { messageId })
-    .then(() => {
-      dispatch(messageReadStatus(messageId));
-    })
-  );
-}
-
