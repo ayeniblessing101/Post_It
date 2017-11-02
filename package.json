@@ -12,7 +12,7 @@
     "build": "webpack -p --config webpack.config.prod.js",
     "server:coverage": "nyc report --reporter=text-lcov | coveralls",
     "client:coverage": "codecov --token=cf1cac31-72e6-42d8-ab6c-d75079dc725b",
-    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "jest": {
     "roots": [
@@ -145,7 +145,7 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.0.1",
-    "coveralls": "^2.13.1",
+    "coveralls": "^2.13.3",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-15": "^1.0.3",
     "eslint": "^3.19.0",
