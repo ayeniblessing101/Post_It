@@ -38,6 +38,6 @@ export function checkToken(token, email) {
  */
 export function resetPassword(newPassword, email) {
   return () => (
-    axios.post('/api/password/verify', { newPassword, email })
+    axios.put('/api/v1/password/verify', { newPassword, email })
   );
 }

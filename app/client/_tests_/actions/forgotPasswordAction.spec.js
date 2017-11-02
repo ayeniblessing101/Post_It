@@ -5,28 +5,25 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
 
-
-import * as ForgotPasswordActions from '../../actions/forgotPasswordActions';
+import mockData from './../../../__mocks__/mockData';
+import * as forgotPasswordActions from '../../actions/forgotPasswordActions';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('forgotPasswordAction', () => {
-  it('should a reset password email', () => {
+  it('should  send a reset password email', () => {
     axios.post = jest.fn(() => {
       return Promise.resolve(
-        {
-          status: true,
-          message: 'Succesful'
-        }
+        mockData.successMessages[1]
       );
     });
     const email =
       {
-        email: 'db@gmail.com',
+        email: mockData.email,
       };
     const store = mockStore({});
-    return store.dispatch(ForgotPasswordActions.resetPasswordEmail(email))
+    return store.dispatch(forgotPasswordActions.resetPasswordEmail(email))
     .then(() => {
       expect(store.getActions()).toEqual([]);
     });
@@ -35,38 +32,18 @@ describe('forgotPasswordAction', () => {
     axios.get = jest.fn(() => {
       return Promise.resolve(
         {
-          message: 'Token Found!'
+          message: mockData.successMessages[2]
         }
       );
     });
     const token = {
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6M',
+      token: mockData.token,
     };
     const email = {
-      email: 'db@gmail.com',
+      email: mockData.email,
     };
     const store = mockStore({});
-    return store.dispatch(ForgotPasswordActions.checkToken(token, email))
-    .then(() => {
-      expect(store.getActions()).toEqual([]);
-    });
-  });
-  it('should reset user password', () => {
-    axios.post = jest.fn(() => {
-      return Promise.resolve(
-        {
-          message: 'Password updated succesfully'
-        }
-      );
-    });
-    const newPasswod = {
-      newPasswod: '2345',
-    };
-    const email = {
-      email: 'db@gmail.com',
-    };
-    const store = mockStore({});
-    return store.dispatch(ForgotPasswordActions.resetPassword(newPasswod, email))
+    return store.dispatch(forgotPasswordActions.checkToken(token, email))
     .then(() => {
       expect(store.getActions()).toEqual([]);
     });

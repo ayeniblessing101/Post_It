@@ -1,3 +1,5 @@
+import * as userSeeds from '../seeders/userSeeds';
+
 process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
@@ -12,117 +14,75 @@ const expect = chai.expect;
 
 const User = require('../models').User;
 
-// const should = chai.should();
+// const userSeeds = require('../seeders/userSeeds');
+
 chai.use(chaiHttp);
 
-
-describe('Routes: signup', () => {
+describe('user signup', () => {
   describe('POST /api/v1/user/signup', () => {
-  // This function will run before every test to clear database
     before((done) => {
-      User.sync({ force: true }) // drops table and re-creates it
+      User.sync({ force: true })
        .then(() => {
-         User.create({
-           email: 'blessing@gmail.com',
-           phone: '2348064476683',
-           username: 'blessing',
-           password: '1234'
-         });
+         User.create(userSeeds.userPayload);
          done();
        })
        .catch((error) => {
          done(error);
        });
     });
-    describe('status 201', () => {
-      it('returns a newly created user', (done) => {
-      // Test's logic...
-        const user = {
-          email: 'tobi@gmail.com',
-          username: 'tobi',
-          password: '1234',
-          phoneNo: '2348066193821',
-          confirm_password: '1234'
-        };
-        request.post('/api/v1/user/signup')
-        .send(user)
-        .expect(201)
-        .end((err, res) => {
-          expect(res.body).to.be.an('object');
-          expect(res.body).to.have.a.property('status');
-          expect(res.body).to.have.a.property('message');
-          expect(res.body).to.have.a.property('message',
-          'Signup was successful');
-          expect(res.body).to.have.a.property('status', true);
-          done();
-        });
+
+    it('returns a newly created user', (done) => {
+      const user = userSeeds.newUserPayload;
+      request.post('/api/v1/user/signup')
+      .send(user)
+      .expect(201)
+      .end((err, res) => {
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.a.property('status');
+        expect(res.body).to.have.a.property('message');
+        expect(res.body).to.have.a.property('message',
+        'Signup was successful');
+        expect(res.body).to.have.a.property('status', true);
+        done();
       });
     });
-    describe('status 409', () => {
-      it('returns username already exists', (done) => {
-      // Test's logic...
-        const user = {
-          email: 'tobi@gmail.com',
-          username: 'tobi',
-          password: '1234',
-          phoneNo: '2348066193821',
-          confirm_password: '1234'
-        };
-        request.post('/api/v1/user/signup')
-        .send(user)
-        .expect(409)
-        .end((err, res) => {
-          expect(res.status).to.equal(409);
-          expect(res.body).to.be.an('object');
-          expect(res.body).to.have.a.property('username');
-          expect(res.body).to.have.a.property('username',
-          'Username already exists');
-          done();
-        });
+
+    it('returns error if username already exists', (done) => {
+      const user = userSeeds.userExistPayload;
+      request.post('/api/v1/user/signup')
+      .send(user)
+      .expect(409)
+      .end((err, res) => {
+        expect(res.status).to.equal(409);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.a.property('username');
+        expect(res.body).to.have.a.property('username',
+        'Username already exists');
+        done();
       });
     });
-    describe('status 409', () => {
-      it('returns email already exists', (done) => {
-      // Test's logic...
-        const user = {
-          email: 'tobi@gmail.com',
-          username: 'max',
-          password: '1234',
-          phoneNo: '2348066193821',
-          confirm_password: '1234'
-        };
-        request.post('/api/v1/user/signup')
-        .send(user)
-        .expect(409)
-        .end((err, res) => {
-          expect(res.status).to.equal(409);
-          expect(res.body).to.be.an('object');
-          expect(res.body).to.have.a.property('email');
-          expect(res.body).to.have.a.property('email', 'Email already exists');
-          done();
-        });
+
+    it('returns error if email already exists', (done) => {
+      const user = userSeeds.emailExistPayload;
+      request.post('/api/v1/user/signup')
+      .send(user)
+      .expect(409)
+      .end((err, res) => {
+        expect(res.status).to.equal(409);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.a.property('email');
+        expect(res.body).to.have.a.property('email', 'Email already exists');
+        done();
       });
     });
-    describe('status 500', () => {
-      it('returns email already exists', (done) => {
-      // Test's logic...
-        const user = {
-          email: 'tobi@gmail.com',
-          username: 'max',
-          password: '1234',
-          phoneNo: 86868686868789896878686768677767676767676767,
-          confirm_password: '1234'
-        };
-        request.post('/api/v1/user/signup')
-        .send(user)
-        .expect(500)
-        .end((err, res) => {
-          expect(res.status).to.equal(500);
-          // expect(res.body).to.be.an('object');
-          // expect(res.body).to.have.a.property('email');
-          // expect(res.body).to.have.a.property('email', 'Email already exists');
-          done();
-        });
+
+    it('returns error', (done) => {
+      request.post('/api/v1/user/signup')
+      .send(userSeeds.internalError)
+      .expect(500)
+      .end((err, res) => {
+        expect(res.status).to.equal(500);
+        done();
       });
     });
   });

@@ -5,8 +5,9 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
 
+import mockData from './../../../__mocks__/mockData';
 import * as ActionTypes from '../../actions/types';
-import * as GroupActions from '../../actions/groupActions';
+import * as groupActions from '../../actions/groupActions';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -15,135 +16,57 @@ describe('Group', () => {
   it('should create a group', () => {
     axios.post = jest.fn(() => {
       return Promise.resolve(
-        {
-          status: true,
-          message: 'Successful',
-          data: {
-            id: 8,
-            group_name: 'Phoenix',
-            user_id: 1,
-            updatedAt: '2017-10-25T18:23:20.105Z"',
-            createdAt: '2017-10-25T18:23:20.105Z'
-          }
-        }
+        mockData.createGroupResonse
       );
     });
     const group = 'Phoniex';
     const store = mockStore({});
-    return store.dispatch(GroupActions.createGroup(group))
+    return store.dispatch(groupActions.createGroup(group))
     .then(() => {
       expect(store.getActions()).toEqual([]);
     });
   });
-  it('should fetch all groups', () => {
+  it('should dispatch fetchGroups action when groups are fetched', () => {
     axios.get = jest.fn(() => {
       return Promise.resolve(
         {
-          data:
-          [
-            {
-              id: 1,
-              group_name: 'Andela',
-              user_i: 1,
-              createdAt: '2017-10-02T16:10:00.955Z',
-              updatedAt: '2017-10-02T16:10:00.955Z'
-            },
-            {
-              id: 2,
-              group_name: 'test',
-              user_id: 1,
-              createdAt: '2017-10-16T12:00:44.405Z',
-              updatedAt: '2017-10-16T12:00:44.405Z'
-            }
-          ]
+          data: mockData.groups
         }
       );
     });
-    const groups =
-      [
-        {
-          id: 1,
-          group_name: 'Andela',
-          user_i: 1,
-          createdAt: '2017-10-02T16:10:00.955Z',
-          updatedAt: '2017-10-02T16:10:00.955Z'
-        },
-        {
-          id: 2,
-          group_name: 'test',
-          user_id: 1,
-          createdAt: '2017-10-16T12:00:44.405Z',
-          updatedAt: '2017-10-16T12:00:44.405Z'
-        }
-      ];
+    const groups = mockData.groups;
     const store = mockStore({}, groups);
     const expectedAction = {
       type: ActionTypes.GET_GROUPS,
       groups
     };
-    return store.dispatch(GroupActions.fetchGroups())
+    return store.dispatch(groupActions.fetchGroups())
     .then(() => {
       expect(store.getActions()).toEqual([expectedAction]);
     });
   });
-  it('should fetch all users in a group', () => {
+  it('should dispatch fetchGroupUsers action when all users in a group is fetched', () => {
     axios.get = jest.fn(() => {
       return Promise.resolve(
-        {
-          status: true,
-          message: 'Successful',
-          data: {
-            id: 1,
-            members:
-            [
-              {
-                id: 1,
-                username: 'blessing'
-              }
-            ]
-          }
-        }
+        mockData.fetchGroupsResponse
       );
     });
     const groupId = 1;
-    const groupUsers = [
-      {
-        id: 1,
-        username: 'blessing'
-      },
-      {
-        id: 2,
-        username: 'tomi'
-      },
-      {
-        id: 3,
-        username: 'funsho'
-      },
-    ];
+    const groupUsers = mockData.groupUsers;
     const store = mockStore({});
     const expectedAction = {
       type: ActionTypes.GET_GROUP_USERS,
       groupUsers
     };
-    store.dispatch(GroupActions.fetchGroupUsers(groupId))
+    store.dispatch(groupActions.fetchGroupUsers(groupId))
     .then(() => {
       expect(store.getActions()).toEqual([expectedAction]);
     });
   });
-  it('handle success message when a user has successfully been added to a group', () => {
+  it('handle success message when a user is added to a group', () => {
     axios.post = jest.fn(() => {
       return Promise.resolve(
-        {
-          status: true,
-          message: 'User has been successfully added to group',
-          data: {
-            user_id: 5,
-            group_id: 2,
-            updatedAt: '2017-10-27T11:04:45.607Z',
-            createdAt: '2017-10-27T11:04:45.607Z',
-            id: 16
-          }
-        }
+        mockData.addUserToGroupResponse
       );
     });
     const groupId = 1;
@@ -157,51 +80,7 @@ describe('Group', () => {
       status,
       message
     };
-    store.dispatch(GroupActions.addUserToGroup(groupId, user))
-    .then(() => {
-      expect(store.getActions()).toEqual([expectedAction]);
-    });
-  });
-  it('should fetch all users in a group', () => {
-    axios.get = jest.fn(() => {
-      return Promise.resolve(
-        {
-          status: true,
-          message: 'Successful',
-          data: {
-            id: 1,
-            members:
-            [
-              {
-                id: 1,
-                username: 'blessing'
-              }
-            ]
-          }
-        }
-      );
-    });
-    const groupId = 1;
-    const groupUsers = [
-      {
-        id: 1,
-        username: 'blessing'
-      },
-      {
-        id: 2,
-        username: 'tomi'
-      },
-      {
-        id: 3,
-        username: 'funsho'
-      },
-    ];
-    const store = mockStore({});
-    const expectedAction = {
-      type: ActionTypes.GET_GROUP_USERS,
-      groupUsers
-    };
-    return store.dispatch(GroupActions.fetchGroupUsers(groupId))
+    store.dispatch(groupActions.addUserToGroup(groupId, user))
     .then(() => {
       expect(store.getActions()).toEqual([expectedAction]);
     });

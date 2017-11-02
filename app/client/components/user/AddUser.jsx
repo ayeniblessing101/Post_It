@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import Sidebar from '../common/Sidebar';
 
 /**
  * @class AddUser
@@ -18,7 +17,6 @@ class AddUser extends React.Component {
         <Header />
         <div className="mycontainer" >
           <div className="row">
-            <Sidebar />
             <div className="col s12 m10 l10 col-md-10">
               <div className="mycontainer">
                 <div className="row">

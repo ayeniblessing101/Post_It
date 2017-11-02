@@ -1,3 +1,5 @@
+import * as userSeeds from '../seeders/userSeeds';
+
 process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
@@ -61,10 +63,7 @@ describe('Routes: post_message', () => {
         // Test's logic...
         request.post(`/api/v1/group/${fakeGroup.id}/message`)
         .set('Authorization', `Basic ${token}`)
-        .send({
-          message_body: 'Hello there',
-          priority_level: 'Normal'
-        })
+        .send(userSeeds.messagePayload)
         .expect(200)
         .end((err, res) => {
           expect(res.body.data).to.have.a.property('message_body');
@@ -72,16 +71,12 @@ describe('Routes: post_message', () => {
           done(err);
         });
       });
-    });
-    describe('status 404', () => {
+
       it('throws an error if group does not exist', (done) => {
         // Test logic...
         request.post('/api/v1/group/0/message')
         .set('Authorization', `Basic ${token}`)
-        .send({
-          message_body: 'Hello there',
-          priority_level: 'Normal'
-        })
+        .send(userSeeds.messagePayload)
         .expect(404)
         .end((err, res) => {
           done(err);

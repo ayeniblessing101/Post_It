@@ -32,13 +32,13 @@ export function logout() {
 
 /**
  * Handles Login Request.
- * @param {Object} data - accepts user data(username and password).
+ * @param {Object} userPayload - accepts userPayload(username and password).
  *
  * @returns {function} - dispatches an action to set user token to localstorage
  */
-export function login(data) {
+export function login(userPayload) {
   return (dispatch) => {
-    return axios.post('/api/v1/user/signin', data).then((res) => {
+    return axios.post('/api/v1/user/signin', userPayload).then((res) => {
       const token = res.data.token;
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
@@ -46,3 +46,19 @@ export function login(data) {
     });
   };
 }
+
+/**
+ * Handles sigup Request.
+ * @param {Object} userData - user id.
+ * @returns {function} makes an async post request to signup endpoint.
+ */
+exports.userSignupRequest = (userData) => {
+  return (dispatch) => {
+    return axios.post('/api/v1/user/signup', userData).then((res) => {
+      const token = res.data.token;
+      localStorage.setItem('jwtToken', token);
+      setAuthorizationToken(token);
+      dispatch(setCurrentUser(jwt.decode(token)));
+    });
+  };
+};

@@ -19,7 +19,6 @@ class AllGroups extends React.Component {
     super(props);
     this.state = {
       groups: this.props.groups,
-      // messages: this.props.messages
     };
   }
 
@@ -77,7 +76,6 @@ class AllGroups extends React.Component {
 AllGroups.propTypes = {
   groups: PropTypes.array.isRequired,
   fetchGroups: PropTypes.func.isRequired,
-  messages: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({

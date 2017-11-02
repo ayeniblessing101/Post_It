@@ -99,14 +99,6 @@ margin: 10% auto;}
     border-bottom-right-radius: 5px;
 }
 
-.reg_form_login {
-  background-color: #fff;
-  width: 100%;
-  margin-top:60px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
 .reg_form_cen{
   width: 350px;
   margin: 0 auto;
@@ -494,4 +486,8 @@ nav .brand-logo {
   color: #ffffff;
   font-size: 0.7em;
   z-index: 1000;
+}
+
+.authUser{
+  padding-left: 10px;
 }

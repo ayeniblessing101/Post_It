@@ -1,33 +1,22 @@
 import expect from 'expect';
-import MessagesReducer from '../../reducers/messagesReducer';
+import messagesReducer from '../../reducers/messagesReducer';
 import * as ActionTypes from '../../actions/types';
+
+import mockData from './../../../__mocks__/mockData';
 
 describe('messages reducer', () => {
   it('should return the initial state', () => {
     const actionDispatch = {};
-    const newState = MessagesReducer(undefined, actionDispatch);
+    const newState = messagesReducer(undefined, actionDispatch);
     expect(newState).toEqual([]);
   });
 
   it('should handle GET_MESSAGES', () => {
     const actionDispatch = {
       type: ActionTypes.GET_MESSAGES,
-      messages: [
-        {
-          id: 38,
-          message_body: 'Enter a messagejjjjjj',
-          priority_level: 'Normal',
-          group_id: 2,
-          createdAt: '2017-10-26T14:38:52.020Z',
-          User: {
-            id: 1,
-            username: 'blessing',
-            email: 'blessing.ayeni@andela.com'
-          }
-        }
-      ]
+      messages: mockData.allMessages
     };
-    const newState = MessagesReducer([], actionDispatch);
+    const newState = messagesReducer([], actionDispatch);
     expect(newState).toEqual(actionDispatch.messages);
   });
   it('should handle POST_MESSAGE', () => {
@@ -44,7 +33,7 @@ describe('messages reducer', () => {
         priority_level: 'Normal'
       }
     ];
-    const newState = MessagesReducer([], actionDispatch);
+    const newState = messagesReducer([], actionDispatch);
 
     expect(newState).toEqual(messages);
   });

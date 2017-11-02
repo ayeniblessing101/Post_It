@@ -68,20 +68,8 @@ describe('components', () => {
       expect(Header.prototype.componentDidMount.calledOnce).toEqual(true);
     });
     it('should check if it has brand-logo', () => {
-      expect(enzymeWrapper.contains(<Link to="/" className="brand-logo">PostIt</Link>)).toBeTruthy();
-    });
-    it('should render a search form', () => {
-      expect(enzymeWrapper.find('form').length).toEqual(1);
-    });
-    it('simulates on submit event', () => {
-      const form = enzymeWrapper.find('form');
-
-      form.simulate('submit');
-      expect(Header.prototype.handleSubmit.calledOnce).toBe(true);
-    });
-    it('simulates on change event', () => {
-      enzymeWrapper.find('input').first().simulate('change');
-      expect(Header.prototype.handleChange.calledOnce).toBe(true);
+      expect(enzymeWrapper.contains(<Link to="/" className="brand-logo">
+      PostIt</Link>)).toBeTruthy();
     });
     it('simulates on click event', () => {
       const wrapper = mount(<Header {...props} />, mockContext);

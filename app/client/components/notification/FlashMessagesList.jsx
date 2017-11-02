@@ -27,6 +27,7 @@ FlashMessagesList.propTypes = {
 
 /**
  * takes a state in the store (messages) and passes it to the component as props
+ *
  * @param {object} state
  * @returns
  */

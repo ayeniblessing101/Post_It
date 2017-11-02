@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import validateInput from '../../validations/signup';
-import { userSignupRequest, isUserExists } from '../../actions/signupActions';
+import {
+  userSignupRequest
+} from '../../actions/authenticationActions';
 import { addFlashMessage } from '../../actions/flashMessageActions';
 
 /**
@@ -25,7 +27,6 @@ class SignupForm extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.checkUserExits = this.checkUserExits.bind(this);
   }
 
   /**
@@ -51,31 +52,6 @@ class SignupForm extends React.Component {
     }
 
     return isValid;
-  }
-
-  /**
-   * Checks if a user exists
-   * @param {any} event
-   * @memberof SignupForm
-   * @return {void}
-   */
-  checkUserExits(event) {
-    const field = event.target.name;
-    const val = event.target.value;
-    if (val !== '') {
-      this.props.isUserExists(val).then((res) => {
-        const errors = this.state.errors;
-        let invalid;
-        if (res.data.user) {
-          errors[field] = `There is user with such ${field}`;
-          invalid = true;
-        } else {
-          errors[field] = '';
-          invalid = false;
-        }
-        this.setState({ errors, invalid });
-      });
-    }
   }
 
   /**
@@ -189,7 +165,6 @@ class SignupForm extends React.Component {
 SignupForm.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
-  isUserExists: PropTypes.func.isRequired,
   toggleForm: PropTypes.func.isRequired
 };
 
@@ -198,4 +173,4 @@ SignupForm.contextTypes = {
 };
 
 export default connect(null,
-  { userSignupRequest, addFlashMessage, isUserExists })(SignupForm);
+  { userSignupRequest, addFlashMessage })(SignupForm);

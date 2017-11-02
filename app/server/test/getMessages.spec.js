@@ -1,3 +1,5 @@
+require('babel-polyfill');
+
 process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
@@ -81,17 +83,16 @@ describe('Routes: get_messages', () => {
   });
 
   describe('GET /api/v1/group/:id/messages', () => {
-    describe('status 200', () => {
+    describe('get all messages', () => {
       it('returns a list a messages', async () => {
         // Test logic...
         await request.get(`/api/v1/group/${fakeGroup.id}/messages`)
           .set('Authorization', `Basic ${token}`)
           .expect(200)
           .then((res) => {
-            console.log(res.body);
             expect(res.status).to.equal(200);
-            // expect(res.body[0].message_body).to.eql('Testing Testin');
-            // expect(res.body[1].message_body).to.eql('Hello');
+            expect(res.body).to.have.a.property('messages');
+            expect(res.body.messages).to.be.an('array');
           });
       });
     });

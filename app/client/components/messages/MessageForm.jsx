@@ -22,7 +22,7 @@ class MessageForm extends React.Component {
       messages: this.props.messages,
       group: this.props.group,
       groupId: this.props.groupId,
-      message: 'Enter a message',
+      message: '',
       priority: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,13 +30,13 @@ class MessageForm extends React.Component {
   }
 
   /**
-   * @param {any} e
+   * @param {any} event
    * @memberof MessageForm
    * @returns {void}
    */
-  handleChange(e) {
+  handleChange(event) {
     this.setState({
-      [e.target.name]: e.target.value
+      [event.target.name]: event.target.value
     });
   }
 
@@ -83,7 +83,9 @@ class MessageForm extends React.Component {
 
     group.map((currentGroup) => {
       const { id, groupName } = currentGroup;
-      groupTitle = groupName;
+      if (id === groupId) {
+        groupTitle = groupName;
+      }
     });
 
     if (messages.length > 0) {

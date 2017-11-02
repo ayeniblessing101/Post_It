@@ -68,7 +68,7 @@ export class AddGroupForm extends React.Component {
   }
 
   /**
-   * Reander AddGroup Form component
+   * Render AddGroup Form component
    * @returns {object} Add group form component
    * @memberof AddGroupForm
    */

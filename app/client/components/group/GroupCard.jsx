@@ -19,7 +19,7 @@ export default function GroupCard({ group }) {
           src={avatar1}
           alt="avatar"
           />
-          <h5><b>{group.group_name}</b></h5>
+          <h5><b>{group.groupName}</b></h5>
           <Link to={`/group/${group.id}`} className="btn btn-primary">
             Enter Group
           </Link>

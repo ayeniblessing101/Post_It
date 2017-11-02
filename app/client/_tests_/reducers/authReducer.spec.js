@@ -1,11 +1,13 @@
 import expect from 'expect';
-import AuthReducer from '../../reducers/authReducer';
+import authReducer from '../../reducers/authReducer';
 import * as ActionTypes from '../../actions/types';
+
+import mockData from './../../../__mocks__/mockData';
 
 describe('authentication reducer', () => {
   it('should return the initial state', () => {
     const actionDispatch = {};
-    const newState = AuthReducer(undefined, actionDispatch);
+    const newState = authReducer(undefined, actionDispatch);
     expect(newState).toEqual(
       {
         isAuthenticated: false,
@@ -14,19 +16,12 @@ describe('authentication reducer', () => {
     );
   });
 
-  it('should handle GET_CURRENT_AUTHENTICATED_USER', () => {
+  it('should handle GET_CURRENT_AUTHENTICATED_USER action', () => {
     const actionDispatch = {
       type: ActionTypes.GET_CURRENT_AUTHENTICATED_USER,
-      user: {
-        id: 1,
-        username: 'blessing',
-        email: 'blessing.ayeni@andela.com',
-        phone: '8064476683',
-        iat: 1509101121,
-        exp: 1653545561
-      }
+      user: mockData.stateCurrentUser
     };
-    const newState = AuthReducer({
+    const newState = authReducer({
       isAuthenticated: false,
       user: {}
     }, actionDispatch);

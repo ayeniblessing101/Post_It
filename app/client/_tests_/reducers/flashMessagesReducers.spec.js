@@ -1,33 +1,30 @@
 import expect from 'expect';
-import FlashMessagesReducer from '../../reducers/flashMessagesReducer';
+import flashMessagesReducer from '../../reducers/flashMessagesReducer';
 import * as ActionTypes from '../../actions/types';
+
+import mockData from './../../../__mocks__/mockData';
 
 describe('flash messages reducer', () => {
   it('should return the initial state', () => {
     const actionDispatch = [];
-    const newState = FlashMessagesReducer(undefined, actionDispatch);
+    const newState = flashMessagesReducer(undefined, actionDispatch);
     expect(newState).toEqual([]);
   });
 
-  it('should handle ADD_FLASH_MESSAGE', () => {
+  it('should handle ADD_FLASH_MESSAGE action', () => {
     const actionDispatch = {
       type: ActionTypes.ADD_FLASH_MESSAGE,
-      flashMessages: [
-        {
-          id: 'BJ9DwReCZ',
-          type: 'error',
-          text: 'User does not exist'
-        }
-      ]
+      message: mockData.flashMessageResponse
     };
-    const newState = FlashMessagesReducer([], actionDispatch);
-    expect(newState).toEqual(actionDispatch.flashMessages);
+    const newState = flashMessagesReducer([], actionDispatch);
+    expect(newState[0].type).toEqual(actionDispatch.message.type);
+    expect(newState[0].text).toEqual(actionDispatch.message.text);
   });
-  it('should handle DELETE_FLASH_MESSAGE', () => {
+  it('should handle DELETE_FLASH_MESSAGE action', () => {
     const actionDispatch = {
       type: ActionTypes.DELETE_FLASH_MESSAGE,
     };
-    const newState = FlashMessagesReducer([], actionDispatch);
+    const newState = flashMessagesReducer([], actionDispatch);
     expect(newState).toEqual([]);
   });
 });

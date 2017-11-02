@@ -1,40 +1,62 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+// const Dotenv = require('dotenv-webpack');
 
-module.exports = {
-  devtool: 'source-map',
-  entry:
-    path.join(__dirname, 'app/client/index.js'),
+const config = [{
+  entry: [
+    'webpack-hot-middleware/client',
+    path.join(__dirname, 'app/client/index.js')
+  ],
   output: {
     path: path.join(__dirname, 'app/client/assets/dist/js'),
+    publicPath: '/',
     filename: 'bundle.js',
   },
+  plugins: [
+    // new Dotenv({ systemvars: true }),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+    }),
+  ],
+  devServer: {
+    inline: true,
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
+  devtool: 'source-map',
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        include: [
-          path.join(__dirname, 'app/client'),
-          path.join(__dirname, 'app/server/shared')
-        ],
-        loader: 'babel-loader',
         exclude: /node_modules/,
+        loader: 'babel-loader',
+
         query: {
-          presets: ['react', 'es2015'],
+          presets: ['es2015', 'react', 'stage-0']
         },
       },
-      { test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
+      {
+        test: /\.scss$/,
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.ico$/,
-        loader: 'url-loader',
-        query: { mimetype: 'image/x-icon' }
+        test: /\.html$/,
+        exclude: /node_modules/,
+        loader: 'raw-loader'
       },
-      { test: /\.(png|jpg)$/, loaders: 'file-loader' },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
@@ -42,10 +64,14 @@ module.exports = {
         test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader'
       },
+      {
+        test: /\.(jpg|jpeg|png|svg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 250000,
+        },
+      },
     ]
-  },
-  resolve: {
-    extensions: ['.js', '.jsx', '.css']
   },
   node: {
     console: true,
@@ -53,8 +79,7 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     dns: 'empty'
-  },
-  plugins: [
-    new ExtractTextPlugin('styles.css'),
-  ]
-};
+  }
+}];
+
+module.exports = config;

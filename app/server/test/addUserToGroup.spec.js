@@ -56,7 +56,7 @@ describe('Routes: add_user', () => {
     });
   });
   describe('POST /api/v1/group/:id/user', () => {
-    describe('status 201', () => {
+    describe('add user to a group', () => {
       it('adds a user to a group', (done) => {
         // Test logic...
         request.post(`/api/v1/group/${fakeGroup.id}/user`)
@@ -70,28 +70,10 @@ describe('Routes: add_user', () => {
           expect(res.body).to.have.a.property('message');
           expect(res.body).to.have.a.property('message',
           'User has been successfully added to group');
-          // expect(res.body.group_name).to.equal('Old class mates');
-          // expect(res.body).to.have.a.property('message', 'success');
           done(err);
         });
       });
-    });
-    // describe('status 409', () => {
-    //   it('throws an error if User has already been added to this group',
-    //   (done) => {
-    // // Test logic...
-    //     request.post(`/api/v1/group/${fakeGroup.id}/user`)
-    //     .set('Authorization', `Basic ${token}`)
-    //     .send({ username: 'blessing' })
-    //     .expect(409)
-    //     .end((err, res) => {
-    //       console.log(res.body);
-    //       expect(res.body.status).to.equal(true);
-    //       done(err);
-    //     });
-    //   });
-    // });
-    describe('status 404', () => {
+
       it('throws an error if User does not exist',
       (done) => {
     // Test logic...
@@ -99,12 +81,15 @@ describe('Routes: add_user', () => {
         .set('Authorization', `Basic ${token}`)
         .send({ username: 'tomi' })
         .expect(404)
-        .end((err) => {
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('message',
+          'User does not exist');
           done(err);
         });
       });
-    });
-    describe('status 400', () => {
+
       it('throws an error if text field is empty',
       (done) => {
      // Test logic...
@@ -112,7 +97,11 @@ describe('Routes: add_user', () => {
         .set('Authorization', `Basic ${token}`)
         .send({ username: '' })
         .expect(400)
-        .end((err) => {
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('message',
+          'username or email is required');
           done(err);
         });
       });

@@ -8,7 +8,7 @@ const logger = require('morgan');
 const userRoute = require('../server/routes/routes');
 const bodyParser = require('body-parser');
 
-app.use('/', express.static(path.join(__dirname, '../client/assets')));
+app.use('/', express.static(path.join(__dirname, '/public')));
 // Log request to the console
 app.use(logger('dev'));
 // parse incoming requests data

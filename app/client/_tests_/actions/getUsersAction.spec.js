@@ -5,21 +5,19 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
 
+import mockData from './../../../__mocks__/mockData';
 import * as ActionTypes from '../../actions/types';
-import * as GetUsersActions from '../../actions/getUsersAction';
+import getUsersAction from '../../actions/getUsersAction';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('get users', () => {
-  it('should get all users and paginate the result', () => {
+  it('should dispatch search user result to store', () => {
     axios.get = jest.fn(() => {
       return Promise.resolve(
         {
-          data: {
-            username: 'blessing',
-            email: 'blessing.ayeni@andela.com'
-          }
+          data: mockData.searchParams
         }
       );
     });
@@ -29,13 +27,9 @@ describe('get users', () => {
     const limit = 5;
     const expectedAction = {
       type: ActionTypes.GET_ALL_USERS,
-      params: {
-        q: searchParams,
-        offset,
-        limit
-      }
+      users: mockData.searchParams
     };
-    return store.dispatch(GetUsersActions.getUsersAction(searchParams, offset, limit))
+    return store.dispatch(getUsersAction(searchParams, offset, limit))
     .then(() => {
       expect(store.getActions()).toEqual([expectedAction]);
     });

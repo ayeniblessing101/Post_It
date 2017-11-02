@@ -64,8 +64,7 @@ class GroupsPage extends React.Component {
 
 // as props is introduced to this component its documented with propTypes
 GroupsPage.propTypes = {
-  // groups: PropTypes.shape([]).isRequired,
-  fetchGroups: PropTypes.func.isRequired
+  fetchGroups: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

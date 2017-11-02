@@ -45,19 +45,19 @@ class ResetPasswordForm extends React.Component {
   }
 
   /**
-   * @param {any} e
+   * @param {any} event
    * @memberof ResetPasswordForm
    * @returns {void}
    */
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit(event) {
+    event.preventDefault();
     if (this.isValid()) {
       const query = queryString.parse(this.props.location.search);
       const email = query.email;
       this.setState({ errors: {} });
       if (this.state.newPassword === this.state.confirmNewPassword) {
         this.props.resetPassword(this.state.newPassword, email).then(
-          () => this.context.router.history.push('/login'),
+          () => this.context.router.history.push('/'),
           err => this.setState({
             errors: err.data.errors,
             newPassword: '',
@@ -142,7 +142,8 @@ class ResetPasswordForm extends React.Component {
 }
 
 ResetPasswordForm.propTypes = {
-  resetPassword: PropTypes.func.isRequired
+  resetPassword: PropTypes.func.isRequired,
+  addFlashMessage: PropTypes.func.isRequired
 };
 
 ResetPasswordForm.contextTypes = {

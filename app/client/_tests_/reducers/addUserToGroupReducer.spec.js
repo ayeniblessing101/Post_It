@@ -1,20 +1,22 @@
 import expect from 'expect';
-import AddUserToGroupReducer from '../../reducers/addUserToGroupReducer';
+import addUserToGroupReducer from '../../reducers/addUserToGroupReducer';
 import * as ActionTypes from '../../actions/types';
+
+import mockData from './../../../__mocks__/mockData';
 
 describe('add user to group reducer', () => {
   it('should return the initial state', () => {
     const actionDispatch = {};
-    const newState = AddUserToGroupReducer(undefined, actionDispatch);
+    const newState = addUserToGroupReducer(undefined, actionDispatch);
     expect(newState).toEqual({});
   });
 
-  it('should handle ADD_USER_TO_GROUP successful', () => {
+  it('should handle ADD_USER_TO_GROUP action', () => {
     const actionDispatch = {
       type: ActionTypes.ADD_USER_TO_GROUP,
-      message: 'User has been add to Group Successfully'
+      message: mockData.successMessages[3]
     };
-    const newState = AddUserToGroupReducer({}, actionDispatch);
+    const newState = addUserToGroupReducer({}, actionDispatch);
 
     expect(newState.message).toEqual(actionDispatch.message);
   });

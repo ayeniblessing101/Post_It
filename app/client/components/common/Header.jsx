@@ -69,106 +69,110 @@ export class Header extends React.Component {
     return (
       <div>
         <div className="navbar-fixed">
-          <nav>
-            <div className="nav-wrapper">
-              <Link to="/" className="brand-logo">PostIt</Link>
-              <Link
-                to="#"
-                data-activates="mobile-demo"
-                className="button-collapse">
-                <i className="material-icons">menu</i>
-              </Link>
-              <ul className="side-nav" id="mobile-demo">
-                <li>
+          {
+            isAuthenticated ?
+              <nav>
+                <div className="nav-wrapper">
+                  <Link to="/" className="brand-logo">PostIt</Link>
                   <Link
                     to="#"
-                    data-activates="dropdown1">
-                    <span className="welcome">Welcome</span>
-                    <span
-                      className="authUser">
-                      { isAuthenticated ? user.username : ''}
-                    </span>
+                    data-activates="mobile-demo"
+                    className="button-collapse">
+                    <i className="material-icons">menu</i>
                   </Link>
-                </li>
-                <li>
-                  <Link
-                    to="#" className="dropdown-button"
-                    data-activates="dropdown1">
-                    <i className="material-icons left">group</i>
-                    Groups
-                    <i className="material-icons right">arrow_drop_down</i>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="#"
-                  onClick={this.logout.bind(this)}>
-                    <i className="material-icons">power_settings_new</i>
-                  </Link>
-                </li>
-              </ul>
-              <ul classID="nav-mobile" className="right hide-on-med-and-down">
-                <li>
-                  <form id="searchForm" onSubmit={this.handleSubmit}>
-                    <input
-                      type="text"
-                      name="searchParam"
-                      placeholder="Search for Friends"
-                      id="searchBar"
-                      value={this.state.searchParam}
-                      onChange={this.handleChange}
-                    />
-                  </form>
-                </li>
-                <li>
-                  <Link
-                    to="#" className="dropdown-button"
-                    data-activates="dropdown1">
-                    <span className="welcome">Welcome</span>
-                    <span
-                      className="authUser">
-                      { isAuthenticated ? user.username : ''}
-                    </span>
-                  </Link>
-                </li>
-                <li>
-                  <ul id="dropdown1" className="dropdown-content">
+                  <ul className="side-nav" id="mobile-demo">
                     <li>
-                      <Link to="/groups">
-                        <i
-                          className="fa fa-eye"
-                          aria-hidden="true" />
-                        View all Groups
+                      <Link
+                        to="#"
+                        data-activates="dropdown1">
+                        <span className="welcome">Welcome</span>
+                        <span
+                          className="authUser">
+                          { isAuthenticated ? user.username : ''}
+                        </span>
                       </Link>
                     </li>
                     <li>
-                      <Link to="/add-group">
-                        <i
-                          className="fa fa-plus-circle"
-                          aria-hidden="true" />
-                        Add Groups
+                      <Link
+                        to="#" className="dropdown-button"
+                        data-activates="dropdown1">
+                        <i className="material-icons left">group</i>
+                        Groups
+                        <i className="material-icons right">arrow_drop_down</i>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="#"
+                      onClick={this.logout.bind(this)}>
+                        <i className="material-icons">power_settings_new</i>
                       </Link>
                     </li>
                   </ul>
-                  <Link
-                    to="#" className="dropdown-button"
-                    data-activates="dropdown1">
-                    <i className="material-icons left">group</i>
-                    Groups
-                    <i className="material-icons right">arrow_drop_down</i>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="#"
-                    id="logout"
-                  onClick={this.logout.bind(this)}>
-                    <i className="material-icons">power_settings_new</i>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
+                  <ul
+                    classID="nav-mobile"
+                    className="right hide-on-med-and-down">
+                    <li>
+                      <form id="searchForm" onSubmit={this.handleSubmit}>
+                        <input
+                          type="text"
+                          name="searchParam"
+                          placeholder="Search for Friends"
+                          id="searchBar"
+                          value={this.state.searchParam}
+                          onChange={this.handleChange}
+                        />
+                      </form>
+                    </li>
+                    <li>
+                      <div className="authUser">
+                        <span className="welcome">Welcome</span>
+                        <span
+                          className="authUser">
+                          { isAuthenticated ? user.username : ''}
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <ul id="dropdown1" className="dropdown-content">
+                        <li>
+                          <Link to="/groups">
+                            <i
+                              className="fa fa-eye"
+                              aria-hidden="true" />
+                            View all Groups
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/add-group">
+                            <i
+                              className="fa fa-plus-circle"
+                              aria-hidden="true" />
+                            Add Groups
+                          </Link>
+                        </li>
+                      </ul>
+                      <Link
+                        to="#" className="dropdown-button"
+                        data-activates="dropdown1">
+                        <i className="material-icons left">group</i>
+                        Groups
+                        <i className="material-icons right">arrow_drop_down</i>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="#"
+                        id="logout"
+                      onClick={this.logout.bind(this)}>
+                        <i className="material-icons">power_settings_new</i>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </nav> :
+              <nav><Link to="/" className="brand-logo">PostIt</Link></nav>
+          }
         </div>
       </div>
     );

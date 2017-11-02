@@ -1,30 +1,22 @@
 import expect from 'expect';
-import GetGroupUsersReducer from '../../reducers/getGroupUsersReducer';
+import getGroupUsersReducer from '../../reducers/getGroupUsersReducer';
 import * as ActionTypes from '../../actions/types';
+
+import mockData from './../../../__mocks__/mockData';
 
 describe('get group user reducer', () => {
   it('should return the initial state', () => {
     const actionDispatch = [];
-    const newState = GetGroupUsersReducer(undefined, actionDispatch);
+    const newState = getGroupUsersReducer(undefined, actionDispatch);
     expect(newState).toEqual([]);
   });
 
-  it('should handle GET_GROUP_USERS', () => {
+  it('should handle GET_GROUP_USERS action', () => {
     const actionDispatch = {
       type: ActionTypes.GET_GROUP_USERS,
-      groupUsers:
-      [
-        {
-          id: 1,
-          username: 'blessing'
-        },
-        {
-          id: 2,
-          username: 'tomi'
-        }
-      ]
+      groupUsers: mockData.groupUsers
     };
-    const newState = GetGroupUsersReducer([], actionDispatch);
+    const newState = getGroupUsersReducer([], actionDispatch);
 
     expect(newState).toEqual(actionDispatch.groupUsers);
   });

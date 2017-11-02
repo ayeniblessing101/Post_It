@@ -7,6 +7,7 @@ const Group = require('../models').Group;
 
 // Method to post message
 exports.post_message = (req, res) => {
+  const priorityLevel = req.body.priority_level;
   if (req.body.message === '') {
     return res.status(400).send({ status: false,
       message: 'message body cannot be empty' });
@@ -20,46 +21,47 @@ exports.post_message = (req, res) => {
         message: 'You cannot post to a group that does not exists'
       });
     }
-  }).catch(err =>
-    res.status(500).send(err, 'An error occurred, try again'));
-  Message.create({
-    message_body: req.body.message_body,
-    priority_level: req.body.priority_level,
-    read_by: [userId],
-    group_id: req.params.id,
-    user_id: userId,
-  })
-  .then((message) => {
-    // method to get all emails
-    const { data, emailUsers } = getGroupUserEmail(req.params.id,
-      message, req.decoded);
-    switch (req.body.priority) {
-    case 'Critical':
-      sendMail(emailUsers, message.message_body, message.priority_level);
-      return res.status(200).send({
-        data
-      });
-    case 'Urgent':
-      sendMail(emailUsers, message.message_body, message.priority_level);
-      return res.status(200).send({
-        data
-      });
-    default:
-      return res.status(200).send({
-        data: {
-          id: message.id,
-          message_body: message.message_body,
-          priority_level: message.priority_level,
-          createdAt: message.createdAt,
-          User: {
-            id: req.decoded.id,
-            username: req.decoded.username
+    Message.create({
+      message_body: req.body.message_body,
+      priority_level: priorityLevel,
+      read_by: [userId],
+      group_id: req.params.id,
+      user_id: userId,
+    })
+    .then((message) => {
+      // method to get all emails
+      getGroupUserEmail(req.params.id,
+        message, req.decoded).then((objes) => {
+          const { data, emailUsers } = objes;
+          switch (priorityLevel) {
+          case 'Critical':
+            sendMail(emailUsers, message.message_body, priorityLevel);
+            return res.status(200).send({
+              data
+            });
+          case 'Urgent':
+            sendMail(emailUsers, message.message_body, priorityLevel);
+            return res.status(200).send({
+              data
+            });
+          default:
+            return res.status(200).send({
+              data: {
+                id: message.id,
+                message_body: message.message_body,
+                priority_level: message.priority_level,
+                createdAt: message.createdAt,
+                User: {
+                  id: req.decoded.id,
+                  username: req.decoded.username
+                }
+              }
+            });
           }
-        }
-      });
-    }
-  })
-  .catch(err =>
+        });
+    }).catch(err =>
+    res.status(500).send(err, 'An error occurred, try again'));
+  }).catch(err =>
     res.status(500).send(err, 'An error occurred, try again'));
 };
 
