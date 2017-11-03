@@ -1,7 +1,8 @@
 # Post_It
 [![Build Status](https://travis-ci.org/ayeniblessing101/Post_It.svg?branch=development)](https://travis-ci.org/ayeniblessing101/Post_It)
-[![Coverage Status](https://coveralls.io/repos/github/ayeniblessing101/Post_It/badge.svg?branch=development)](https://coveralls.io/github/ayeniblessing101/Post_It?branch=development)
+[![Coverage Status](https://coveralls.io/repos/github/ayeniblessing101/Post_It/badge.svg?branch=feedback)](https://coveralls.io/github/ayeniblessing101/Post_It?branch=feedback)
 [![Code Climate](https://codeclimate.com/github/ayeniblessing101/Post_It/badges/gpa.svg)](https://codeclimate.com/github/ayeniblessing101/Post_It)
+[![codecov](https://codecov.io/gh/ayeniblessing101/Post_It/branch/development/graph/badge.svg)](https://codecov.io/gh/ayeniblessing101/Post_It)
 
 ## introduction
 * **`PostIt`** is a simple web application that allows friends and colleagues create groups for notifications. 

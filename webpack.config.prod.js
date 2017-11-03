@@ -1,61 +1,76 @@
-
-const path = require('path');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-const appPath = path.resolve(__dirname, 'app', 'server');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'source-map',
-  entry:
-    path.join(__dirname, 'app/client/post_it/index.js'),
+  entry: [
+    path.join(__dirname, 'app/client/index.js'),
+    path.resolve(__dirname, 'app/client/assets/dist/scss/index.scss')
+  ],
   output: {
     path: path.join(__dirname, 'public'),
-    filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
+    filename: 'bundle.min.js',
   },
-  plugins: [
-    // allow me to create global constants at compile time
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-        API_HOST: 'https://blessing-post-it.herokuapp.com'
-      }
-    }),
-    new CopyWebpackPlugin([
-      { context: appPath, from: 'index.html', to: 'index.html' }
-    ])
-  ],
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        include: [
-          path.join(__dirname, 'app/client'),
-          path.join(__dirname, 'app/server/shared')
-        ],
-        loader: 'babel-loader',
         exclude: /node_modules/,
+        loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015'],
-        },
+          presets: ['es2015', 'react', 'stage-0']
+        }
       },
-      { test: /\.css$/, loaders: ['style-loader', 'css-loader'] },
-      { test: /\.scss?$/,
-        loader: 'style!css!sass',
+      { test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          loader: 'css-loader?importLoaders=1' })
       },
       {
-        test: /\.ico$/,
-        loader: 'url-loader',
-        query: { mimetype: 'image/x-icon' }
+        test: /\.(sass|scss)$/,
+        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
       },
-      { test: /\.(png|jpg)$/, loaders: 'file-loader' },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2|styl)$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.(jpg|jpeg|png|svg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 250000,
+        },
+      },
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.css']
+    extensions: ['.js', '.jsx', '.css'],
+  },
+  plugins: [
+    new ExtractTextPlugin('bundle.css'),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new HtmlWebpackPlugin({
+      template: './app/server/index.html',
+      filename: 'index.html',
+      inject: 'body'
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+    }),
+    new webpack.optimize.UglifyJsPlugin()
+  ],
+  devServer: {
+    historyApiFallback: true
   },
   node: {
     console: true,

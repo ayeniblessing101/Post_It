@@ -1,8 +1,9 @@
+require('babel-polyfill');
+
 process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
 const chai = require('chai');
-const chaiHttp = require('chai-http');
 
 const app = require('../app.js');
 
@@ -17,74 +18,82 @@ const jwt = require('jsonwebtoken');
 
 let token;
 let fakeGroup;
-// const should = chai.should();
-chai.use(chaiHttp);
 
 describe('Routes: get_messages', () => {
   // This function will run before every test to clear database
-  beforeEach((done) => {
-    User
-    .destroy({ where: {},
-      truncate: true,
-      cascade: true,
-      restartIdentity: true })
-    .then(() => User.create({
+  beforeEach(async () => {
+    await User
+      .destroy({
+        where: {},
+        truncate: true,
+        cascade: true,
+        restartIdentity: true
+      });
+
+    await Group
+      .destroy({
+        where: {},
+        truncate: true,
+        cascade: true,
+        restartIdentity: true
+      });
+
+    await Message
+      .destroy({
+        where: {},
+        truncate: true,
+        cascade: true,
+        restartIdentity: true
+      });
+
+    const user = await User.create({
       username: 'john',
       email: 'john@gmail.com',
       password: '1234',
       phone: '2348064476683'
-    }))
-    .then((user) => {
-      Group
-      .destroy({ where: {},
-        truncate: true,
-        cascade: true,
-        restartIdentity: true })
-      .then(() => Group.bulkCreate([{
-        id: 1,
-        group_name: 'Family',
-        user_id: user.dataValues.id
-      }, {
-        id: 2,
-        group_name: 'Colleagues',
-        user_id: user.dataValues.id
-      }]))
-      .then((groups) => {
-        Message
-        .destroy({ where: {},
-          truncate: true,
-          cascade: true,
-          restartIdentity: true })
-        .then(() => Message.bulkCreate([{
-          id: 1,
-          group_id: groups[0].dataValues.id,
-          message_body: 'Family over everything',
-          user_id: user.dataValues.id
-        }, {
-          id: 2,
-          group_id: groups[1].dataValues.id,
-          message_body: 'God First',
-          user_id: user.dataValues.id
-        }]));
-        fakeGroup = groups[0].dataValues;
-        token = jwt.sign({ id: user.dataValues.id }, 'secret');
-        done();
-      });
     });
+
+    const groups = await Group.bulkCreate([{
+      id: 1,
+      group_name: 'Family',
+      user_id: user.dataValues.id
+    }, {
+      id: 2,
+      group_name: 'Colleagues',
+      user_id: user.dataValues.id
+    }]);
+
+
+    await Message.bulkCreate([{
+      id: 1,
+      group_id: groups[0].dataValues.id,
+      priority_level: 'Normal',
+      message_body: 'Wassup',
+      user_id: user.dataValues.id
+    }, {
+      id: 2,
+      group_id: groups[1].dataValues.id,
+      priority_level: 'Normal',
+      message_body: 'How are you doing',
+      user_id: user.dataValues.id
+    }]);
+
+    fakeGroup = groups[0].dataValues;
+    token = jwt.sign({ id: user.dataValues.id }, 'secret');
   });
-  describe('GET /api/group/:id/messages', () => {
-    describe('status 200', () => {
-      it('returns a list a messages', (done) => {
-        // Test's logic...
-        request.get(`/api/group/${fakeGroup.id}/message`)
-        .set('Authorization', `Basic ${token}`)
-        .expect(200)
-        .end((err, res) => {
-          expect(res.body.status).to.equal(true);
-          expect(res.body[0].message_body).to.eql('Testing Testin');
-          expect(res.body[1].message_body).to.eql('Hello');
-          done(err);
-        });
+
+  describe('GET /api/v1/group/:id/messages', () => {
+    describe('get all messages', () => {
+      it('returns a list a messages', async () => {
+        // Test logic...
+        await request.get(`/api/v1/group/${fakeGroup.id}/messages`)
+          .set('Authorization', `Basic ${token}`)
+          .expect(200)
+          .then((res) => {
+            expect(res.status).to.equal(200);
+            expect(res.body).to.have.a.property('messages');
+            expect(res.body.messages).to.be.an('array');
+          });
       });
     });
   });

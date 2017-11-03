@@ -6,4 +6,7 @@ install:
 before_script:
   - npm install -g sequelize-cli
 script:
-  - npm test
+  - npm run client:test
+  - npm run coveralls
+  - npm run server:test
+  - npm run coveralls

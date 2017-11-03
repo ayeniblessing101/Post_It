@@ -8,14 +8,14 @@ const logger = require('morgan');
 const userRoute = require('../server/routes/routes');
 const bodyParser = require('body-parser');
 
-app.use('/', express.static(path.join(__dirname, '../client/post_it/assets')));
+app.use('/', express.static(path.join(__dirname, '/public')));
 // Log request to the console
 app.use(logger('dev'));
 // parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/fonts', express.static('./app/fonts'));
-app.use('/api', userRoute);
+app.use('/api/v1', userRoute);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', '..', 'public', 'index.html'));
