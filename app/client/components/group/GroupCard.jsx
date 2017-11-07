@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const avatar1 = require('../../images/avatar1.png');
+const avatar1 = require('../../assets/images/avatar1.png');
 
 /**
  * Renders GroupCard component
