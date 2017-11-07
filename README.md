@@ -81,7 +81,7 @@
   * `sequelize db:migrate`
 * Run application
   * `npm start`
-* Type localhost:3000 in browser to access application on your local machine
+* Type `localhost:3000` in browser to access application on your local machine
 
 ## Tests
 * The server side test are witten with mocha and chai backed with supertest and chai-http
@@ -94,11 +94,29 @@
 * **Ayeni Blessing** - *Initial work* - [ayeniblessing101](https://github.com/ayeniblessing101/PostIt)
 
 ## Limitations
-N/A
+* Users cannot update their profile
+* You cannot delete a group
+* You cannot edit group details
+* You cannot remove a user from a group
+* Members in a group are not notificed when a user(s) is/are added to the group
+* You cannot delete a message once it has been sent
+* You cannot edit a message once it has been seen
+* You cannot use emoji 
+
 
 ### FAQ
-Not available at the moment
+Click **[here](https://github.com/ayeniblessing101/Post_It/wiki/Frequently-Asked-Questions)** to read through our FAQ.
 
+## Contribute to the project
+To contribute to this project:
+
+ 1. **Fork** the repo on GitHub
+ 2. **Clone** the project to your own machine
+ 3. **Commit** changes to your own branch
+ 4. **Push** your work back up to your fork
+ 5. Submit a **Pull request** so that we can review your changes
+
+NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
