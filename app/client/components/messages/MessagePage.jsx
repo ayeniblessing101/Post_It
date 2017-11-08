@@ -55,7 +55,6 @@ class MessagePage extends React.Component {
 MessagePage.propTypes = {
   addUserToGroup: PropTypes.func.isRequired,
   groups: PropTypes.array.isRequired,
-  message: PropTypes.string,
 };
 
 MessagePage.defaultProps = {

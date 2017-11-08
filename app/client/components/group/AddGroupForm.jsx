@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createGroup } from '../../actions/groupActions';
-import { validateInput } from '../../validations/addgroup';
+import { addFlashMessage } from '../../actions/flashMessageActions';
+import { validateAddGroupInput } from '../../validations/validation';
+import FlashMessagesList from '../notification/FlashMessagesList';
 
 /**
  * @class AddGroupForm
@@ -26,7 +28,7 @@ export class AddGroupForm extends React.Component {
   }
 
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid } = validateAddGroupInput(this.state);
 
     if (!isValid) {
       this.setState({ errors });
@@ -38,6 +40,7 @@ export class AddGroupForm extends React.Component {
   /**
    * @param {any} event
    * @memberof AddGroupForm
+   *
    * @return {void}
    */
   handleSubmit(event) {
@@ -52,13 +55,19 @@ export class AddGroupForm extends React.Component {
           groupname: '',
           errors: {}
         })
-      );
+      ).catch((err) => {
+        this.props.addFlashMessage({
+          type: 'error',
+          text: err.data.groupname
+        });
+      });
     }
   }
 
   /**
    * @param {any} event
    * @memberof AddGroupForm
+   *
    * @return {void}
    */
   handleChange(event) {
@@ -69,6 +78,7 @@ export class AddGroupForm extends React.Component {
 
   /**
    * Render AddGroup Form component
+   *
    * @returns {object} Add group form component
    * @memberof AddGroupForm
    */
@@ -82,6 +92,7 @@ export class AddGroupForm extends React.Component {
               <div className="col s12 m4 l2" />
               <div className="col s12 m4 l8 large-cards">
                 <h4>Add Group</h4>
+                <FlashMessagesList />
                 <form onSubmit={this.handleSubmit}>
                   { errors.form &&
                     <div
@@ -121,10 +132,11 @@ export class AddGroupForm extends React.Component {
 
 AddGroupForm.propTypes = {
   createGroup: PropTypes.func.isRequired,
+  addFlashMessage: PropTypes.func.isRequired,
 };
 
 AddGroupForm.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default connect(null, { createGroup })(AddGroupForm);
+export default connect(null, { createGroup, addFlashMessage })(AddGroupForm);

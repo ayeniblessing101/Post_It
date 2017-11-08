@@ -21,7 +21,6 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', '..', 'public', 'index.html'));
 });
 
-
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => console.log('Running on localhost:3000'));
 

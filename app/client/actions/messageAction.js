@@ -45,7 +45,7 @@ export function postMessage(groupId, message) {
  * Fetch all Messages.
  * @param {Integer} groupId - groupdId.
  *
- *@returns {function} - dispatch an action to get all messages to the store.
+ * @returns {function} - dispatch an action to get all messages to the store.
  */
 export function getMessages(groupId) {
   return dispatch => (

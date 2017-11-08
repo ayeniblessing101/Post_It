@@ -8,6 +8,7 @@ const avatar1 = require('../../assets/images/avatar1.png');
  * Renders GroupCard component
  * @export
  * @param {any} group
+ *
  * @returns {object} - GroupCard component
  */
 export default function GroupCard({ group }) {

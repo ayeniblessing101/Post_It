@@ -24,6 +24,7 @@ class GroupsPage extends React.Component {
   }
   /**
    * @memberof GroupsPage
+   *
    * @return {void}
    */
   componentDidMount() {
@@ -33,6 +34,7 @@ class GroupsPage extends React.Component {
   /**
    * @param {any} nextProps
    * @memberof GroupsPage
+   *
    * @return {void}
    */
   componentWillReceiveProps(nextProps) {
@@ -42,6 +44,7 @@ class GroupsPage extends React.Component {
   }
 
   /**
+   * Renders the GroupPage Component
    * @returns {object} groupsPage Component
    * @memberof GroupsPage
    */

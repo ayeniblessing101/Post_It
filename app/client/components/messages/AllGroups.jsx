@@ -24,6 +24,7 @@ class AllGroups extends React.Component {
 
   /**
    * @memberof AllGroups
+   *
    * @return {void}
    */
   componentDidMount() {
@@ -44,6 +45,7 @@ class AllGroups extends React.Component {
   /**
    * Renders the AllGroup Component
    * @memberof AllGroups
+   *
    * @returns {object} - AllGroups Component
    */
   render() {

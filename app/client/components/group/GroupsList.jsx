@@ -4,6 +4,12 @@ import GroupCard from './GroupCard';
 
 const isEmpty = require('lodash/isEmpty');
 
+/**
+ * Renders GroupsList component
+ * @param {any} groups
+ *
+ * @returns {object} - GroupsList component
+ */
 const GroupsList = ({ groups }) => {
   const emptyMessage = (
     <div>
