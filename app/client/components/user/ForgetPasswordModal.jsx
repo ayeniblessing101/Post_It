@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Button, Modal } from 'react-materialize';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { validateInput }
- from '../../validations/forgotpassword';
+import { validateForgotPasswordInput }
+ from '../../validations/validation';
 import { resetPasswordEmail } from '../../actions/forgotPasswordActions';
 import { addFlashMessage } from '../../actions/flashMessageActions';
 import FlashMessagesList from '../notification/FlashMessagesList';
@@ -34,8 +34,8 @@ class ForgetPasswordModal extends React.Component {
    * @memberof ForgetPasswordModal
    */
   isValid() {
-    const { errors, isValid }
-       = validateInput(this.state);
+    const { errors, isValid, email, addFlashMessage }
+       = validateForgotPasswordInput(this.state);
 
     if (!isValid) {
       this.setState({ errors });
