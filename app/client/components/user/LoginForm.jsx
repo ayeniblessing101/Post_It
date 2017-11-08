@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
 import ForgetPasswordModal from './ForgetPasswordModal';
 import { login } from '../../actions/authenticationActions';
-import validateInput from '../../validations/login';
+import { validateLoginInput } from '../../validations/validation';
 import FlashMessagesList from '../notification/FlashMessagesList';
 
 /**
@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
    * @memberof LoginForm
    */
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid } = validateLoginInput(this.state);
 
     if (!isValid) {
       this.setState({ errors });

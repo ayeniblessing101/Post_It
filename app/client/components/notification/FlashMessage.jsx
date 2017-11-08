@@ -18,6 +18,7 @@ class FlashMessage extends React.Component {
   }
   /**
    * @memberof FlashMessage
+   *
    * @returns {void}
    */
   onClick() {
@@ -28,7 +29,7 @@ class FlashMessage extends React.Component {
    * @memberof FlashMessage
    */
   render() {
-    const { id, type, text } = this.props.message;
+    const { type, text } = this.props.message;
     return (
       <div
         className={classnames('alert', {

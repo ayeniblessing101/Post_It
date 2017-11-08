@@ -34,7 +34,6 @@ class MessageBoard extends React.Component {
   }
 
   render() {
-    const groups = this.props.groups;
     const selectedGroupId = this.props.selectedGroupId;
     const { addUserToGroup } = this.props;
     return (

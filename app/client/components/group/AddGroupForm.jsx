@@ -7,7 +7,7 @@ import superagent from 'superagent';
 import { addFlashMessage } from '../../actions/flashMessageActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import { createGroup } from '../../actions/groupActions';
-import { validateInput } from '../../validations/addgroup';
+import { validateAddGroupInput } from '../../validations/validation';
 import FlashMessagesList from '../notification/FlashMessagesList';
 
 /**
@@ -80,7 +80,7 @@ export class AddGroupForm extends React.Component {
   }
 
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid } = validateAddGroupInput(this.state);
 
     if (!isValid) {
       this.setState({ errors });
@@ -93,6 +93,7 @@ export class AddGroupForm extends React.Component {
    * Handle on Submit event
    * @param {any} event
    * @memberof AddGroupForm
+   *
    * @return {void}
    */
   handleSubmit(event) {
@@ -107,13 +108,19 @@ export class AddGroupForm extends React.Component {
           groupname: '',
           errors: {}
         })
-      );
+      ).catch((err) => {
+        this.props.addFlashMessage({
+          type: 'error',
+          text: err.data.groupname
+        });
+      });
     }
   }
 
   /**
    * @param {any} event
    * @memberof AddGroupForm
+   *
    * @return {void}
    */
   handleChange(event) {
@@ -124,6 +131,7 @@ export class AddGroupForm extends React.Component {
 
   /**
    * Render AddGroup Form component
+   *
    * @returns {object} Add group form component
    * @memberof AddGroupForm
    */

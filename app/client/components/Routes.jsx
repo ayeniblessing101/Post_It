@@ -14,6 +14,7 @@ const ReactRouter = require('react-router-dom');
 const Route = ReactRouter.Route;
 const Switch = ReactRouter.Switch;
 
+
 const Routes = () => {
   return (
     <div>
