@@ -48,6 +48,7 @@ exports.create_group = (req, res) => {
       } else {
         const groupData = {
           group_name: req.body.groupname,
+          image: req.body.image,
           user_id: userId
         };
         Group.create(groupData)
@@ -90,7 +91,7 @@ exports.get_groups = (req, res) => {
           }
         }
       },
-      attributes: [['group_name', 'groupName'], 'user_id', 'id'],
+      attributes: [['group_name', 'groupName'], 'user_id', 'id', 'image'],
       raw: true,
     })
     .then((allGroups) => {

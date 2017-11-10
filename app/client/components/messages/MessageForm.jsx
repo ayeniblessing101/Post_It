@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { getMessages, postMessage }
 from '../../actions/messageAction';
@@ -94,17 +93,11 @@ class MessageForm extends React.Component {
           <b className="senderName">
             {message.User.username}
           </b>
-          <span className="right">
+          <span className="right sentTime">
             { moment(message.createdAt, moment.ISO_8601).fromNow() }
           </span>
-          <p key={message.id}>
-            <Link
-              id={message.id}
-              className="messageLink"
-              to="#"
-              onClick={this.handleMessageStatus}>
-              {message.message_body}
-            </Link>
+          <p key={message.id} className="messageBody">
+            {message.message_body}
             <span
             className={`new badge ${(message.priority_level).toLowerCase()}`}
             data-badge-caption={message.priority_level} />
@@ -121,8 +114,8 @@ class MessageForm extends React.Component {
       <div>
         <div className="col s12 m12 l6 message-cards">
           <div className="message-cards-board">
-            <h5 className="groupName">{groupTitle}</h5>
-            { allMessages }
+            <h5 className="groupTitle">{groupTitle}</h5>
+            <div className="messages">{ allMessages }</div>
           </div>
           <div className="message-cards-form">
             <form onSubmit={this.handleSubmit} method="post">

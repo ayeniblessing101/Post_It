@@ -51,6 +51,7 @@ class AllGroups extends React.Component {
     return (
       <div>
         <div className="col s12 m12 l3 ">
+          <h5 className="groupName">Groups</h5>
           <ul
             className="collapsible allMessageCard"
             data-collapsible="accordion"

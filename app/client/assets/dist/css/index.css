@@ -54,7 +54,9 @@ margin: 10% auto;}
 
 .welcome{
   color: #ffffff;
-  margin-top: 5%;}
+  margin-top: 5%;
+  padding-left: 10px!important;
+}
 
   .stay_up{
     margin-top: 0!important;}
@@ -146,8 +148,8 @@ nav a{
 {
   display:table;
   width: 100%;
-  margin-top: -50px;
-  padding: 50px 0 0 0;
+  margin-top: 25px;
+  padding: 0px 0 0 0;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   color: #000000;
@@ -203,7 +205,6 @@ ul.navbar_sidebar li a{
   text-align:center;
   margin-right:20px;
   margin-bottom: 20px;
-
 }
 
 .add_user{
@@ -213,6 +214,7 @@ ul.navbar_sidebar li a{
 .small-cards img{
   border-radius:100%;
   width:120px;
+  height: 120px;
 }
 
 .box{
@@ -358,6 +360,10 @@ button.close {
   text-transform: capitalize;
 }
 
+.senderName, .sentTime {
+  color: #3F4256;
+}
+
 #searchForm{
   width: 200px;
 }
@@ -367,7 +373,7 @@ button.close {
   border-radius: 3px;
   background-color: #fff;
   color: #000;
-  padding: 2px;
+  padding-left: 10px;
 }
 
 .mySelect{
@@ -384,6 +390,13 @@ button.close {
 
 .groupName, .groupNames, .userNames {
   text-transform: capitalize;
+  color: #000000;
+}
+
+.groupTitle {
+  margin-top: 0;
+  padding-bottom: 15px;
+  border-bottom: 1px dotted #E6ECF5;
 }
 
 .messageLink:hover {
@@ -489,5 +502,50 @@ nav .brand-logo {
 }
 
 .authUser{
-  padding-left: 10px;
+  padding-left: 20px!important;
+  padding-right: 15px!important;
 }
+i.right {
+  float: right;
+  margin-left: 1px!important;
+}
+
+i.left {
+  float: left;
+  margin-right: 5px!important;
+}
+
+.dropdown-content li > a {
+  color: #000000!important;
+}
+
+.messageBody {
+  font-size: 13px;
+}
+
+.modal .modal-close {
+  color: #ffffff;
+}
+
+.btn-floating {
+  margin-top: -45px;
+}
+
+div.messages {
+  margin-top:25px; 
+}
+
+h4.groupsTitle {
+  margin: 0!important;
+  padding:0!important;
+}
+
+#sidenav-overlay {
+  background-color: #ffffff;
+}
+
+.addGroupFormContainer {
+  height: 70px!important;
+}
+
+#sidenav-overlay { z-index: 99 !important }
