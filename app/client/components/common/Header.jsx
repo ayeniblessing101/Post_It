@@ -73,7 +73,7 @@ export class Header extends React.Component {
             isAuthenticated ?
               <nav>
                 <div className="nav-wrapper">
-                  <Link to="/" className="brand-logo">PostIt</Link>
+                  <Link to="/groups" className="brand-logo">PostIt</Link>
                   <Link
                     to="#"
                     data-activates="mobile-demo"
