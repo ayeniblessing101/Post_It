@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const avatar1 = require('../../assets/images/avatar1.png');
-
 /**
  * Renders GroupCard component
  * @export
@@ -16,9 +14,9 @@ export default function GroupCard({ group }) {
       <Link to={`/group/${group.id}`}>
         <div className="col s12 m5 l3 small-cards"><br />
           <img
-          src={avatar1}
-          alt="avatar"
-          />
+            src={group.image}
+            alt="avatar"
+            />
           <h5><b>{group.groupName}</b></h5>
           <Link to={`/group/${group.id}`} className="btn btn-primary">
             Enter Group
