@@ -56,8 +56,8 @@ class AddUserModal extends React.Component {
       this.setState({ errors: {} });
       this.props.addUserToGroup(groupId, {
         username: this.state.username
-      }).then((res) => {
-        if (res === true) {
+      }).then((response) => {
+        if (response === true) {
           this.props.addFlashMessage({
             type: 'success',
             text: 'User has been add to Group Successfully'
@@ -66,7 +66,7 @@ class AddUserModal extends React.Component {
         } else {
           this.props.addFlashMessage({
             type: 'error',
-            text: res
+            text: response
           });
         }
       });
@@ -97,7 +97,14 @@ class AddUserModal extends React.Component {
       <div>
         <Modal
           header="Add User to Group"
-          trigger={<Button className="add_user">Add User</Button>}>
+          trigger={
+            <a
+              className="btn-floating add_user btn-small waves-effect waves-light red">
+              <i className="material-icons">
+                add
+              </i>
+            </a>
+          }>
           <FlashMessagesList />
           <form onSubmit={this.handleSubmit} >
             { errors.form &&

@@ -41,10 +41,6 @@ class LandingPage extends React.Component {
                   users all around the world. Create account, create group
                   add other users to your group and post messages
                 </p>
-                <a
-                  href="#"
-                 className="my_btn btn-md btn-border btn-white">
-                 Register Now!</a>
               </div>
               <div className="col s12 m12 l6 reg_form">
                 <div className="reg_form_cen">

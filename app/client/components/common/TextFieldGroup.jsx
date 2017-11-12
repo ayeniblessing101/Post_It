@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const TextFieldGroup =
-({ field, value, label, error, type, onChange, checkUserExits }) => {
+({ field, value, label, error, type, onChange, checkUserExits, className }) => {
   return (
-    <div>
+    <div className={className}>
       <div className="input-field col s12">
         <label htmlFor="username">{label}</label>
         <input
@@ -28,6 +28,7 @@ TextFieldGroup.propTypes = {
   label: PropTypes.string.isRequired,
   error: PropTypes.string,
   type: PropTypes.string.isRequired,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   checkUserExits: PropTypes.func
 };
