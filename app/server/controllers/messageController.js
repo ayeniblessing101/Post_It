@@ -1,5 +1,5 @@
 const sendMail = require('../utils/sendMail');
-const getGroupUserEmail = require('../utils/getGroupUserEmail');
+const getGroupUserEmail = require('../utils/getEmails');
 
 const Message = require('../models').Message;
 const User = require('../models').User;

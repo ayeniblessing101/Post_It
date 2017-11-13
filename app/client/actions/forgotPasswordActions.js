@@ -32,12 +32,14 @@ export function checkToken(token, email) {
 /**
  * Dispatches an action to Reset User Password.
  * @param {string} newPassword - New Password.
+ * @param {string} confirmPassword - confirm Password.
  * @param {string} email - email.
  *
  * @returns {function} - makes an async post request to resetPassword endpoint
  */
-export function resetPassword(newPassword, email) {
+export function resetPassword(newPassword, confirmPassword, email) {
   return () => (
-    axios.put('/api/v1/password/verify', { newPassword, email })
+    axios
+    .put('/api/v1/password/verify', { newPassword, confirmPassword, email })
   );
 }

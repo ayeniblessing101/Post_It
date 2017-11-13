@@ -99,7 +99,8 @@ class MessageForm extends React.Component {
           <p key={message.id} className="messageBody">
             {message.message_body}
             <span
-            className={`new badge ${(message.priority_level).toLowerCase()}`}
+            className={`new badge ${message.priority_level
+              && (message.priority_level).toLowerCase()}`}
             data-badge-caption={message.priority_level} />
           </p>
           <hr /><br />

@@ -49,7 +49,6 @@ class LoginForm extends React.Component {
         () => this.context.router.history.push('/groups'),
         err => this.setState({
           errors: err.data.errors,
-          username: '',
           password: ''
         })
       );

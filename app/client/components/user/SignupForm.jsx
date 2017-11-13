@@ -76,9 +76,6 @@ class SignupForm extends React.Component {
         ({ data }) => this.setState({
           errors: data,
           isLoading: false,
-          username: '',
-          email: '',
-          phone: '',
           password: '',
           confirm_password: '',
         })
