@@ -152,14 +152,59 @@ exports.sendForgotPasswordToken = (request, response) => {
             to: user.email,
             subject: 'Post It || Reset Password',
 
-            html: `<body style="max-width:100%; color: #000;">
-            <div style=" 
-              padding:10px; 
-              color:white; 
-              height: 10px;">
-            <h3 style="text-align: center; font-size: 40px; margin-top: 5px;">
-              PostIt!
-            </h3>
+            html: `<body><div>
+            <div style="background-color:#f2f3f5;padding:20px">
+              <div style="max-width:600px;margin:0 auto">
+               <div 
+                style="
+                  background:#fff;
+                  font:14px sans-serif;
+                  color:#686f7a;
+                  border-top:4px solid #3F4256;
+                  margin-bottom:20px">
+                <div 
+                  style="
+                   border-bottom:1px solid #f2f3f5;
+                   padding-bottom:20px;
+                   padding-top:20px">
+                  <h4 
+                    style="
+                      padding-top:0; 
+                      padding-left:20px; 
+                      margin:0; 
+                      font-size:30px;">PostIt</h4>
+                </div>
+                <div style="padding:30px 20px;line-height:1.5em;color:#686f7a">
+                  <p style="color:#737373">Hi ${user.username},</p>
+                  <p 
+                    style="
+                      border-bottom:1px solid #f2f3f5;
+                      padding-bottom:20px;
+                      margin-bottom:20px;
+                      color:#686f7a">
+                     A password reset for your account was requested.
+                  </p>
+                  <p 
+                    style="
+                      border-bottom:1px solid #f2f3f5;
+                      padding-bottom:20px;
+                      margin-bottom:20px;
+                      color:#686f7a">
+                      Please click the button below to change your password.
+                  </p>
+                  <a href=${request.headers.origin}/user/password/verify?token=${result.reset_password_token}&email=${user.email} 
+                    style="
+                      display:inline-block;
+                      font-size:15px;color:#ffffff;
+                      padding:10px 15px;
+                      text-decoration:none;
+                      background-color:#3F4256;
+                      border-radius:3px" 
+                      target="_blank">
+                      Change Your Password
+                  </a>
+                </div>
+             </div>
             </div>
             <div 
               style="outline: 0px solid black; 
@@ -285,6 +330,12 @@ exports.resetPassword = (request, response) => {
       return response.status(204).json({
         message: 'Password updated succesfully'
       });
+    });
+  }).catch((err) => {
+    res.status(500).send({
+      err,
+      message: 'A fatal error was encountered, Please try again later.',
+      status: 500
     });
   });
 };

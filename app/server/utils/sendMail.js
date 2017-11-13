@@ -5,6 +5,9 @@ const nodemailer = require('nodemailer');
  *
  * @param {any} receivers
  * @param {any} messageBody
+ * @param {any} priorityLevel
+ *
+ * @returns {object} - returns success message and payload
  */
 function sendMail(receivers, messageBody, priorityLevel) {
   // create reusable transporter object using the default SMTP transport
@@ -22,28 +25,51 @@ function sendMail(receivers, messageBody, priorityLevel) {
     from: '"Ayeni Blessing " <ayeniblessing@gmail.com>',
     to: receivers,
     subject: 'Post It',
-    html: `<body style="max-width:100%; color: #000;">
-    <div 
-      style="background-color:#2FA599; 
-      padding:10px; color:white; 
-      height: 60px;">
-    <h3 style="text-align: center; font-size: 40px; margin-top: 5px;">
-      PostIt!
-    </h3>
-    </div>
-    <div 
-      style="outline: 0px solid black; 
-      padding-left: 20px; padding-right: 30px;">
-    <div>
-    <h1><strong>Hello</strong></h1>
-    </div>
-    <p>Hello You have a new ${priorityLevel} message on PostIt</p>
-    <p>Message: ${messageBody}</p>
-    <div style="align-items: center; width: 100%">
+    html: `<body><div>
+      <div style="background-color:#f2f3f5;padding:20px">
+        <div style="max-width:600px;margin:0 auto">
+          <div 
+          style="
+            background:#fff;
+            font:14px sans-serif;
+            color:#686f7a;
+            border-top:4px solid #3F4256;
+            margin-bottom:20px">
+          <div 
+            style="
+              border-bottom:1px solid #f2f3f5;
+              padding-bottom:20px;
+              padding-top:20px">
+            <h4 
+              style="
+                padding-top:0; 
+                padding-left:20px; 
+                margin:0; 
+                font-size:30px;">PostIt</h4>
+          </div>
+          <div style="padding:30px 20px;line-height:1.5em;color:#686f7a">
+            <p style="color:#737373">Hi,</p>
+            <p 
+              style="
+                border-bottom:1px solid #f2f3f5;
+                padding-bottom:20px;
+                margin-bottom:20px;
+                color:#686f7a">
+                You have a new ${priorityLevel} message on PostIt
+            </p>
+            <p 
+              style="
+                border-bottom:1px solid #f2f3f5;
+                padding-bottom:20px;
+                margin-bottom:20px;
+                color:#686f7a">
+                Message: ${messageBody}.
+            </p>
+            
+          </div>
         </div>
-        <p style="text-align: right;">Regards, the PostIt team.</p>
-        <br>
-        <br>
+      </div>
+    </div>
     </div>
     </body>`
   };

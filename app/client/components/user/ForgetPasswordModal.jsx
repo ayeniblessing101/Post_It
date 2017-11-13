@@ -99,6 +99,7 @@ class ForgetPasswordModal extends React.Component {
             { errors.form &&
             <div className="alert alert-danger">{errors.form}</div> }
             <TextFieldGroup
+              error={errors.email}
               label="Email"
               field="email"
               onChange={this.handleChange}
