@@ -34,7 +34,7 @@ class ForgetPasswordModal extends React.Component {
    * @memberof ForgetPasswordModal
    */
   isValid() {
-    const { errors, isValid, email, addFlashMessage } 
+    const { errors, isValid }
        = validateInput(this.state);
 
     if (!isValid) {
@@ -45,12 +45,12 @@ class ForgetPasswordModal extends React.Component {
   }
 
   /**
-   * @param {any} e
+   * @param {any} event
    * @memberof ForgetPasswordModal
    * @return {void}
    */
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit(event) {
+    event.preventDefault();
     this.setState({
       email: ''
     });
@@ -73,13 +73,13 @@ class ForgetPasswordModal extends React.Component {
   }
 
   /**
-   * @param {any} e
+   * @param {any} event
    * @memberof ForgetPasswordModal
    * @return {void}
    */
-  handleChange(e) {
+  handleChange(event) {
     this.setState({
-      [e.target.name]: e.target.value
+      [event.target.name]: event.target.value
     });
   }
 
@@ -99,6 +99,7 @@ class ForgetPasswordModal extends React.Component {
             { errors.form &&
             <div className="alert alert-danger">{errors.form}</div> }
             <TextFieldGroup
+              error={errors.email}
               label="Email"
               field="email"
               onChange={this.handleChange}
