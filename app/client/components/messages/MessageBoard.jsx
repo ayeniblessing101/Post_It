@@ -40,6 +40,13 @@ class MessageBoard extends React.Component {
       <div>
         <div className="col s12 m12 l12 col-md-10">
           <div id="messageBoard" className="mycontainer">
+<<<<<<< HEAD
+=======
+            {<AddUserModal
+              addUserToGroup={addUserToGroup}
+              groupId={selectedGroupId}
+              />}
+>>>>>>> [Chore #152637721] finish pagination feature
             <div className="row">
               <AllGroups
                 groups={this.props.groups}
@@ -60,7 +67,7 @@ class MessageBoard extends React.Component {
 
 MessageBoard.propTypes = {
   addUserToGroup: PropTypes.func.isRequired,
-  groups: PropTypes.array.isRequired,
+  groups: PropTypes.object.isRequired,
   selectedGroupId: PropTypes.number.isRequired
 };
 

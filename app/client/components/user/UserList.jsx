@@ -47,6 +47,7 @@ class UserList extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       users: nextProps.pagination.users,
+      totalCount: nextProps.pagination.totalCount,
       pageCount: Math.ceil(nextProps.pagination.totalCount / this.usersPerPage)
     });
   }
@@ -72,7 +73,7 @@ class UserList extends React.Component {
    * @return {object} - UserList component
    */
   render() {
-    const { users } = this.state;
+    const { users, totalCount } = this.state;
     return (
       <div>
         <div className="col s12 m10 l10 col-md-10">
@@ -108,7 +109,7 @@ class UserList extends React.Component {
                   </tbody>
                 </table>
                 {
-                  users.length > 5 &&
+                  totalCount > 5 &&
                   <ReactPaginate
                   previousLabel={'previous'}
                   nextLabel={'next'}
