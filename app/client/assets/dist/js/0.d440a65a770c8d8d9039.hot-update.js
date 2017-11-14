@@ -1,5 +1,6 @@
 webpackHotUpdate(0,{
 
+<<<<<<< HEAD
 /***/ 1015:
 false,
 
@@ -3542,6 +3543,9 @@ false,
 false,
 
 /***/ 94:
+=======
+/***/ 560:
+>>>>>>> [Chore #152627280] add style to messageBoard
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3550,6 +3554,7 @@ false,
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+<<<<<<< HEAD
 exports.createGroup = createGroup;
 exports.getGroups = getGroups;
 exports.getGroupUsers = getGroupUsers;
@@ -3691,6 +3696,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Header = undefined;
+=======
+>>>>>>> [Chore #152627280] add style to messageBoard
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -3698,10 +3705,18 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+<<<<<<< HEAD
+=======
+var _propTypes = __webpack_require__(3);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+>>>>>>> [Chore #152627280] add style to messageBoard
 var _reactRouterDom = __webpack_require__(66);
 
 var _reactRedux = __webpack_require__(26);
 
+<<<<<<< HEAD
 var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -3712,12 +3727,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+=======
+var _AddUserModal = __webpack_require__(558);
+
+var _AddUserModal2 = _interopRequireDefault(_AddUserModal);
+
+var _groupActions = __webpack_require__(94);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+>>>>>>> [Chore #152627280] add style to messageBoard
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+<<<<<<< HEAD
 /**
  * @class Header
  * @extends {React.Component}
@@ -3800,12 +3826,40 @@ var Header = exports.Header = function (_React$Component) {
           isAuthenticated = _props$auth.isAuthenticated,
           user = _props$auth.user;
 
+=======
+var AllUsers = function (_Component) {
+  _inherits(AllUsers, _Component);
+
+  function AllUsers() {
+    _classCallCheck(this, AllUsers);
+
+    return _possibleConstructorReturn(this, (AllUsers.__proto__ || Object.getPrototypeOf(AllUsers)).apply(this, arguments));
+  }
+
+  _createClass(AllUsers, [{
+    key: 'componentWillMount',
+
+    /**
+     * @memberof AllUsers
+     * @return {void}
+     */
+    value: function componentWillMount() {
+      this.props.fetchGroupUsers(this.props.groupId);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var groupUsers = this.props.groupUsers;
+      var selectedGroupId = this.props.groupId;
+      var addUserToGroup = this.props.addUserToGroup;
+>>>>>>> [Chore #152627280] add style to messageBoard
 
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           'div',
+<<<<<<< HEAD
           { className: 'navbar-fixed' },
           isAuthenticated ? _react2.default.createElement(
             'nav',
@@ -3983,10 +4037,35 @@ var Header = exports.Header = function (_React$Component) {
                 _react2.default.createElement(
                   'li',
                   null,
+=======
+          { className: 'col s12 m12 l3 ', style: { marginButtom: '70px' } },
+          _react2.default.createElement(
+            'h5',
+            { className: 'groupName' },
+            'Users'
+          ),
+          _react2.default.createElement(_AddUserModal2.default, {
+            addUserToGroup: addUserToGroup,
+            groupId: selectedGroupId
+          }),
+          _react2.default.createElement(
+            'ul',
+            {
+              className: 'collapsible allMessageCard',
+              'data-collapsible': 'accordion' },
+            groupUsers.map(function (groupUser) {
+              return _react2.default.createElement(
+                'li',
+                { key: groupUser.id },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'collapsible-header' },
+>>>>>>> [Chore #152627280] add style to messageBoard
                   _react2.default.createElement(
                     _reactRouterDom.Link,
                     {
                       to: '#',
+<<<<<<< HEAD
                       id: 'logout',
                       onClick: this.logout.bind(this) },
                     _react2.default.createElement(
@@ -4006,12 +4085,21 @@ var Header = exports.Header = function (_React$Component) {
               { to: '/', className: 'brand-logo' },
               'PostIt'
             )
+=======
+                      className: 'userNames' },
+                    groupUser.username
+                  )
+                )
+              );
+            })
+>>>>>>> [Chore #152627280] add style to messageBoard
           )
         )
       );
     }
   }]);
 
+<<<<<<< HEAD
   return Header;
 }(_react2.default.Component);
 
@@ -4022,10 +4110,21 @@ Header.propTypes = {
 
 Header.contextTypes = {
   router: _propTypes2.default.object.isRequired
+=======
+  return AllUsers;
+}(_react.Component);
+
+AllUsers.propTypes = {
+  fetchGroupUsers: _propTypes2.default.func.isRequired,
+  groupUsers: _propTypes2.default.array.isRequired,
+  addUserToGroup: _propTypes2.default.func.isRequired,
+  groupId: _propTypes2.default.number.isRequired
+>>>>>>> [Chore #152627280] add style to messageBoard
 };
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
+<<<<<<< HEAD
     auth: state.auth
   };
 };
@@ -4108,6 +4207,13 @@ TextFieldGroup.defaultProps = {
 };
 
 exports.default = TextFieldGroup;
+=======
+    groupUsers: state.groupUsers
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchGroupUsers: _groupActions.fetchGroupUsers })(AllUsers);
+>>>>>>> [Chore #152627280] add style to messageBoard
 
 /***/ })
 
