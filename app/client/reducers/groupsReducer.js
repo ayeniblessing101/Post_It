@@ -1,6 +1,12 @@
 import { GET_GROUPS } from '../actions/types';
 
-const initialState = [];
+const initialState = {
+  pageNumber: 0,
+  pageCount: 0,
+  pageSize: 0,
+  totalCount: 0,
+  allGroups: []
+};
 
 /**
  * updates the groups property of the store
@@ -12,9 +18,14 @@ const initialState = [];
 export default (state = initialState, action = {}) => {
   switch (action.type) {
   case GET_GROUPS:
-    return [
-      ...action.groups
-    ];
+    return {
+      pageNumber: action.groups.pageNumber,
+      pageCount: action.groups.pageCount,
+      pageSize: action.groups.pageSize,
+      allGroups: action.groups.allGroups,
+      totalCount: action.groups.totalCount
+    };
+      // ...action.groups;
   default:
     return state;
   }

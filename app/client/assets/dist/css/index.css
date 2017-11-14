@@ -144,8 +144,8 @@ nav a{
 {
   display:table;
   width: 100%;
-  margin-top: 25px;
-  padding: 0px 0 0 0;
+  margin-top: 0px;
+  padding: -10px 0 0px 0;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   color: #000000;
@@ -548,4 +548,10 @@ h4.groupsTitle {
 
 .dropdown-content li > a, a.groupCard {
   color: #000000!important;
+}
+
+.dashboard-paginate {
+  border: 2px solid red;
+  /* display: block; */
+  margin: -38px 460px;
 }
