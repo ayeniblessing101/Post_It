@@ -60,9 +60,4 @@ typings/
 # ds_store
 .DS_Store
 
-<<<<<<< HEAD
-
 app/client/assets/dist
-=======
-app/client/assets/dist
->>>>>>> delete cached files

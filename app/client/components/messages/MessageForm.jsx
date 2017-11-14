@@ -107,13 +107,8 @@ class MessageForm extends React.Component {
       <div>
         <div className="col s12 m12 l6 message-cards">
           <div className="message-cards-board">
-<<<<<<< HEAD
-            <h5 className="groupTitle">{groupTitle}</h5>
-            <div className="messages">{ allMessages }</div>
-=======
             <h5 className="groupName">{groupName}</h5>
             { allMessages }
->>>>>>> [Chore #152637721] finish pagination feature
           </div>
           <div className="message-cards-form">
             <form onSubmit={this.handleSubmit} method="post">
