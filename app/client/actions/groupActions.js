@@ -11,11 +11,6 @@ import { GET_GROUPS, ADD_USER_TO_GROUP, GET_GROUP_USERS } from './types';
 export function createGroup(group) {
   return () => (
     axios.post('/api/v1/group/', group)
-    // .then((res) => {
-    //   console.log(res.data, '**********')
-    // }).catch((err) => {
-    //   console.log(err, '=======')
-    // })
   );
 }
 
