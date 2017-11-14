@@ -11,11 +11,6 @@ import { GET_GROUPS, ADD_USER_TO_GROUP, GET_GROUP_USERS } from './types';
 export function createGroup(group) {
   return () => (
     axios.post('/api/v1/group/', group)
-    // .then((res) => {
-    //   console.log(res.data, '**********')
-    // }).catch((err) => {
-    //   console.log(err, '=======')
-    // })
   );
 }
 
@@ -62,11 +57,20 @@ export function addUserStatus(status, message) {
 
 /**
  * Fetch all Groups.
+ *  @param {int} offset - offset
+ * @param {int} limit - limit
+ *
  * @returns {function} dispatches getGroups action
  */
-export function fetchGroups() {
+export function fetchGroups(offset = 0, limit = 5) {
   return dispatch => (
-    axios.get('/api/v1/groups').then((response) => {
+    axios.get('/api/v1/groups', {
+      params: {
+        offset,
+        limit
+      }
+    })
+    .then((response) => {
       const groups = response.data;
       dispatch(getGroups(groups));
     }).catch((error) => {

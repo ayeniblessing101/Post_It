@@ -69,8 +69,14 @@ exports.getGroups = (request, response) => {
     raw: true
   })
   .then((groups) => {
+    let limit = request.query.limit;
+    let offset = request.query.offset;
+    const page =
+    Math.ceil(((request.query.offset) / (request.query.limit)) + 1) || 1;
+    limit = Number(limit) || 10;
+    offset = Number(offset) || 0;
     const userBelongsTo = groups.map(group => group.group_id);
-    Group.findAll({
+    Group.findAndCountAll({
       where: {
         $or: {
           user_id: userId,
@@ -81,9 +87,20 @@ exports.getGroups = (request, response) => {
       },
       attributes: [['group_name', 'groupName'], 'user_id', 'id'],
       raw: true,
+      offset,
+      limit
     })
     .then((allGroups) => {
-      response.status(200).send(allGroups);
+      const pageCount = Math.ceil(allGroups.count / limit);
+      const pageSize = limit;
+      const totalCount = allGroups.count;
+      response.status(200).send({
+        allGroups: allGroups.rows,
+        page,
+        pageCount,
+        pageSize,
+        totalCount
+      });
     })
     .catch((err) => {
       response.status(500).send(err, 'An error occurred, try again');

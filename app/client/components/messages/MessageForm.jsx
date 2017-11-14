@@ -89,7 +89,7 @@ class MessageForm extends React.Component {
     });
 
     if (messages.length > 0) {
-      allMessages = messages.map(message => (
+      allMessages = messages && messages.map(message => (
         <div key={message.id}>
           <b className="senderName">
             {message.User.username}
@@ -173,7 +173,7 @@ MessageForm.propTypes = {
 
 const mapStateToProps = state => ({
   messages: state.messages,
-  group: state.groups
+  group: state.groups.allGroups
 });
 
 export default
