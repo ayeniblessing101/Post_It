@@ -37,18 +37,37 @@ exports.postMessage = (request, response) => {
     .then((message) => {
       // method to get all emails
       getGroupUserEmail(request.params.id,
-        message, request.decoded).then((objes) => {
-          const { newMessage, emailUsers } = objes;
+        message, request.decoded).then((messageData) => {
+          console.log(messageData);
+          const { emailUsers } = messageData;
           switch (priorityLevel) {
           case 'Critical':
             sendMail(emailUsers, message.message_body, priorityLevel);
             return response.status(200).send({
-              newMessage
+              newMessage: {
+                id: message.id,
+                message_body: message.message_body,
+                priority_level: message.priority_level,
+                createdAt: message.createdAt,
+                User: {
+                  id: request.decoded.id,
+                  username: request.decoded.username
+                }
+              }
             });
           case 'Urgent':
             sendMail(emailUsers, message.message_body, priorityLevel);
             return response.status(200).send({
-              newMessage
+              newMessage: {
+                id: message.id,
+                message_body: message.message_body,
+                priority_level: message.priority_level,
+                createdAt: message.createdAt,
+                User: {
+                  id: request.decoded.id,
+                  username: request.decoded.username
+                }
+              }
             });
           default:
             return response.status(200).send({

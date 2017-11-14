@@ -46,7 +46,6 @@ class AllGroups extends React.Component {
     this.setState({
       groups: nextProps.groups.allGroups,
       totalCount: nextProps.groups.totalCount,
-      messages: nextProps.messages,
       pageCount: Math.ceil(nextProps.groups.totalCount / this.usersPerPage)
     });
   }

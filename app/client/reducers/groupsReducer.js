@@ -19,13 +19,11 @@ export default (state = initialState, action = {}) => {
   switch (action.type) {
   case GET_GROUPS:
     return {
-      pageNumber: action.groups.pageNumber,
       pageCount: action.groups.pageCount,
       pageSize: action.groups.pageSize,
       allGroups: action.groups.allGroups,
       totalCount: action.groups.totalCount
     };
-      // ...action.groups;
   default:
     return state;
   }
