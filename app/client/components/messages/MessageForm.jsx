@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { getMessages, postMessage }
+import { getGroupWithMessages, postMessage }
 from '../../actions/messageAction';
 
 /**
@@ -19,9 +19,10 @@ class MessageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: this.props.messages,
+      messages: this.props.messages.Messages,
       group: this.props.group,
       groupId: this.props.groupId,
+      groupName: this.props.messages.groupName,
       message: '',
       priority: ''
     };
@@ -61,7 +62,7 @@ class MessageForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getMessages(this.props.groupId);
+    this.props.getGroupWithMessages(this.props.groupId);
     $(document).ready(() => {
       $('select').material_select();
     });
@@ -69,25 +70,16 @@ class MessageForm extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      messages: nextProps.messages,
+      messages: nextProps.messages.Messages,
       group: nextProps.group,
-      grouId: nextProps.groudId
+      groupId: nextProps.groupId,
+      groupName: nextProps.messages.groupName
     });
   }
   render() {
     let allMessages;
-    const { group } = this.state;
-    const { messages } = this.state;
-    const groupId = parseInt(this.props.groupId, 10);
-    let groupTitle = 'No Group Found';
-
-    group.map((currentGroup) => {
-      const { id, groupName } = currentGroup;
-      if (id === groupId) {
-        groupTitle = groupName;
-      }
-    });
-
+    // const { group } = this.state;
+    const { messages, groupName } = this.state;
     if (messages.length > 0) {
       allMessages = messages && messages.map(message => (
         <div key={message.id}>
@@ -121,7 +113,7 @@ class MessageForm extends React.Component {
       <div>
         <div className="col s12 m12 l6 message-cards">
           <div className="message-cards-board">
-            <h5 className="groupName">{groupTitle}</h5>
+            <h5 className="groupName">{groupName}</h5>
             { allMessages }
           </div>
           <div className="message-cards-form">
@@ -165,9 +157,10 @@ class MessageForm extends React.Component {
 
 MessageForm.propTypes = {
   postMessage: PropTypes.func.isRequired,
-  getMessages: PropTypes.func.isRequired,
+  getGroupWithMessages: PropTypes.func.isRequired,
   groupId: PropTypes.number.isRequired,
-  messages: PropTypes.array.isRequired
+  messages: PropTypes.object.isRequired,
+  group: PropTypes.array.isRequired,
 };
 
 
@@ -178,4 +171,4 @@ const mapStateToProps = state => ({
 
 export default
 connect(mapStateToProps,
-  { getMessages, postMessage })(MessageForm);
+  { getGroupWithMessages, postMessage })(MessageForm);

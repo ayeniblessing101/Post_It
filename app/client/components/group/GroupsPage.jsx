@@ -63,7 +63,7 @@ class GroupsPage extends React.Component {
     const offset = Math.ceil(selected * this.usersPerPage);
 
     this.setState({ offset }, () => {
-      this.props.fetchGroups(offset);
+      this.props.fetchGroups(offset, 6);
     });
   }
 

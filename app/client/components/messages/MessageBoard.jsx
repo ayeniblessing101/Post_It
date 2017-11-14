@@ -37,8 +37,6 @@ class MessageBoard extends React.Component {
   render() {
     const selectedGroupId = this.props.selectedGroupId;
     const { addUserToGroup } = this.props;
-    console.log(this.props.groups, '========')        
-    
     return (
       <div>
         <div className="col s12 m12 l12 col-md-10">
@@ -46,7 +44,6 @@ class MessageBoard extends React.Component {
             {<AddUserModal
               addUserToGroup={addUserToGroup}
               groupId={selectedGroupId}
-              /* statusMessage={statusMessage} */
               />}
             <div className="row">
               <AllGroups

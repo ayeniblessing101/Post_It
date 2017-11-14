@@ -2,6 +2,7 @@ const { validateAddGroupInput } = require('../validations/validation');
 const isEmpty = require('lodash/isEmpty');
 const User = require('../models').User;
 const Group = require('../models').Group;
+const Message = require('../models').Message;
 const GroupUser = require('../models').GroupUser;
 
 /**
@@ -191,3 +192,43 @@ exports.getUsers = (request, response) => {
       data: users });
   });
 };
+
+/**
+  * Get a group
+  * @param {Object} request - request.
+  * @param {Object} response - response.
+  * @returns {users} - returns a group.
+ */
+// Method to get a group
+exports.getGroup = (request, response) => {
+  Group.findOne({
+    where: {
+      id: request.params.id
+    },
+    attributes: ['id', ['group_name', 'groupName']],
+    include: [{
+      model: User,
+      as: 'members',
+      attributes: ['id', 'username'],
+      through: {
+        attributes: []
+      },
+    },
+    {
+      model: Message,
+      attributes: ['id', 'message_body',
+        'priority_level', 'group_id', 'createdAt'],
+      include: [{
+        model: User,
+        attributes: ['id', 'username', 'email'],
+      }]
+    }],
+  })
+  .then((group) => {
+    response.status(200).send({ status: true,
+      message: 'Successful',
+      data: group
+    });
+  });
+};
+
