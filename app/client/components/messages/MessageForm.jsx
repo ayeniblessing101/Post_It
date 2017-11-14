@@ -109,8 +109,6 @@ class MessageForm extends React.Component {
           <div className="message-cards-board">
             <h5 className="groupName">{groupName}</h5>
             { allMessages }
-            <h5 className="groupName">{groupName}</h5>
-            { allMessages }
           </div>
           <div className="message-cards-form">
             <form onSubmit={this.handleSubmit} method="post">
