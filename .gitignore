@@ -60,5 +60,4 @@ typings/
 # ds_store
 .DS_Store
 
-
 app/client/assets/dist
