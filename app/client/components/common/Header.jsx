@@ -23,6 +23,10 @@ export class Header extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
+    $('.tooltipped').tooltip();
+    $('.editButtons').click(() => {
+      $(this).tooltip('close');
+    });
     $('.dropdown-button').dropdown();
     $('.button-collapse').sideNav();
   }
@@ -73,37 +77,67 @@ export class Header extends React.Component {
             isAuthenticated ?
               <nav>
                 <div className="nav-wrapper">
-                  <Link to="/" className="brand-logo">PostIt</Link>
+                  <Link to="/groups" className="brand-logo">PostIt</Link>
                   <Link
                     to="#"
                     data-activates="mobile-demo"
                     className="button-collapse">
                     <i className="material-icons">menu</i>
                   </Link>
-                  <ul className="side-nav" id="mobile-demo">
+                  <ul className="side-nav" id="nav_mobile">
                     <li>
-                      <Link
-                        to="#"
-                        data-activates="dropdown1">
-                        <span className="welcome">Welcome</span>
-                        <span
-                          className="authUser">
-                          { isAuthenticated ? user.username : ''}
-                        </span>
-                      </Link>
+                      <form id="searchForm" onSubmit={this.handleSubmit}>
+                        <input
+                          type="text"
+                          name="searchParam"
+                          placeholder="Search for Friends"
+                          id="searchBar"
+                          value={this.state.searchParam}
+                          onChange={this.handleChange}
+                        />
+                      </form>
                     </li>
                     <li>
+                      <div className="authUser">
+                        <span className="welcome">
+                          Welcome { isAuthenticated ? user.username : ''}
+                        </span>
+                      </div>
+                    </li>
+                    <li>
+                      <ul id="dropdown1" className="dropdown-content">
+                        <li>
+                          <Link to="/groups">
+                            <i
+                              className="fa fa-eye"
+                              aria-hidden="true" />
+                            View all Groups
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/add-group">
+                            <i
+                              className="fa fa-plus-circle"
+                              aria-hidden="true" />
+                            Add Groups
+                          </Link>
+                        </li>
+                      </ul>
                       <Link
                         to="#" className="dropdown-button"
-                        data-activates="dropdown1">
+                        data-activates="mobile_menu_escrow_accounts" data-beloworigin="true">
                         <i className="material-icons left">group</i>
-                        Groups
+                        Menu
                         <i className="material-icons right">arrow_drop_down</i>
                       </Link>
                     </li>
                     <li>
                       <Link
                         to="#"
+                        id="logout"
+                        className="tooltipped"
+                        data-position="top"
+                        data-tooltip="Logout"
                       onClick={this.logout.bind(this)}>
                         <i className="material-icons">power_settings_new</i>
                       </Link>
@@ -126,10 +160,8 @@ export class Header extends React.Component {
                     </li>
                     <li>
                       <div className="authUser">
-                        <span className="welcome">Welcome</span>
-                        <span
-                          className="authUser">
-                          { isAuthenticated ? user.username : ''}
+                        <span className="welcome">
+                          Welcome { isAuthenticated ? user.username : ''}
                         </span>
                       </div>
                     </li>
@@ -156,7 +188,7 @@ export class Header extends React.Component {
                         to="#" className="dropdown-button"
                         data-activates="dropdown1">
                         <i className="material-icons left">group</i>
-                        Groups
+                        Menu
                         <i className="material-icons right">arrow_drop_down</i>
                       </Link>
                     </li>
@@ -164,6 +196,9 @@ export class Header extends React.Component {
                       <Link
                         to="#"
                         id="logout"
+                        className="tooltipped"
+                        data-position="top"
+                        data-tooltip="Logout"
                       onClick={this.logout.bind(this)}>
                         <i className="material-icons">power_settings_new</i>
                       </Link>

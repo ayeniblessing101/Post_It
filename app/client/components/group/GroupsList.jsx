@@ -4,6 +4,12 @@ import GroupCard from './GroupCard';
 
 const isEmpty = require('lodash/isEmpty');
 
+/**
+ * Renders GroupsList component
+ * @param {any} groups
+ *
+ * @returns {object} - GroupsList component
+ */
 const GroupsList = ({ groups }) => {
   const emptyMessage = (
     <div>
@@ -17,8 +23,7 @@ const GroupsList = ({ groups }) => {
       <div id="groupsList" className="col s12 m11 l11 col-md-10 no-float">
         <div className="mycontainer">
           <div className="row ">
-            <h4>All Groups</h4>
-            <br />
+            <h4 className="groupsTitle">All Groups</h4>
             <div className="mycontainer">
               <div className="row ">
                 {

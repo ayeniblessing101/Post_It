@@ -4,8 +4,8 @@ import queryString from 'query-string';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { validateInput }
-  from '../../validations/reset_password';
+import { validateResetPasswordInput }
+  from '../../validations/validation';
 import FlashMessagesList from '../notification/FlashMessagesList';
 import { resetPassword } from '../../actions/forgotPasswordActions';
 import { addFlashMessage } from '../../actions/flashMessageActions';
@@ -36,7 +36,7 @@ class ResetPasswordForm extends React.Component {
    * @returns {isValid} - checks if the text field are not empty
    */
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid } = validateResetPasswordInput(this.state);
 
     if (!isValid) {
       this.setState({ errors });
@@ -56,13 +56,22 @@ class ResetPasswordForm extends React.Component {
       const email = query.email;
       this.setState({ errors: {} });
       if (this.state.newPassword === this.state.confirmNewPassword) {
-        this.props.resetPassword(this.state.newPassword, email).then(
+        this.props
+        .resetPassword(this.state.newPassword,
+          this.state.confirmNewPassword, email)
+        .then(
           () => this.context.router.history.push('/'),
-          err => this.setState({
-            errors: err.data.errors,
-            newPassword: '',
-            confirmNewPassword: ''
-          })
+          ({ data }) => {
+            this.setState({
+              errors: data.message,
+              newPassword: '',
+              confirmNewPassword: ''
+            });
+            this.props.addFlashMessage({
+              type: 'error',
+              text: data.message
+            });
+          }
         );
       } else {
         this.props.addFlashMessage({
@@ -74,13 +83,13 @@ class ResetPasswordForm extends React.Component {
   }
 
   /**
-   * @param {any} e
+   * @param {any} event
    * @memberof ResetPasswordForm
    * @return {void}
    */
 
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
@@ -89,7 +98,7 @@ class ResetPasswordForm extends React.Component {
    */
   render() {
     const
-    { errors, newPassword, confirmNewPassword, addFlashMessage } = this.state;
+    { errors, newPassword, confirmNewPassword } = this.state;
     return (
       <div>
         <section classID="wrapper" className="resetPasswordForm">
@@ -143,7 +152,10 @@ class ResetPasswordForm extends React.Component {
 
 ResetPasswordForm.propTypes = {
   resetPassword: PropTypes.func.isRequired,
-  addFlashMessage: PropTypes.func.isRequired
+  addFlashMessage: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.shape({})
+  })
 };
 
 ResetPasswordForm.contextTypes = {

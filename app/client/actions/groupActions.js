@@ -57,11 +57,20 @@ export function addUserStatus(status, message) {
 
 /**
  * Fetch all Groups.
+ *  @param {int} offset - offset
+ * @param {int} limit - limit
+ *
  * @returns {function} dispatches getGroups action
  */
-export function fetchGroups() {
+export function fetchGroups(offset = 0, limit = 5) {
   return dispatch => (
-    axios.get('/api/v1/groups').then((response) => {
+    axios.get('/api/v1/groups', {
+      params: {
+        offset,
+        limit
+      }
+    })
+    .then((response) => {
       const groups = response.data;
       dispatch(getGroups(groups));
     }).catch((error) => {
@@ -73,6 +82,7 @@ export function fetchGroups() {
 /**
  * Dispatches an action to fetch all users in a group.
  * @param {Integer} groupId - groupdId.
+ *
  * @returns {function} - dispatches fetchGroupUsers action.
  */
 export function fetchGroupUsers(groupId) {

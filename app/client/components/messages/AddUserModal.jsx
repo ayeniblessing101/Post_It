@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Modal } from 'react-materialize';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { validateInput } from '../../validations/adduser';
+import { validateAddUserInput } from '../../validations/validation';
 import { addFlashMessage } from '../../actions/flashMessageActions';
 import { fetchGroupUsers } from '../../actions/groupActions';
 import FlashMessagesList from '../notification/FlashMessagesList';
@@ -34,7 +34,7 @@ class AddUserModal extends React.Component {
    * @memberof AddUserModal
    */
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid } = validateAddUserInput(this.state);
 
     if (!isValid) {
       this.setState({ errors });
@@ -47,6 +47,7 @@ class AddUserModal extends React.Component {
    * Handles submit request
    * @param {any} event
    * @memberof AddUserModal
+   *
    * @returns {void}
    */
   handleSubmit(event) {
@@ -56,8 +57,8 @@ class AddUserModal extends React.Component {
       this.setState({ errors: {} });
       this.props.addUserToGroup(groupId, {
         username: this.state.username
-      }).then((res) => {
-        if (res === true) {
+      }).then((response) => {
+        if (response === true) {
           this.props.addFlashMessage({
             type: 'success',
             text: 'User has been add to Group Successfully'
@@ -66,7 +67,7 @@ class AddUserModal extends React.Component {
         } else {
           this.props.addFlashMessage({
             type: 'error',
-            text: res
+            text: response
           });
         }
       });
@@ -81,6 +82,7 @@ class AddUserModal extends React.Component {
    * Handles onChange event
    * @param {any} event
    * @memberof AddUserModal
+   *
    * @return {void}
    */
   handleChange(event) {
@@ -89,6 +91,7 @@ class AddUserModal extends React.Component {
 
   /**
    * @memberof AddUserModal
+   *
    * @returns {object} - AddUserModal Component
    */
   render() {
@@ -97,7 +100,14 @@ class AddUserModal extends React.Component {
       <div>
         <Modal
           header="Add User to Group"
-          trigger={<Button className="add_user">Add User</Button>}>
+          trigger={
+            <a
+              className="btn-floating add_user btn-small waves-effect waves-light red">
+              <i className="material-icons">
+                add
+              </i>
+            </a>
+          }>
           <FlashMessagesList />
           <form onSubmit={this.handleSubmit} >
             { errors.form &&

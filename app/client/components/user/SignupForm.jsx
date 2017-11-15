@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
-import validateInput from '../../validations/signup';
+import { validateSignUpInput } from '../../validations/validation';
 import {
   userSignupRequest
 } from '../../actions/authenticationActions';
@@ -45,7 +45,7 @@ class SignupForm extends React.Component {
    * @return {isValid} - checks if the fields are not empty
    */
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid } = validateSignUpInput(this.state);
 
     if (!isValid) {
       this.setState({ errors });
@@ -76,9 +76,6 @@ class SignupForm extends React.Component {
         ({ data }) => this.setState({
           errors: data,
           isLoading: false,
-          username: '',
-          email: '',
-          phone: '',
           password: '',
           confirm_password: '',
         })

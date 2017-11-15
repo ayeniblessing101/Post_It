@@ -1,8 +1,15 @@
 const Group = require('../models').Group;
 const User = require('../models').User;
 
-function getGroupUserEmail(id, message, user) {
-  // let emailUsers;
+/**
+ * get email of all user in a group
+ * @param {number} id
+ * @param {string} message
+ * @param {object} user
+ *
+ * @return {array} - User Email
+ */
+function getEmails(id, message, user) {
   return Group.findOne({
     where: {
       id,
@@ -11,7 +18,7 @@ function getGroupUserEmail(id, message, user) {
     include: [{
       model: User,
       as: 'members',
-      attributes: ['email', 'phone'],
+      attributes: ['email'],
       through: { attributes: [] }
     }]
   })
@@ -36,4 +43,4 @@ function getGroupUserEmail(id, message, user) {
   });
 }
 
-module.exports = getGroupUserEmail;
+module.exports = getEmails;

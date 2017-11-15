@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AddUserModal from './AddUserModal';
 import MessageForm from './MessageForm';
 import AllGroups from './AllGroups';
 import AllUsers from './AllUsers';
@@ -35,18 +34,12 @@ class MessageBoard extends React.Component {
   }
 
   render() {
-    const groups = this.props.groups;
     const selectedGroupId = this.props.selectedGroupId;
     const { addUserToGroup } = this.props;
     return (
       <div>
         <div className="col s12 m12 l12 col-md-10">
           <div id="messageBoard" className="mycontainer">
-            {<AddUserModal
-              addUserToGroup={addUserToGroup}
-              groupId={selectedGroupId}
-              /* statusMessage={statusMessage} */
-              />}
             <div className="row">
               <AllGroups
                 groups={this.props.groups}
@@ -54,7 +47,9 @@ class MessageBoard extends React.Component {
               <MessageForm
                 groupId={selectedGroupId}
               />
-              <AllUsers groupId={selectedGroupId} />
+              <AllUsers
+                addUserToGroup={addUserToGroup}
+                groupId={selectedGroupId} />
             </div>
           </div>
         </div>
@@ -65,7 +60,7 @@ class MessageBoard extends React.Component {
 
 MessageBoard.propTypes = {
   addUserToGroup: PropTypes.func.isRequired,
-  groups: PropTypes.array.isRequired,
+  groups: PropTypes.object.isRequired,
   selectedGroupId: PropTypes.number.isRequired
 };
 

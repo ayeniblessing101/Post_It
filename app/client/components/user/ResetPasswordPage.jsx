@@ -36,7 +36,6 @@ class ResetPasswordPage extends React.Component {
         ok: true
       });
     }, () => {
-      //
     });
   }
 
