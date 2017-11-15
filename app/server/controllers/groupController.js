@@ -30,8 +30,7 @@ exports.createGroup = (request, response) => {
         response.status(409).send(errors);
       } else {
         const groupData = {
-          group_name: req.body.groupname,
-          image: req.body.image,
+          group_name: request.body.groupname,
           user_id: userId
         };
         Group.create(groupData)
