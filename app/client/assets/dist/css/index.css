@@ -478,8 +478,8 @@ nav .brand-logo {
 }
 
 .page-footer {
-  padding-top: 0;
-  background: #404357;
+  padding-top: 0!important;
+  background: #404357!important;
   bottom: 0;
   position: fixed;
   width: 100%;

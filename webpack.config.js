@@ -4,7 +4,6 @@ const webpack = require('webpack');
 
 const config = [{
   entry: [
-    'webpack-hot-middleware/client',
     path.join(__dirname, 'app/client/index.js')
   ],
   output: {
@@ -28,6 +27,7 @@ const config = [{
   ],
   devServer: {
     inline: true,
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
