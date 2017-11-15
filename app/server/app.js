@@ -4,11 +4,9 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-
 const webpackConfig = require('../../webpack.config');
 
 const app = express();
-
 app.use('/', express.static(path.join(__dirname, '../client/assets')));
 app.use(express.static(path.join(__dirname, '../../public')));
 
@@ -43,7 +41,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '/../../public/index.html'));
   });
 }
-
 
 app.set('port', process.env.PORT || 3000);
 app.listen(app.get('port'), () => console.log('Running on localhost:3000'));

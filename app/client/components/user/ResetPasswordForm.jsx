@@ -4,8 +4,8 @@ import queryString from 'query-string';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { validateInput }
-  from '../../validations/reset_password';
+import { validateResetPasswordInput }
+  from '../../validations/validation';
 import FlashMessagesList from '../notification/FlashMessagesList';
 import { resetPassword } from '../../actions/forgotPasswordActions';
 import { addFlashMessage } from '../../actions/flashMessageActions';
@@ -36,7 +36,7 @@ class ResetPasswordForm extends React.Component {
    * @returns {isValid} - checks if the text field are not empty
    */
   isValid() {
-    const { errors, isValid } = validateInput(this.state);
+    const { errors, isValid } = validateResetPasswordInput(this.state);
 
     if (!isValid) {
       this.setState({ errors });

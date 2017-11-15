@@ -8,6 +8,7 @@ import { fetchGroupUsers } from '../../actions/groupActions';
 class AllUsers extends Component {
   /**
    * @memberof AllUsers
+   *
    * @return {void}
    */
   componentWillMount() {

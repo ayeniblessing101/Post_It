@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { POST_MESSAGE, GET_MESSAGES } from './types';
+import { POST_MESSAGE, GET_GROUP_WITH_MESSAGE } from './types';
 
 /**
  * post message status
@@ -14,14 +14,15 @@ export const postMessageStatus = message => (
 );
 
 /**
- * action to fetch all messages
- * @param {any} messages
+ * action to fetch a group with all its messages
+ * @param {any} groupInfo
+ *
  * @return {object} - action payload data and action type
  */
-export const getAllMessages = messages => (
+export const getGroupAllMessages = groupInfo => (
   {
-    type: GET_MESSAGES,
-    messages
+    type: GET_GROUP_WITH_MESSAGE,
+    groupInfo
   }
 );
 
@@ -35,8 +36,8 @@ export const getAllMessages = messages => (
 export function postMessage(groupId, message) {
   return dispatch => (
     axios.post(`/api/v1/group/${groupId}/message`, message)
-    .then(({ data }) => {
-      dispatch(postMessageStatus(data.data));
+    .then((res) => {
+      dispatch(postMessageStatus(res.data.newMessage));
     })
   );
 }
@@ -45,13 +46,13 @@ export function postMessage(groupId, message) {
  * Fetch all Messages.
  * @param {Integer} groupId - groupdId.
  *
- *@returns {function} - dispatch an action to get all messages to the store.
+ * @returns {function} - dispatch an action to get all messages to the store.
  */
-export function getMessages(groupId) {
+export function getGroupWithMessages(groupId) {
   return dispatch => (
-    axios.get(`/api/v1/group/${groupId}/messages`)
+    axios.get(`/api/v1/group/${groupId}/`)
     .then(({ data }) => {
-      dispatch(getAllMessages(data.messages));
+      dispatch(getGroupAllMessages(data.data));
     })
   );
 }

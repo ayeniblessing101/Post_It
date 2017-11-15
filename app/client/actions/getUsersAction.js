@@ -13,6 +13,7 @@ const addUsersToReduxState = users => (
  * @param {string} searchParams - search parameters
  * @param {int} offset - offset
  * @param {int} limit - limit
+ *
  * @return {function} action payload data and action type
  */
 export default function getUsersAction(searchParams, offset = 0, limit = 5) {

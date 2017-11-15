@@ -1,54 +1,36 @@
-const Validator = require('validator');
-
+const { validateAddGroupInput } = require('../validations/validation');
 const isEmpty = require('lodash/isEmpty');
 const User = require('../models').User;
 const Group = require('../models').Group;
+const Message = require('../models').Message;
 const GroupUser = require('../models').GroupUser;
 
 /**
    * Creates a new group.
-   * @param {Object} req - request.
-   * @param {Object} res - response.
-   * @returns {data} - returns data of the group created.
+   * @param {Object} request - request.
+   * @param {Object} response - response.
+   * @returns {groupData} - returns data of the group created.
 */
-exports.create_group = (req, res) => {
-  /**
-   * Creates a new group.
-   * @param {Object} data - request.
-   * @returns {errors} - returns errors
-  */
-  function validateInput(data) {
-    const errors = {};
-
-    if (Validator.isEmpty(data.groupname)) {
-      errors.groupname = 'This field required';
-    }
-    return {
-      errors,
-      isValid: isEmpty(errors)
-    };
-  }
-  const { errors, isValid } = validateInput(req.body);
+exports.createGroup = (request, response) => {
+  const { errors, isValid } = validateAddGroupInput(request.body);
   if (!isValid) {
-    res.status(400).send(errors);
+    response.status(400).send(errors);
   } else {
-    const userId = req.decoded.id;
+    const userId = request.decoded.id;
     Group.findOne({
       where: {
-        group_name: req.body.groupname,
-        user_id: userId
+        group_name: request.body.groupname,
       },
     })
     .then((group) => {
       if (group) {
-        errors.groupname = 'Groupname already exists';
+        errors.groupname = 'This Group already exists';
       }
       if (!isEmpty(errors)) {
-        res.status(409).send(errors);
+        response.status(409).send(errors);
       } else {
         const groupData = {
-          group_name: req.body.groupname,
-          image: req.body.image,
+          group_name: request.body.groupname,
           user_id: userId
         };
         Group.create(groupData)
@@ -59,19 +41,26 @@ exports.create_group = (req, res) => {
           })
           .then(() => {
           });
-          return res.status(201).send({
+          return response.status(201).send({
             status: true, message: 'Successful', data: groupNew
           });
         })
-        .catch(error => res.status(500).send(error));
+        .catch(error => response.status(500).send(error));
       }
     });
   }
 };
 
-// get GroupUser
-exports.get_groups = (req, res) => {
-  const userId = req.decoded.id;
+/**
+  * Gets all groups
+  * @param {Object} request - request.
+  * @param {Object} response - response.
+  * @returns {allGroups} - returns all groups.
+ */
+
+// get Group
+exports.getGroups = (request, response) => {
+  const userId = request.decoded.id;
   // get groups created by the loggedin userId
   GroupUser.findAll({
     where: {
@@ -81,8 +70,14 @@ exports.get_groups = (req, res) => {
     raw: true
   })
   .then((groups) => {
+    let limit = request.query.limit;
+    let offset = request.query.offset;
+    const page =
+    Math.ceil(((request.query.offset) / (request.query.limit)) + 1) || 1;
+    limit = Number(limit) || 10;
+    offset = Number(offset) || 0;
     const userBelongsTo = groups.map(group => group.group_id);
-    Group.findAll({
+    Group.findAndCountAll({
       where: {
         $or: {
           user_id: userId,
@@ -93,26 +88,46 @@ exports.get_groups = (req, res) => {
       },
       attributes: [['group_name', 'groupName'], 'user_id', 'id', 'image'],
       raw: true,
+      offset,
+      limit
     })
     .then((allGroups) => {
-      res.status(200).send(allGroups);
+      const pageCount = Math.ceil(allGroups.count / limit);
+      const pageSize = limit;
+      const totalCount = allGroups.count;
+      response.status(200).send({
+        allGroups: allGroups.rows,
+        page,
+        pageCount,
+        pageSize,
+        totalCount
+      });
     })
     .catch((err) => {
-      res.status(500).send(err, 'An error occurred, try again');
+      response.status(500).send(err, 'An error occurred, try again');
     });
   })
   .catch((err) => {
-    res.status(500).send(err, 'An error occurred, try again');
+    response.status(500).send(err, 'An error occurred, try again');
   });
 };
 
 
+/**
+  * Adds a user to a group
+  * @param {Object} request - request.
+  * @param {Object} response - response.
+  * @returns {Usergroup} - returns data of the user added.
+ */
 // Method to add user to a group
-exports.add_user = (req, res) => {
-  if (req.body.username || req.body.email) {
+exports.addUser = (request, response) => {
+  if (request.body.username || request.body.email) {
     User.findOne({
       where: {
-        $or: [{ username: req.body.username }, { email: req.body.email }]
+        $or: [
+          { username: request.body.username },
+          { email: request.body.email }
+        ]
       },
       attributes: ['id', 'username', 'email']
     })
@@ -120,41 +135,46 @@ exports.add_user = (req, res) => {
       if (user) {
         GroupUser.findOrCreate({
           where: {
-            $and: [{ user_id: user.id }, { group_id: req.params.id }]
+            $and: [{ user_id: user.id }, { group_id: request.params.id }]
           },
           defaults: {
             user_id: user.id,
-            group_id: parseInt(req.params.id, 10)
+            group_id: parseInt(request.params.id, 10)
           }
         })
         .spread((Usergroup, created) => {
           if (created) {
-            res.status(200).send({
+            response.status(200).send({
               status: true,
               message: 'User has been successfully added to group',
               data: Usergroup
             });
           } else {
-            res.status(409)
+            response.status(409)
               .send({ status: true,
                 message: 'User has already been added to this group' });
           }
         });
       } else {
-        res.status(404).send({ message: 'User does not exist' });
+        response.status(404).send({ message: 'User does not exist' });
       }
     });
   } else {
-    res.status(400).send({ message: 'username or email is required' });
+    response.status(400).send({ message: 'username or email is required' });
   }
 };
 
-
+/**
+  * Get all users in a group
+  * @param {Object} request - request.
+  * @param {Object} response - response.
+  * @returns {users} - returns all users in a group.
+ */
 // Method to get all users in a group
-exports.get_users = (req, res) => {
+exports.getUsers = (request, response) => {
   Group.findOne({
     where: {
-      id: req.params.id
+      id: request.params.id
     },
     attributes: ['id'],
     include: [{
@@ -167,8 +187,48 @@ exports.get_users = (req, res) => {
     }],
   })
   .then((users) => {
-    res.status(200).send({ status: true,
+    response.status(200).send({ status: true,
       message: 'Successful',
       data: users });
   });
 };
+
+/**
+  * Get a group
+  * @param {Object} request - request.
+  * @param {Object} response - response.
+  * @returns {users} - returns a group.
+ */
+// Method to get a group
+exports.getGroup = (request, response) => {
+  Group.findOne({
+    where: {
+      id: request.params.id
+    },
+    attributes: ['id', ['group_name', 'groupName']],
+    include: [{
+      model: User,
+      as: 'members',
+      attributes: ['id', 'username'],
+      through: {
+        attributes: []
+      },
+    },
+    {
+      model: Message,
+      attributes: ['id', 'message_body',
+        'priority_level', 'group_id', 'createdAt'],
+      include: [{
+        model: User,
+        attributes: ['id', 'username', 'email'],
+      }]
+    }],
+  })
+  .then((group) => {
+    response.status(200).send({ status: true,
+      message: 'Successful',
+      data: group
+    });
+  });
+};
+

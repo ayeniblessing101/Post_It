@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
  * Renders GroupCard component
  * @export
  * @param {any} group
+ *
  * @returns {object} - GroupCard component
  */
 export default function GroupCard({ group }) {

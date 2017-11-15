@@ -1,6 +1,11 @@
-import { GET_MESSAGES, POST_MESSAGE } from '../actions/types';
+import { GET_GROUP_WITH_MESSAGE, POST_MESSAGE } from '../actions/types';
 
-const initialState = [];
+const initialState = {
+  id: '',
+  groupName: '',
+  Messages: [],
+  members: []
+};
 
 /**
  * updates the messages property of the store
@@ -12,15 +17,16 @@ const initialState = [];
  */
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-  case GET_MESSAGES:
-    return [
-      ...action.messages
-    ];
+  case GET_GROUP_WITH_MESSAGE:
+    return action.groupInfo;
   case POST_MESSAGE:
-    return [
+    return {
       ...state,
-      action.message
-    ];
+      Messages: [
+        ...state.Messages,
+        action.message,
+      ]
+    };
   default:
     return state;
   }
