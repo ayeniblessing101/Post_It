@@ -140,11 +140,11 @@ export class AddGroupForm extends React.Component {
     const { errors, groupname } = this.state;
     return (
       <div>
-        <div className="col s12 m10 l10 col-md-10">
+        <div className="col s12 m10 l10 ">
           <div className="mycontainer">
             <div className="row">
-              <div className="col s12 m4 l2" />
-              <div className="col s12 m4 l8 large-cards">
+              <div className="col s12 m2 l2" />
+              <div className="col s12 m8 l8 large-cards">
                 <h4>Add Group</h4>
                 <FlashMessagesList />
                 <form onSubmit={this.handleSubmit}>
@@ -186,7 +186,7 @@ export class AddGroupForm extends React.Component {
                   <br /><br />
                 </form>
               </div>
-              <div className="col s12 m4 l2" />
+              <div className="col s12 m2 l2" />
             </div>
           </div>
         </div>

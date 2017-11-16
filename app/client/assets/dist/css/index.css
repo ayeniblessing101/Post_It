@@ -539,3 +539,15 @@ h4.groupsTitle {
   margin-top: 30px;
   max-width: 300px;
 }
+
+
+
+@media only screen and (max-width: 601px) {
+  .welcome {
+    color: black !important;
+  }
+  #searchBar {
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+}

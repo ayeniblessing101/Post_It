@@ -84,7 +84,7 @@ export class Header extends React.Component {
                     className="button-collapse">
                     <i className="material-icons">menu</i>
                   </Link>
-                  <ul className="side-nav" id="nav_mobile">
+                  <ul className="side-nav" id="mobile-demo">
                     <li>
                       <form id="searchForm" onSubmit={this.handleSubmit}>
                         <input
@@ -105,7 +105,7 @@ export class Header extends React.Component {
                       </div>
                     </li>
                     <li>
-                      <ul id="dropdown1" className="dropdown-content">
+                      <ul id="" className="">
                         <li>
                           <Link to="/groups">
                             <i
@@ -123,14 +123,6 @@ export class Header extends React.Component {
                           </Link>
                         </li>
                       </ul>
-                      <Link
-                        to="#" className="dropdown-button"
-                        data-activates="mobile_menu_escrow_accounts"
-                        data-beloworigin="true">
-                        <i className="material-icons left">group</i>
-                        Menu
-                        <i className="material-icons right">arrow_drop_down</i>
-                      </Link>
                     </li>
                     <li>
                       <Link
