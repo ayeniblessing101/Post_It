@@ -1,6 +1,14 @@
 const Group = require('../models').Group;
 const User = require('../models').User;
 
+/**
+ * get all the phone number of user in a group
+ * @param {*} id - id
+ * @param {*} message  - message
+ * @param {*} user - user
+ *
+ * @return {object} - user object with phone number included
+ */
 function getGroupUserEmail(id, message, user) {
   const userPhoneNumbers = [];
   Group.findOne({

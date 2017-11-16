@@ -69,10 +69,10 @@ describe('Group', () => {
         mockData.addUserToGroupResponse
       );
     });
-    const groupId = 1;
-    const user = 'bamidele';
-    const status = true;
-    const message = 'User has been successfully added to group';
+    const groupId = mockData.groupId;
+    const user = mockData.user1;
+    const status = mockData.status;
+    const message = mockData.message;
 
     const store = mockStore({});
     const expectedAction = {

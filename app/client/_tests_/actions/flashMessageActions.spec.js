@@ -1,4 +1,4 @@
-/* global jest */
+
 import 'babel-polyfill';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
@@ -23,7 +23,7 @@ describe('flash message', () => {
     expect(store.getActions()).toEqual([expectedAction]);
   });
   it('should remove or delete flash message from the store', () => {
-    const id = 'BJ9DwReCZ';
+    const id = mockData.flashMessageResponse.id;
     const store = mockStore({});
     const expectedAction = {
       type: ActionTypes.DELETE_FLASH_MESSAGE,

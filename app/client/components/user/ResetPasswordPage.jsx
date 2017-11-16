@@ -49,7 +49,10 @@ class ResetPasswordPage extends React.Component {
 }
 
 ResetPasswordPage.propTypes = {
-  checkToken: PropTypes.func.isRequired
+  checkToken: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.object.isRequired
+  })
 };
 
 

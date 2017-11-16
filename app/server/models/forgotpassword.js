@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const ForgotPassword = sequelize.define('ForgotPassword', {
     user_email: DataTypes.STRING,
@@ -6,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     reset_password_expires: DataTypes.STRING
   }, {
     classMethods: {
-      associate: (models) => {
+      associate: () => {
         // associations can be defined here
       }
     }

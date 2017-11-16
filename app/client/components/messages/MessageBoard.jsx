@@ -9,7 +9,7 @@ import AllUsers from './AllUsers';
  * @class MessageBoard
  * @extends {React.Component}
  */
-class MessageBoard extends React.Component {
+export class MessageBoard extends React.Component {
   /**
    * Creates an instance of MessageBoard.
    * @param {any} props
@@ -25,6 +25,7 @@ class MessageBoard extends React.Component {
   /**
    * @param {any} nextProps
    * @memberof MessageBoard
+   *
    * @return {void}
    */
   componentWillReceiveProps(nextProps) {
@@ -37,7 +38,7 @@ class MessageBoard extends React.Component {
     const selectedGroupId = this.props.selectedGroupId;
     const { addUserToGroup } = this.props;
     return (
-      <div>
+      <div className="message-board">
         <div className="col s12 m12 l12 col-md-10">
           <div id="messageBoard" className="mycontainer">
             <div className="row">

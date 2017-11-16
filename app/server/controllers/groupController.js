@@ -9,6 +9,8 @@ const GroupUser = require('../models').GroupUser;
    * Creates a new group.
    * @param {Object} request - request.
    * @param {Object} response - response.
+   *
+   *
    * @returns {groupData} - returns data of the group created.
 */
 exports.createGroup = (request, response) => {
@@ -31,6 +33,7 @@ exports.createGroup = (request, response) => {
       } else {
         const groupData = {
           group_name: request.body.groupname,
+          image: request.body.image,
           user_id: userId
         };
         Group.create(groupData)
@@ -55,6 +58,7 @@ exports.createGroup = (request, response) => {
   * Gets all groups
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {allGroups} - returns all groups.
  */
 
@@ -117,6 +121,7 @@ exports.getGroups = (request, response) => {
   * Adds a user to a group
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {Usergroup} - returns data of the user added.
  */
 // Method to add user to a group
@@ -168,6 +173,7 @@ exports.addUser = (request, response) => {
   * Get all users in a group
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {users} - returns all users in a group.
  */
 // Method to get all users in a group
@@ -197,6 +203,7 @@ exports.getUsers = (request, response) => {
   * Get a group
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {users} - returns a group.
  */
 // Method to get a group

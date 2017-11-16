@@ -1,7 +1,7 @@
 /* global jest */
 import React from 'react';
 import expect from 'expect';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 import { Link } from 'react-router-dom';
@@ -72,7 +72,7 @@ describe('components', () => {
       PostIt</Link>)).toBeTruthy();
     });
     it('simulates on click event', () => {
-      const wrapper = mount(<Header {...props} />, mockContext);
+      const wrapper = shallow(<Header {...props} />, mockContext);
       const event = {
         preventDefault: jest.fn()
       };

@@ -1,16 +1,3 @@
-@font-face {
-  font-family: 'Oswald';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf'); /* IE9 Compat Modes */
-  src: local('Oswald'), local('Oswald'),
-    url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf') format('truetype'), /* Safari, Android, iOS */
-    /* url('../fonts/open-sans-v13-latin-regular.eot?#iefix') format('embedded-opentype'), IE6-IE8
-    url('../fonts/open-sans-v13-latin-regular.woff2') format('woff2'), /* Super Modern Browsers
-    url('../fonts/open-sans-v13-latin-regular.woff') format('woff'), /* Modern Browsers
-    url('../fonts/open-sans-v13-latin-regular.svg#OpenSans') format('svg'); Legacy iOS */
-}
-
 body{
   font-family: 'Oswald', sans-serif;
   margin: 0;
@@ -242,6 +229,7 @@ ul.navbar_sidebar li a{
 
 #messageBoard {
   margin-top: 1px;
+  margin-bottom: 70px;
 }
 
 .message-cards{
@@ -540,12 +528,14 @@ h4.groupsTitle {
   padding:0!important;
 }
 
-#sidenav-overlay {
-  background-color: #ffffff;
-}
-
 .addGroupFormContainer {
   height: 70px!important;
 }
 
 #sidenav-overlay { z-index: 99 !important }
+
+.dashboard-paginate {
+  margin: 0 auto;
+  margin-top: 30px;
+  max-width: 300px;
+}

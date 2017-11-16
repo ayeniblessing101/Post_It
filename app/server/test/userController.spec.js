@@ -99,11 +99,7 @@ describe('user signin', () => {
     before((done) => {
       User.sync({ force: true })
        .then(() => {
-         User.create({
-           email: 'john@mail.net',
-           username: 'John',
-           password: bcrypt.hashSync('12345', salt)
-         });
+         User.create(userSeeds.userData);
          done();
        })
        .catch((error) => {
@@ -201,7 +197,7 @@ describe('check for valid token', () => {
     });
 
     it('asserts that the token does not exist', (done) => {
-      const token = '1234';
+      const token = userSeeds.wrongToken;
       request.get(`/api/v1/password/token/check?token=${token}`)
       .expect(404)
       .end((err, res) => {
@@ -233,11 +229,7 @@ describe('reset password', () => {
     before((done) => {
       User.sync({ force: true })
        .then(() => {
-         User.create({
-           email: 'john@mail.net',
-           username: 'John',
-           password: bcrypt.hashSync('12345', salt)
-         });
+         User.create(userSeeds.userData);
          done();
        })
        .catch((error) => {
@@ -284,10 +276,7 @@ describe('reset password', () => {
     });
 
     it('throws error when password does not match', (done) => {
-      const resetPasswordPayload = {
-        newPassword: 'blessing',
-        confirmPassword: '1234'
-      };
+      const resetPasswordPayload = userSeeds.resetPasswordPayload;
       request.put('/api/v1/password/verify')
       .send(resetPasswordPayload)
       .expect(401)
@@ -304,9 +293,7 @@ describe('reset password', () => {
     });
 
     it('throws error when user email is not found', (done) => {
-      const email = {
-        email: 'jimoh@gmail.com',
-      };
+      const email = userSeeds.email;
       request.put('/api/v1/password/verify')
       .send(email)
       .expect(404)
@@ -320,11 +307,7 @@ describe('reset password', () => {
     });
 
     it('resets user\'s password ', (done) => {
-      const body = {
-        confirmPassword: '12345',
-        newPassword: '12345',
-        email: 'john@mail.net'
-      };
+      const body = userSeeds.body;
       request.put('/api/v1/password/verify')
       .send(body)
       .expect(204)

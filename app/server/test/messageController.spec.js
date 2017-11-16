@@ -32,12 +32,7 @@ describe('Routes: post_message', () => {
       truncate: true,
       cascade: true,
       restartIdentity: true })
-    .then(() => User.create({
-      username: 'john',
-      email: 'john@gmail.com',
-      password: '1234',
-      phone: '2348064476683'
-    }))
+    .then(() => User.create(userSeeds.userPayload2))
     .then((user) => {
       Group
       .destroy({ where: {},
@@ -46,11 +41,11 @@ describe('Routes: post_message', () => {
         restartIdentity: true })
       .then(() => Group.bulkCreate([{
         id: 1,
-        group_name: 'Family',
+        group_name: userSeeds.group1,
         user_id: user.dataValues.id
       }, {
         id: 2,
-        group_name: 'Colleagues',
+        group_name: userSeeds.group2,
         user_id: user.dataValues.id
       }]))
       .then((groups) => {
@@ -116,20 +111,15 @@ describe('Routes: get_messages', () => {
         restartIdentity: true
       });
 
-    const user = await User.create({
-      username: 'john',
-      email: 'john@gmail.com',
-      password: '1234',
-      phone: '2348064476683'
-    });
+    const user = await User.create(userSeeds.userPayload2);
 
     const groups = await Group.bulkCreate([{
       id: 1,
-      group_name: 'Family',
+      group_name: userSeeds.group1,
       user_id: user.dataValues.id
     }, {
       id: 2,
-      group_name: 'Colleagues',
+      group_name: userSeeds.group2,
       user_id: user.dataValues.id
     }]);
 
@@ -137,14 +127,14 @@ describe('Routes: get_messages', () => {
     await Message.bulkCreate([{
       id: 1,
       group_id: groups[0].dataValues.id,
-      priority_level: 'Normal',
-      message_body: 'Wassup',
+      priority_level: userSeeds.priorityLevel,
+      message_body: userSeeds.messageBody2,
       user_id: user.dataValues.id
     }, {
       id: 2,
       group_id: groups[1].dataValues.id,
-      priority_level: 'Normal',
-      message_body: 'How are you doing',
+      priority_level: userSeeds.priorityLevel,
+      message_body: userSeeds.messageBody2,
       user_id: user.dataValues.id
     }]);
 

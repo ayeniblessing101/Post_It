@@ -19,6 +19,7 @@ const ForgotPassword = require('../models').ForgotPassword;
   * Registers a new user
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {newMessage} - returns a new message.
  */
 exports.signup = (request, response) => {
@@ -74,6 +75,7 @@ exports.signup = (request, response) => {
   * Authenticates a user
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {token} - returns a token.
  */
 // sigin a user
@@ -115,6 +117,7 @@ exports.login = (request, response) => {
   * sends forgot password token to user via email
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {message} - returns a success or failure message.
  */
 // Method to handle forgot Password
@@ -206,35 +209,12 @@ exports.sendForgotPasswordToken = (request, response) => {
                 </div>
              </div>
             </div>
-            <div 
-              style="outline: 0px solid black; 
-              padding-left: 20px; padding-right: 30px; >
-            <div>
-            <h1><strong>Hello, ${user.username}. </strong></h1>
-            <h4>
-              We received a request for a password reset on your PostIt Account.
-            </h4>
-            </div>
-            <p>
-              If you didn't make such request, please ignore this email.
-              Otherwise, please click the button below to reset your password
-            </p>
-            <div style="align-items: center; width: 100%">
-              <a 
-                href=${request.headers.origin}/user/password/verify?token=${result.reset_password_token}&email=${user.email}
-                style="width: 150px; padding:10px 0; text-decoration: none; 
-                cursor: pointer !important; display: block; 
-                border: 1px solid #404357; background-color: #fff; 
-                color: #000000; font-size: 18px; 
-                margin: auto; text-align: center">
-                Reset Password
-              </a>
             </div>
                 <p style="text-align: right;">Regards, the PostIt team.</p>
                 <br>
                 <br>
             </div>
-            </body>`
+          </body>`
           };
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
@@ -261,6 +241,7 @@ exports.sendForgotPasswordToken = (request, response) => {
   * checks if token is valid
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {message} - returns a success or failure message.
  */
 exports.checkToken = (request, response) => {
@@ -296,6 +277,7 @@ exports.checkToken = (request, response) => {
   * reset user password
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {message} - returns a success message.
  */
 exports.resetPassword = (request, response) => {
@@ -332,7 +314,7 @@ exports.resetPassword = (request, response) => {
       });
     });
   }).catch((err) => {
-    res.status(500).send({
+    response.status(500).send({
       err,
       message: 'A fatal error was encountered, Please try again later.',
       status: 500
@@ -344,6 +326,7 @@ exports.resetPassword = (request, response) => {
   * Searches for a user and paginates the result
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {users} - returns a new message.
  */
 exports.search = (request, response) => {

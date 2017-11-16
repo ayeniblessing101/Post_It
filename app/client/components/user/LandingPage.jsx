@@ -4,6 +4,7 @@ import LoginForm from './LoginForm';
 
 /**
  * @class SignupForm
+ *
  * @extends {React.Component}
  */
 class LandingPage extends React.Component {
@@ -22,6 +23,7 @@ class LandingPage extends React.Component {
   }
   /**
    * renders the signup form component
+   *
    * @returns {object} - signup component
    * @memberof SignupForm
    */

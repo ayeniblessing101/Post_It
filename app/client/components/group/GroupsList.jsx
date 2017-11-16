@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 import GroupCard from './GroupCard';
 
 const isEmpty = require('lodash/isEmpty');
@@ -10,12 +11,11 @@ const isEmpty = require('lodash/isEmpty');
  *
  * @returns {object} - GroupsList component
  */
-const GroupsList = ({ groups }) => {
+const GroupsList = ({ groups, totalCount, pageCount, handlePageClick }) => {
   const emptyMessage = (
     <div>
       <h3 className="emptyMessage">No Groups</h3>
     </div>
-
   );
   const groupsList = (
     <div>
@@ -31,6 +31,27 @@ const GroupsList = ({ groups }) => {
                     return <GroupCard group={group} key={i} />;
                   })
                 }
+                <div style={{ clear: 'both' }} />
+                <div className="row">
+                  <div className="dashboard-paginate">
+                    {
+                      totalCount > 6 &&
+                      <ReactPaginate
+                      previousLabel={'previous'}
+                      nextLabel={'next'}
+                      breakLabel={<a href="">...</a>}
+                      breakClassName={'break-me'}
+                      pageCount={pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={handlePageClick}
+                      containerClassName={'pagination'}
+                      subContainerClassName={'pages pagination'}
+                      activeClassName={'active'}
+                      />
+                    }
+                  </div>
+                </div>
               </div>
             </div>
           </div>

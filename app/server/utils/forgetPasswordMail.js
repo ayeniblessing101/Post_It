@@ -1,5 +1,12 @@
 const nodemailer = require('nodemailer');
 
+/**
+ * send mail to user to reset password
+ * @param {*} receiver - receiver
+ * @param {*} messageBody - message body
+ *
+ * @return {object} - message success or error on failure
+ */
 export default function forgotPasswordMail(receiver, messageBody) {
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({

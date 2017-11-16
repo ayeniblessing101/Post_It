@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ReactPaginate from 'react-paginate';
 import GroupsList from './GroupsList';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
@@ -73,35 +72,19 @@ class GroupsPage extends React.Component {
    * @memberof GroupsPage
    */
   render() {
-    const { totalCount, groups } = this.state;
+    const { totalCount, groups, pageCount } = this.state;
     return (
       <div id="groupsPage">
         <Header />
         <div className="mycontainer" >
           <div className="row">
-            <GroupsList groups={groups} />
+            <GroupsList
+              totalCount={totalCount}
+              groups={groups}
+              pageCount={pageCount}
+              handlePageClick={this.handlePageClick}
+            />
           </div>
-          <div className="row">
-            <div className="dashboard-paginate">
-              {
-                totalCount > 6 &&
-                <ReactPaginate
-                previousLabel={'previous'}
-                nextLabel={'next'}
-                breakLabel={<a href="">...</a>}
-                breakClassName={'break-me'}
-                pageCount={this.state.pageCount}
-                marginPagesDisplayed={2}
-                pageRangeDisplayed={5}
-                onPageChange={this.handlePageClick}
-                containerClassName={'pagination'}
-                subContainerClassName={'pages pagination'}
-                activeClassName={'active'}
-                />
-                }
-            </div>
-          </div>
-          <div style={{ clear: 'both' }} />
         </div>
         <Footer />
       </div>

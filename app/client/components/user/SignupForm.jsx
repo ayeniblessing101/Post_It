@@ -6,7 +6,6 @@ import { validateSignUpInput } from '../../validations/validation';
 import {
   userSignupRequest
 } from '../../actions/authenticationActions';
-import { addFlashMessage } from '../../actions/flashMessageActions';
 
 /**
  * @class SignupForm
@@ -58,6 +57,7 @@ class SignupForm extends React.Component {
    * Handles submit event
    * @param {any} event
    * @memberof SignupForm
+   *
    * @return {void}
    */
   handleSubmit(event) {
@@ -67,10 +67,6 @@ class SignupForm extends React.Component {
       this.setState({ errors: {}, isLoading: true });
       this.props.userSignupRequest(this.state).then(
         () => {
-          this.props.addFlashMessage({
-            type: 'success',
-            text: 'You signed up successfully. Login!'
-          });
           this.context.router.history.push('/groups');
         },
         ({ data }) => this.setState({
@@ -161,7 +157,6 @@ class SignupForm extends React.Component {
 
 SignupForm.propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
-  addFlashMessage: PropTypes.func.isRequired,
   toggleForm: PropTypes.func.isRequired
 };
 
@@ -170,4 +165,4 @@ SignupForm.contextTypes = {
 };
 
 export default connect(null,
-  { userSignupRequest, addFlashMessage })(SignupForm);
+  { userSignupRequest })(SignupForm);

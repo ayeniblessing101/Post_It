@@ -6,34 +6,36 @@ import mockData from './../../../__mocks__/mockData';
 
 describe('messages reducer', () => {
   it('should return the initial state', () => {
+    const initialState = mockData.initialState;
     const actionDispatch = {};
     const newState = messagesReducer(undefined, actionDispatch);
-    expect(newState).toEqual([]);
+    expect(newState).toEqual(initialState);
   });
 
-  it('should handle GET_MESSAGES', () => {
+  it('should handle GET_GROUP_WITH_MESSAGE', () => {
+    const initialState = mockData.initialState;
     const actionDispatch = {
-      type: ActionTypes.GET_MESSAGES,
-      messages: mockData.allMessages
+      type: ActionTypes.GET_GROUP_WITH_MESSAGE,
+      messages: mockData.reduxMessages
     };
-    const newState = messagesReducer([], actionDispatch);
+    const newState = messagesReducer(initialState, actionDispatch);
     expect(newState).toEqual(actionDispatch.messages);
   });
   it('should handle POST_MESSAGE', () => {
+    const initialState = mockData.messages;
+    const newMessage = mockData.newMessage;
     const actionDispatch = {
       type: ActionTypes.POST_MESSAGE,
-      message: {
-        message_body: 'hello-world',
-        priority_level: 'Normal'
-      }
+      message: newMessage
     };
-    const messages = [
-      {
-        message_body: 'hello-world',
-        priority_level: 'Normal'
-      }
-    ];
-    const newState = messagesReducer([], actionDispatch);
+    const messages = {
+      ...initialState,
+      Messages: [
+        ...initialState.Messages,
+        newMessage
+      ]
+    };
+    const newState = messagesReducer(initialState, actionDispatch);
 
     expect(newState).toEqual(messages);
   });

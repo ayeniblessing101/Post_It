@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       // associations can be defined here
     User.hasMany(models.Message, { foreignKey: 'user_id', as: 'messages' });
     User.hasMany(models.Group, { foreignKey: 'user_id' });
-    User.belongsToMany(models.Group, { through: models.GroupUser, as: 'members', foreignKey: 'user_id' });
+    User.belongsToMany(models.Group,
+      { through: models.GroupUser, as: 'members', foreignKey: 'user_id' });
   };
   return User;
 };

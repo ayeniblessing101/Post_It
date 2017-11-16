@@ -9,10 +9,11 @@ from '../../actions/messageAction';
  * @class MessageForm
  * @extends {React.Component}
  */
-class MessageForm extends React.Component {
+export class MessageForm extends React.Component {
   /**
    * Creates an instance of MessageForm.
    * @param {any} props
+   *
    * @memberof MessageForm
    */
   constructor(props) {
@@ -104,7 +105,7 @@ class MessageForm extends React.Component {
     }
 
     return (
-      <div>
+      <div className="message-form">
         <div className="col s12 m12 l6 message-cards">
           <div className="message-cards-board">
             <h5 className="groupName">{groupName}</h5>

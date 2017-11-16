@@ -132,10 +132,6 @@ const mockData = {
       }
     }
   },
-  messageBody: {
-    message_body: 'Wassup Boy',
-    priority_level: 'Normal',
-  },
   allMessages: [
     {
       id: 1,
@@ -194,6 +190,142 @@ const mockData = {
     pageSize: 0,
     totalCount: 0,
     users: []
+  },
+  offset: 0,
+  limit: 5,
+  groupId: 1,
+  user1: 'bamidele',
+  status: true,
+  message: 'User has been successfully added to group',
+  messages: {
+    id: 3,
+    groupName: 'Bark',
+    members: [
+      {
+        id: 1,
+        username: 'blessing'
+      },
+      {
+        id: 7,
+        username: 'bimbo'
+      }
+    ],
+    Messages: [
+      {
+        id: 2,
+        message_body: 'Hello',
+        priority_level: 'Normal',
+        createdAt: '2017-11-15T05:30:12.191Z',
+        User: {
+          id: 1,
+          username: 'blessing'
+        }
+      }
+    ]
+  },
+  newMessage: {
+    id: 2,
+    message_body: 'Hello',
+    priority_level: 'Normal',
+    createdAt: '2017-11-15T05:30:12.191Z',
+    User: {
+      id: 1,
+      username: 'blessing'
+    }
+  },
+  initialState: {
+    id: '',
+    groupName: '',
+    Messages: [],
+    members: []
+  },
+  allGroupInitialState: {
+    allGroups: [],
+    pageCount: 0,
+    pageNumber: 0,
+    pageSize: 0,
+    totalCount: 0
+  },
+  allGroups: {
+    pageCount: 2,
+    pageSize: 5,
+    allGroups: [
+      {
+        groupName: 'Andela',
+        user_id: 1,
+        id: 1,
+        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719784/bqaoxgb69x0qsjkabtga.png'
+      },
+      {
+        groupName: 'Elrond',
+        user_id: 1,
+        id: 2,
+        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719813/scdrj8io1xgjze9tawss.png'
+      },
+      {
+        groupName: 'Bark',
+        user_id: 1,
+        id: 3,
+        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719838/ydwkjrmtpkpjqfkx7pok.png'
+      },
+      {
+        groupName: 'BAYC',
+        user_id: 1,
+        id: 4,
+        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719858/syemhmzevzejj43p19bl.png'
+      },
+      {
+        groupName: 'Youth',
+        user_id: 1,
+        id: 5,
+        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719877/eaiziyjfzk1ilmsack92.png'
+      }
+    ],
+    totalCount: 7
+  },
+  data: {
+    id: 3,
+    groupName: 'Bark',
+    members: [
+      {
+        id: 1,
+        username: 'blessing'
+      },
+      {
+        id: 7,
+        username: 'bimbo'
+      },
+      {
+        id: 2,
+        username: 'bamidele'
+      }
+    ],
+    Messages: [
+      {
+        id: 2,
+        message_body: 'Hello',
+        priority_level: 'Normal',
+        group_id: 3,
+        createdAt: '2017-11-15T05:30:12.191Z',
+        User: {
+          id: 1,
+          username: 'blessing',
+          email: 'blessing.ayeni@andela.com'
+        }
+      },
+      {
+        id: 3,
+        message_body: 'OMGG',
+        priority_level: 'Critical',
+        group_id: 3,
+        createdAt: '2017-11-15T05:30:22.050Z',
+        User: {
+          id: 1,
+          username: 'blessing',
+          email: 'blessing.ayeni@andela.com'
+        }
+      },
+    ]
   }
 };
 

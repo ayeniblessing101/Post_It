@@ -137,7 +137,10 @@ class UserList extends React.Component {
 UserList.propTypes = {
   location: PropTypes.object.isRequired,
   getUsersAction: PropTypes.func.isRequired,
-
+  pagination: PropTypes.shape({
+    users: PropTypes.object.isRequired,
+    totalCount: PropTypes.number
+  })
 };
 
 const mapStateToProps = state => ({

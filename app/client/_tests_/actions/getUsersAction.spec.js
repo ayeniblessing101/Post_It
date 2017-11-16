@@ -22,9 +22,9 @@ describe('get users', () => {
       );
     });
     const store = mockStore({});
-    const searchParams = 'blessing';
-    const offset = 0;
-    const limit = 5;
+    const searchParams = mockData.searchParams.q;
+    const offset = mockData.offset;
+    const limit = mockData.limit;
     const expectedAction = {
       type: ActionTypes.GET_ALL_USERS,
       users: mockData.searchParams

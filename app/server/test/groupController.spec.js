@@ -1,3 +1,5 @@
+import * as userSeeds from '../seeders/userSeeds';
+
 process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
@@ -27,12 +29,7 @@ describe('Routes: group', () => {
       truncate: true,
       cascade: true,
       restartIdentity: true })
-    .then(() => User.create({
-      username: 'john',
-      email: 'john@gmail.com',
-      password: '1234',
-      phone: '2348064476683'
-    }))
+    .then(() => User.create(userSeeds.userPayload2))
     .then((user) => {
       Group
       .destroy({ where: {},
@@ -40,10 +37,12 @@ describe('Routes: group', () => {
         cascade: true,
         restartIdentity: true })
       .then(() => Group.bulkCreate([{
-        group_name: 'Family',
+        group_name: userSeeds.group1,
+        image: userSeeds.groupImage1,
         user_id: user.dataValues.id
       }, {
-        group_name: 'Colleagues',
+        group_name: userSeeds.group2,
+        image: userSeeds.groupImage2,
         user_id: user.dataValues.id
       }]))
       .then((groups) => {
@@ -73,7 +72,7 @@ describe('Routes: group', () => {
     // Test's logic...
         request.post('/api/v1/group')
         .set('Authorization', `Basic ${token}`)
-        .send({ groupname: 'Colleagues' })
+        .send({ groupname: userSeeds.group2 })
         .expect(409)
         .end((err) => {
           done(err);
@@ -83,7 +82,7 @@ describe('Routes: group', () => {
   });
 });
 
-escribe('Routes: add_user', () => {
+describe('Routes: add_user', () => {
   // This function will run before every test to clear database
   beforeEach((done) => {
     User
@@ -91,12 +90,7 @@ escribe('Routes: add_user', () => {
       truncate: true,
       cascade: true,
       restartIdentity: true })
-    .then(() => User.create({
-      email: 'blessing@gmail.com',
-      phone: '2348064476683',
-      username: 'blessing',
-      password: '1234'
-    }))
+    .then(() => User.create(userSeeds.userPayload))
     .then((user) => {
       Group
       .destroy({ where: {},
@@ -105,11 +99,11 @@ escribe('Routes: add_user', () => {
         restartIdentity: true })
       .then(() => Group.bulkCreate([{
         id: 1,
-        group_name: 'Family',
+        group_name: userSeeds.group1,
         user_id: user.dataValues.id
       }, {
         id: 2,
-        group_name: 'Colleagues',
+        group_name: userSeeds.group2,
         user_id: user.dataValues.id
       }]))
       .then((groups) => {
@@ -126,7 +120,7 @@ escribe('Routes: add_user', () => {
         request.post(`/api/v1/group/${fakeGroup.id}/user`)
         .set('Authorization', `Basic ${token}`)
         .send({
-          username: 'blessing',
+          username: userSeeds.username1,
         })
         .expect(200)
         .end((err, res) => {
@@ -143,7 +137,7 @@ escribe('Routes: add_user', () => {
     // Test logic...
         request.post(`/api/v1/group/${fakeGroup.id}/user`)
         .set('Authorization', `Basic ${token}`)
-        .send({ username: 'tomi' })
+        .send({ username: userSeeds.username2 })
         .expect(404)
         .end((err, res) => {
           expect(res.status).to.equal(404);

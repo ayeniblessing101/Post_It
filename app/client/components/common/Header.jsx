@@ -125,7 +125,8 @@ export class Header extends React.Component {
                       </ul>
                       <Link
                         to="#" className="dropdown-button"
-                        data-activates="mobile_menu_escrow_accounts" data-beloworigin="true">
+                        data-activates="mobile_menu_escrow_accounts"
+                        data-beloworigin="true">
                         <i className="material-icons left">group</i>
                         Menu
                         <i className="material-icons right">arrow_drop_down</i>

@@ -9,7 +9,7 @@ import { deleteFlashMessage } from '../../actions/flashMessageActions';
  * @class FlashMessagesList
  * @extends {React.Component}
  */
-class FlashMessagesList extends React.Component {
+export class FlashMessagesList extends React.Component {
   render() {
     const messages = this.props.messages.map(message =>
      (<FlashMessage

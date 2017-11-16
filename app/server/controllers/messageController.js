@@ -9,6 +9,7 @@ const Group = require('../models').Group;
   * post a message
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {newMessage} - returns a new message.
  */
 // Method to post message
@@ -38,7 +39,6 @@ exports.postMessage = (request, response) => {
       // method to get all emails
       getGroupUserEmail(request.params.id,
         message, request.decoded).then((messageData) => {
-          console.log(messageData);
           const { emailUsers } = messageData;
           switch (priorityLevel) {
           case 'Critical':
@@ -94,6 +94,7 @@ exports.postMessage = (request, response) => {
   * Gets messages
   * @param {Object} request - request.
   * @param {Object} response - response.
+  *
   * @returns {messages} - returns message.
  */
 // Method to get Messages

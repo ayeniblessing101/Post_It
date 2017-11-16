@@ -12,7 +12,7 @@ import FlashMessagesList from '../notification/FlashMessagesList';
  * @class AddUserModal
  * @extends {React.Component}
  */
-class AddUserModal extends React.Component {
+export class AddUserModal extends React.Component {
   /**
    * Creates an instance of AddUserModal.
    * @param {any} props
@@ -97,7 +97,7 @@ class AddUserModal extends React.Component {
   render() {
     const { errors, username } = this.state;
     return (
-      <div>
+      <div className="add-user-modal">
         <Modal
           header="Add User to Group"
           trigger={
@@ -113,6 +113,7 @@ class AddUserModal extends React.Component {
             { errors.form &&
               <div className="alert alert-danger">{errors.form}</div> }
             <TextFieldGroup
+              className="addUserFormContainer"
               error={errors.username}
               label="Username"
               onChange={this.handleChange}

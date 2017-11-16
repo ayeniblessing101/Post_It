@@ -6,6 +6,7 @@ const initialState = {};
  * updates the addUserToGroup property of the store
  * @param {Object} state - current state
  * @param {Object} action - action type and action payload
+ *
  * @returns {state} - returns a new state.
  */
 export default (state = initialState, action = {}) => {

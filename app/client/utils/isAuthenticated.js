@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 /**
  * A middleware that ensure a user is authenticated to access certain routes
  * @param {object} ComposedComponent - ComposedComponent
+ *
  * @return {void} - void
  */
 export default (ComposedComponent) => {
@@ -38,6 +39,7 @@ export default (ComposedComponent) => {
   /**
    * maps the store state isAuthenticated to props
    * @param {*} state
+   *
    * @returns {void}
    */
   const mapStateToProps = (state) => {

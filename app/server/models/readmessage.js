@@ -1,12 +1,12 @@
-'use strict';
-module.exports = function(sequelize, DataTypes) {
-  var ReadMessage = sequelize.define('ReadMessage', {
+
+module.exports = (sequelize, DataTypes) => {
+  const ReadMessage = sequelize.define('ReadMessage', {
     message_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
     group_id: DataTypes.INTEGER
   }, {
     classMethods: {
-      associate: function(models) {
+      associate: () => {
         // associations can be defined here
       }
     }

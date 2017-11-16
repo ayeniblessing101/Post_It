@@ -35,20 +35,18 @@ describe('Message', () => {
     axios.get = jest.fn(() => {
       return Promise.resolve(
         {
-          data: {
-            messages: mockData.allMessages
-          }
+          data: { data: mockData.data }
         }
       );
     });
     const groupId = 1;
-    const messages = mockData.allMessages;
-    const store = mockStore({}, messages);
+    const groupInfo = mockData.data;
+    const store = mockStore({}, groupInfo);
     const expectedAction = {
-      type: ActionTypes.GET_MESSAGES,
-      messages
+      type: ActionTypes.GET_GROUP_WITH_MESSAGE,
+      groupInfo
     };
-    return store.dispatch(messageActions.getMessages(groupId))
+    return store.dispatch(messageActions.getGroupWithMessages(groupId))
     .then(() => {
       expect(store.getActions()).toEqual([expectedAction]);
     });

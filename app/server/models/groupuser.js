@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     group_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER
   });
-  GroupUser.associate = (models) => {
+  GroupUser.associate = () => {
 
   };
 

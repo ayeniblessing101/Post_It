@@ -34,7 +34,7 @@ class ForgetPasswordModal extends React.Component {
    * @memberof ForgetPasswordModal
    */
   isValid() {
-    const { errors, isValid, email, addFlashMessage }
+    const { errors, isValid }
        = validateForgotPasswordInput(this.state);
 
     if (!isValid) {
@@ -92,7 +92,7 @@ class ForgetPasswordModal extends React.Component {
     return (
       <div>
         <Modal
-          header='Recover Password'
+          header="Recover Password"
           trigger={<p className="forgotPassword">Forgot Password?</p>}>
           <FlashMessagesList />
           <form onSubmit={this.handleSubmit} >

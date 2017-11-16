@@ -44,6 +44,7 @@ export default (ComposedComponent) => {
   /**
    * maps the store state isAuthenticated to props
    * @param {*} state
+   *
    * @returns {void}
    */
   const mapStateToProps = (state) => {

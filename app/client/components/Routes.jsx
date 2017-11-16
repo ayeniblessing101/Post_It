@@ -2,7 +2,6 @@ import React from 'react';
 import LandingPage from './user/LandingPage';
 import GroupsPage from './group/GroupsPage';
 import AddGroup from './group/AddGroupPage';
-import AddUser from './user/AddUser';
 import GroupPage from './messages/MessagePage';
 import ResetPasswordPage from './user/ResetPasswordPage';
 import requireAuth from '../utils/requireAuth';
@@ -25,7 +24,6 @@ const Routes = () => {
         <Route path="/groups" component={requireAuth(GroupsPage)} />
         <Route path="/group/:id" component={requireAuth(GroupPage)} />
         <Route path="/add-group" component={requireAuth(AddGroup)} />
-        <Route path="/add-user" component={requireAuth(AddUser)} />
         <Route path="/user/search/" component={requireAuth(UserPage)} />
         <Route
           render={() => {

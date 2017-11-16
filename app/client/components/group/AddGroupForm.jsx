@@ -47,7 +47,8 @@ export class AddGroupForm extends React.Component {
     const timestamp = Date.now() / 1000;
     const uploadPreset = 'emdtrl4u';
 
-    const paramStr = `timestamp=${timestamp}&upload_preset=${uploadPreset}AGDtyzVzJmEF3xmXDcJXnATYk2Q`;
+    const paramStr =
+    `timestamp=${timestamp}&upload_preset=${uploadPreset}AGDtyzVzJmEF3xmXDcJXnATYk2Q`;
     const signature = sha1(paramStr);
 
     const params = {
@@ -175,6 +176,7 @@ export class AddGroupForm extends React.Component {
                     <div className="input-field col s12">
                       <button
                         className="btn waves-effect waves-light"
+                        disabled={this.state.isLoading}
                         type="submit">
                         Create
                       </button>

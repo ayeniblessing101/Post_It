@@ -47,6 +47,7 @@ class ResetPasswordForm extends React.Component {
   /**
    * @param {any} event
    * @memberof ResetPasswordForm
+   *
    * @returns {void}
    */
   handleSubmit(event) {
@@ -85,6 +86,7 @@ class ResetPasswordForm extends React.Component {
   /**
    * @param {any} event
    * @memberof ResetPasswordForm
+   *
    * @return {void}
    */
 
