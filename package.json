@@ -5,7 +5,7 @@
     "A simple application that allows friends and colleagues create groups for notifications. ",
   "main": "./app/client/index.js",
   "scripts": {
-    "postinstall": "[ \"$NODE_ENV\" != production ] && exit 0; npm run build",
+    "prestart": "npm run build",
     "start": "babel-node -- app/server/app.js",
     "start:dev":
       "npm run build:dev && nodemon --watch app/server --exec babel-node -- app/server/app.js",
@@ -15,7 +15,7 @@
     "test-with-coverage":
       "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo nyc --reporter=lcov --reporter=text mocha --timeout 90000 ./app/server/test --compilers js:babel-register",
     "prebuild": "rm -rf public",
-    "build": "webpack -p --config webpack.config.prod.js",
+    "build": "webpack --config webpack.config.prod.js",
     "build:dev": "webpack --config webpack.config.js",
     "server:coverage":
       "nyc npm run server:test && nyc report --reporter=lcov --reporter=text --reporter=lcovonly",
@@ -96,6 +96,7 @@
     "express": "^4.15.3",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.8.5",
+    "font-awesome": "^4.7.0",
     "font-awesome-loader": "^1.0.2",
     "heroku-cli": "^6.14.37",
     "html-webpack-plugin": "^2.30.1",
@@ -113,6 +114,7 @@
     "nexmo": "^2.0.2",
     "nodemailer": "^4.0.1",
     "nodemon": "^1.11.0",
+    "node-sass": "^4.5.3",
     "pg": "^6.4.0",
     "pg-hstore": "^2.3.2",
     "postcss-loader": "^2.0.8",
@@ -162,7 +164,6 @@
     "expect": "^21.2.1",
     "extract-text-webpack-plugin": "^2.1.2",
     "fetch-mock": "^5.13.1",
-    "font-awesome": "^4.7.0",
     "istanbul": "^0.4.5",
     "jest-environment-jsdom": "^21.2.1",
     "jest-localstorage-mock": "^2.0.1",
@@ -171,7 +172,6 @@
     "mocha-jsdom": "^1.1.0",
     "mocha-lcov-reporter": "^1.3.0",
     "moxios": "^0.4.0",
-    "node-sass": "^4.5.3",
     "nyc": "^11.2.1",
     "react-test-renderer": "^15.6.2",
     "react-time-format": "0.0.5",

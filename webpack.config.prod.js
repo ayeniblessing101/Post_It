@@ -3,40 +3,41 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const cleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   entry: [
     path.join(__dirname, 'app/client/index.js'),
-    path.resolve(__dirname, 'app/client/assets/dist/scss/index.scss')
+    path.resolve(__dirname, 'app/client/assets/dist/scss/index.scss'),
   ],
   output: {
-    path: path.join(__dirname, 'build/js'),
+    path: path.join(__dirname, 'build'),
     publicPath: '/',
     filename: 'bundle.min.js',
   },
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react', 'stage-0']
-        }
+          presets: ['es2015', 'react', 'stage-0'],
+        },
       },
-      { test: /\.scss$/,
+      {
+        test: /\.scss$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          loader: 'css-loader?importLoaders=1' })
+          loader: 'css-loader?importLoaders=1',
+        }),
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        loader: 'style-loader!css-loader',
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|styl)$/,
-        loader: 'file-loader'
+        loader: 'file-loader',
       },
       {
         test: /\.(jpg|jpeg|png|svg)$/,
@@ -45,41 +46,40 @@ module.exports = {
           limit: 250000,
         },
       },
-    ]
+    ],
   },
   resolve: {
     extensions: ['.js', '.jsx', '.css'],
   },
   plugins: [
-    new cleanWebpackPlugin(['build']),
-    new ExtractTextPlugin('../css/bundle.css'),
+    new ExtractTextPlugin('css/bundle.css'),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new HtmlWebpackPlugin({
       template: './app/server/index.html',
       filename: 'index.html',
-      inject: 'body'
+      inject: 'body',
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
+        NODE_ENV: JSON.stringify('production'),
+      },
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
     }),
-    new UglifyJsPlugin()
+    new UglifyJsPlugin(),
   ],
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
   },
   node: {
     console: true,
     fs: 'empty',
     net: 'empty',
     tls: 'empty',
-    dns: 'empty'
-  }
+    dns: 'empty',
+  },
 };

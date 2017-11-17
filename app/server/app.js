@@ -1,4 +1,3 @@
-
 const express = require('express');
 const path = require('path');
 const webpack = require('webpack');
@@ -7,6 +6,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../../webpack.config');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 app.use('/', express.static(path.join(__dirname, '../../build')));
 // app.use(express.static(path.join(__dirname, '../../public')));
 
@@ -25,11 +25,13 @@ app.use('/api/v1', userRoute);
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(webpackConfig);
 
-  app.use(webpackMiddleware(compiler, {
-    hot: true,
-    publicPath: '/',
-    noInfo: true
-  }));
+  app.use(
+    webpackMiddleware(compiler, {
+      hot: true,
+      publicPath: '/',
+      noInfo: true,
+    }),
+  );
   app.use(webpackHotMiddleware(compiler));
 
   app.get('/*', (req, res) => {
@@ -38,11 +40,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 if (process.env.NODE_ENV === 'production') {
   app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/../../public/index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
   });
 }
 
-app.set('port', process.env.PORT || 3000);
-app.listen(app.get('port'), () => console.log('Running on localhost:3000'));
+app.listen(PORT, () => console.log('Running on localhost:3000'));
 
 module.exports = app;

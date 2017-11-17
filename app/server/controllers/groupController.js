@@ -18,13 +18,12 @@ exports.createGroup = (request, response) => {
   if (!isValid) {
     response.status(400).send(errors);
   } else {
-    const userId = request.decoded.id;
+    const userId = request.decoded.id || '';
     Group.findOne({
       where: {
         group_name: request.body.groupname,
       },
-    })
-    .then((group) => {
+    }).then((group) => {
       if (group) {
         errors.groupname = 'This Group already exists';
       }
@@ -34,21 +33,21 @@ exports.createGroup = (request, response) => {
         const groupData = {
           group_name: request.body.groupname,
           image: request.body.image,
-          user_id: userId
+          user_id: userId,
         };
         Group.create(groupData)
-        .then((groupNew) => {
-          GroupUser.create({
-            group_id: groupNew.id,
-            user_id: userId
+          .then((groupNew) => {
+            GroupUser.create({
+              group_id: groupNew.id,
+              user_id: userId,
+            }).then(() => {});
+            return response.status(201).send({
+              status: true,
+              message: 'Successful',
+              data: groupNew,
+            });
           })
-          .then(() => {
-          });
-          return response.status(201).send({
-            status: true, message: 'Successful', data: groupNew
-          });
-        })
-        .catch(error => response.status(500).send(error));
+          .catch(error => response.status(500).send(error));
       }
     });
   }
@@ -68,54 +67,53 @@ exports.getGroups = (request, response) => {
   // get groups created by the loggedin userId
   GroupUser.findAll({
     where: {
-      user_id: userId
+      user_id: userId,
     },
     attributes: ['group_id'],
-    raw: true
+    raw: true,
   })
-  .then((groups) => {
-    let limit = request.query.limit;
-    let offset = request.query.offset;
-    const page =
-    Math.ceil(((request.query.offset) / (request.query.limit)) + 1) || 1;
-    limit = Number(limit) || 10;
-    offset = Number(offset) || 0;
-    const userBelongsTo = groups.map(group => group.group_id);
-    Group.findAndCountAll({
-      where: {
-        $or: {
-          user_id: userId,
-          id: {
-            $in: userBelongsTo
-          }
-        }
-      },
-      attributes: [['group_name', 'groupName'], 'user_id', 'id', 'image'],
-      raw: true,
-      offset,
-      limit
-    })
-    .then((allGroups) => {
-      const pageCount = Math.ceil(allGroups.count / limit);
-      const pageSize = limit;
-      const totalCount = allGroups.count;
-      response.status(200).send({
-        allGroups: allGroups.rows,
-        page,
-        pageCount,
-        pageSize,
-        totalCount
-      });
+    .then((groups) => {
+      let limit = parseInt(request.query.limit, 10);
+      let offset = parseInt(request.query.offset, 10);
+      const page =
+        Math.ceil(request.query.offset / request.query.limit + 1) || 1;
+      limit = Number(limit) || 10;
+      offset = Number(offset) || 0;
+      const userBelongsTo = groups.map(group => group.group_id);
+      Group.findAndCountAll({
+        where: {
+          $or: {
+            user_id: userId,
+            id: {
+              $in: userBelongsTo,
+            },
+          },
+        },
+        attributes: [['group_name', 'groupName'], 'user_id', 'id', 'image'],
+        raw: true,
+        offset,
+        limit,
+      })
+        .then((allGroups) => {
+          const pageCount = Math.ceil(allGroups.count / limit);
+          const pageSize = limit;
+          const totalCount = allGroups.count;
+          response.status(200).send({
+            allGroups: allGroups.rows,
+            page,
+            pageCount,
+            pageSize,
+            totalCount,
+          });
+        })
+        .catch((err) => {
+          response.status(500).send(err, 'An error occurred, try again');
+        });
     })
     .catch((err) => {
       response.status(500).send(err, 'An error occurred, try again');
     });
-  })
-  .catch((err) => {
-    response.status(500).send(err, 'An error occurred, try again');
-  });
 };
-
 
 /**
   * Adds a user to a group
@@ -131,33 +129,34 @@ exports.addUser = (request, response) => {
       where: {
         $or: [
           { username: request.body.username },
-          { email: request.body.email }
-        ]
+          { email: request.body.email },
+        ],
       },
-      attributes: ['id', 'username', 'email']
-    })
-    .then((user) => {
+      attributes: ['id', 'username', 'email'],
+    }).then((user) => {
       if (user) {
+        const groupId = parseInt(request.params.id, 10);
+        const userId = parseInt(request.user.id, 10);
         GroupUser.findOrCreate({
           where: {
-            $and: [{ user_id: user.id }, { group_id: request.params.id }]
+            $and: [{ user_id: userId }, { group_id: groupId }],
           },
           defaults: {
-            user_id: user.id,
-            group_id: parseInt(request.params.id, 10)
-          }
-        })
-        .spread((Usergroup, created) => {
+            user_id: parseInt(user.id, 0),
+            group_id: parseInt(request.params.id, 10),
+          },
+        }).spread((Usergroup, created) => {
           if (created) {
             response.status(200).send({
               status: true,
               message: 'User has been successfully added to group',
-              data: Usergroup
+              data: Usergroup,
             });
           } else {
-            response.status(409)
-              .send({ status: true,
-                message: 'User has already been added to this group' });
+            response.status(409).send({
+              status: true,
+              message: 'User has already been added to this group',
+            });
           }
         });
       } else {
@@ -180,22 +179,25 @@ exports.addUser = (request, response) => {
 exports.getUsers = (request, response) => {
   Group.findOne({
     where: {
-      id: request.params.id
+      id: parseInt(request.params.id, 0),
     },
     attributes: ['id'],
-    include: [{
-      model: User,
-      as: 'members',
-      attributes: ['id', 'username'],
-      through: {
-        attributes: []
+    include: [
+      {
+        model: User,
+        as: 'members',
+        attributes: ['id', 'username'],
+        through: {
+          attributes: [],
+        },
       },
-    }],
-  })
-  .then((users) => {
-    response.status(200).send({ status: true,
+    ],
+  }).then((users) => {
+    response.status(200).send({
+      status: true,
       message: 'Successful',
-      data: users });
+      data: users,
+    });
   });
 };
 
@@ -210,32 +212,40 @@ exports.getUsers = (request, response) => {
 exports.getGroup = (request, response) => {
   Group.findOne({
     where: {
-      id: request.params.id
+      id: parseInt(request.params.id, 0),
     },
     attributes: ['id', ['group_name', 'groupName']],
-    include: [{
-      model: User,
-      as: 'members',
-      attributes: ['id', 'username'],
-      through: {
-        attributes: []
-      },
-    },
-    {
-      model: Message,
-      attributes: ['id', 'message_body',
-        'priority_level', 'group_id', 'createdAt'],
-      include: [{
+    include: [
+      {
         model: User,
-        attributes: ['id', 'username', 'email'],
-      }]
-    }],
-  })
-  .then((group) => {
-    response.status(200).send({ status: true,
+        as: 'members',
+        attributes: ['id', 'username'],
+        through: {
+          attributes: [],
+        },
+      },
+      {
+        model: Message,
+        attributes: [
+          'id',
+          'message_body',
+          'priority_level',
+          'group_id',
+          'createdAt',
+        ],
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'username', 'email'],
+          },
+        ],
+      },
+    ],
+  }).then((group) => {
+    response.status(200).send({
+      status: true,
       message: 'Successful',
-      data: group
+      data: group,
     });
   });
 };
-
