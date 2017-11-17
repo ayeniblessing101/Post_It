@@ -11,7 +11,7 @@ import {
  * @class SignupForm
  * @extends {React.Component}
  */
-class SignupForm extends React.Component {
+export class SignupForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,7 +86,7 @@ class SignupForm extends React.Component {
   render() {
     const { errors } = this.state;
     return (
-      <div>
+      <div className="signup">
         <h4>Register to PostIt</h4>
         <form className="col s12" onSubmit={this.handleSubmit}>
           <div className="">

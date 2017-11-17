@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // const Dotenv = require('dotenv-webpack');
 
 const config = [{
@@ -7,13 +8,14 @@ const config = [{
     path.join(__dirname, 'app/client/index.js')
   ],
   output: {
-    path: path.join(__dirname, 'app/client/assets/dist/js'),
+    path: path.join(__dirname, 'build/js'),
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: 'bundle.min.js',
   },
   plugins: [
     // new Dotenv({ systemvars: true }),
     new webpack.NoEmitOnErrorsPlugin(),
+    new ExtractTextPlugin('../css/bundle.css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
@@ -44,9 +46,10 @@ const config = [{
           presets: ['es2015', 'react', 'stage-0']
         },
       },
-      {
-        test: /\.scss$/,
-        loaders: ['style-loader', 'css-loader', 'sass-loader']
+      { test: /\.scss$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          loader: 'css-loader?importLoaders=1' })
       },
       {
         test: /\.html$/,

@@ -63,9 +63,7 @@ export class MessageForm extends React.Component {
 
   componentDidMount() {
     this.props.getGroupWithMessages(this.props.groupId);
-    $(document).ready(() => {
-      $('select').material_select();
-    });
+    $('select').material_select();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,7 +76,6 @@ export class MessageForm extends React.Component {
   }
   render() {
     let allMessages;
-    // const { group } = this.state;
     const { messages, groupName } = this.state;
     if (messages.length > 0) {
       allMessages = messages && messages.map(message => (

@@ -24,129 +24,141 @@ let fakeGroup;
 
 chai.use(chaiHttp);
 
-describe('Routes: post_message', () => {
+describe('creates a new message', () => {
   // This function will run before every test to clear database
   beforeEach((done) => {
-    User
-    .destroy({ where: {},
+    User.destroy({
+      where: {},
       truncate: true,
       cascade: true,
-      restartIdentity: true })
-    .then(() => User.create(userSeeds.userPayload2))
-    .then((user) => {
-      Group
-      .destroy({ where: {},
-        truncate: true,
-        cascade: true,
-        restartIdentity: true })
-      .then(() => Group.bulkCreate([{
-        id: 1,
-        group_name: userSeeds.group1,
-        user_id: user.dataValues.id
-      }, {
-        id: 2,
-        group_name: userSeeds.group2,
-        user_id: user.dataValues.id
-      }]))
-      .then((groups) => {
-        fakeGroup = groups[0].dataValues;
-        token = jwt.sign({ id: user.dataValues.id }, 'secret');
-        done();
+      restartIdentity: true,
+    })
+      .then(() => User.create(userSeeds.userPayload2))
+      .then((user) => {
+        Group.destroy({
+          where: {},
+          truncate: true,
+          cascade: true,
+          restartIdentity: true,
+        })
+          .then(() =>
+            Group.bulkCreate([
+              {
+                id: 1,
+                group_name: userSeeds.group1,
+                user_id: user.dataValues.id,
+              },
+              {
+                id: 2,
+                group_name: userSeeds.group2,
+                user_id: user.dataValues.id,
+              },
+            ]),
+          )
+          .then((groups) => {
+            fakeGroup = groups[0].dataValues;
+            token = jwt.sign({ id: user.dataValues.id }, 'secret');
+            done();
+          });
       });
-    });
   });
-  describe('POST /api/v1/group/:id/message', () => {
-    describe('status 200', () => {
-      it('post a message', (done) => {
+  describe('create a new message', () => {
+    describe('create a new message', () => {
+      it('creates a message', (done) => {
         // Test's logic...
-        request.post(`/api/v1/group/${fakeGroup.id}/message`)
-        .set('Authorization', `Basic ${token}`)
-        .send(userSeeds.messagePayload)
-        .expect(200)
-        .end((err, res) => {
-          expect(res.body.data).to.have.a.property('message_body');
-          expect(res.body.data).to.have.a.property('priority_level');
-          done(err);
-        });
+        request
+          .post(`/api/v1/group/${fakeGroup.id}/message`)
+          .set('Authorization', `Basic ${token}`)
+          .send(userSeeds.messagePayload)
+          .expect(200)
+          .end((err, res) => {
+            expect(res.body.newMessage).to.have.a.property('message_body');
+            expect(res.body.newMessage).to.have.a.property('priority_level');
+            done(err);
+          });
       });
 
       it('throws an error if group does not exist', (done) => {
         // Test logic...
-        request.post('/api/v1/group/0/message')
-        .set('Authorization', `Basic ${token}`)
-        .send(userSeeds.messagePayload)
-        .expect(404)
-        .end((err) => {
-          done(err);
-        });
+        request
+          .post('/api/v1/group/0/message')
+          .set('Authorization', `Basic ${token}`)
+          .send(userSeeds.messagePayload)
+          .expect(404)
+          .end((err) => {
+            done(err);
+          });
       });
     });
   });
 });
 
-describe('Routes: get_messages', () => {
+describe('gets all messages', () => {
   // This function will run before every test to clear database
   beforeEach(async () => {
-    await User
-      .destroy({
-        where: {},
-        truncate: true,
-        cascade: true,
-        restartIdentity: true
-      });
+    await User.destroy({
+      where: {},
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    });
 
-    await Group
-      .destroy({
-        where: {},
-        truncate: true,
-        cascade: true,
-        restartIdentity: true
-      });
+    await Group.destroy({
+      where: {},
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    });
 
-    await Message
-      .destroy({
-        where: {},
-        truncate: true,
-        cascade: true,
-        restartIdentity: true
-      });
+    await Message.destroy({
+      where: {},
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    });
 
     const user = await User.create(userSeeds.userPayload2);
 
-    const groups = await Group.bulkCreate([{
-      id: 1,
-      group_name: userSeeds.group1,
-      user_id: user.dataValues.id
-    }, {
-      id: 2,
-      group_name: userSeeds.group2,
-      user_id: user.dataValues.id
-    }]);
+    const groups = await Group.bulkCreate([
+      {
+        id: 1,
+        group_name: userSeeds.group1,
+        user_id: user.dataValues.id,
+      },
+      {
+        id: 2,
+        group_name: userSeeds.group2,
+        user_id: user.dataValues.id,
+      },
+    ]);
 
-
-    await Message.bulkCreate([{
-      id: 1,
-      group_id: groups[0].dataValues.id,
-      priority_level: userSeeds.priorityLevel,
-      message_body: userSeeds.messageBody2,
-      user_id: user.dataValues.id
-    }, {
-      id: 2,
-      group_id: groups[1].dataValues.id,
-      priority_level: userSeeds.priorityLevel,
-      message_body: userSeeds.messageBody2,
-      user_id: user.dataValues.id
-    }]);
+    await Message.bulkCreate([
+      {
+        id: 1,
+        group_id: groups[0].dataValues.id,
+        priority_level: userSeeds.priorityLevel,
+        message_body: userSeeds.messageBody2,
+        user_id: user.dataValues.id,
+      },
+      {
+        id: 2,
+        group_id: groups[1].dataValues.id,
+        priority_level: userSeeds.priorityLevel,
+        message_body: userSeeds.messageBody2,
+        user_id: user.dataValues.id,
+      },
+    ]);
 
     fakeGroup = groups[0].dataValues;
     token = jwt.sign({ id: user.dataValues.id }, 'secret');
   });
 
-  describe('GET /api/v1/group/:id/messages', () => {
+  describe('Gets all messages', () => {
     describe('get all messages', () => {
       it('returns a list a messages', async () => {
         // Test logic...
-        await request.get(`/api/v1/group/${fakeGroup.id}/messages`)
+        await request
+          .get(`/api/v1/group/${fakeGroup.id}/messages`)
           .set('Authorization', `Basic ${token}`)
           .expect(200)
           .then((res) => {
@@ -158,4 +170,3 @@ describe('Routes: get_messages', () => {
     });
   });
 });
-

@@ -1,23 +1,29 @@
 {
   "name": "postit",
   "version": "1.0.0",
-  "description": "A simple application that allows friends and colleagues create groups for notifications. ",
+  "description":
+    "A simple application that allows friends and colleagues create groups for notifications. ",
   "main": "./app/client/index.js",
   "scripts": {
-    "start": "nodemon --watch app/server --exec babel-node -- app/server/app.js",
-    "server:test": "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo mocha --timeout 90000  ./app/server/test/ --compilers js:babel-register",
+    "prestart": "npm run build",
+    "start": "babel-node -- app/server/app.js",
+    "start:dev":
+      "npm run build:dev && nodemon --watch app/server --exec babel-node -- app/server/app.js",
+    "server:test":
+      "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo mocha --timeout 90000  ./app/server/test/ --compilers js:babel-register",
     "client:test": "jest app/client/ --coverage",
-    "test-with-coverage": "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo nyc --reporter=lcov --reporter=text mocha --timeout 90000 ./app/server/test --compilers js:babel-register",
+    "test-with-coverage":
+      "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo nyc --reporter=lcov --reporter=text mocha --timeout 90000 ./app/server/test --compilers js:babel-register",
     "prebuild": "rm -rf public",
     "build": "webpack -p --config webpack.config.prod.js",
-    "server:coverage": "nyc report --reporter=text-lcov | coveralls",
+    "build:dev": "webpack --config webpack.config.js",
+    "server:coverage":
+      "nyc npm run server:test && nyc report --reporter=lcov --reporter=text --reporter=lcovonly",
     "client:coverage": "codecov --token=cf1cac31-72e6-42d8-ab6c-d75079dc725b",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "jest": {
-    "roots": [
-      "<rootDir>/app/client/_tests_"
-    ],
+    "roots": ["<rootDir>/app/client/_tests_"],
     "transform": {
       ".*": "<rootDir>/node_modules/babel-jest"
     },
@@ -41,29 +47,20 @@
       "<rootDir>/server/"
     ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+        "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
     },
-    "setupFiles": [
-      "jest-localstorage-mock",
-      "<rootDir>/test-env.js"
-    ],
+    "setupFiles": ["jest-localstorage-mock", "<rootDir>/test-env.js"],
     "setupTestFrameworkScriptFile": "<rootDir>/test-setup.js",
     "testEnvironment": "jsdom",
-    "unmockedModulePathPatterns": [
-      "node_modules/react/"
-    ]
+    "unmockedModulePathPatterns": ["node_modules/react/"]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayeniblessing101/Post_It.git"
   },
-  "keywords": [
-    "postit",
-    "group",
-    "user",
-    "messages"
-  ],
+  "keywords": ["postit", "group", "user", "messages"],
   "author": "Ayeni Blessing",
   "license": "MIT",
   "bugs": {
@@ -90,6 +87,7 @@
     "chai-http": "^3.0.0",
     "cheerio": "^0.20.0",
     "classnames": "^2.2.5",
+    "clean-webpack-plugin": "^0.1.17",
     "colors": "^1.1.2",
     "connect-history-api-fallback": "^1.3.0",
     "crypto": "^1.0.1",
@@ -139,12 +137,15 @@
     "style-loader": "^0.18.2",
     "superagent": "^3.8.1",
     "twilio": "^3.6.4",
+    "uglifyjs-webpack-plugin": "^1.0.1",
     "url-loader": "^0.5.9",
     "validator": "^8.0.0",
     "webpack": "^2.7.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-dev-server": "^2.4.5",
-    "webpack-hot-middleware": "^2.20.0"
+    "webpack-hot-middleware": "^2.20.0",
+    "yargs": "^8.0.1",
+    "yargs-parser": "^5.0.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.0.1",
@@ -178,9 +179,6 @@
     "supertest": "^3.0.0"
   },
   "babel": {
-    "presets": [
-      "react",
-      "babel-preset-es2015"
-    ]
+    "presets": ["react", "babel-preset-es2015"]
   }
 }

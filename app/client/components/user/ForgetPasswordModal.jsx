@@ -13,7 +13,7 @@ import FlashMessagesList from '../notification/FlashMessagesList';
  * @class ForgetPasswordModal
  * @extends {React.Component}
  */
-class ForgetPasswordModal extends React.Component {
+export class ForgetPasswordModal extends React.Component {
   /**
    * Creates an instance of ForgetPasswordModal.
    * @param {any} props
@@ -51,9 +51,6 @@ class ForgetPasswordModal extends React.Component {
    */
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({
-      email: ''
-    });
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
       this.props.resetPasswordEmail(this.state).then(

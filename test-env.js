@@ -8,7 +8,8 @@ global.$ = () => ({
   hide: () => null,
   dropdown: () => null,
   tooltip: () => null,
-  click: () => null
+  click: () => null,
+  material_select: () => null
 });
 
 global.tinymce = {

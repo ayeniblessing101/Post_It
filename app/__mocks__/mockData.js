@@ -1,5 +1,6 @@
 const mockData = {
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImJsZXNzaW5nIiwiZW1haWwiOiJibGVzc2luZy5heWVuaUBhbmRlbGEuY29tIiwicGhvbmUiOiI4MDY0NDc2NjgzIiwicGFzc3dvcmQiOiIkMmEkMTAkQUNiMHJQeE55SGpCenpwbnNtMnBVZWE0Nkx5cFFkOFRaOVNkT2ZVZEpIQ3pKc1ZOcjFIa08iLCJjb25maXJtX3Bhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDE3LTA4LTMwVDE3OjQ4OjUxLjQzNloiLCJ1cGRhdGVkQXQiOiIyMDE3LTA4LTMwVDE3OjQ4OjUxLjQzNloifSwiaWF0IjoxNTA0NDYwNjgyLCJleHAiOjE1MDQ0NjIxMjJ9.YNmCDj4v_LaS8QblTnz7KihDXQ5l_0ZNFKtmNwg7Yro',
+  token:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxLCJ1c2VybmFtZSI6ImJsZXNzaW5nIiwiZW1haWwiOiJibGVzc2luZy5heWVuaUBhbmRlbGEuY29tIiwicGhvbmUiOiI4MDY0NDc2NjgzIiwicGFzc3dvcmQiOiIkMmEkMTAkQUNiMHJQeE55SGpCenpwbnNtMnBVZWE0Nkx5cFFkOFRaOVNkT2ZVZEpIQ3pKc1ZOcjFIa08iLCJjb25maXJtX3Bhc3N3b3JkIjpudWxsLCJjcmVhdGVkQXQiOiIyMDE3LTA4LTMwVDE3OjQ4OjUxLjQzNloiLCJ1cGRhdGVkQXQiOiIyMDE3LTA4LTMwVDE3OjQ4OjUxLjQzNloifSwiaWF0IjoxNTA0NDYwNjgyLCJleHAiOjE1MDQ0NjIxMjJ9.YNmCDj4v_LaS8QblTnz7KihDXQ5l_0ZNFKtmNwg7Yro',
   decodedToken: {
     data: {
       confirm_password: null,
@@ -16,46 +17,45 @@ const mockData = {
   },
   user: {
     username: 'blessing',
-    password: '1234'
+    password: '1234',
   },
   flashMessageResponse: {
     id: 'BJ9DwReCZ',
     type: 'error',
-    text: 'User does not exist'
+    text: 'User does not exist',
   },
   email: 'db@gmail.com',
-  successMessages:
-  [
+  successMessages: [
     'Password updated succesfully',
     {
       status: true,
-      message: 'Succesful'
+      message: 'Succesful',
     },
     'Token Found!',
-    'User has been add to Group Successfully'
+    'User has been add to Group Successfully',
   ],
   password: '2345',
   userData: {
     username: 'blessing',
-    email: 'blessing.ayeni@andela.com'
+    email: 'blessing.ayeni@andela.com',
   },
   searchParams: {
     q: 'blessing',
     offset: 0,
-    limit: 5
+    limit: 5,
   },
   groupUsers: [
     {
       id: 1,
-      username: 'blessing'
+      username: 'blessing',
     },
     {
       id: 2,
-      username: 'tomi'
+      username: 'tomi',
     },
     {
       id: 3,
-      username: 'funsho'
+      username: 'funsho',
     },
   ],
   groups: [
@@ -64,29 +64,28 @@ const mockData = {
       group_name: 'Andela',
       user_i: 1,
       createdAt: '2017-10-02T16:10:00.955Z',
-      updatedAt: '2017-10-02T16:10:00.955Z'
+      updatedAt: '2017-10-02T16:10:00.955Z',
     },
     {
       id: 2,
       group_name: 'test',
       user_id: 1,
       createdAt: '2017-10-16T12:00:44.405Z',
-      updatedAt: '2017-10-16T12:00:44.405Z'
-    }
+      updatedAt: '2017-10-16T12:00:44.405Z',
+    },
   ],
   fetchGroupsResponse: {
     status: true,
     message: 'Successful',
     data: {
       id: 1,
-      members:
-      [
+      members: [
         {
           id: 1,
-          username: 'blessing'
-        }
-      ]
-    }
+          username: 'blessing',
+        },
+      ],
+    },
   },
   addUserToGroupResponse: {
     status: true,
@@ -96,22 +95,21 @@ const mockData = {
       group_id: 2,
       updatedAt: '2017-10-27T11:04:45.607Z',
       createdAt: '2017-10-27T11:04:45.607Z',
-      id: 16
-    }
+      id: 16,
+    },
   },
   fetchGroupUserResponse: {
     status: true,
     message: 'Successful',
     data: {
       id: 1,
-      members:
-      [
+      members: [
         {
           id: 1,
-          username: 'blessing'
-        }
-      ]
-    }
+          username: 'blessing',
+        },
+      ],
+    },
   },
   createGroupResonse: {
     status: true,
@@ -121,16 +119,16 @@ const mockData = {
       group_name: 'Phoenix',
       user_id: 1,
       updatedAt: '2017-10-25T18:23:20.105Z',
-      createdAt: '2017-10-25T18:23:20.105Z'
-    }
+      createdAt: '2017-10-25T18:23:20.105Z',
+    },
   },
   postMessageResponse: {
     data: {
       data: {
         message_body: 'Wassup Boy',
-        priority_level: 'Normal'
-      }
-    }
+        priority_level: 'Normal',
+      },
+    },
   },
   allMessages: [
     {
@@ -142,8 +140,8 @@ const mockData = {
       User: {
         id: 1,
         username: 'blessing',
-        email: 'blessing.ayeni@andela.com'
-      }
+        email: 'blessing.ayeni@andela.com',
+      },
     },
     {
       id: 2,
@@ -154,21 +152,21 @@ const mockData = {
       User: {
         id: 1,
         username: 'blessing',
-        email: 'blessing.ayeni@andela.com'
-      }
-    }
+        email: 'blessing.ayeni@andela.com',
+      },
+    },
   ],
   createUserResponse: {
     status: true,
     message: 'Signup was successful',
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSw'
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSw',
   },
   userData2: {
     username: 'bamidele',
     email: 'db@gmail.com',
     phoneNo: '2348064476683',
     password: '1234',
-    confirm_password: '1234'
+    confirm_password: '1234',
   },
   stateCurrentUser: {
     id: 1,
@@ -176,20 +174,20 @@ const mockData = {
     email: 'blessing.ayeni@andela.com',
     phone: '8064476683',
     iat: 1509101121,
-    exp: 1653545561
+    exp: 1653545561,
   },
   users: [
     {
       username: 'Blessing',
-      email: 'blesssing.ayeni@andela.com'
-    }
+      email: 'blesssing.ayeni@andela.com',
+    },
   ],
   paginateData: {
     pageNumber: 0,
     pageCount: 0,
     pageSize: 0,
     totalCount: 0,
-    users: []
+    users: [],
   },
   offset: 0,
   limit: 5,
@@ -203,12 +201,12 @@ const mockData = {
     members: [
       {
         id: 1,
-        username: 'blessing'
+        username: 'blessing',
       },
       {
         id: 7,
-        username: 'bimbo'
-      }
+        username: 'bimbo',
+      },
     ],
     Messages: [
       {
@@ -218,10 +216,10 @@ const mockData = {
         createdAt: '2017-11-15T05:30:12.191Z',
         User: {
           id: 1,
-          username: 'blessing'
-        }
-      }
-    ]
+          username: 'blessing',
+        },
+      },
+    ],
   },
   newMessage: {
     id: 2,
@@ -230,21 +228,21 @@ const mockData = {
     createdAt: '2017-11-15T05:30:12.191Z',
     User: {
       id: 1,
-      username: 'blessing'
-    }
+      username: 'blessing',
+    },
   },
   initialState: {
     id: '',
     groupName: '',
     Messages: [],
-    members: []
+    members: [],
   },
   allGroupInitialState: {
     allGroups: [],
     pageCount: 0,
     pageNumber: 0,
     pageSize: 0,
-    totalCount: 0
+    totalCount: 0,
   },
   allGroups: {
     pageCount: 2,
@@ -254,34 +252,39 @@ const mockData = {
         groupName: 'Andela',
         user_id: 1,
         id: 1,
-        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719784/bqaoxgb69x0qsjkabtga.png'
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719784/bqaoxgb69x0qsjkabtga.png',
       },
       {
         groupName: 'Elrond',
         user_id: 1,
         id: 2,
-        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719813/scdrj8io1xgjze9tawss.png'
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719813/scdrj8io1xgjze9tawss.png',
       },
       {
         groupName: 'Bark',
         user_id: 1,
         id: 3,
-        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719838/ydwkjrmtpkpjqfkx7pok.png'
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719838/ydwkjrmtpkpjqfkx7pok.png',
       },
       {
         groupName: 'BAYC',
         user_id: 1,
         id: 4,
-        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719858/syemhmzevzejj43p19bl.png'
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719858/syemhmzevzejj43p19bl.png',
       },
       {
         groupName: 'Youth',
         user_id: 1,
         id: 5,
-        image: 'https://res.cloudinary.com/blessing/image/upload/v1510719877/eaiziyjfzk1ilmsack92.png'
-      }
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719877/eaiziyjfzk1ilmsack92.png',
+      },
     ],
-    totalCount: 7
+    totalCount: 7,
   },
   data: {
     id: 3,
@@ -289,16 +292,16 @@ const mockData = {
     members: [
       {
         id: 1,
-        username: 'blessing'
+        username: 'blessing',
       },
       {
         id: 7,
-        username: 'bimbo'
+        username: 'bimbo',
       },
       {
         id: 2,
-        username: 'bamidele'
-      }
+        username: 'bamidele',
+      },
     ],
     Messages: [
       {
@@ -310,8 +313,8 @@ const mockData = {
         User: {
           id: 1,
           username: 'blessing',
-          email: 'blessing.ayeni@andela.com'
-        }
+          email: 'blessing.ayeni@andela.com',
+        },
       },
       {
         id: 3,
@@ -322,11 +325,21 @@ const mockData = {
         User: {
           id: 1,
           username: 'blessing',
-          email: 'blessing.ayeni@andela.com'
-        }
+          email: 'blessing.ayeni@andela.com',
+        },
       },
-    ]
-  }
+    ],
+  },
+  signupPayload: {
+    username: 'ade',
+    email: 'ade@gmail.com',
+    phoneNo: '08064476683',
+    password: '1234',
+    confirm_password: '1234',
+    errors: {},
+    isLoading: false,
+    invalid: false,
+  },
 };
 
 export default mockData;

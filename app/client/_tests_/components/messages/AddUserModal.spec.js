@@ -42,6 +42,9 @@ describe('components', () => {
       const spy = sinon.spy(AddUserModal.prototype, 'handleSubmit');
       const wrapper = shallow(<AddUserModal {...props} />);
       const form = wrapper.find('form');
+      wrapper.setState({
+        errors: {},
+      });
       form.simulate('submit', { preventDefault: () => null });
       expect(spy.called).toBeTruthy();
       spy.reset();
@@ -51,7 +54,9 @@ describe('components', () => {
     it('simulates on change event', () => {
       const spy = sinon.spy(AddUserModal.prototype, 'handleChange');
       const wrapper = shallow(<AddUserModal {...props} />);
-      wrapper.find('TextFieldGroup').simulate('change', { preventDefault: () => null, target: { name: 'hello', value: 'hello' } });
+      wrapper.find('TextFieldGroup').simulate('change',
+        { preventDefault: () => null,
+          target: { name: 'hello', value: 'hello' } });
       expect(spy.called).toBeTruthy();
     });
   });

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
  * @class FlashMessage
  * @extends {React.Component}
  */
-class FlashMessage extends React.Component {
+export class FlashMessage extends React.Component {
   /**
    * Creates an instance of FlashMessage.
    * @param {any} props

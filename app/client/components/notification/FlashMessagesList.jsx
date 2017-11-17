@@ -11,22 +11,24 @@ import { deleteFlashMessage } from '../../actions/flashMessageActions';
  */
 export class FlashMessagesList extends React.Component {
   render() {
-    const messages = this.props.messages.map(message =>
-     (<FlashMessage
-        key={message.id}
-        message={message}
-        deleteFlashMessage={this.props.deleteFlashMessage}
-      />)
-    );
-    return (
-      <div>{messages}</div>
-    );
+    let messages = '';
+    const messagesFromState = this.props.messages;
+    if (messagesFromState && messagesFromState.length > 0) {
+      messages = messagesFromState.map(message => (
+        <FlashMessage
+          key={message.id}
+          message={message}
+          deleteFlashMessage={this.props.deleteFlashMessage}
+        />
+      ));
+    }
+    return <div>{messages}</div>;
   }
 }
 
 FlashMessagesList.propTypes = {
   messages: PropTypes.array.isRequired,
-  deleteFlashMessage: PropTypes.func.isRequired
+  deleteFlashMessage: PropTypes.func.isRequired,
 };
 
 /**
@@ -37,9 +39,10 @@ FlashMessagesList.propTypes = {
  */
 function mapStateToProps(state) {
   return {
-    messages: state.flashMessages
+    messages: state.flashMessages,
   };
 }
 
-export default
- connect(mapStateToProps, { deleteFlashMessage })(FlashMessagesList);
+export default connect(mapStateToProps, { deleteFlashMessage })(
+  FlashMessagesList,
+);

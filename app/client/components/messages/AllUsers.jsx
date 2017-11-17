@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AddUserModal from './AddUserModal';
 import { fetchGroupUsers } from '../../actions/groupActions';
 
-class AllUsers extends Component {
+export class AllUsers extends Component {
   /**
    * @memberof AllUsers
    *
@@ -19,7 +19,7 @@ class AllUsers extends Component {
     const selectedGroupId = this.props.groupId;
     const { addUserToGroup } = this.props;
     return (
-      <div>
+      <div className="allUsers">
         <div className="col s12 m12 l3 ">
           <h5 className="groupName">Users</h5>
           {<AddUserModal

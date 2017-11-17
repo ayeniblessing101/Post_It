@@ -4,8 +4,7 @@ import queryString from 'query-string';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { validateResetPasswordInput }
-  from '../../validations/validation';
+import { validateResetPasswordInput } from '../../validations/validation';
 import FlashMessagesList from '../notification/FlashMessagesList';
 import { resetPassword } from '../../actions/forgotPasswordActions';
 import { addFlashMessage } from '../../actions/flashMessageActions';
@@ -14,7 +13,7 @@ import { addFlashMessage } from '../../actions/flashMessageActions';
  * @class ResetPasswordForm
  * @extends {React.Component}
  */
-class ResetPasswordForm extends React.Component {
+export class ResetPasswordForm extends React.Component {
   /**
    * Creates an instance of ResetPasswordForm.
    * @param {any} props
@@ -58,26 +57,29 @@ class ResetPasswordForm extends React.Component {
       this.setState({ errors: {} });
       if (this.state.newPassword === this.state.confirmNewPassword) {
         this.props
-        .resetPassword(this.state.newPassword,
-          this.state.confirmNewPassword, email)
-        .then(
-          () => this.context.router.history.push('/'),
-          ({ data }) => {
-            this.setState({
-              errors: data.message,
-              newPassword: '',
-              confirmNewPassword: ''
-            });
-            this.props.addFlashMessage({
-              type: 'error',
-              text: data.message
-            });
-          }
-        );
+          .resetPassword(
+            this.state.newPassword,
+            this.state.confirmNewPassword,
+            email,
+          )
+          .then(
+            () => this.context.router.history.push('/'),
+            ({ data }) => {
+              this.setState({
+                errors: data.message,
+                newPassword: '',
+                confirmNewPassword: '',
+              });
+              this.props.addFlashMessage({
+                type: 'error',
+                text: data.message,
+              });
+            },
+          );
       } else {
         this.props.addFlashMessage({
           type: 'error',
-          text: 'Password does not Match'
+          text: 'Password does not Match',
         });
       }
     }
@@ -99,8 +101,7 @@ class ResetPasswordForm extends React.Component {
    * @returns {object} - ResetPasswordForm Component
    */
   render() {
-    const
-    { errors, newPassword, confirmNewPassword } = this.state;
+    const { errors, newPassword, confirmNewPassword } = this.state;
     return (
       <div>
         <section classID="wrapper" className="resetPasswordForm">
@@ -111,10 +112,9 @@ class ResetPasswordForm extends React.Component {
                   <h4>Reset Password</h4>
                   <FlashMessagesList />
                   <form className="col s12" onSubmit={this.handleSubmit}>
-                    {
-                      errors.form &&
+                    {errors.form && (
                       <div className="alert alert-danger">{errors.form}</div>
-                    }
+                    )}
                     <div className="">
                       <TextFieldGroup
                         error={errors.newPassword}
@@ -135,10 +135,14 @@ class ResetPasswordForm extends React.Component {
                       <div className="input-field col s12">
                         <button
                           className="btn waves-effect waves-light"
-                          type="submit" name="action">Submit
+                          type="submit"
+                          name="action"
+                        >
+                          Submit
                           <i className="material-icons right">send</i>
                         </button>
-                        <br /><br />
+                        <br />
+                        <br />
                       </div>
                     </div>
                   </form>
@@ -156,13 +160,14 @@ ResetPasswordForm.propTypes = {
   resetPassword: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
   location: PropTypes.shape({
-    search: PropTypes.shape({})
-  })
+    search: PropTypes.shape({}),
+  }),
 };
 
 ResetPasswordForm.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
-export default connect(null,
-  { resetPassword, addFlashMessage })(withRouter(ResetPasswordForm));
+export default connect(null, { resetPassword, addFlashMessage })(
+  withRouter(ResetPasswordForm),
+);

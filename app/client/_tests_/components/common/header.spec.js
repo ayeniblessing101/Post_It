@@ -1,37 +1,33 @@
 /* global jest */
 import React from 'react';
 import expect from 'expect';
-import { mount, shallow } from 'enzyme';
-import thunk from 'redux-thunk';
+import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { Link } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
 import { Header } from '../../../components/common/Header';
 
 jest.mock('react-router-dom');
 
-const middlewares = [thunk];
-const fakeStore = configureMockStore(middlewares);
 sinon.spy(Header.prototype, 'handleSubmit');
 sinon.spy(Header.prototype, 'handleChange');
 sinon.spy(Header.prototype, 'componentDidMount');
 
 const mockContext = {
   childContextTypes: { router: React.PropTypes.object },
-  context: { router: {
-    history: {
-      push: () => null,
-      replace: () => null,
-      createHref: () => null,
-      auth: {
-        isAuthenticated: true,
-        user: {}
+  context: {
+    router: {
+      history: {
+        push: () => null,
+        replace: () => null,
+        createHref: () => null,
+        auth: {
+          isAuthenticated: true,
+          user: {},
+        },
+        logout: '[function ]',
       },
-      logout: '[function ]'
-    }
-
-  } }
+    },
+  },
 };
 
 const setup = () => {
@@ -39,25 +35,14 @@ const setup = () => {
     logout: jest.fn(),
     auth: {
       isAuthenticated: false,
-      user: {}
-    }
+      user: {},
+    },
   };
-  const mockStates = {
-    auth: {
-      isAuthenticated: false,
-      user: {}
-    }
-  };
-  const store = fakeStore(mockStates);
-  const enzymeWrapper = mount(
-    <Provider store={store}>
-      <Header {...props} />
-    </Provider>,
-    mockContext
-  );
+
+  const enzymeWrapper = mount(<Header {...props} />);
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 };
 
@@ -68,13 +53,18 @@ describe('components', () => {
       expect(Header.prototype.componentDidMount.calledOnce).toEqual(true);
     });
     it('should check if it has brand-logo', () => {
-      expect(enzymeWrapper.contains(<Link to="/" className="brand-logo">
-      PostIt</Link>)).toBeTruthy();
+      expect(
+        enzymeWrapper.contains(
+          <Link to="/" className="brand-logo">
+            PostIt
+          </Link>,
+        ),
+      ).toBeTruthy();
     });
     it('simulates on click event', () => {
-      const wrapper = shallow(<Header {...props} />, mockContext);
+      const wrapper = mount(<Header {...props} />, mockContext);
       const event = {
-        preventDefault: jest.fn()
+        preventDefault: jest.fn(),
       };
       wrapper.instance().logout(event);
       expect(props.logout).toBeCalled();

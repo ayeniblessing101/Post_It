@@ -11,7 +11,7 @@ import FlashMessagesList from '../notification/FlashMessagesList';
  * @class LoginForm
  * @extends {React.Component}
  */
-class LoginForm extends React.Component {
+export class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -79,6 +79,7 @@ class LoginForm extends React.Component {
           <div className="alert alert-danger">{errors.form}</div> }
           <div className="">
             <TextFieldGroup
+              className="loginForm"
               error={errors.username}
               label="Username"
               onChange={this.handleChange}

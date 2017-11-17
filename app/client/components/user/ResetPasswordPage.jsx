@@ -9,7 +9,7 @@ import { checkToken } from '../../actions/forgotPasswordActions';
  * @class ResetPasswordPage
  * @extends {React.Component}
  */
-class ResetPasswordPage extends React.Component {
+export class ResetPasswordPage extends React.Component {
   /**
    * Creates an instance of ResetPasswordPage.
    * @param {any} props
@@ -41,7 +41,7 @@ class ResetPasswordPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="resetPassword">
         { this.state.ok && <ResetPasswordForm />}
       </div>
     );

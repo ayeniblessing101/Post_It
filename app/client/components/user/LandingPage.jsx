@@ -7,7 +7,7 @@ import LoginForm from './LoginForm';
  *
  * @extends {React.Component}
  */
-class LandingPage extends React.Component {
+export class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

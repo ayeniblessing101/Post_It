@@ -10,7 +10,7 @@ import { fetchGroups } from '../../actions/groupActions';
  * @class AllGroups
  * @extends {React.Component}
  */
-class AllGroups extends React.Component {
+export class AllGroups extends React.Component {
   /**
    * Creates an instance of AllGroups.
    * @param {any} props
@@ -73,7 +73,7 @@ class AllGroups extends React.Component {
     const { totalCount } = this.state;
     const groups = this.state.groups;
     return (
-      <div>
+      <div className="allGroups">
         <div className="col s12 m12 l3 ">
           <h5 className="groupName">Groups</h5>
           <ul

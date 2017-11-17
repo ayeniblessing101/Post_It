@@ -2,12 +2,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import expect from 'expect';
-import { MessageBoard } from '../../../components/messages/MessageBoard';
+import { FlashMessage } from '../../../components/notification/FlashMessage';
 
 jest.mock('react-router-dom');
-jest.mock('../../../components/messages/AllGroups');
-jest.mock('../../../components/messages/MessageForm');
-jest.mock('../../../components/messages/AllUsers');
 
 const mockContext = {
   childContextTypes: { router: React.PropTypes.object },
@@ -23,12 +20,11 @@ const mockContext = {
 
 const setup = () => {
   const props = {
-    addUserToGroup: jest.fn(),
-    groups: {},
-    selectedGroupId: 1
+    message: {},
+    deleteFlashMessage: jest.fn(),
   };
 
-  const enzymeWrapper = mount(<MessageBoard {...props} />, mockContext);
+  const enzymeWrapper = mount(<FlashMessage {...props} />, mockContext);
 
   return {
     props,
@@ -37,12 +33,10 @@ const setup = () => {
 };
 
 describe('Component', () => {
-  describe('Message Board', () => {
+  describe('Flash Message', () => {
     it('should render self and subcomponents', () => {
       const { enzymeWrapper } = setup();
-
-      expect(enzymeWrapper.find('.message-board').length).toBe(1);
-      enzymeWrapper.update();
+      expect(enzymeWrapper.find('button').length).toBe(1);
     });
   });
 });

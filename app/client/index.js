@@ -10,6 +10,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import 'jquery/dist/jquery';
 import 'materialize-css/dist/css/materialize.css';
 import 'materialize-css/dist/js/materialize';
+import './assets/dist/css/index.css';
 
 import { setCurrentUser } from './actions/authenticationActions';
 import Routes from './components/Routes';

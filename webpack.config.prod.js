@@ -2,6 +2,8 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const cleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -9,7 +11,7 @@ module.exports = {
     path.resolve(__dirname, 'app/client/assets/dist/scss/index.scss')
   ],
   output: {
-    path: path.join(__dirname, 'public'),
+    path: path.join(__dirname, 'build/js'),
     publicPath: '/',
     filename: 'bundle.min.js',
   },
@@ -23,14 +25,14 @@ module.exports = {
           presets: ['es2015', 'react', 'stage-0']
         }
       },
-      { test: /\.css$/,
+      { test: /\.scss$/,
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           loader: 'css-loader?importLoaders=1' })
       },
       {
-        test: /\.(sass|scss)$/,
-        loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|styl)$/,
@@ -49,7 +51,8 @@ module.exports = {
     extensions: ['.js', '.jsx', '.css'],
   },
   plugins: [
-    new ExtractTextPlugin('bundle.css'),
+    new cleanWebpackPlugin(['build']),
+    new ExtractTextPlugin('../css/bundle.css'),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new HtmlWebpackPlugin({
@@ -67,7 +70,7 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
     }),
-    new webpack.optimize.UglifyJsPlugin()
+    new UglifyJsPlugin()
   ],
   devServer: {
     historyApiFallback: true

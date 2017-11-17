@@ -7,8 +7,8 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../../webpack.config');
 
 const app = express();
-app.use('/', express.static(path.join(__dirname, '../client/assets')));
-app.use(express.static(path.join(__dirname, '../../public')));
+app.use('/', express.static(path.join(__dirname, '../../build')));
+// app.use(express.static(path.join(__dirname, '../../public')));
 
 const logger = require('morgan');
 const userRoute = require('../server/routes/routes');
@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(webpackHotMiddleware(compiler));
 
   app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
   });
 }
 if (process.env.NODE_ENV === 'production') {
