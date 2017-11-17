@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -24,8 +23,8 @@ const store = createStore(
   compose(
     // Allows us dispatch asynchronous actions
     applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
-  )
+    window.devToolsExtension ? window.devToolsExtension() : f => f,
+  ),
 );
 
 if (localStorage.jwtToken) {
@@ -43,6 +42,8 @@ const Root = () => {
 };
 
 ReactDOM.render(
-  <Provider store={store}><Root /></Provider>,
-  document.getElementById('app')
+  <Provider store={store}>
+    <Root />
+  </Provider>,
+  document.getElementById('app'),
 );

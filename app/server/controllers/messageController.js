@@ -21,8 +21,14 @@ exports.postMessage = (request, response) => {
       message: 'message body cannot be empty',
     });
   }
-  const userId = request.decoded.id;
-  return Group.findById(request.params.id)
+  const userId = parseInt(request.decoded.id, 10);
+  const groupId = parseInt(request.params.id, 10);
+  if (!userId || !groupId) {
+    return response.send({
+      message: 'Params must be integers',
+    });
+  }
+  return Group.findById(groupId)
     .then((group) => {
       if (!group) {
         return response.status(404).send({
@@ -34,13 +40,13 @@ exports.postMessage = (request, response) => {
         message_body: request.body.message_body,
         priority_level: priorityLevel,
         read_by: [userId],
-        group_id: request.params.id,
+        group_id: groupId,
         user_id: userId,
       })
         .then((message) => {
           // method to get all emails
           getGroupUserEmail(
-            request.params.id,
+            groupId,
             message,
             request.decoded,
           ).then((messageData) => {
@@ -55,7 +61,7 @@ exports.postMessage = (request, response) => {
                   priority_level: message.priority_level,
                   createdAt: message.createdAt,
                   User: {
-                    id: request.decoded.id,
+                    id: userId,
                     username: request.decoded.username,
                   },
                 },
@@ -69,7 +75,7 @@ exports.postMessage = (request, response) => {
                   priority_level: message.priority_level,
                   createdAt: message.createdAt,
                   User: {
-                    id: request.decoded.id,
+                    id: userId,
                     username: request.decoded.username,
                   },
                 },
@@ -82,7 +88,7 @@ exports.postMessage = (request, response) => {
                   priority_level: message.priority_level,
                   createdAt: message.createdAt,
                   User: {
-                    id: request.decoded.id,
+                    id: userId,
                     username: request.decoded.username,
                   },
                 },
@@ -91,11 +97,15 @@ exports.postMessage = (request, response) => {
           });
         })
         .catch(err =>
-          response.status(500).send(err, 'An error occurred, try again'),
+          response
+            .status(500)
+            .send({ message: 'An error occurred, try again', err }),
         );
     })
     .catch(err =>
-      response.status(500).send(err, 'An error occurred, try again'),
+      response
+        .status(500)
+        .send({ message: 'An error occurred, try again', err }),
     );
 };
 

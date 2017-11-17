@@ -1,13 +1,3 @@
-@font-face {
-  font-family: 'Oswald';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf');
-  /* IE9 Compat Modes */
-  src: local("Oswald"), local("Oswald"), url('/opt/lampp/htdocs/Post_It/app/client/post_it/assets/font/Oswald-Bold.ttf') format("truetype");
-}
-
-
 body {
   font-family: 'Oswald', sans-serif;
   margin: 0;
@@ -16,10 +6,6 @@ body {
   font-weight: 300;
   background-color: #EDF2F6;
 }
-
-/*
-html,body,.container{
-  height:100%;}*/
 
 a {
   color: #000000;

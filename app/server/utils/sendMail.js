@@ -17,8 +17,8 @@ function sendMail(receivers, messageBody, priorityLevel) {
     secure: true,
     auth: {
       user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASSWORD
-    }
+      pass: process.env.EMAIL_PASSWORD,
+    },
   });
   // setup email data with unicode symbols
   const mailOptions = {
@@ -71,7 +71,7 @@ function sendMail(receivers, messageBody, priorityLevel) {
       </div>
     </div>
     </div>
-    </body>`
+    </body>`,
   };
 
   // send mail with defined transport object
@@ -79,12 +79,12 @@ function sendMail(receivers, messageBody, priorityLevel) {
     if (error) {
       return {
         status: 400,
-        payload: error
+        payload: error,
       };
     }
     return {
       status: 'Message %s sent: %s',
-      payload: info
+      payload: info,
     };
   });
 }

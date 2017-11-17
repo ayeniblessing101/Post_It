@@ -1,5 +1,3 @@
-
-import 'babel-polyfill';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import expect from 'expect';
@@ -17,7 +15,7 @@ describe('flash message', () => {
     const store = mockStore({});
     const expectedAction = {
       type: ActionTypes.ADD_FLASH_MESSAGE,
-      message: mockData.flashMessageResponse
+      message: mockData.flashMessageResponse,
     };
     store.dispatch(flashMessageActions.addFlashMessage(message));
     expect(store.getActions()).toEqual([expectedAction]);
@@ -27,7 +25,7 @@ describe('flash message', () => {
     const store = mockStore({});
     const expectedAction = {
       type: ActionTypes.DELETE_FLASH_MESSAGE,
-      id
+      id,
     };
     store.dispatch(flashMessageActions.deleteFlashMessage(id));
     expect(store.getActions()).toEqual([expectedAction]);

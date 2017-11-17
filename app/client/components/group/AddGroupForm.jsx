@@ -26,13 +26,13 @@ export class AddGroupForm extends React.Component {
       groupname: '',
       isLoading: false,
       image: '',
-      errors: {}
+      errors: {},
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-   /**
+  /**
    * Handles file upload
    * @param {any} files
    *
@@ -47,15 +47,14 @@ export class AddGroupForm extends React.Component {
     const timestamp = Date.now() / 1000;
     const uploadPreset = 'emdtrl4u';
 
-    const paramStr =
-    `timestamp=${timestamp}&upload_preset=${uploadPreset}AGDtyzVzJmEF3xmXDcJXnATYk2Q`;
+    const paramStr = `timestamp=${timestamp}&upload_preset=${uploadPreset}AGDtyzVzJmEF3xmXDcJXnATYk2Q`;
     const signature = sha1(paramStr);
 
     const params = {
       api_key: '692272296223292',
       timestamp,
       upload_preset: uploadPreset,
-      signature
+      signature,
     };
 
     const uploadRequest = superagent.post(url);
@@ -69,13 +68,13 @@ export class AddGroupForm extends React.Component {
       if (error) {
         this.props.addFlashMessage({
           type: 'error',
-          text: error
+          text: error,
         });
       }
       const uploaded = response.body.secure_url;
 
       this.setState({
-        image: uploaded
+        image: uploaded,
       });
     });
   }
@@ -101,20 +100,25 @@ export class AddGroupForm extends React.Component {
     event.preventDefault();
     if (this.isValid() && this.state.image) {
       this.setState({ errors: {}, isLoading: true });
-      this.props.createGroup(this.state).then(
-        () => {
-          this.context.router.history.push('/groups');
-        },
-        this.setState({
-          groupname: '',
-          errors: {}
-        })
-      ).catch((err) => {
-        this.props.addFlashMessage({
-          type: 'error',
-          text: err.data.groupname
+      this.props
+        .createGroup(this.state)
+        .then(
+          () => {
+            this.context.router.history.push('/groups');
+          },
+          this.setState({
+            groupname: '',
+            errors: {},
+            isLoading: false,
+          }),
+        )
+        .catch((err) => {
+          this.setState({ errors: {}, isLoading: false });
+          this.props.addFlashMessage({
+            type: 'error',
+            text: err.data.groupname,
+          });
         });
-      });
     }
   }
 
@@ -126,7 +130,7 @@ export class AddGroupForm extends React.Component {
    */
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
@@ -148,12 +152,9 @@ export class AddGroupForm extends React.Component {
                 <h4>Add Group</h4>
                 <FlashMessagesList />
                 <form onSubmit={this.handleSubmit}>
-                  { errors.form &&
-                    <div
-                      className="alert alert-danger">
-                      {errors.form}
-                    </div>
-                  }
+                  {errors.form && (
+                    <div className="alert alert-danger">{errors.form}</div>
+                  )}
                   <div className="">
                     <TextFieldGroup
                       className="addGroupFormContainer"
@@ -164,26 +165,28 @@ export class AddGroupForm extends React.Component {
                       field="groupname"
                       type="text"
                     />
-                    <Dropzone
-                      onDrop={this.uploadFile.bind(this)} >
+                    <Dropzone onDrop={this.uploadFile.bind(this)}>
                       <img
                         src={this.state.image}
                         placeholder="Click here to upload Group Avatar"
                         alt="groupAvatar"
                         style={{ width: '150px', height: '150px' }}
-                       />
+                      />
                     </Dropzone>
                     <div className="input-field col s12">
                       <button
                         className="btn waves-effect waves-light"
                         disabled={this.state.isLoading}
-                        type="submit">
+                        type="submit"
+                      >
                         Create
                       </button>
-                      <br /><br />
+                      <br />
+                      <br />
                     </div>
                   </div>
-                  <br /><br />
+                  <br />
+                  <br />
                 </form>
               </div>
               <div className="col s12 m2 l2" />
@@ -201,7 +204,7 @@ AddGroupForm.propTypes = {
 };
 
 AddGroupForm.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
 export default connect(null, { createGroup, addFlashMessage })(AddGroupForm);

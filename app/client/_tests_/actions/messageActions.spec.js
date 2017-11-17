@@ -1,5 +1,4 @@
 /* global jest */
-import 'babel-polyfill';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
@@ -15,40 +14,36 @@ const mockStore = configureMockStore(middlewares);
 describe('Message', () => {
   it('should dispatch post message action when messages is created', () => {
     axios.post = jest.fn(() => {
-      return Promise.resolve(
-        mockData.postMessageResponse
-      );
+      return Promise.resolve(mockData.postMessageResponse);
     });
     const groupId = 1;
     const message = mockData.messageBody;
     const store = mockStore({});
     const expectedAction = {
       type: ActionTypes.POST_MESSAGE,
-      message
+      message,
     };
-    store.dispatch(messageActions.postMessage(groupId, message))
-    .then(() => {
+    store.dispatch(messageActions.postMessage(groupId, message)).then(() => {
       expect(store.getActions()).toEqual([expectedAction]);
     });
   });
   it('should dispatch a get message action when messages are fetched', () => {
     axios.get = jest.fn(() => {
-      return Promise.resolve(
-        {
-          data: { data: mockData.data }
-        }
-      );
+      return Promise.resolve({
+        data: { data: mockData.data },
+      });
     });
     const groupId = 1;
     const groupInfo = mockData.data;
     const store = mockStore({}, groupInfo);
     const expectedAction = {
       type: ActionTypes.GET_GROUP_WITH_MESSAGE,
-      groupInfo
+      groupInfo,
     };
-    return store.dispatch(messageActions.getGroupWithMessages(groupId))
-    .then(() => {
-      expect(store.getActions()).toEqual([expectedAction]);
-    });
+    return store
+      .dispatch(messageActions.getGroupWithMessages(groupId))
+      .then(() => {
+        expect(store.getActions()).toEqual([expectedAction]);
+      });
   });
 });

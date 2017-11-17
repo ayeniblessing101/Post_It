@@ -4,7 +4,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = [
   {
-    entry: [path.join(__dirname, 'app/client/index.js')],
+    entry: [
+      'eventsource-polyfill',
+      path.join(__dirname, 'app/client/index.js'),
+    ],
     output: {
       path: path.join(__dirname, 'build'),
       publicPath: '/',

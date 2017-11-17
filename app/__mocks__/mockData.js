@@ -340,6 +340,12 @@ const mockData = {
     isLoading: false,
     invalid: false,
   },
+  addGroupData: {
+    groupname: 'Add group',
+    isLoading: false,
+    errors: { currentError: 'Some Error' },
+    image: 'something',
+  },
 };
 
 export default mockData;

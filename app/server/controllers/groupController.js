@@ -136,13 +136,13 @@ exports.addUser = (request, response) => {
     }).then((user) => {
       if (user) {
         const groupId = parseInt(request.params.id, 10);
-        const userId = parseInt(request.user.id, 10);
+        const userId = parseInt(user.id, 10);
         GroupUser.findOrCreate({
           where: {
             $and: [{ user_id: userId }, { group_id: groupId }],
           },
           defaults: {
-            user_id: parseInt(user.id, 0),
+            user_id: parseInt(user.id, 10),
             group_id: parseInt(request.params.id, 10),
           },
         }).spread((Usergroup, created) => {

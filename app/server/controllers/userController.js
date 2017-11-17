@@ -14,7 +14,6 @@ const salt = bcrypt.genSaltSync(saltRounds);
 const User = require('../models').User;
 const ForgotPassword = require('../models').ForgotPassword;
 
-
 /**
   * Registers a new user
   * @param {Object} request - request.
@@ -28,10 +27,11 @@ exports.signup = (request, response) => {
     response.status(422).send(errors);
   } else {
     User.findOne({
-      where: { $or: [
-        { username: request.body.username },
-        { email: request.body.email }
-      ]
+      where: {
+        $or: [
+          { username: request.body.username },
+          { email: request.body.email },
+        ],
       },
     })
       .then((newUser) => {
@@ -48,23 +48,27 @@ exports.signup = (request, response) => {
             username: request.body.username,
             email: request.body.email,
             phone: parseInt(request.body.phoneNo, 10),
-            password: bcrypt.hashSync(request.body.password, salt)
+            password: bcrypt.hashSync(request.body.password, salt),
           };
           User.create(userData)
-          .then((user) => {
-            const token = jwt.sign({
-              id: user.id,
-              username: user.username,
-              email: user.email,
-              phone: user.phone
-            }, 'secret', { expiresIn: 144444440 });
-            response.status(201).send({
-              status: true,
-              message: 'Signup was successful',
-              token
-            });
-          })
-          .catch(error => response.status(500).send(error));
+            .then((user) => {
+              const token = jwt.sign(
+                {
+                  id: user.id,
+                  username: user.username,
+                  email: user.email,
+                  phone: user.phone,
+                },
+                'secret',
+                { expiresIn: 144444440 },
+              );
+              response.status(201).send({
+                status: true,
+                message: 'Signup was successful',
+                token,
+              });
+            })
+            .catch(error => response.status(500).send(error));
         }
       })
       .catch(error => response.status(500).send(error));
@@ -81,32 +85,38 @@ exports.signup = (request, response) => {
 // sigin a user
 exports.login = (request, response) => {
   if (request.body.username === '') {
-    response.status(422)
-    .send({ status: false, message: 'Username is required' });
+    response
+      .status(422)
+      .send({ status: false, message: 'Username is required' });
   } else if (request.body.password === '') {
-    response.status(422)
-    .send({ status: false, message: 'Password is required' });
+    response
+      .status(422)
+      .send({ status: false, message: 'Password is required' });
   } else {
     User.findOne({
       where: {
         username: request.body.username,
       },
-    })
-    .then((user) => {
+    }).then((user) => {
       if (!user) {
         response.status(404).json({ errors: { form: 'Invalid Credentials' } });
       } else if (user) {
         if (bcrypt.compareSync(request.body.password, user.password)) {
-          const token = jwt.sign({
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            phone: user.phone
-          }, 'secret', { expiresIn: 144444440 });
+          const token = jwt.sign(
+            {
+              id: user.id,
+              username: user.username,
+              email: user.email,
+              phone: user.phone,
+            },
+            'secret',
+            { expiresIn: 144444440 },
+          );
           response.json({ token });
         } else {
-          response.status(400)
-          .json({ errors: { form: 'Invalid Credentials' } });
+          response
+            .status(400)
+            .json({ errors: { form: 'Invalid Credentials' } });
         }
       }
     });
@@ -124,38 +134,38 @@ exports.login = (request, response) => {
 exports.sendForgotPasswordToken = (request, response) => {
   if (request.body.email === '') {
     response.status(422).send({
-      status: false, message: 'Email is required' });
+      status: false,
+      message: 'Email is required',
+    });
   } else {
     User.findOne({
       where: {
-        email: request.body.email
-      }
-    })
-    .then((user) => {
+        email: request.body.email,
+      },
+    }).then((user) => {
       if (user) {
         ForgotPassword.create({
           user_email: user.email,
           reset_password_token: crypto.randomBytes(32).toString('hex'),
-          reset_password_expires: Date.now() + 3600000
+          reset_password_expires: Date.now() + 3600000,
         })
-        .then((result) => {
-          response.status(201)
-          .send({ status: false, message: 'Successful' });
-          const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: {
-              user: process.env.EMAIL,
-              pass: process.env.EMAIL_PASSWORD
-            }
-          });
-          const mailOptions = {
-            from: 'Post It',
-            to: user.email,
-            subject: 'Post It || Reset Password',
+          .then((result) => {
+            response.status(201).send({ message: 'Successful' });
+            const transporter = nodemailer.createTransport({
+              host: 'smtp.gmail.com',
+              port: 465,
+              secure: true,
+              auth: {
+                user: process.env.EMAIL,
+                pass: process.env.EMAIL_PASSWORD,
+              },
+            });
+            const mailOptions = {
+              from: 'Post It',
+              to: user.email,
+              subject: 'Post It || Reset Password',
 
-            html: `<body><div>
+              html: `<body><div>
             <div style="background-color:#f2f3f5;padding:20px">
               <div style="max-width:600px;margin:0 auto">
                <div 
@@ -195,7 +205,8 @@ exports.sendForgotPasswordToken = (request, response) => {
                       color:#686f7a">
                       Please click the button below to change your password.
                   </p>
-                  <a href=${request.headers.origin}/user/password/verify?token=${result.reset_password_token}&email=${user.email} 
+                  <a href=${request.headers
+                    .origin}/user/password/verify?token=${result.reset_password_token}&email=${user.email} 
                     style="
                       display:inline-block;
                       font-size:15px;color:#ffffff;
@@ -209,28 +220,27 @@ exports.sendForgotPasswordToken = (request, response) => {
                 </div>
              </div>
             </div>
-            </div>
-                <p style="text-align: right;">Regards, the PostIt team.</p>
-                <br>
-                <br>
-            </div>
-          </body>`
-          };
-          transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              return response.send(error);
-            }
-            response.send('Message %s sent: %s', info.messageId, info.response);
+          </body>`,
+            };
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                return response.send(error);
+              }
+              response.send(
+                'Message %s sent: %s',
+                info.messageId,
+                info.response,
+              );
+            });
+          })
+          .catch((error) => {
+            return response.status(500).send({
+              error,
+            });
           });
-        })
-        .catch((error) => {
-          return response.status(500).send({
-            error
-          });
-        });
       } else {
         response.status(404).send({
-          message: 'Cannot find user with that email'
+          message: 'Cannot find user with that email',
         });
       }
     });
@@ -248,29 +258,30 @@ exports.checkToken = (request, response) => {
   const token = request.query.token;
   if (typeof token !== 'string' || token === '') {
     return response.status(400).send({
-      message: 'Invalid token'
+      message: 'Invalid token',
     });
   }
   ForgotPassword.findOne({
     where: {
-      reset_password_token: request.query.token
-    }
+      reset_password_token: request.query.token,
+    },
   })
-  .then((tokenExist) => {
-    if (tokenExist) {
-      response.status(200).send({
-        message: 'Token Found!'
+    .then((tokenExist) => {
+      if (tokenExist) {
+        response.status(200).send({
+          message: 'Token Found!',
+        });
+      } else {
+        response.status(404).send({
+          message: 'Token not found',
+        });
+      }
+    })
+    .catch((error) => {
+      response.status(500).send({
+        error,
       });
-    } else {
-      response.status(404).send({
-        message: 'Token not found'
-      });
-    }
-  }).catch((error) => {
-    response.status(500).send({
-      error
     });
-  });
 };
 
 /**
@@ -283,43 +294,51 @@ exports.checkToken = (request, response) => {
 exports.resetPassword = (request, response) => {
   if (request.body.newPassword === '') {
     return response.status(422).send({
-      status: false, message: 'New Password is required' });
+      status: false,
+      message: 'New Password is required',
+    });
   }
 
   if (request.body.confirmPassword === '') {
     return response.status(422).send({
-      status: false, message: 'Please Confirm your new Password' });
+      status: false,
+      message: 'Please Confirm your new Password',
+    });
   }
 
   if (request.body.newPassword !== request.body.confirmPassword) {
     return response.status(401).send({
-      status: false, message: 'Password does not match' });
+      status: false,
+      message: 'Password does not match',
+    });
   }
   User.findOne({
     where: {
-      email: request.body.email
-    }
+      email: request.body.email,
+    },
   })
-  .then((user) => {
-    if (!user) {
-      return response.status(404).send({ message: 'User not found' });
-    }
-    const password = bcrypt.hashSync(request.body.newPassword, salt);
-    user.update({
-      password
+    .then((user) => {
+      if (!user) {
+        return response.status(404).send({ message: 'User not found' });
+      }
+      const password = bcrypt.hashSync(request.body.newPassword, salt);
+      user
+        .update({
+          password,
+        })
+        .then(() => {
+          return response.status(204).json({
+            message: 'Password updated succesfully',
+          });
+        });
     })
-    .then(() => {
-      return response.status(204).json({
-        message: 'Password updated succesfully'
+    .catch((err) => {
+      response.status(500).send({
+        err,
+        message: 'A fatal error was encountered, Please try again later.',
+        status: 500,
       });
     });
-  }).catch((err) => {
-    response.status(500).send({
-      err,
-      message: 'A fatal error was encountered, Please try again later.',
-      status: 500
-    });
-  });
 };
 
 /**
@@ -332,44 +351,44 @@ exports.resetPassword = (request, response) => {
 exports.search = (request, response) => {
   let limit = request.query.limit;
   let offset = request.query.offset;
-  const page =
-  Math.ceil(((request.query.offset) / (request.query.limit)) + 1) || 1;
+  const page = Math.ceil(request.query.offset / request.query.limit + 1) || 1;
   limit = Number(limit) || 10;
   offset = Number(offset) || 0;
 
   User.findAndCountAll({
     where: {
       username: {
-        $iLike: `%${request.query.q}%`
-      }
+        $iLike: `%${request.query.q}%`,
+      },
     },
     attributes: ['username', 'email'],
     offset,
-    limit
-  }).then((users) => {
-    if (!users) {
-      response.status(404).send({
-        error: 'User not found'
-      });
-    } else {
-      const pageCount = Math.ceil(users.count / limit);
-      const pageSize = limit;
-      const totalCount = users.count;
+    limit,
+  })
+    .then((users) => {
+      if (!users) {
+        response.status(404).send({
+          error: 'User not found',
+        });
+      } else {
+        const pageCount = Math.ceil(users.count / limit);
+        const pageSize = limit;
+        const totalCount = users.count;
 
-      response.status(200).send({
-        users: users.rows,
-        page,
-        pageCount,
-        pageSize,
-        totalCount
+        response.status(200).send({
+          users: users.rows,
+          page,
+          pageCount,
+          pageSize,
+          totalCount,
+        });
+      }
+    })
+    .catch((err) => {
+      response.status(500).send({
+        err,
+        message: 'A fatal error was encountered, Please try again later.',
+        status: 500,
       });
-    }
-  }).catch((err) => {
-    response.status(500).send({
-      err,
-      message: 'A fatal error was encountered, Please try again later.',
-      status: 500
     });
-  });
 };
-

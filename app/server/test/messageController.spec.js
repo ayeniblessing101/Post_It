@@ -81,7 +81,7 @@ describe('creates a new message', () => {
       it('throws an error if group does not exist', (done) => {
         // Test logic...
         request
-          .post('/api/v1/group/0/message')
+          .post('/api/v1/group/100/message')
           .set('Authorization', `Basic ${token}`)
           .send(userSeeds.messagePayload)
           .expect(404)

@@ -10,14 +10,16 @@ jest.mock('react-router-dom');
 
 const mockContext = {
   childContextTypes: { router: React.PropTypes.object },
-  context: { router: {
-    history: {
-      push: () => null,
-      replace: () => null,
-      createHref: () => null,
-      createGroup: '[function ]'
-    }
-  } }
+  context: {
+    router: {
+      history: {
+        push: () => null,
+        replace: () => null,
+        createHref: () => null,
+        createGroup: '[function ]',
+      },
+    },
+  },
 };
 const addFlashMessage = sinon.spy();
 const setup = () => {
@@ -27,16 +29,14 @@ const setup = () => {
     createGroup: jest.fn(() => Promise.resolve()),
     auth: {
       isAuthenticated: false,
-      user: {}
-    }
+      user: {},
+    },
   };
 
-  const enzymeWrapper = shallow(
-    <AddGroupForm {...props} />
-  );
+  const enzymeWrapper = shallow(<AddGroupForm {...props} />);
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 };
 
@@ -72,44 +72,36 @@ describe('components', () => {
     it('checks if image is in the state', () => {
       const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
       const form = wrapper.find('form');
-      wrapper.setState({
-        groupname: 'Add group',
-        isLoading: false,
-        errors: { currentError: 'Some Error' },
-        image: 'something'
-      });
+      wrapper.setState(mockData.addGroupData);
       form.simulate('submit', { preventDefault: () => null });
-      expect(wrapper.state().isLoading).toBeTruthy();
       expect(wrapper.state().errors).toEqual({});
     });
 
     it('should call addFlashmessage method when createGroup fails', () => {
-      const failingCreateGroup = jest.fn(() => Promise.reject({
-        data: {
-          groupname: 'Error'
-        }
-      }));
+      const failingCreateGroup = jest.fn(() =>
+        Promise.reject({
+          data: {
+            groupname: 'Error',
+          },
+        }),
+      );
       const failingProps = {
         ...props,
-        createGroup: failingCreateGroup
+        createGroup: failingCreateGroup,
       };
       const wrapper = shallow(<AddGroupForm {...failingProps} />, mockContext);
       const form = wrapper.find('form');
-      wrapper.setState({
-        groupname: 'Add group',
-        isLoading: false,
-        errors: { currentError: 'Some Error' },
-        image: 'something'
-      });
-      // const initialCallCount = props.addFlashMessage.callCount;
+      wrapper.setState(mockData.addGroupData);
       form.simulate('submit', { preventDefault: () => null });
-      // expect(props.addFlashMessage.called).toBe(true);
     });
 
     it('simulates on change event', () => {
       const spy = sinon.spy(AddGroupForm.prototype, 'handleChange');
       const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
-      wrapper.find('.addGroupFormContainer').simulate('change', { preventDefault: () => null, target: { name: 'hello', value: 'hello' } });
+      wrapper.find('.addGroupFormContainer').simulate('change', {
+        preventDefault: () => null,
+        target: { name: 'hello', value: 'hello' },
+      });
       expect(spy.called).toBeTruthy();
     });
   });

@@ -1,5 +1,4 @@
 /* global jest */
-import 'babel-polyfill';
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
@@ -15,25 +14,21 @@ const mockStore = configureMockStore(middlewares);
 describe('Authentication', () => {
   it('should set current user object in store on successful login', () => {
     axios.post = jest.fn(() => {
-      return Promise.resolve(
-        {
-          data:
-          { token: mockData.token }
-        }
-      );
+      return Promise.resolve({
+        data: { token: mockData.token },
+      });
     });
 
     const user = {
-      ...mockData.decodedToken
+      ...mockData.decodedToken,
     };
     const store = mockStore({}, user);
     const data = mockData.user;
     const expectedAction = {
       type: ActionTypes.GET_CURRENT_AUTHENTICATED_USER,
-      user
+      user,
     };
-    return store.dispatch(authenticationActions.login(data))
-    .then(() => {
+    return store.dispatch(authenticationActions.login(data)).then(() => {
       expect(store.getActions()).toEqual([expectedAction]);
     });
   });
@@ -41,35 +36,34 @@ describe('Authentication', () => {
     const store = mockStore({});
     const expectedAction = {
       type: ActionTypes.GET_CURRENT_AUTHENTICATED_USER,
-      user: {}
+      user: {},
     };
     store.dispatch(authenticationActions.logout());
     expect(store.getActions()).toEqual([expectedAction]);
   });
   it('should set current user object in store on successful signup', () => {
     axios.post = jest.fn(() => {
-      return Promise.resolve(
-        {
-          data: {
-            status: true,
-            message: 'Signup was successful',
-            token: mockData.token }
-        }
-      );
+      return Promise.resolve({
+        data: {
+          status: true,
+          message: 'Signup was successful',
+          token: mockData.token,
+        },
+      });
     });
-    const user =
-      {
-        ...mockData.decodedToken
-      };
+    const user = {
+      ...mockData.decodedToken,
+    };
 
     const expectedAction = {
       type: ActionTypes.GET_CURRENT_AUTHENTICATED_USER,
-      user
+      user,
     };
     const store = mockStore({});
-    return store.dispatch(authenticationActions.userSignupRequest(user))
-    .then(() => {
-      expect(store.getActions()).toEqual([expectedAction]);
-    });
+    return store
+      .dispatch(authenticationActions.userSignupRequest(user))
+      .then(() => {
+        expect(store.getActions()).toEqual([expectedAction]);
+      });
   });
 });
