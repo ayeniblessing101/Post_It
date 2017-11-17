@@ -1,26 +1,29 @@
 {
   "name": "postit",
   "version": "1.0.0",
-  "description": "A simple application that allows friends and colleagues create groups for notifications. ",
+  "description":
+    "A simple application that allows friends and colleagues create groups for notifications. ",
   "main": "./app/client/index.js",
   "scripts": {
-    "prestart": "npm run build",
+    "postinstall": "[ \"$NODE_ENV\" != production ] && exit 0; npm run build",
     "start": "babel-node -- app/server/app.js",
-    "start:dev": "npm run build:dev && nodemon --watch app/server --exec babel-node -- app/server/app.js",
-    "server:test": "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo mocha --timeout 90000  ./app/server/test/ --compilers js:babel-register",
+    "start:dev":
+      "npm run build:dev && nodemon --watch app/server --exec babel-node -- app/server/app.js",
+    "server:test":
+      "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo mocha --timeout 90000  ./app/server/test/ --compilers js:babel-register",
     "client:test": "jest app/client/ --coverage",
-    "test-with-coverage": "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo nyc --reporter=lcov --reporter=text mocha --timeout 90000 ./app/server/test --compilers js:babel-register",
+    "test-with-coverage":
+      "NODE_ENV=test DATABASE_URL=postgres://ytettkxo:BL2lc8F27dwSmxQkcVwhjPXW2gUJZo8m@stampy.db.elephantsql.com:5432/ytettkxo nyc --reporter=lcov --reporter=text mocha --timeout 90000 ./app/server/test --compilers js:babel-register",
     "prebuild": "rm -rf public",
     "build": "webpack -p --config webpack.config.prod.js",
     "build:dev": "webpack --config webpack.config.js",
-    "server:coverage": "nyc npm run server:test && nyc report --reporter=lcov --reporter=text --reporter=lcovonly",
+    "server:coverage":
+      "nyc npm run server:test && nyc report --reporter=lcov --reporter=text --reporter=lcovonly",
     "client:coverage": "codecov --token=cf1cac31-72e6-42d8-ab6c-d75079dc725b",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "jest": {
-    "roots": [
-      "<rootDir>/app/client/_tests_"
-    ],
+    "roots": ["<rootDir>/app/client/_tests_"],
     "transform": {
       ".*": "<rootDir>/node_modules/babel-jest"
     },
@@ -44,29 +47,20 @@
       "<rootDir>/server/"
     ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+        "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
     },
-    "setupFiles": [
-      "jest-localstorage-mock",
-      "<rootDir>/test-env.js"
-    ],
+    "setupFiles": ["jest-localstorage-mock", "<rootDir>/test-env.js"],
     "setupTestFrameworkScriptFile": "<rootDir>/test-setup.js",
     "testEnvironment": "jsdom",
-    "unmockedModulePathPatterns": [
-      "node_modules/react/"
-    ]
+    "unmockedModulePathPatterns": ["node_modules/react/"]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayeniblessing101/Post_It.git"
   },
-  "keywords": [
-    "postit",
-    "group",
-    "user",
-    "messages"
-  ],
+  "keywords": ["postit", "group", "user", "messages"],
   "author": "Ayeni Blessing",
   "license": "MIT",
   "bugs": {
@@ -187,9 +181,6 @@
     "supertest": "^3.0.0"
   },
   "babel": {
-    "presets": [
-      "react",
-      "babel-preset-es2015"
-    ]
+    "presets": ["react", "babel-preset-es2015"]
   }
 }
