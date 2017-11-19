@@ -1,12 +1,16 @@
 import axios from 'axios';
 import { GET_ALL_USERS } from './types';
 
-const addUsersToReduxState = users => (
-  {
-    type: GET_ALL_USERS,
-    users
-  }
-);
+/**
+ * Add a user to a Group
+ * @param {object} users
+ *
+ * @returns
+ */
+const addUsersToReduxState = users => ({
+  type: GET_ALL_USERS,
+  users,
+});
 
 /**
  * @function getUsers
@@ -17,16 +21,16 @@ const addUsersToReduxState = users => (
  * @return {function} action payload data and action type
  */
 export default function getUsersAction(searchParams, offset = 0, limit = 5) {
-  return dispatch => (
-    axios.get('/api/v1/user/search', {
-      params: {
-        q: searchParams,
-        offset,
-        limit
-      }
-    })
-  )
-    .then((response) => {
-      dispatch(addUsersToReduxState(response.data));
-    });
+  return dispatch =>
+    axios
+      .get('/api/v1/user/search', {
+        params: {
+          q: searchParams,
+          offset,
+          limit,
+        },
+      })
+      .then((response) => {
+        dispatch(addUsersToReduxState(response.data));
+      });
 }

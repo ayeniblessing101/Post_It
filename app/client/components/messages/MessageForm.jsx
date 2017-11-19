@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { getGroupWithMessages, postMessage }
-from '../../actions/messageAction';
+import { getGroupWithMessages, postMessage } from '../../actions/messageAction';
 
 /**
  * @class MessageForm
@@ -24,81 +23,105 @@ export class MessageForm extends React.Component {
       groupId: this.props.groupId,
       groupName: this.props.messages.groupName,
       message: '',
-      priority: ''
+      priority: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   /**
-   * @param {any} event
+   * Handles form element onChange event
+   * @param {event} event
    * @memberof MessageForm
+   *
    * @returns {void}
    */
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
   /**
-   * @param {any} event
+   * Handles form element onSubmit event
+   * @param {event} event
    * @memberof MessageForm
+   *
    * @return {void}
    */
   handleSubmit(event) {
     event.preventDefault();
     const message = {
       message_body: this.state.message,
-      priority_level: this.state.priority
+      priority_level: this.state.priority,
     };
-    this.props.postMessage(this.state.groupId, message)
-    .then(() => {
+    this.props.postMessage(this.state.groupId, message).then(() => {
       this.setState({
         message: '',
-        priority: ''
+        priority: '',
       });
     });
   }
 
+  /**
+   * Calls the getGroupWithMessages action
+   * on page load and initializes materialize select
+   * @method componentDidMount
+   *
+   * @return {void}
+   */
   componentDidMount() {
     this.props.getGroupWithMessages(this.props.groupId);
     $('select').material_select();
   }
 
+  /**
+   * Updates the state on store change
+   * @method componentWillReceiveProps
+   * @param {object} nextProps
+   *
+   * @returns {void}
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({
       messages: nextProps.messages.Messages,
       group: nextProps.group,
       groupId: nextProps.groupId,
-      groupName: nextProps.messages.groupName
+      groupName: nextProps.messages.groupName,
     });
   }
+  /**
+   * renders the MessageForm component
+   * @method render
+   *
+   * @returns {void}
+   */
   render() {
     let allMessages;
     const { messages, groupName } = this.state;
     if (messages.length > 0) {
-      allMessages = messages && messages.map(message => (
-        <div key={message.id}>
-          <b className="senderName">
-            {message.User.username}
-          </b>
-          <span className="right sentTime">
-            { moment(message.createdAt, moment.ISO_8601).fromNow() }
-          </span>
-          <p key={message.id} className="messageBody">
-            {message.message_body}
-            <span
-            className={`new badge ${message.priority_level
-              && (message.priority_level).toLowerCase()}`}
-            data-badge-caption={message.priority_level} />
-          </p>
-          <hr /><br />
-        </div>));
+      allMessages =
+        messages &&
+        messages.map(message => (
+          <div key={message.id}>
+            <b className="senderName">{message.User.username}</b>
+            <span className="right sentTime">
+              {moment(message.createdAt, moment.ISO_8601).fromNow()}
+            </span>
+            <p key={message.id} className="messageBody">
+              {message.message_body}
+              <span
+                className={`new badge ${message.priority_level &&
+                  message.priority_level.toLowerCase()}`}
+                data-badge-caption={message.priority_level}
+              />
+            </p>
+            <hr />
+            <br />
+          </div>
+        ));
     } else {
-      allMessages = (
-        <h6>No messages to show</h6>
-      );
+      allMessages = <h6>No messages to show</h6>;
     }
 
     return (
@@ -106,7 +129,7 @@ export class MessageForm extends React.Component {
         <div className="col s12 m12 l6 message-cards">
           <div className="message-cards-board">
             <h5 className="groupName">{groupName}</h5>
-            { allMessages }
+            {allMessages}
           </div>
           <div className="message-cards-form">
             <form onSubmit={this.handleSubmit} method="post">
@@ -128,8 +151,11 @@ export class MessageForm extends React.Component {
                   required
                   value={this.state.priority}
                   name="priority"
-                  onChange={this.handleChange}>
-                  <option value="" disabled>Select Priority</option>
+                  onChange={this.handleChange}
+                >
+                  <option value="" disabled>
+                    Select Priority
+                  </option>
                   <option value="Normal">Normal</option>
                   <option value="Critical">Critical</option>
                   <option value="Urgent">Urgent</option>
@@ -155,12 +181,11 @@ MessageForm.propTypes = {
   group: PropTypes.array.isRequired,
 };
 
-
 const mapStateToProps = state => ({
   messages: state.messages,
-  group: state.groups.allGroups
+  group: state.groups.allGroups,
 });
 
-export default
-connect(mapStateToProps,
-  { getGroupWithMessages, postMessage })(MessageForm);
+export default connect(mapStateToProps, { getGroupWithMessages, postMessage })(
+  MessageForm,
+);

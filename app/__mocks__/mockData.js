@@ -176,18 +176,17 @@ const mockData = {
     iat: 1509101121,
     exp: 1653545561,
   },
-  users: [
-    {
-      username: 'Blessing',
-      email: 'blesssing.ayeni@andela.com',
-    },
-  ],
-  paginateData: {
+  users: {
     pageNumber: 0,
     pageCount: 0,
     pageSize: 0,
     totalCount: 0,
-    users: [],
+    users: [
+      {
+        username: 'Blessing',
+        email: 'blesssing.ayeni@andela.com',
+      },
+    ],
   },
   offset: 0,
   limit: 5,
@@ -240,7 +239,6 @@ const mockData = {
   allGroupInitialState: {
     allGroups: [],
     pageCount: 0,
-    pageNumber: 0,
     pageSize: 0,
     totalCount: 0,
   },
@@ -342,8 +340,6 @@ const mockData = {
   },
   addGroupData: {
     groupname: 'Add group',
-    isLoading: false,
-    errors: { currentError: 'Some Error' },
     image: 'something',
   },
 };

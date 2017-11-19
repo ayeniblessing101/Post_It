@@ -5,8 +5,14 @@ import { connect } from 'react-redux';
 import AddUserModal from './AddUserModal';
 import { fetchGroupUsers } from '../../actions/groupActions';
 
+/**
+ * @class AllUsers
+ * @extends {React.Component}
+ */
 export class AllUsers extends Component {
   /**
+   * Calls the fetchGroupUsers action
+   * on page load and initializes materialize select
    * @memberof AllUsers
    *
    * @return {void}
@@ -14,6 +20,13 @@ export class AllUsers extends Component {
   componentWillMount() {
     this.props.fetchGroupUsers(this.props.groupId);
   }
+
+  /**
+   * renders the AllUsers component
+   * @method render
+   *
+   * @returns {void}
+   */
   render() {
     const groupUsers = this.props.groupUsers;
     const selectedGroupId = this.props.groupId;
@@ -22,23 +35,25 @@ export class AllUsers extends Component {
       <div className="allUsers">
         <div className="col s12 m12 l3 ">
           <h5 className="groupName">Users</h5>
-          {<AddUserModal
+          {
+            <AddUserModal
               addUserToGroup={addUserToGroup}
               groupId={selectedGroupId}
-          />}
+            />
+          }
           <ul
             className="collapsible allMessageCard"
-            data-collapsible="accordion">
-            {
-              groupUsers.map(groupUser =>
-                <li key={groupUser.id}>
-                  <div className="collapsible-header">
-                    <Link
-                    to="#"
-                    className="userNames">{groupUser.username}</Link>
-                  </div>
-                </li>
-              )}
+            data-collapsible="accordion"
+          >
+            {groupUsers.map(groupUser => (
+              <li key={groupUser.id}>
+                <div className="collapsible-header">
+                  <Link to="#" className="userNames">
+                    {groupUser.username}
+                  </Link>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -50,12 +65,11 @@ AllUsers.propTypes = {
   fetchGroupUsers: PropTypes.func.isRequired,
   groupUsers: PropTypes.array.isRequired,
   addUserToGroup: PropTypes.func.isRequired,
-  groupId: PropTypes.number.isRequired
+  groupId: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
-  groupUsers: state.groupUsers
+  groupUsers: state.groupUsers,
 });
-
 
 export default connect(mapStateToProps, { fetchGroupUsers })(AllUsers);

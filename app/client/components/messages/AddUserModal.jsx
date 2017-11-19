@@ -22,7 +22,7 @@ export class AddUserModal extends React.Component {
     super(props);
     this.state = {
       username: '',
-      errors: {}
+      errors: {},
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -55,26 +55,28 @@ export class AddUserModal extends React.Component {
     const groupId = this.props.groupId;
     if (this.isValid()) {
       this.setState({ errors: {} });
-      this.props.addUserToGroup(groupId, {
-        username: this.state.username
-      }).then((response) => {
-        if (response === true) {
-          this.props.addFlashMessage({
-            type: 'success',
-            text: 'User has been add to Group Successfully'
-          });
-          this.props.fetchGroupUsers(groupId);
-        } else {
-          this.props.addFlashMessage({
-            type: 'error',
-            text: response
-          });
-        }
-      });
+      this.props
+        .addUserToGroup(groupId, {
+          username: this.state.username,
+        })
+        .then((response) => {
+          if (response === true) {
+            this.props.addFlashMessage({
+              type: 'success',
+              text: 'User has been add to Group Successfully',
+            });
+            this.props.fetchGroupUsers(groupId);
+          } else {
+            this.props.addFlashMessage({
+              type: 'error',
+              text: response,
+            });
+          }
+        });
     }
     this.setState({
       username: '',
-      errors: {}
+      errors: {},
     });
   }
 
@@ -92,7 +94,7 @@ export class AddUserModal extends React.Component {
   /**
    * @memberof AddUserModal
    *
-   * @returns {object} - AddUserModal Component
+   * @returns {void}
    */
   render() {
     const { errors, username } = this.state;
@@ -101,17 +103,16 @@ export class AddUserModal extends React.Component {
         <Modal
           header="Add User to Group"
           trigger={
-            <a
-              className="btn-floating add_user btn-small waves-effect waves-light red">
-              <i className="material-icons">
-                add
-              </i>
+            <a className="btn-floating add_user btn-small red">
+              <i className="material-icons">add</i>
             </a>
-          }>
+          }
+        >
           <FlashMessagesList />
-          <form onSubmit={this.handleSubmit} >
-            { errors.form &&
-              <div className="alert alert-danger">{errors.form}</div> }
+          <form onSubmit={this.handleSubmit}>
+            {errors.form && (
+              <div className="alert alert-danger">{errors.form}</div>
+            )}
             <TextFieldGroup
               className="addUserFormContainer"
               error={errors.username}
@@ -121,26 +122,23 @@ export class AddUserModal extends React.Component {
               field="username"
               type="text"
             />
-            <Button
-              className="btn waves-effect waves-light"
-              type="submit"
-            >
-            Add
+            <Button className="btn" type="submit">
+              Add
             </Button>
           </form>
         </Modal>
       </div>
     );
   }
-
 }
 
 AddUserModal.propTypes = {
   addUserToGroup: PropTypes.func.isRequired,
   fetchGroupUsers: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
-  groupId: PropTypes.number.isRequired
+  groupId: PropTypes.number.isRequired,
 };
 
-export default connect(null,
-  { addFlashMessage, fetchGroupUsers })(AddUserModal);
+export default connect(null, { addFlashMessage, fetchGroupUsers })(
+  AddUserModal,
+);

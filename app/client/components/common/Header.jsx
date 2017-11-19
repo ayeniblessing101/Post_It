@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/authenticationActions';
 
 /**
+ * This class is the component for the header
+ * It is responsible for managing all the state changes in the component
  * @class Header
  * @extends {React.Component}
  */
 export class Header extends React.Component {
   /**
-   * Creates an instance of Header.
+   * Initializes the state and binds this to the methods in this class.
    * @param {any} props
    * @memberof Header
    */
@@ -22,6 +24,13 @@ export class Header extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+  /**
+   * Initializes the materialize tooltip, click and sideNav components
+   *
+   * @method componentDidMount
+   * @memberof Header
+   * @returns {void}
+   */
   componentDidMount() {
     $('.tooltipped').tooltip();
     $('.editButtons').click(() => {
@@ -32,29 +41,37 @@ export class Header extends React.Component {
   }
 
   /**
-   * redirects to search result page
+   * This method is called when the search
+   * is made and redirects the search result page
    * @memberof Header
+   *
    * @return {void}
    */
   handleSubmit() {
-    this.context.router.history
-    .push(`/user/search?q=${this.state.searchParam}`);
+    this.context.router.history.push(
+      `/user/search?q=${this.state.searchParam}`,
+    );
   }
 
   /**
+   * Takes in the target object of the onchange event and sets the state
+   * with the form input
    * @param {any} event
    * @memberof Header
    * @return {void}
    */
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
-/**
+  /**
+ * This method is called when the logout button is clicked
+ * it removed the user token from localstorage
  * @param {any} event
  * @memberof Header
+ *
  * @return {void}
  */
   logout(event) {
@@ -64,7 +81,7 @@ export class Header extends React.Component {
 
   /**
    * Renders the header component
-   * @returns {object} - header component
+   * @returns {void}
    * @memberof Header
    */
   render() {
@@ -73,134 +90,135 @@ export class Header extends React.Component {
     return (
       <div>
         <div className="navbar-fixed">
-          {
-            isAuthenticated ?
-              <nav>
-                <div className="nav-wrapper">
-                  <Link to="/groups" className="brand-logo">PostIt</Link>
-                  <Link
-                    to="#"
-                    data-activates="mobile-demo"
-                    className="button-collapse">
-                    <i className="material-icons">menu</i>
-                  </Link>
-                  <ul className="side-nav" id="mobile-demo">
-                    <li>
-                      <form id="searchForm" onSubmit={this.handleSubmit}>
-                        <input
-                          type="text"
-                          name="searchParam"
-                          placeholder="Search for Friends"
-                          id="searchBar"
-                          value={this.state.searchParam}
-                          onChange={this.handleChange}
-                        />
-                      </form>
-                    </li>
-                    <li>
-                      <div className="authUser">
-                        <span className="welcome">
-                          Welcome { isAuthenticated ? user.username : ''}
-                        </span>
-                      </div>
-                    </li>
-                    <li>
-                      <ul id="" className="">
-                        <li>
-                          <Link to="/groups">
-                            <i
-                              className="fa fa-eye"
-                              aria-hidden="true" />
-                            View all Groups
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/add-group">
-                            <i
-                              className="fa fa-plus-circle"
-                              aria-hidden="true" />
-                            Add Groups
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <Link
-                        to="#"
-                        id="logout"
-                        className="tooltipped"
-                        data-position="top"
-                        data-tooltip="Logout"
-                      onClick={this.logout.bind(this)}>
-                        <i className="material-icons">power_settings_new</i>
-                      </Link>
-                    </li>
-                  </ul>
-                  <ul
-                    classID="nav-mobile"
-                    className="right hide-on-med-and-down">
-                    <li>
-                      <form id="searchForm" onSubmit={this.handleSubmit}>
-                        <input
-                          type="text"
-                          name="searchParam"
-                          placeholder="Search for Friends"
-                          id="searchBar"
-                          value={this.state.searchParam}
-                          onChange={this.handleChange}
-                        />
-                      </form>
-                    </li>
-                    <li>
-                      <div className="authUser">
-                        <span className="welcome">
-                          Welcome { isAuthenticated ? user.username : ''}
-                        </span>
-                      </div>
-                    </li>
-                    <li>
-                      <ul id="dropdown1" className="dropdown-content">
-                        <li>
-                          <Link to="/groups">
-                            <i
-                              className="fa fa-eye"
-                              aria-hidden="true" />
-                            View all Groups
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/add-group">
-                            <i
-                              className="fa fa-plus-circle"
-                              aria-hidden="true" />
-                            Add Groups
-                          </Link>
-                        </li>
-                      </ul>
-                      <Link
-                        to="#" className="dropdown-button"
-                        data-activates="dropdown1">
-                        <i className="material-icons left">group</i>
-                        Menu
-                        <i className="material-icons right">arrow_drop_down</i>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="#"
-                        id="logout"
-                        className="tooltipped"
-                        data-position="top"
-                        data-tooltip="Logout"
-                      onClick={this.logout.bind(this)}>
-                        <i className="material-icons">power_settings_new</i>
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </nav> :
-              <nav><Link to="/" className="brand-logo">PostIt</Link></nav>
-          }
+          {isAuthenticated ? (
+            <nav>
+              <div className="nav-wrapper">
+                <Link to="/groups" className="brand-logo">
+                  PostIt
+                </Link>
+                <Link
+                  to="#"
+                  data-activates="mobile-demo"
+                  className="button-collapse"
+                >
+                  <i className="material-icons">menu</i>
+                </Link>
+                <ul className="side-nav" id="mobile-demo">
+                  <li>
+                    <form id="searchForm" onSubmit={this.handleSubmit}>
+                      <input
+                        type="text"
+                        name="searchParam"
+                        placeholder="Search for Friends"
+                        id="searchBar"
+                        value={this.state.searchParam}
+                        onChange={this.handleChange}
+                      />
+                    </form>
+                  </li>
+                  <li>
+                    <div className="authUser">
+                      <span className="welcome">
+                        Welcome {isAuthenticated ? user.username : ''}
+                      </span>
+                    </div>
+                  </li>
+                  <li>
+                    <ul id="" className="">
+                      <li>
+                        <Link to="/groups">
+                          <i className="fa fa-eye" aria-hidden="true" />
+                          View all Groups
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/add-group">
+                          <i className="fa fa-plus-circle" aria-hidden="true" />
+                          Add Groups
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <Link
+                      to="#"
+                      id="logout"
+                      className="tooltipped"
+                      data-position="top"
+                      data-tooltip="Logout"
+                      onClick={this.logout.bind(this)}
+                    >
+                      <i className="material-icons">power_settings_new</i>
+                    </Link>
+                  </li>
+                </ul>
+                <ul classID="nav-mobile" className="right hide-on-med-and-down">
+                  <li>
+                    <form id="searchForm" onSubmit={this.handleSubmit}>
+                      <input
+                        type="text"
+                        name="searchParam"
+                        placeholder="Search for Friends"
+                        id="searchBar"
+                        value={this.state.searchParam}
+                        onChange={this.handleChange}
+                      />
+                    </form>
+                  </li>
+                  <li>
+                    <div className="authUser">
+                      <span className="welcome">
+                        Welcome {isAuthenticated ? user.username : ''}
+                      </span>
+                    </div>
+                  </li>
+                  <li>
+                    <ul id="dropdown1" className="dropdown-content">
+                      <li>
+                        <Link to="/groups">
+                          <i className="fa fa-eye" aria-hidden="true" />
+                          View all Groups
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/add-group">
+                          <i className="fa fa-plus-circle" aria-hidden="true" />
+                          Add Groups
+                        </Link>
+                      </li>
+                    </ul>
+                    <Link
+                      to="#"
+                      className="dropdown-button"
+                      data-activates="dropdown1"
+                    >
+                      <i className="material-icons left">group</i>
+                      Menu
+                      <i className="material-icons right">arrow_drop_down</i>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="#"
+                      id="logout"
+                      className="tooltipped"
+                      data-position="top"
+                      data-tooltip="Logout"
+                      onClick={this.logout.bind(this)}
+                    >
+                      <i className="material-icons">power_settings_new</i>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          ) : (
+            <nav>
+              <Link to="/" className="brand-logo">
+                PostIt
+              </Link>
+            </nav>
+          )}
         </div>
       </div>
     );
@@ -209,18 +227,15 @@ export class Header extends React.Component {
 
 Header.propTypes = {
   auth: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
 };
 
 Header.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
-
-const mapStateToProps = state => (
-  {
-    auth: state.auth
-  }
-);
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
 
 export default connect(mapStateToProps, { logout })(Header);

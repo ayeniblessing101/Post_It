@@ -5,7 +5,7 @@
     "A simple application that allows friends and colleagues create groups for notifications. ",
   "main": "./app/client/index.js",
   "scripts": {
-    "prestart": "npm run build",
+    "postinstall": "npm run build",
     "start": "babel-node -- app/server/app.js",
     "start:dev":
       "npm run build:dev && nodemon --watch app/server --exec babel-node -- app/server/app.js",

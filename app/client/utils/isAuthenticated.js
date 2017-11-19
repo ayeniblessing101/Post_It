@@ -10,12 +10,25 @@ import PropTypes from 'prop-types';
  */
 export default (ComposedComponent) => {
   class Authenticate extends React.Component {
+    /**
+   * redirects the user to the grouos page
+   * if user is authenticated
+   * @method componentDidMount
+   *
+   * @return {void}
+   */
     componentWillMount() {
       if (this.props.isAuthenticated) {
         this.context.router.history.push('/groups');
       }
     }
-
+    /**
+   * Updates the state on store change
+   * @method componentWillReceiveProps
+   * @param {object} nextProps
+   *
+   * @returns {void}
+   */
     componentWillUpdate(nextProps) {
       if (nextProps.isAuthenticated) {
         this.context.router.history.push('/groups');
@@ -23,9 +36,7 @@ export default (ComposedComponent) => {
     }
 
     render() {
-      return (
-        <ComposedComponent {...this.props} />
-      );
+      return <ComposedComponent {...this.props} />;
     }
   }
 
@@ -34,17 +45,17 @@ export default (ComposedComponent) => {
   };
 
   Authenticate.contextTypes = {
-    router: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired,
   };
   /**
    * maps the store state isAuthenticated to props
-   * @param {*} state
+   * @param {object} state
    *
    * @returns {void}
    */
   const mapStateToProps = (state) => {
     return {
-      isAuthenticated: state.auth.isAuthenticated
+      isAuthenticated: state.auth.isAuthenticated,
     };
   };
 

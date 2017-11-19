@@ -4,7 +4,7 @@ const initialState = {
   id: '',
   groupName: '',
   Messages: [],
-  members: []
+  members: [],
 };
 
 /**
@@ -22,10 +22,7 @@ export default (state = initialState, action = {}) => {
   case POST_MESSAGE:
     return {
       ...state,
-      Messages: [
-        ...state.Messages,
-        action.message,
-      ]
+      Messages: [...state.Messages, action.message],
     };
   default:
     return state;

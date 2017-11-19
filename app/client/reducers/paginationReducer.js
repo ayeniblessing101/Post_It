@@ -1,11 +1,10 @@
 import { GET_ALL_USERS } from '../actions/types';
 
 const initialState = {
-  pageNumber: 0,
   pageCount: 0,
   pageSize: 0,
   totalCount: 0,
-  users: []
+  users: [],
 };
 
 /**
@@ -19,11 +18,13 @@ export default (state = initialState, action = {}) => {
   switch (action.type) {
   case GET_ALL_USERS:
     return {
+      ...state,
       pageCount: action.users.pageCount,
       pageSize: action.users.pageSize,
       users: action.users.users,
-      totalCount: action.users.totalCount
+      totalCount: action.users.totalCount,
     };
-  default: return state;
+  default:
+    return state;
   }
 };

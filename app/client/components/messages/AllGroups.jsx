@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchGroups } from '../../actions/groupActions';
 
-
 /**
  * @class AllGroups
  * @extends {React.Component}
@@ -19,16 +18,16 @@ export class AllGroups extends React.Component {
   constructor(props) {
     super(props);
     this.usersPerPage = 5;
-    // const { allGroups } = this.props.groups;
     this.state = {
       groups: this.props.groups.allGroups,
       offset: 0,
-      pageCount: Math.ceil(this.props.groups.totalCount / this.usersPerPage)
+      pageCount: Math.ceil(this.props.groups.totalCount / this.usersPerPage),
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
   /**
+   * Calls the fetch Group action when component mounts
    * @memberof AllGroups
    *
    * @return {void}
@@ -38,19 +37,22 @@ export class AllGroups extends React.Component {
   }
 
   /**
-   * @param {any} nextProps
+   * Updates the state on store change
    * @memberof AllGroups
+   * @param {any} nextProps
+   *
    * @return {void}
    */
   componentWillReceiveProps(nextProps) {
     this.setState({
       groups: nextProps.groups.allGroups,
       totalCount: nextProps.groups.totalCount,
-      pageCount: Math.ceil(nextProps.groups.totalCount / this.usersPerPage)
+      pageCount: Math.ceil(nextProps.groups.totalCount / this.usersPerPage),
     });
   }
   /**
-   * used to calculate offset
+   * The method to call when a page is clicked.
+   * Exposes the current page object as an argument.
    * @param {number} page
    * @memberof AllGroups
    * @return {page} - page
@@ -67,7 +69,7 @@ export class AllGroups extends React.Component {
    * Renders the AllGroup Component
    * @memberof AllGroups
    *
-   * @returns {object} - AllGroups Component
+   * @returns {void}
    */
   render() {
     const { totalCount } = this.state;
@@ -80,37 +82,33 @@ export class AllGroups extends React.Component {
             className="collapsible allMessageCard"
             data-collapsible="accordion"
           >
-            {
-              groups.length > 0 && (
-                groups.map(group =>
-                  <li key={group.id}>
-                    <div className="collapsible-header">
-                      <i className="material-icons">filter_drama</i>
-                      <Link to={`/group/${group.id}`} className="groupNames">
-                        {group.groupName}
-                      </Link>
-                    </div>
-                  </li>
-                )
-              )
-            }
+            {groups.length > 0 &&
+              groups.map(group => (
+                <li key={group.id}>
+                  <div className="collapsible-header">
+                    <i className="material-icons">filter_drama</i>
+                    <Link to={`/group/${group.id}`} className="groupNames">
+                      {group.groupName}
+                    </Link>
+                  </div>
+                </li>
+              ))}
           </ul>
-          {
-            totalCount > 4 &&
+          {totalCount > 4 && (
             <ReactPaginate
-            previousLabel={'previous'}
-            nextLabel={'next'}
-            breakLabel={<a href="">...</a>}
-            breakClassName={'break-me'}
-            pageCount={this.state.pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={this.handlePageClick}
-            containerClassName={'pagination'}
-            subContainerClassName={'pages pagination'}
-            activeClassName={'active'}
-          />
-          }
+              previousLabel={'previous'}
+              nextLabel={'next'}
+              breakLabel={<a href="">...</a>}
+              breakClassName={'break-me'}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'}
+            />
+          )}
         </div>
       </div>
     );
@@ -125,7 +123,7 @@ AllGroups.propTypes = {
 const mapStateToProps = state => ({
   groups: state.groups,
   pageCount: state.groups.pageCount,
-  messages: state.messages
+  messages: state.messages,
 });
 
 export default connect(mapStateToProps, { fetchGroups })(AllGroups);

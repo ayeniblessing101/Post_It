@@ -3,7 +3,7 @@ import { GET_CURRENT_AUTHENTICATED_USER } from '../actions/types';
 
 const initialState = {
   isAuthenticated: false,
-  user: {}
+  user: {},
 };
 
 /**
@@ -17,8 +17,9 @@ export default (state = initialState, action = {}) => {
   switch (action.type) {
   case GET_CURRENT_AUTHENTICATED_USER:
     return {
+      ...state,
       isAuthenticated: !isEmpty(action.user),
-      user: action.user
+      user: action.user,
     };
   default:
     return state;

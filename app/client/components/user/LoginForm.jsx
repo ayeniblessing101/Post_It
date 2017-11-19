@@ -47,10 +47,11 @@ export class LoginForm extends React.Component {
       this.setState({ errors: {}, isLoading: true });
       this.props.login(this.state).then(
         () => this.context.router.history.push('/groups'),
-        err => this.setState({
-          errors: err.data.errors,
-          password: ''
-        })
+        err =>
+          this.setState({
+            errors: err.data.errors,
+            password: '',
+          }),
       );
     }
   }
@@ -75,8 +76,9 @@ export class LoginForm extends React.Component {
         <h4>Login to PostIt</h4>
         <FlashMessagesList />
         <form className="col s12" onSubmit={this.handleSubmit}>
-          { errors.form &&
-          <div className="alert alert-danger">{errors.form}</div> }
+          {errors.form && (
+            <div className="alert alert-danger">{errors.form}</div>
+          )}
           <div className="">
             <TextFieldGroup
               className="loginForm"
@@ -96,23 +98,26 @@ export class LoginForm extends React.Component {
               type="password"
             />
             <div className="input-field col s12">
-              <button
-                  className="btn waves-effect waves-light"
-                  type="submit" name="action">Submit
+              <button className="btn" type="submit" name="action">
+                Submit
                 <i className="material-icons right">send</i>
               </button>
-              <br /><br />
+              <br />
+              <br />
             </div>
           </div>
         </form>
         <div className="row">
-          <div className="col s6"><ForgetPasswordModal /></div>
+          <div className="col s6">
+            <ForgetPasswordModal />
+          </div>
           <div className="col s6">
             <p>
               Do not have an account?
               <button
                 className="blue-text signUp"
-                onClick={() => this.props.toggleForm('signup')}>
+                onClick={() => this.props.toggleForm('signup')}
+              >
                 <b>Sign Up</b>
               </button>
             </p>
@@ -125,11 +130,11 @@ export class LoginForm extends React.Component {
 
 LoginForm.propTypes = {
   login: PropTypes.func.isRequired,
-  toggleForm: PropTypes.func.isRequired
+  toggleForm: PropTypes.func.isRequired,
 };
 
 LoginForm.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
 };
 
 export default connect(null, { login })(LoginForm);

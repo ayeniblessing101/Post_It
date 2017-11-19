@@ -30,10 +30,16 @@ export class MessageBoard extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     this.setState({
-      groups: nextProps.groups
+      groups: nextProps.groups,
     });
   }
 
+  /**
+   * renders the MessageBoard component
+   * @method render
+   *
+   * @returns {void}
+   */
   render() {
     const selectedGroupId = this.props.selectedGroupId;
     const { addUserToGroup } = this.props;
@@ -42,15 +48,12 @@ export class MessageBoard extends React.Component {
         <div className="col s12 m12 l12 col-md-10">
           <div id="messageBoard" className="mycontainer">
             <div className="row">
-              <AllGroups
-                groups={this.props.groups}
-              />
-              <MessageForm
-                groupId={selectedGroupId}
-              />
+              <AllGroups groups={this.props.groups} />
+              <MessageForm groupId={selectedGroupId} />
               <AllUsers
                 addUserToGroup={addUserToGroup}
-                groupId={selectedGroupId} />
+                groupId={selectedGroupId}
+              />
             </div>
           </div>
         </div>
@@ -62,8 +65,7 @@ export class MessageBoard extends React.Component {
 MessageBoard.propTypes = {
   addUserToGroup: PropTypes.func.isRequired,
   groups: PropTypes.object.isRequired,
-  selectedGroupId: PropTypes.number.isRequired
+  selectedGroupId: PropTypes.number.isRequired,
 };
-
 
 export default connect(null)(MessageBoard);

@@ -14,14 +14,14 @@ export default (state = [], action = {}) => {
     return [
       ...state,
       {
-        // A library for generating unique id
         id: shortid.generate(),
         type: action.message.type,
-        text: action.message.text
-      }
+        text: action.message.text,
+      },
     ];
   case DELETE_FLASH_MESSAGE:
     return [];
-  default: return state;
+  default:
+    return state;
   }
 };

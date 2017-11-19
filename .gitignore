@@ -59,5 +59,5 @@ typings/
 
 # ds_store
 .DS_Store
-
+package-lock.json
 app/client/assets/dist/js

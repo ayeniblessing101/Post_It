@@ -8,23 +8,31 @@ describe('authentication reducer', () => {
   it('should return the initial state', () => {
     const actionDispatch = {};
     const newState = paginationReducer(undefined, actionDispatch);
-    expect(newState).toEqual(
-      mockData.paginateData
-    );
+    expect(newState).toEqual({
+      pageCount: mockData.users.pageCount,
+      pageSize: mockData.users.pageSize,
+      users: [],
+      totalCount: mockData.users.totalCount,
+    });
   });
 
   it('should handle GET_ALL_USERS action', () => {
     const actionDispatch = {
       type: ActionTypes.GET_ALL_USERS,
-      users: mockData.users
+      users: mockData.users,
     };
-    const newState = paginationReducer(mockData.paginateData, actionDispatch);
+    const initialState = {
+      pageCount: 0,
+      pageSize: 0,
+      totalCount: 0,
+      users: [],
+    };
+    const newState = paginationReducer(initialState, actionDispatch);
     expect(newState).toEqual({
-      pageNumber: actionDispatch.users.pageNumber,
       pageCount: actionDispatch.users.pageCount,
       pageSize: actionDispatch.users.pageSize,
       users: actionDispatch.users.users,
-      totalCount: actionDispatch.users.totalCount
+      totalCount: actionDispatch.users.totalCount,
     });
   });
 });

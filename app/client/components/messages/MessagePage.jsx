@@ -7,36 +7,35 @@ import Footer from '../common/Footer';
 import { addUserToGroup } from '../../actions/groupActions';
 
 /**
+ * Creates Message Page
  * @class MessagePage
  * @extends {React.Component}
  */
 class MessagePage extends React.Component {
-
   /**
+   * Set the groupId to state when component mounts
+   *
    * @memberof MessagePage
    * @return {void}
    */
   componentWillMount() {
     const groupId = this.props.match.params.id;
     this.setState({
-      groupId
+      groupId,
     });
   }
-  /**
-   * @param {any} nextProps
-   * @memberof MessagePage
-   * @return {void}
-   */
 
   /**
-   * @returns {object} - Message Component
+   * Renders the MessagePage component and its subcomponent
+   *
+   * @returns {void}
    * @memberof MessagePage
    */
   render() {
     return (
       <div>
         <Header />
-        <div className="mycontainer" >
+        <div className="mycontainer">
           <div className="row">
             <MessageBoard
               groups={this.props.groups}
@@ -58,14 +57,11 @@ MessagePage.propTypes = {
 };
 
 MessagePage.defaultProps = {
-  message: ''
+  message: '',
 };
 
-const mapStateToProps = state => (
-  {
-    groups: state.groups,
-  }
-);
-
+const mapStateToProps = state => ({
+  groups: state.groups,
+});
 
 export default connect(mapStateToProps, { addUserToGroup })(MessagePage);

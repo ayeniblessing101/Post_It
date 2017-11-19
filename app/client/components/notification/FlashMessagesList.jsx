@@ -6,10 +6,16 @@ import FlashMessage from './FlashMessage';
 import { deleteFlashMessage } from '../../actions/flashMessageActions';
 
 /**
+ * Creates FlashMessagesList page
  * @class FlashMessagesList
  * @extends {React.Component}
  */
 export class FlashMessagesList extends React.Component {
+  /**
+   * renders the FlashMessagesList page
+   * @method render
+   * @returns {void}
+   */
   render() {
     let messages = '';
     const messagesFromState = this.props.messages;
@@ -33,9 +39,8 @@ FlashMessagesList.propTypes = {
 
 /**
  * takes a state in the store (messages) and passes it to the component as props
- *
  * @param {object} state
- * @returns
+ * @returns {object} props
  */
 function mapStateToProps(state) {
   return {

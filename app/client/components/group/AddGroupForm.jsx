@@ -175,7 +175,7 @@ export class AddGroupForm extends React.Component {
                     </Dropzone>
                     <div className="input-field col s12">
                       <button
-                        className="btn waves-effect waves-light"
+                        className="btn"
                         disabled={this.state.isLoading}
                         type="submit"
                       >

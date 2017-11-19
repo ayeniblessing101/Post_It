@@ -25,7 +25,7 @@ export class FlashMessage extends React.Component {
     this.props.deleteFlashMessage(this.props.message.id);
   }
   /**
-   * @returns {object} flash message component
+   * @returns {void}
    * @memberof FlashMessage
    */
   render() {
@@ -34,11 +34,12 @@ export class FlashMessage extends React.Component {
       <div
         className={classnames('alert', {
           'alert-success': type === 'success',
-          'alert-danger': type === 'error'
-        })}>
-        <button
-          onClick={this.onClick}
-          className="close"><span>&times;</span></button>
+          'alert-danger': type === 'error',
+        })}
+      >
+        <button onClick={this.onClick} className="close">
+          <span>&times;</span>
+        </button>
         {text}
       </div>
     );
@@ -47,7 +48,7 @@ export class FlashMessage extends React.Component {
 
 FlashMessage.propTypes = {
   message: PropTypes.object.isRequired,
-  deleteFlashMessage: PropTypes.func.isRequired
+  deleteFlashMessage: PropTypes.func.isRequired,
 };
 
 export default FlashMessage;
