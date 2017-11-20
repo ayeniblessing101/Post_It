@@ -74,6 +74,7 @@ describe('components', () => {
       const form = wrapper.find('form');
       wrapper.setState(mockData.addGroupData);
       form.simulate('submit', { preventDefault: () => null });
+      expect(wrapper.state().isLoading).toBeTruthy();
       expect(wrapper.state().errors).toEqual({});
     });
 

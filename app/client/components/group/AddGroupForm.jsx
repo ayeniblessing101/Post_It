@@ -109,7 +109,6 @@ export class AddGroupForm extends React.Component {
           this.setState({
             groupname: '',
             errors: {},
-            isLoading: false,
           }),
         )
         .catch((err) => {
@@ -174,11 +173,7 @@ export class AddGroupForm extends React.Component {
                       />
                     </Dropzone>
                     <div className="input-field col s12">
-                      <button
-                        className="btn"
-                        disabled={this.state.isLoading}
-                        type="submit"
-                      >
+                      <button className="btn" type="submit">
                         Create
                       </button>
                       <br />
