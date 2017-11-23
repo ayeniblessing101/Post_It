@@ -9,10 +9,10 @@ describe('authentication reducer', () => {
     const actionDispatch = {};
     const newState = paginationReducer(undefined, actionDispatch);
     expect(newState).toEqual({
-      pageCount: mockData.users.pageCount,
-      pageSize: mockData.users.pageSize,
+      pageCount: mockData.users.pagination.pageCount,
+      pageSize: mockData.users.pagination.pageSize,
       users: [],
-      totalCount: mockData.users.totalCount,
+      totalCount: mockData.users.pagination.totalCount,
     });
   });
 
@@ -27,12 +27,13 @@ describe('authentication reducer', () => {
       totalCount: 0,
       users: [],
     };
+
     const newState = paginationReducer(initialState, actionDispatch);
     expect(newState).toEqual({
-      pageCount: actionDispatch.users.pageCount,
-      pageSize: actionDispatch.users.pageSize,
+      pageCount: actionDispatch.users.pagination.pageCount,
+      pageSize: actionDispatch.users.pagination.pageSize,
       users: actionDispatch.users.users,
-      totalCount: actionDispatch.users.totalCount,
+      totalCount: actionDispatch.users.pagination.totalCount,
     });
   });
 });

@@ -43,7 +43,7 @@ const setup = () => {
 describe('components', () => {
   describe('Signup Form', () => {
     const { enzymeWrapper, props } = setup();
-    it('renders self and subcomponents', () => {
+    it('checks if ckassName signup exists', () => {
       expect(enzymeWrapper.find('.signup').length).toBe(1);
     });
 

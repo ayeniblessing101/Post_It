@@ -25,7 +25,7 @@ describe('forgotPasswordAction', () => {
         expect(store.getActions()).toEqual([]);
       });
   });
-  it('should check token', () => {
+  it('should check if token is valid', () => {
     axios.get = jest.fn(() => {
       return Promise.resolve({
         message: mockData.successMessages[2],

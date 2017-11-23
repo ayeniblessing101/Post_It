@@ -39,7 +39,7 @@ const setup = () => {
 
 describe('Component', () => {
   describe('All Users', () => {
-    it('should render self and subcomponents', () => {
+    it('checks if className allUsers exists', () => {
       const { enzymeWrapper } = setup();
       expect(enzymeWrapper.find('.allUsers').length).toBe(1);
     });

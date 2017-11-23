@@ -44,7 +44,7 @@ const setup = () => {
 describe('components', () => {
   describe('Reset Password Form', () => {
     const { enzymeWrapper, props } = setup();
-    it('renders self and subcomponents', () => {
+    it('checks if h4 tag exists', () => {
       expect(enzymeWrapper.find('h4').text()).toBe('Reset Password');
     });
 

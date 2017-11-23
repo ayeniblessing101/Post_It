@@ -16,10 +16,9 @@ describe('get group reducer', () => {
     const intialState = mockData.allGroupInitialState;
     const actionDispatch = {
       type: ActionTypes.GET_GROUPS,
-      groups: mockData.allGroups
+      groups: mockData.allGroups,
     };
     const newState = groupsReducer(intialState, actionDispatch);
-
-    expect(newState).toEqual(actionDispatch.groups);
+    expect(newState).toEqual(mockData.newGroups);
   });
 });

@@ -18,27 +18,25 @@ const setup = () => {
     groupId: 1,
     auth: {
       isAuthenticated: false,
-      user: {}
-    }
+      user: {},
+    },
   };
 
-  const enzymeWrapper = shallow(
-    <AddUserModal {...props} />
-  );
+  const enzymeWrapper = shallow(<AddUserModal {...props} />);
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 };
 
 describe('components', () => {
   describe('Add User', () => {
     const { enzymeWrapper, props } = setup();
-    it('renders self and subcomponents', () => {
+    it('checks if className add-user-modal exists', () => {
       expect(enzymeWrapper.find('.add-user-modal').length).toBe(1);
     });
 
-    it('simulate Handle submit method is called', () => {
+    it('simulate Handle submit event', () => {
       const spy = sinon.spy(AddUserModal.prototype, 'handleSubmit');
       const wrapper = shallow(<AddUserModal {...props} />);
       const form = wrapper.find('form');
@@ -54,9 +52,10 @@ describe('components', () => {
     it('simulates on change event', () => {
       const spy = sinon.spy(AddUserModal.prototype, 'handleChange');
       const wrapper = shallow(<AddUserModal {...props} />);
-      wrapper.find('TextFieldGroup').simulate('change',
-        { preventDefault: () => null,
-          target: { name: 'hello', value: 'hello' } });
+      wrapper.find('TextFieldGroup').simulate('change', {
+        preventDefault: () => null,
+        target: { name: 'hello', value: 'hello' },
+      });
       expect(spy.called).toBeTruthy();
     });
   });

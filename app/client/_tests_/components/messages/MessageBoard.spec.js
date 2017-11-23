@@ -11,34 +11,36 @@ jest.mock('../../../components/messages/AllUsers');
 
 const mockContext = {
   childContextTypes: { router: React.PropTypes.object },
-  context: { router: {
-    history: {
-      push: () => null,
-      replace: () => null,
-      createHref: () => null,
-      createGroup: '[function ]'
-    }
-  } }
+  context: {
+    router: {
+      history: {
+        push: () => null,
+        replace: () => null,
+        createHref: () => null,
+        createGroup: '[function ]',
+      },
+    },
+  },
 };
 
 const setup = () => {
   const props = {
     addUserToGroup: jest.fn(),
     groups: {},
-    selectedGroupId: 1
+    selectedGroupId: 1,
   };
 
   const enzymeWrapper = mount(<MessageBoard {...props} />, mockContext);
 
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 };
 
 describe('Component', () => {
   describe('Message Board', () => {
-    it('should render self and subcomponents', () => {
+    it('checks if className message-board exists', () => {
       const { enzymeWrapper } = setup();
 
       expect(enzymeWrapper.find('.message-board').length).toBe(1);

@@ -2,7 +2,6 @@
 import React from 'react';
 import expect from 'expect';
 import { mount } from 'enzyme';
-import sinon from 'sinon';
 import { ResetPasswordPage } from '../../../components/user/ResetPasswordPage';
 
 jest.dontMock('react-router-dom');
@@ -33,7 +32,7 @@ const setup = () => {
     },
   };
 
-  const enzymeWrapper = mount(<ResetPasswordPage {...props} />);
+  const enzymeWrapper = mount(<ResetPasswordPage {...props} />, mockContext);
   return {
     props,
     enzymeWrapper,

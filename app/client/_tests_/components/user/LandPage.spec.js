@@ -35,7 +35,7 @@ const setup = () => {
 
 describe('Component', () => {
   describe('Landing Page', () => {
-    it('should render self and subcomponents', () => {
+    it('checks if h1 exists', () => {
       const { enzymeWrapper } = setup();
       expect(enzymeWrapper.find('h1').text()).toBe(
         'Welcome to the BiggestSocial Network in the World',

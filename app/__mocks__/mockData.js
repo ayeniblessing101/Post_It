@@ -177,10 +177,12 @@ const mockData = {
     exp: 1653545561,
   },
   users: {
-    pageNumber: 0,
-    pageCount: 0,
-    pageSize: 0,
-    totalCount: 0,
+    pagination: {
+      pageNumber: 0,
+      pageCount: 0,
+      pageSize: 0,
+      totalCount: 0,
+    },
     users: [
       {
         username: 'Blessing',
@@ -243,8 +245,6 @@ const mockData = {
     totalCount: 0,
   },
   allGroups: {
-    pageCount: 2,
-    pageSize: 5,
     allGroups: [
       {
         groupName: 'Andela',
@@ -282,7 +282,11 @@ const mockData = {
           'https://res.cloudinary.com/blessing/image/upload/v1510719877/eaiziyjfzk1ilmsack92.png',
       },
     ],
-    totalCount: 7,
+    pagination: {
+      pageCount: 2,
+      pageSize: 5,
+      totalCount: 7,
+    },
   },
   data: {
     id: 3,
@@ -341,6 +345,50 @@ const mockData = {
   addGroupData: {
     groupname: 'Add group',
     image: 'something',
+  },
+  newGroups: {
+    allGroups: [
+      {
+        groupName: 'Andela',
+        user_id: 1,
+        id: 1,
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719784/bqaoxgb69x0qsjkabtga.png',
+      },
+      {
+        groupName: 'Elrond',
+        user_id: 1,
+        id: 2,
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719813/scdrj8io1xgjze9tawss.png',
+      },
+      {
+        groupName: 'Bark',
+        user_id: 1,
+        id: 3,
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719838/ydwkjrmtpkpjqfkx7pok.png',
+      },
+      {
+        groupName: 'BAYC',
+        user_id: 1,
+        id: 4,
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719858/syemhmzevzejj43p19bl.png',
+      },
+      {
+        groupName: 'Youth',
+        user_id: 1,
+        id: 5,
+        image:
+          'https://res.cloudinary.com/blessing/image/upload/v1510719877/eaiziyjfzk1ilmsack92.png',
+      },
+    ],
+    // pagination: {
+    pageCount: 2,
+    pageSize: 5,
+    totalCount: 7,
+    // },
   },
 };
 

@@ -37,7 +37,7 @@ const setup = () => {
 
 describe('Component', () => {
   describe('All Groups', () => {
-    it('should render self and subcomponents', () => {
+    it('checks if the className allGroups exists', () => {
       const { enzymeWrapper } = setup();
       expect(enzymeWrapper.find('.allGroups').length).toBe(1);
     });

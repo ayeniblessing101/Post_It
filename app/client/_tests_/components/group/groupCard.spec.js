@@ -5,20 +5,20 @@ import GroupCard from '../../../components/group/GroupCard';
 
 const setup = () => {
   const props = {
-    group: { groupName: 'Andela' }
+    group: { groupName: 'Andela' },
   };
 
   const enzymeWrapper = shallow(<GroupCard {...props} />);
 
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 };
 
 describe('components', () => {
   describe('GroupCard', () => {
-    it('should render self', () => {
+    it('checkeck if component has Link tag with className Btn', () => {
       const { enzymeWrapper } = setup();
 
       expect(enzymeWrapper.find('Link').hasClass('btn')).toBe(true);

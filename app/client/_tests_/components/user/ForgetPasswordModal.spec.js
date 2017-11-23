@@ -2,19 +2,19 @@
 import React from 'react';
 import expect from 'expect';
 import { mount } from 'enzyme';
-import { ForgetPasswordModal }
-    from '../../../components/user/ForgetPasswordModal';
+import { ForgetPasswordModal } from '../../../components/user/ForgetPasswordModal';
 
 jest.mock('react-router-dom');
-jest.mock('../../../components/notification/FlashMessagesList',
-    () => jest.fn().mockReturnValue(null));
+jest.mock('../../../components/notification/FlashMessagesList', () =>
+  jest.fn().mockReturnValue(null),
+);
 
 const event = {
   preventDefault: jest.fn(),
   target: {
     name: 'username',
     value: 'ble-ble',
-  }
+  },
 };
 const resetPasswordEmail = jest.fn(() => Promise.resolve());
 const addFlashMessage = jest.fn();
@@ -24,23 +24,21 @@ const setup = () => {
     addFlashMessage,
     auth: {
       isAuthenticated: false,
-      user: {}
-    }
+      user: {},
+    },
   };
 
-  const enzymeWrapper = mount(
-    <ForgetPasswordModal {...props} />
-  );
+  const enzymeWrapper = mount(<ForgetPasswordModal {...props} />);
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 };
 
 describe('components', () => {
   describe('ForgetPassword Modal', () => {
     const { enzymeWrapper, props } = setup();
-    it('renders self and subcomponents', () => {
+    it('checks if modal exists', () => {
       expect(enzymeWrapper.find('Modal').length).toBe(1);
     });
 

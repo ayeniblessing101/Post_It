@@ -8,14 +8,16 @@ jest.mock('react-router-dom');
 
 const mockContext = {
   childContextTypes: { router: React.PropTypes.object },
-  context: { router: {
-    history: {
-      push: () => null,
-      replace: () => null,
-      createHref: () => null,
-      createGroup: '[function ]'
-    }
-  } }
+  context: {
+    router: {
+      history: {
+        push: () => null,
+        replace: () => null,
+        createHref: () => null,
+        createGroup: '[function ]',
+      },
+    },
+  },
 };
 
 const setup = () => {
@@ -28,13 +30,13 @@ const setup = () => {
 
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 };
 
 describe('Component', () => {
   describe('Flash Message', () => {
-    it('should render self and subcomponents', () => {
+    it('checks if button tag exists', () => {
       const { enzymeWrapper } = setup();
       expect(enzymeWrapper.find('button').length).toBe(1);
     });

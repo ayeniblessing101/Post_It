@@ -6,21 +6,25 @@ import sinon from 'sinon';
 import { LoginForm } from '../../../components/user/LoginForm';
 
 jest.mock('react-router-dom');
-jest.mock('../../../components/notification/FlashMessagesList',
-  () => jest.fn().mockReturnValue(null));
-jest.mock('../../../components/user/ForgetPasswordModal', 
-  () => jest.fn().mockReturnValue(null));
+jest.mock('../../../components/notification/FlashMessagesList', () =>
+  jest.fn().mockReturnValue(null),
+);
+jest.mock('../../../components/user/ForgetPasswordModal', () =>
+  jest.fn().mockReturnValue(null),
+);
 
 const mockContext = {
   childContextTypes: { router: React.PropTypes.object },
-  context: { router: {
-    history: {
-      push: () => null,
-      replace: () => null,
-      createHref: () => null,
-      createGroup: '[function ]'
-    }
-  } }
+  context: {
+    router: {
+      history: {
+        push: () => null,
+        replace: () => null,
+        createHref: () => null,
+        createGroup: '[function ]',
+      },
+    },
+  },
 };
 const login = jest.fn(() => Promise.resolve());
 const toggleForm = jest.fn();
@@ -30,23 +34,21 @@ const setup = () => {
     toggleForm,
     auth: {
       isAuthenticated: false,
-      user: {}
-    }
+      user: {},
+    },
   };
 
-  const enzymeWrapper = mount(
-    <LoginForm {...props} />
-  );
+  const enzymeWrapper = mount(<LoginForm {...props} />);
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 };
 
 describe('components', () => {
   describe('Login Form', () => {
     const { enzymeWrapper, props } = setup();
-    it('renders self and subcomponents', () => {
+    it('checks if h4 tag exists', () => {
       expect(enzymeWrapper.find('h4').text()).toBe('Login to PostIt');
     });
 
@@ -69,8 +71,8 @@ describe('components', () => {
       const event = {
         target: {
           name: 'username',
-          value: 'ble-ble'
-        }
+          value: 'ble-ble',
+        },
       };
       enzymeWrapper.instance().handleChange(event);
       expect(enzymeWrapper.state().username).toEqual('ble-ble');

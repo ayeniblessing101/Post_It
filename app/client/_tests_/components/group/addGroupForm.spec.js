@@ -43,11 +43,11 @@ const setup = () => {
 describe('components', () => {
   describe('Header', () => {
     const { enzymeWrapper, props } = setup();
-    it('renders self and subcomponents', () => {
+    it('checks if h4 tag with the text Add Group Exists', () => {
       expect(enzymeWrapper.find('h4').text()).toBe('Add Group');
     });
 
-    it('should not dispatch createGroup when validation fails', () => {
+    it('simulates handle submit', () => {
       const spy = sinon.spy(AddGroupForm.prototype, 'handleSubmit');
       const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
       const form = wrapper.find('form');
