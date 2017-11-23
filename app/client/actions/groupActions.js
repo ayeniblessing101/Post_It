@@ -9,9 +9,7 @@ import { GET_GROUPS, ADD_USER_TO_GROUP, GET_GROUP_USERS } from './types';
     returns the createGroup function to perform async dispatch.
  */
 export function createGroup(group) {
-  return () => (
-    axios.post('/api/v1/group/', group)
-  );
+  return () => axios.post('/api/v1/group/', group);
 }
 
 /**
@@ -23,7 +21,7 @@ export function createGroup(group) {
 export function getGroups(groups) {
   return {
     type: GET_GROUPS,
-    groups
+    groups,
   };
 }
 
@@ -36,7 +34,7 @@ export function getGroups(groups) {
 export function getGroupUsers(groupUsers) {
   return {
     type: GET_GROUP_USERS,
-    groupUsers
+    groupUsers,
   };
 }
 
@@ -51,7 +49,7 @@ export function addUserStatus(status, message) {
   return {
     type: ADD_USER_TO_GROUP,
     status,
-    message
+    message,
   };
 }
 
@@ -63,20 +61,21 @@ export function addUserStatus(status, message) {
  * @returns {function} dispatches getGroups action
  */
 export function fetchGroups(offset = 0, limit = 5) {
-  return dispatch => (
-    axios.get('/api/v1/groups', {
-      params: {
-        offset,
-        limit
-      }
-    })
-    .then((response) => {
-      const groups = response.data;
-      dispatch(getGroups(groups));
-    }).catch((error) => {
-      throw (error);
-    })
-  );
+  return dispatch =>
+    axios
+      .get('/api/v1/groups', {
+        params: {
+          offset,
+          limit,
+        },
+      })
+      .then((response) => {
+        const groups = response.data;
+        dispatch(getGroups(groups));
+      })
+      .catch((error) => {
+        throw error;
+      });
 }
 
 /**
@@ -86,14 +85,15 @@ export function fetchGroups(offset = 0, limit = 5) {
  * @returns {function} - dispatches fetchGroupUsers action.
  */
 export function fetchGroupUsers(groupId) {
-  return dispatch => (
-    axios.get(`/api/v1/group/${groupId}/users`)
-    .then(({ data }) => {
-      dispatch(getGroupUsers(data.data.members));
-    }).catch((error) => {
-      throw (error);
-    })
-  );
+  return dispatch =>
+    axios
+      .get(`/api/v1/group/${groupId}/users`)
+      .then(({ data }) => {
+        dispatch(getGroupUsers(data.data.members));
+      })
+      .catch((error) => {
+        throw error;
+      });
 }
 
 /**
@@ -104,14 +104,16 @@ export function fetchGroupUsers(groupId) {
  */
 export function addUserToGroup(groupId, user) {
   return dispatch =>
-  axios.post(`/api/v1/group/${groupId}/user`, user)
-    .then((data) => {
-      const message = data.message;
-      dispatch(addUserStatus(true, message));
-      return true;
-    }).catch((error) => {
-      const message = error.data.message;
-      dispatch(addUserStatus(false, message));
-      return message;
-    });
+    axios
+      .post(`/api/v1/group/${groupId}/user`, user)
+      .then((data) => {
+        const message = data.message;
+        dispatch(addUserStatus(true, message));
+        return true;
+      })
+      .catch((error) => {
+        const message = error.data.message;
+        dispatch(addUserStatus(false, message));
+        return message;
+      });
 }

@@ -19,10 +19,10 @@ export default (state = initialState, action = {}) => {
   case GET_ALL_USERS:
     return {
       ...state,
-      pageCount: action.users.pageCount,
-      pageSize: action.users.pageSize,
+      pageCount: action.users.pagination.pageCount,
+      pageSize: action.users.pagination.pageSize,
       users: action.users.users,
-      totalCount: action.users.totalCount,
+      totalCount: action.users.pagination.totalCount,
     };
   default:
     return state;

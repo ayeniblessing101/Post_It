@@ -12,28 +12,27 @@ export default function forgotPasswordMail(receiver, messageBody) {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
-    secure: true, // secure:true for port 465, secure:false for port 587
+    secure: true,
     auth: {
       user: 'ayeniblessing32@gmail.com',
-      pass: 'Welcome3000#'
-    }
+      pass: 'Welcome3000#',
+    },
   });
-
 
   // setup email data with unicode symbols
   const mailOptions = {
-    from: '"Ayeni Blessing 👻" <ayeniblessing@gmail.com>', // sender address
+    from: '"Ayeni Blessing 👻" <ayeniblessing@gmail.com>',
     to: receiver, // list of receivers
-    subject: 'Post It - Reset Password', // Subject line
-    text: messageBody, // plain text body
-    html: messageBody // html body
+    subject: 'Post It - Reset Password',
+    text: messageBody,
+    html: messageBody,
   };
 
   // send mail with defined transport object
   transporter.forgotPasswordMail(mailOptions, (error, info) => {
     if (error) {
-      return (error);
+      return error;
     }
-    return ('Message %s sent: %s', info.messageId, info.response);
+    return `Message ${info.messageId} sent: ${info.response}`;
   });
 }

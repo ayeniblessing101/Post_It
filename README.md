@@ -58,15 +58,8 @@
 *  **[Material Icons](https://material.io/icons/)** - Iconic font provided by Google.
 
 
-## API Routes
-
-* [Signup] - http://blessing-post-it.herokuapp.com/api/user/signup
-* [Signin] - http://blessing-post-it.herokuapp.com/api/user/signin
-* [Create Group] - http://blessing-post-it.herokuapp.com/api/group
-* [Add User to Group] - http://blessing-post-it.herokuapp.com/api/group/group_id/user
-* [Post Message to a Group] - http://blessing-post-it.herokuapp.com/api/group/group_id/message
-* [Get Messages]  - http://blessing-post-it.herokuapp.com/api/group/group_id/messages
-
+## Endpoints
+For detailed Information on how to use this api, view the **[documentation](https://app.apiary.io/ayeniblessing/)**
 
 ## Getting Started
 *  Navigate to a directory of choice using the `terminal`.

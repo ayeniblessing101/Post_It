@@ -38,21 +38,25 @@ describe('Group', () => {
       expect(store.getActions()).toEqual([expectedAction]);
     });
   });
-  it('should dispatch fetchGroupUsers action when all users in a group is fetched', () => {
-    axios.get = jest.fn(() => {
-      return Promise.resolve(mockData.fetchGroupsResponse);
-    });
-    const groupId = 1;
-    const groupUsers = mockData.groupUsers;
-    const store = mockStore({});
-    const expectedAction = {
-      type: ActionTypes.GET_GROUP_USERS,
-      groupUsers,
-    };
-    store.dispatch(groupActions.fetchGroupUsers(groupId)).then(() => {
-      expect(store.getActions()).toEqual([expectedAction]);
-    });
-  });
+  it(
+    'should dispatch fetchGroupUsers' +
+      'action when all users in a group is fetched',
+    () => {
+      axios.get = jest.fn(() => {
+        return Promise.resolve(mockData.fetchGroupsResponse);
+      });
+      const groupId = 1;
+      const groupUsers = mockData.groupUsers;
+      const store = mockStore({});
+      const expectedAction = {
+        type: ActionTypes.GET_GROUP_USERS,
+        groupUsers,
+      };
+      store.dispatch(groupActions.fetchGroupUsers(groupId)).then(() => {
+        expect(store.getActions()).toEqual([expectedAction]);
+      });
+    },
+  );
   it('handle success message when a user is added to a group', () => {
     axios.post = jest.fn(() => {
       return Promise.resolve(mockData.addUserToGroupResponse);

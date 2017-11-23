@@ -59,7 +59,7 @@ describe('Group', () => {
           });
       });
   });
-  describe('POST /api/v1/group', () => {
+  describe('create a new group', () => {
     describe('a creating new group', () => {
       it('creates a new group', (done) => {
         // Test's logic...
@@ -133,25 +133,29 @@ describe('adding user to a group', () => {
   });
   describe('Adding user to a group', () => {
     describe('Adding user to a group', () => {
-      it('should return success message when a user is successfully added to a group', (done) => {
-        // Test logic...
-        request
-          .post(`/api/v1/group/${fakeGroup.id}/user`)
-          .set('Authorization', `Basic ${token}`)
-          .send({
-            username: userSeeds.username1,
-          })
-          .expect(200)
-          .end((err, res) => {
-            expect(res.body.status).to.equal(true);
-            expect(res.body).to.have.a.property('message');
-            expect(res.body).to.have.a.property(
-              'message',
-              'User has been successfully added to group',
-            );
-            done(err);
-          });
-      });
+      it(
+        'should return success message when a user is ' +
+          'successfully added to a group',
+        (done) => {
+          // Test logic...
+          request
+            .post(`/api/v1/group/${fakeGroup.id}/user`)
+            .set('Authorization', `Basic ${token}`)
+            .send({
+              username: userSeeds.username1,
+            })
+            .expect(200)
+            .end((err, res) => {
+              expect(res.body.status).to.equal(true);
+              expect(res.body).to.have.a.property('message');
+              expect(res.body).to.have.a.property(
+                'message',
+                'User has been successfully added to group',
+              );
+              done(err);
+            });
+        },
+      );
 
       it('throws an error if User does not exist', (done) => {
         // Test logic...

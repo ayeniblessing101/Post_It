@@ -23,7 +23,7 @@ class GroupsPage extends React.Component {
     this.state = {
       groups: [],
       offset: 0,
-      pageCount: Math.ceil(this.props.groups.totalCount / this.usersPerPage)
+      pageCount: Math.ceil(this.props.groups.totalCount / this.usersPerPage),
     };
 
     this.handlePageClick = this.handlePageClick.bind(this);
@@ -47,7 +47,7 @@ class GroupsPage extends React.Component {
     this.setState({
       groups: nextProps.groups.allGroups,
       totalCount: nextProps.groups.totalCount,
-      pageCount: Math.ceil(nextProps.groups.totalCount / this.usersPerPage)
+      pageCount: Math.ceil(nextProps.groups.totalCount / this.usersPerPage),
     });
   }
 
@@ -76,7 +76,7 @@ class GroupsPage extends React.Component {
     return (
       <div id="groupsPage">
         <Header />
-        <div className="mycontainer" >
+        <div className="mycontainer">
           <div className="row">
             <GroupsList
               totalCount={totalCount}
@@ -105,6 +105,5 @@ const mapStateToProps = state => ({
   groups: state.groups,
   pageCount: state.groups.pageCount,
 });
-
 
 export default connect(mapStateToProps, { fetchGroups })(GroupsPage);

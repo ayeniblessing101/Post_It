@@ -1,5 +1,13 @@
 const jwt = require('jsonwebtoken');
 
+/**
+ * Verifies a token to check if it's valid
+ * @param {object} request - request
+ * @param {object} response - response
+ * @param {function} next - next
+ *
+ * @returns {object} - success or failure response
+ */
 module.exports = (request, response, next) => {
   const authorizationHeader = request.headers.authorization;
   let token;
@@ -16,7 +24,7 @@ module.exports = (request, response, next) => {
     });
   } else {
     return response.status(403).send({
-      error: 'No Token Provided'
+      error: 'No Token Provided',
     });
   }
 };

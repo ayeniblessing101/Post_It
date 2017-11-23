@@ -1,3 +1,5 @@
+import paginate from '../utils/paginate';
+
 const { validateAddGroupInput } = require('../validations/validation');
 const isEmpty = require('lodash/isEmpty');
 const User = require('../models').User;
@@ -75,8 +77,6 @@ exports.getGroups = (request, response) => {
     .then((groups) => {
       let limit = parseInt(request.query.limit, 10);
       let offset = parseInt(request.query.offset, 10);
-      const page =
-        Math.ceil(request.query.offset / request.query.limit + 1) || 1;
       limit = Number(limit) || 10;
       offset = Number(offset) || 0;
       const userBelongsTo = groups.map(group => group.group_id);
@@ -95,15 +95,10 @@ exports.getGroups = (request, response) => {
         limit,
       })
         .then((allGroups) => {
-          const pageCount = Math.ceil(allGroups.count / limit);
-          const pageSize = limit;
-          const totalCount = allGroups.count;
+          const pagination = paginate(limit, offset, allGroups);
           response.status(200).send({
             allGroups: allGroups.rows,
-            page,
-            pageCount,
-            pageSize,
-            totalCount,
+            pagination,
           });
         })
         .catch((err) => {

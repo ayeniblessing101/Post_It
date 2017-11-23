@@ -1,3 +1,5 @@
+import paginate from '../utils/paginate';
+
 require('dotenv').config();
 
 const crypto = require('crypto');
@@ -351,7 +353,6 @@ exports.resetPassword = (request, response) => {
 exports.search = (request, response) => {
   let limit = request.query.limit;
   let offset = request.query.offset;
-  const page = Math.ceil(request.query.offset / request.query.limit + 1) || 1;
   limit = Number(limit) || 10;
   offset = Number(offset) || 0;
 
@@ -371,16 +372,10 @@ exports.search = (request, response) => {
           error: 'User not found',
         });
       } else {
-        const pageCount = Math.ceil(users.count / limit);
-        const pageSize = limit;
-        const totalCount = users.count;
-
+        const pagination = paginate(limit, offset, users);
         response.status(200).send({
           users: users.rows,
-          page,
-          pageCount,
-          pageSize,
-          totalCount,
+          pagination,
         });
       }
     })

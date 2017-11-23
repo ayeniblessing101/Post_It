@@ -15,25 +15,27 @@ const setup = () => {
     postMessage,
     getGroupWithMessages,
     messages: {
-      Messages: [{ User: {
-        username: ''
-      } }],
-      groupName: 'Andela'
+      Messages: [
+        {
+          User: {
+            username: '',
+          },
+        },
+      ],
+      groupName: 'Andela',
     },
     groupId: 1,
     group: [],
     auth: {
       isAuthenticated: false,
-      user: {}
-    }
+      user: {},
+    },
   };
 
-  const enzymeWrapper = mount(
-    <MessageForm {...props} />
-  );
+  const enzymeWrapper = mount(<MessageForm {...props} />);
   return {
     props,
-    enzymeWrapper
+    enzymeWrapper,
   };
 };
 
@@ -57,7 +59,10 @@ describe('components', () => {
     it('simulates on change event', () => {
       const spy = sinon.spy(MessageForm.prototype, 'handleChange');
       const wrapper = mount(<MessageForm {...props} />);
-      wrapper.find('textarea').simulate('change', { preventDefault: () => null, target: { name: 'hello', value: 'hello' } });
+      wrapper.find('textarea').simulate('change', {
+        preventDefault: () => null,
+        target: { name: 'hello', value: 'hello' },
+      });
       expect(spy.called).toBeTruthy();
     });
   });

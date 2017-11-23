@@ -9,21 +9,22 @@ const User = require('../models').User;
  *
  * @return {object} - user object with phone number included
  */
-function getGroupUserEmail(id, message, user) {
+function getPhoneNumbers(id, message, user) {
   const userPhoneNumbers = [];
   Group.findOne({
     where: {
       id,
     },
     attributes: ['id'],
-    include: [{
-      model: User,
-      as: 'members',
-      attributes: ['phone'],
-      through: { attributes: [] }
-    }]
-  })
-  .then((phone) => {
+    include: [
+      {
+        model: User,
+        as: 'members',
+        attributes: ['phone'],
+        through: { attributes: [] },
+      },
+    ],
+  }).then((phone) => {
     const phoneNumbers = phone.members;
     phoneNumbers.map((phoneNumber) => {
       userPhoneNumbers.push(phoneNumber.phone);
@@ -37,11 +38,11 @@ function getGroupUserEmail(id, message, user) {
       createdAt: message.createdAt,
       User: {
         id: user.id,
-        username: user.username
-      }
+        username: user.username,
+      },
     },
     userPhoneNumbers,
   };
 }
 
-module.exports = getGroupUserEmail;
+module.exports = getPhoneNumbers;

@@ -23,7 +23,7 @@ class UserList extends React.Component {
     this.state = {
       users: pagination.users,
       offset: 0,
-      pageCount: Math.ceil(pagination.count / this.usersPerPage)
+      pageCount: Math.ceil(pagination.count / this.usersPerPage),
     };
     this.handlePageClick = this.handlePageClick.bind(this);
     this.searchParams = queryString.parse(this.props.location.search).q;
@@ -48,7 +48,7 @@ class UserList extends React.Component {
     this.setState({
       users: nextProps.pagination.users,
       totalCount: nextProps.pagination.totalCount,
-      pageCount: Math.ceil(nextProps.pagination.totalCount / this.usersPerPage)
+      pageCount: Math.ceil(nextProps.pagination.totalCount / this.usersPerPage),
     });
   }
 
@@ -90,40 +90,37 @@ class UserList extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {
-                      users.length > 0 ? users.map((user, index) => (
+                    {users.length > 0 ? (
+                      users.map((user, index) => (
                         <tr key={index}>
                           <td>{user.username}</td>
                           <td>{user.email}</td>
                         </tr>
-                      )) : (
-                        <tr>
-                          <td
-                            className="center"
-                            col="2" colSpan="2">
-                            No user found
-                          </td>
-                        </tr>
-                      )
-                    }
+                      ))
+                    ) : (
+                      <tr>
+                        <td className="center" col="2" colSpan="2">
+                          No user found
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
-                {
-                  totalCount > 5 &&
+                {totalCount > 5 && (
                   <ReactPaginate
-                  previousLabel={'previous'}
-                  nextLabel={'next'}
-                  breakLabel={<a href="">...</a>}
-                  breakClassName={'break-me'}
-                  pageCount={this.state.pageCount}
-                  marginPagesDisplayed={2}
-                  pageRangeDisplayed={5}
-                  onPageChange={this.handlePageClick}
-                  containerClassName={'pagination'}
-                  subContainerClassName={'pages pagination'}
-                  activeClassName={'active'}
-                />
-                }
+                    previousLabel={'previous'}
+                    nextLabel={'next'}
+                    breakLabel={<a href="">...</a>}
+                    breakClassName={'break-me'}
+                    pageCount={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName={'pagination'}
+                    subContainerClassName={'pages pagination'}
+                    activeClassName={'active'}
+                  />
+                )}
               </div>
               <div className="col s12 m4 l2" />
             </div>
@@ -138,15 +135,16 @@ UserList.propTypes = {
   location: PropTypes.object.isRequired,
   getUsersAction: PropTypes.func.isRequired,
   pagination: PropTypes.shape({
-    users: PropTypes.object.isRequired,
-    totalCount: PropTypes.number
-  })
+    users: PropTypes.array.isRequired,
+    totalCount: PropTypes.number,
+  }),
 };
 
 const mapStateToProps = state => ({
   pagination: state.pagination,
-  pageCount: state.pagination.pageCount
+  pageCount: state.pagination.pageCount,
 });
 
-export default connect(mapStateToProps,
-  { getUsersAction })(withRouter(UserList));
+export default connect(mapStateToProps, { getUsersAction })(
+  withRouter(UserList),
+);

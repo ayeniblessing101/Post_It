@@ -5,7 +5,7 @@ const groupController = require('../controllers/groupController');
 const messageController = require('../controllers/messageController');
 
 const userController = require('../controllers/userController');
-const verifyToken = require('../middlewares/jwtauth');
+const verifyToken = require('../middlewares/verifyToken');
 
 router.post('/user/signup', userController.signup);
 router.post('/password/forgot', userController.sendForgotPasswordToken);
