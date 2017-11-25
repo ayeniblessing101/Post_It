@@ -384,11 +384,9 @@ const mockData = {
           'https://res.cloudinary.com/blessing/image/upload/v1510719877/eaiziyjfzk1ilmsack92.png',
       },
     ],
-    // pagination: {
     pageCount: 2,
     pageSize: 5,
     totalCount: 7,
-    // },
   },
 };
 

@@ -8,7 +8,11 @@ const expect = chai.expect;
 const Group = models.Group;
 
 describe('Create a group with name, image and user_id', () => {
-  const group = new Group(mockData.newGroup);
+  const group = new Group({
+    group_name: 'BootCampers',
+    image: mockData.allGroups.image,
+    user_id: 1,
+  });
   it('should be an instance of Group model', () => {
     expect(group).to.be.an.instanceof(Group);
   });
@@ -45,18 +49,24 @@ describe('Create a group with name, image and user_id', () => {
 describe('Create a valid group and save to database', () => {
   before(() => {
     return Group.truncate({ cascade: true, logging: false }).then(() => {
-      return Group.create(mockData.newGroup);
+      return Group.create({
+        group_name: 'BootCampers',
+        image: mockData.allGroups.image,
+        user_id: 1,
+      });
     });
   });
   it('should be written to database without errors', () => {
     return Group.findById(1).then((fromDb) => {
       expect(fromDb.group_name).to.equal('God');
-      expect(fromDb.image).to.equal('');
+      expect(fromDb.image).to.equal(
+        'https://res.cloudinary.com/blessing/image/upload/v1510719784/bqaoxgb69x0qsjkabtga.png',
+      );
       expect(fromDb.user_id).to.equal(1);
     });
   });
   it('should return error if `group_name` exists', () => {
-    return Group.create(mockData.newGroup).catch((errors) => {
+    return Group.create({}).catch((errors) => {
       expect(errors.name).to.equal('SequelizeUniqueConstraintError');
       const error = errors.get('id');
       expect(error[0].type).to.equal('unique violation');
