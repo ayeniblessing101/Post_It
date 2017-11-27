@@ -95,7 +95,7 @@ describe('Add Group component', () => {
     form.simulate('submit', { preventDefault: () => null });
   });
 
-  it('should handle onChange event', () => {
+  it('should handle handleChange event', () => {
     const spy = sinon.spy(AddGroupForm.prototype, 'handleChange');
     const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
     wrapper.find('.addGroupFormContainer').simulate('change', {

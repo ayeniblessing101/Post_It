@@ -5,7 +5,7 @@ import { GET_ALL_USERS } from './types';
  * Add a user to a Group
  * @param {object} users
  *
- * @returns
+ * @returns {void}
  */
 const addUsersToReduxState = users => ({
   type: GET_ALL_USERS,

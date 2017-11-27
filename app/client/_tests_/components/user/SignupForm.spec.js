@@ -57,7 +57,7 @@ describe('Signup Form component', () => {
     spy.restore();
   });
 
-  it('should handle OnChange event', () => {
+  it('should handle handleChange event', () => {
     const event = {
       target: {
         name: 'username',

@@ -24,7 +24,7 @@ let fakeGroup;
 
 chai.use(chaiHttp);
 
-describe('Creates Message', () => {
+describe('Creates Message Controller', () => {
   beforeEach((done) => {
     User.destroy({
       where: {},
@@ -61,7 +61,7 @@ describe('Creates Message', () => {
           });
       });
   });
-  it('creates a message', (done) => {
+  it('should create a new message', (done) => {
     request
       .post(`/api/v1/group/${fakeGroup.id}/message`)
       .set('Authorization', `Basic ${token}`)
@@ -74,7 +74,7 @@ describe('Creates Message', () => {
       });
   });
 
-  it('throws an error if group does not exist', (done) => {
+  it('should throw an error if group does not exist', (done) => {
     request
       .post('/api/v1/group/100/message')
       .set('Authorization', `Basic ${token}`)
@@ -86,7 +86,7 @@ describe('Creates Message', () => {
   });
 });
 
-describe('Get Message', () => {
+describe('Get Message Controller', () => {
   beforeEach(async () => {
     await User.destroy({
       where: {},
@@ -145,7 +145,7 @@ describe('Get Message', () => {
     token = jwt.sign({ id: user.dataValues.id }, 'secret');
   });
 
-  it('fetches all messages in a group', async () => {
+  it('should fetch all messages in a group', async () => {
     await request
       .get(`/api/v1/group/${fakeGroup.id}/messages`)
       .set('Authorization', `Basic ${token}`)

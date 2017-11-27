@@ -27,7 +27,7 @@ export const getGroupAllMessages = groupInfo => ({
  * @param {integer} groupId - groupdId.
  * @param {string} message - groupdId.
  *
- *@returns {function} - dispatches an action to post message.
+ * @returns {function} - dispatches an action to post message.
  */
 export function postMessage(groupId, message) {
   return dispatch =>

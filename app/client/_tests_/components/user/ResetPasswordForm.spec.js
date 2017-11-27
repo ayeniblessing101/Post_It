@@ -41,7 +41,7 @@ const setup = () => {
   };
 };
 
-describe('Reset Password Form components', () => {
+describe('Reset Password Form component', () => {
   const { enzymeWrapper, props } = setup();
   it('should have h4 tag', () => {
     expect(enzymeWrapper.find('h4').text()).toBe('Reset Password');
@@ -62,7 +62,7 @@ describe('Reset Password Form components', () => {
     spy.restore();
   });
 
-  it('should handle OnChange event', () => {
+  it('should handle handleChange event', () => {
     const event = {
       target: {
         name: 'newPassword',

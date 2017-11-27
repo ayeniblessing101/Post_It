@@ -39,7 +39,7 @@ const setup = () => {
   };
 };
 
-describe('Message Form components', () => {
+describe('Message Form component', () => {
   const { enzymeWrapper, props } = setup();
   it('should have className groupName', () => {
     expect(enzymeWrapper.find('h5').hasClass('groupName')).toBe(true);

@@ -29,7 +29,7 @@ describe('Create User Controller', () => {
       });
   });
 
-  it('returns a newly created user', (done) => {
+  it('should return a newly created user', (done) => {
     const user = userSeeds.newUserPayload;
     request
       .post('/api/v1/user/signup')
@@ -45,7 +45,7 @@ describe('Create User Controller', () => {
       });
   });
 
-  it('returns error if username already exists', (done) => {
+  it('should return an error if username already exists', (done) => {
     const user = userSeeds.userExistPayload;
     request
       .post('/api/v1/user/signup')
@@ -63,7 +63,7 @@ describe('Create User Controller', () => {
       });
   });
 
-  it('returns error if email already exists', (done) => {
+  it('should return an error if email already exist', (done) => {
     const user = userSeeds.emailExistPayload;
     request
       .post('/api/v1/user/signup')
@@ -78,7 +78,7 @@ describe('Create User Controller', () => {
       });
   });
 
-  it('catches server error', (done) => {
+  it('should return internal server error', (done) => {
     request
       .post('/api/v1/user/signup')
       .send(userSeeds.internalError)
@@ -101,7 +101,7 @@ describe('Signin Controller', () => {
         done(error);
       });
   });
-  it('throws error when password is incorrect', (done) => {
+  it('should throw an error when password is incorrect', (done) => {
     const user = userSeeds.wrongPasswordPayload;
     request
       .post('/api/v1/user/signin')
@@ -112,7 +112,7 @@ describe('Signin Controller', () => {
         done(err);
       });
   });
-  it('throws error when username does not exist', (done) => {
+  it('should throw an error when username does not exist', (done) => {
     const user = userSeeds.wrongUsernamePayload;
     request
       .post('/api/v1/user/signin')
@@ -124,7 +124,7 @@ describe('Signin Controller', () => {
         done(err);
       });
   });
-  it('throws error when username field is blank', (done) => {
+  it('should throw an error when username field is blank', (done) => {
     const user = {
       username: '',
     };
@@ -141,7 +141,7 @@ describe('Signin Controller', () => {
         done(err);
       });
   });
-  it('throws error when password field is blank', (done) => {
+  it('should throw an error when password field is blank', (done) => {
     const user = {
       password: '',
     };
@@ -160,7 +160,7 @@ describe('Signin Controller', () => {
   });
 });
 
-describe('Validate Token', () => {
+describe('Validate Token Controller', () => {
   before((done) => {
     ForgotPassword.sync({ force: true })
       .then(() => {
@@ -171,7 +171,7 @@ describe('Validate Token', () => {
         done(error);
       });
   });
-  it('asserts that the token exists', (done) => {
+  it('should assert that the token exists', (done) => {
     const token = userSeeds.token;
     request
       .get(`/api/v1/password/token/check?token=${token.token}`)
@@ -183,7 +183,7 @@ describe('Validate Token', () => {
         done(err);
       });
   });
-  it('asserts that the token does not exist', (done) => {
+  it('should assert that the token does not exist', (done) => {
     const token = userSeeds.wrongToken;
     request
       .get(`/api/v1/password/token/check?token=${token}`)
@@ -209,7 +209,7 @@ describe('Validate Token', () => {
   });
 });
 
-describe('reset password', () => {
+describe('reset password controller', () => {
   before((done) => {
     User.sync({ force: true })
       .then(() => {
@@ -220,7 +220,7 @@ describe('reset password', () => {
         done(error);
       });
   });
-  it('throws error when email field is blank', (done) => {
+  it('should throw an error when email field is blank', (done) => {
     const user = {
       newPassword: '',
     };
@@ -240,7 +240,7 @@ describe('reset password', () => {
         done(err);
       });
   });
-  it('throws error when confirm password is blank', (done) => {
+  it('should throw error when confirm password is blank', (done) => {
     const user = {
       confirmPassword: '',
     };
@@ -260,7 +260,7 @@ describe('reset password', () => {
         done(err);
       });
   });
-  it('throws error when password does not match', (done) => {
+  it('should throw an error when password does not match', (done) => {
     const resetPasswordPayload = userSeeds.resetPasswordPayload;
     request
       .put('/api/v1/password/verify')
@@ -278,7 +278,7 @@ describe('reset password', () => {
         done(err);
       });
   });
-  it('throws error when user email is not found', (done) => {
+  it('should throw an error when user email is not found', (done) => {
     const email = userSeeds.email;
     request
       .put('/api/v1/password/verify')
@@ -291,7 +291,7 @@ describe('reset password', () => {
         done(err);
       });
   });
-  it("resets user's password ", (done) => {
+  it("should reset user's password ", (done) => {
     const body = userSeeds.body;
     request
       .put('/api/v1/password/verify')

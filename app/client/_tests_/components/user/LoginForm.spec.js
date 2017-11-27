@@ -45,7 +45,7 @@ const setup = () => {
   };
 };
 
-describe('Login Form components', () => {
+describe('Login Form component', () => {
   const { enzymeWrapper, props } = setup();
   it('should have h4 tag', () => {
     expect(enzymeWrapper.find('h4').text()).toBe('Login to PostIt');

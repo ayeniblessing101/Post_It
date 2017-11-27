@@ -60,7 +60,7 @@ describe('Header component', () => {
       ),
     ).toBeTruthy();
   });
-  it('simulates on click event', () => {
+  it('should handle onClick event', () => {
     const wrapper = mount(<Header {...props} />, mockContext);
     const event = {
       preventDefault: jest.fn(),

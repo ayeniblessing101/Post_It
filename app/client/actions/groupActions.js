@@ -100,7 +100,8 @@ export function fetchGroupUsers(groupId) {
  * Dispatches an action to add a user to a group.
  * @param {integer} groupId - The Id of the group.
  * @param {String} user - The username.
- *@returns {function} - dispatches addUserToGroup action.
+ *
+ * @returns {function} - dispatches addUserToGroup action.
  */
 export function addUserToGroup(groupId, user) {
   return dispatch =>

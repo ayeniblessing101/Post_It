@@ -20,7 +20,7 @@ let token;
 let fakeGroup;
 chai.use(chaiHttp);
 
-describe('Create Group', () => {
+describe('Create Group Controller', () => {
   beforeEach((done) => {
     User.destroy({
       where: {},
@@ -71,7 +71,7 @@ describe('Create Group', () => {
       });
   });
 
-  it('should throw an error when group name exist', (done) => {
+  it('should throw an error if the group name exists', (done) => {
     request
       .post('/api/v1/group')
       .set('Authorization', `Basic ${token}`)
@@ -83,7 +83,7 @@ describe('Create Group', () => {
   });
 });
 
-describe('Add users to a group', () => {
+describe('Add users to group Controller', () => {
   beforeEach((done) => {
     User.destroy({
       where: {},
@@ -124,7 +124,7 @@ describe('Add users to a group', () => {
   });
 
   it(
-    'should return success message when a user is ' +
+    'should return a success message when a user is ' +
       'successfully added to a group',
     (done) => {
       request
@@ -146,7 +146,7 @@ describe('Add users to a group', () => {
     },
   );
 
-  it('throws an error if User does not exist', (done) => {
+  it('should throw an error if User does not exist', (done) => {
     request
       .post(`/api/v1/group/${fakeGroup.id}/user`)
       .set('Authorization', `Basic ${token}`)
@@ -160,7 +160,7 @@ describe('Add users to a group', () => {
       });
   });
 
-  it('throws an error if text field is empty', (done) => {
+  it('should throw an error if text field is empty', (done) => {
     request
       .post(`/api/v1/group/${fakeGroup.id}/user`)
       .set('Authorization', `Basic ${token}`)

@@ -2,7 +2,7 @@ const Group = require('../models').Group;
 const User = require('../models').User;
 
 /**
- * get all the phone number of user in a group
+ * gets all the phone number of user in a group
  * @param {*} id - id
  * @param {*} message  - message
  * @param {*} user - user

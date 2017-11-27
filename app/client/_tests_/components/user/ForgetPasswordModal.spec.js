@@ -35,7 +35,7 @@ const setup = () => {
   };
 };
 
-describe('ForgetPassword Modal components', () => {
+describe('ForgetPassword Modal component', () => {
   const { enzymeWrapper, props } = setup();
   it('should have modal tag', () => {
     expect(enzymeWrapper.find('Modal').length).toBe(1);
