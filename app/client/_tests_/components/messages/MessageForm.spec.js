@@ -9,11 +9,11 @@ import { MessageForm } from '../../../components/messages/MessageForm';
 jest.mock('react-router-dom');
 
 const postMessage = jest.fn(() => Promise.resolve());
-const getGroupWithMessages = sinon.spy();
+const getMessages = sinon.spy();
 const setup = () => {
   const props = {
     postMessage,
-    getGroupWithMessages,
+    getMessages,
     messages: {
       Messages: [
         {

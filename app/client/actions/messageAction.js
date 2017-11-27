@@ -1,17 +1,15 @@
 import axios from 'axios';
-import { POST_MESSAGE, GET_GROUP_WITH_MESSAGE } from './types';
+import { POST_MESSAGE, GET_MESSAGES } from './types';
 
 /**
  * post message status
  * @param {any} message
  * @return {object} -action payload data and action type
  */
-export const postMessageStatus = message => (
-  {
-    type: POST_MESSAGE,
-    message
-  }
-);
+export const postMessageStatus = message => ({
+  type: POST_MESSAGE,
+  message,
+});
 
 /**
  * action to fetch a group with all its messages
@@ -19,12 +17,10 @@ export const postMessageStatus = message => (
  *
  * @return {object} - action payload data and action type
  */
-export const getGroupAllMessages = groupInfo => (
-  {
-    type: GET_GROUP_WITH_MESSAGE,
-    groupInfo
-  }
-);
+export const getGroupAllMessages = groupInfo => ({
+  type: GET_MESSAGES,
+  groupInfo,
+});
 
 /**
  * Post a message.
@@ -34,12 +30,10 @@ export const getGroupAllMessages = groupInfo => (
  *@returns {function} - dispatches an action to post message.
  */
 export function postMessage(groupId, message) {
-  return dispatch => (
-    axios.post(`/api/v1/group/${groupId}/message`, message)
-    .then((res) => {
+  return dispatch =>
+    axios.post(`/api/v1/group/${groupId}/message`, message).then((res) => {
       dispatch(postMessageStatus(res.data.newMessage));
-    })
-  );
+    });
 }
 
 /**
@@ -48,11 +42,9 @@ export function postMessage(groupId, message) {
  *
  * @returns {function} - dispatch an action to get all messages to the store.
  */
-export function getGroupWithMessages(groupId) {
-  return dispatch => (
-    axios.get(`/api/v1/group/${groupId}/`)
-    .then(({ data }) => {
+export function getMessages(groupId) {
+  return dispatch =>
+    axios.get(`/api/v1/group/${groupId}/`).then(({ data }) => {
       dispatch(getGroupAllMessages(data.data));
-    })
-  );
+    });
 }

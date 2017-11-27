@@ -40,10 +40,8 @@ describe('Message', () => {
       type: ActionTypes.GET_GROUP_WITH_MESSAGE,
       groupInfo,
     };
-    return store
-      .dispatch(messageActions.getGroupWithMessages(groupId))
-      .then(() => {
-        expect(store.getActions()).toEqual([expectedAction]);
-      });
+    return store.dispatch(messageActions.getMessages(groupId)).then(() => {
+      expect(store.getActions()).toEqual([expectedAction]);
+    });
   });
 });

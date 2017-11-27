@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { getGroupWithMessages, postMessage } from '../../actions/messageAction';
+import { getMessages, postMessage } from '../../actions/messageAction';
 
 /**
  * @class MessageForm
@@ -64,14 +64,14 @@ export class MessageForm extends React.Component {
   }
 
   /**
-   * Calls the getGroupWithMessages action
+   * Calls the getMessages action
    * on page load and initializes materialize select
    * @method componentDidMount
    *
    * @return {void}
    */
   componentDidMount() {
-    this.props.getGroupWithMessages(this.props.groupId);
+    this.props.getMessages(this.props.groupId);
     $('select').material_select();
   }
 
@@ -175,7 +175,7 @@ export class MessageForm extends React.Component {
 
 MessageForm.propTypes = {
   postMessage: PropTypes.func.isRequired,
-  getGroupWithMessages: PropTypes.func.isRequired,
+  getMessages: PropTypes.func.isRequired,
   groupId: PropTypes.number.isRequired,
   messages: PropTypes.object.isRequired,
   group: PropTypes.array.isRequired,
@@ -186,6 +186,6 @@ const mapStateToProps = state => ({
   group: state.groups.allGroups,
 });
 
-export default connect(mapStateToProps, { getGroupWithMessages, postMessage })(
+export default connect(mapStateToProps, { getMessages, postMessage })(
   MessageForm,
 );

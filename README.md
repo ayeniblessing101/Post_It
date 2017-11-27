@@ -59,7 +59,7 @@
 
 
 ## Endpoints
-For detailed Information on how to use this api, view the **[documentation](https://app.apiary.io/ayeniblessing/)**
+For detailed Information on how to use this api, view the **[documentation](https://ayeniblessing.docs.apiary.io)**
 
 ## Getting Started
 *  Navigate to a directory of choice using the `terminal`.

@@ -1,4 +1,4 @@
-import { GET_GROUP_WITH_MESSAGE, POST_MESSAGE } from '../actions/types';
+import { GET_MESSAGES, POST_MESSAGE } from '../actions/types';
 
 const initialState = {
   id: '',
@@ -17,7 +17,7 @@ const initialState = {
  */
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-  case GET_GROUP_WITH_MESSAGE:
+  case GET_MESSAGES:
     return action.groupInfo;
   case POST_MESSAGE:
     return {

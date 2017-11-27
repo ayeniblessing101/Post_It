@@ -22,7 +22,7 @@ export default function forgotPasswordMail(receiver, messageBody) {
   // setup email data with unicode symbols
   const mailOptions = {
     from: '"Ayeni Blessing 👻" <ayeniblessing@gmail.com>',
-    to: receiver, // list of receivers
+    to: receiver,
     subject: 'Post It - Reset Password',
     text: messageBody,
     html: messageBody,
