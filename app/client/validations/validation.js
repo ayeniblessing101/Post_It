@@ -1,7 +1,6 @@
 import Validator from 'validator';
 import isEmpty from 'lodash/isEmpty';
-import checkNum from '../utils/numberValidation';
-
+import checkNum from '../utils/numberValidator';
 
 module.exports = {
   /**
@@ -36,7 +35,7 @@ module.exports = {
     }
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
   /**
@@ -55,7 +54,7 @@ module.exports = {
     }
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
   /**
@@ -71,7 +70,7 @@ module.exports = {
     }
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
   /**
@@ -87,7 +86,7 @@ module.exports = {
     }
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
   /**
@@ -103,7 +102,7 @@ module.exports = {
     }
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
   },
 
@@ -123,8 +122,7 @@ module.exports = {
     }
     return {
       errors,
-      isValid: isEmpty(errors)
+      isValid: isEmpty(errors),
     };
-  }
-
+  },
 };
