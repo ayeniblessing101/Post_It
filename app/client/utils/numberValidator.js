@@ -1,7 +1,6 @@
 /**
- * checks and validates if the
- * input value is a number
- * @param {number} number
+ * Checks if an input value is a number
+ * @param {number} number  -number
  *
  * @returns {boolean} - true or false
  */

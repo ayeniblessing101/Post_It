@@ -12,11 +12,11 @@ describe('messages reducer', () => {
     expect(newState).toEqual(initialState);
   });
 
-  it('should handle GET_GROUP_WITH_MESSAGE', () => {
+  it('should handle GET_MESSAGES', () => {
     const initialState = mockData.initialState;
     const actionDispatch = {
-      type: ActionTypes.GET_GROUP_WITH_MESSAGE,
-      messages: mockData.reduxMessages
+      type: ActionTypes.GET_MESSAGES,
+      messages: mockData.reduxMessages,
     };
     const newState = messagesReducer(initialState, actionDispatch);
     expect(newState).toEqual(actionDispatch.messages);
@@ -26,14 +26,11 @@ describe('messages reducer', () => {
     const newMessage = mockData.newMessage;
     const actionDispatch = {
       type: ActionTypes.POST_MESSAGE,
-      message: newMessage
+      message: newMessage,
     };
     const messages = {
       ...initialState,
-      Messages: [
-        ...initialState.Messages,
-        newMessage
-      ]
+      Messages: [...initialState.Messages, newMessage],
     };
     const newState = messagesReducer(initialState, actionDispatch);
 

@@ -37,7 +37,7 @@ describe('Message', () => {
     const groupInfo = mockData.data;
     const store = mockStore({}, groupInfo);
     const expectedAction = {
-      type: ActionTypes.GET_GROUP_WITH_MESSAGE,
+      type: ActionTypes.GET_MESSAGES,
       groupInfo,
     };
     return store.dispatch(messageActions.getMessages(groupId)).then(() => {
