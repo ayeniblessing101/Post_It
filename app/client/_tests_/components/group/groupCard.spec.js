@@ -16,16 +16,11 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('GroupCard', () => {
-    it('checkeck if component has Link tag with className Btn', () => {
-      const { enzymeWrapper } = setup();
-
-      expect(enzymeWrapper.find('Link').hasClass('btn')).toBe(true);
-
-      expect(enzymeWrapper.find('img').length).toBe(1);
-
-      expect(enzymeWrapper.find('h5').text()).toBe('Andela');
-    });
+describe('groupCard component', () => {
+  it('should have a Link tag with className btn', () => {
+    const { enzymeWrapper } = setup();
+    expect(enzymeWrapper.find('Link').hasClass('btn')).toBe(true);
+    expect(enzymeWrapper.find('img').length).toBe(1);
+    expect(enzymeWrapper.find('h5').text()).toBe('Andela');
   });
 });

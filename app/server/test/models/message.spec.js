@@ -6,11 +6,11 @@ chai.use(isUUID);
 const expect = chai.expect;
 const Message = models.Message;
 
-describe('Create a message', () => {
+describe('A newly created message', () => {
   const message = new Message({
     id: 1,
     message_body: 'This is the first message',
-    priority: 'urgent',
+    priority_level: 'urgent',
     group_id: 1,
     user_id: 1,
   });
@@ -53,11 +53,11 @@ describe('Create a message', () => {
     expect(yetAnotherMessage.message_body).to.equal(
       'This is the second message',
     );
-    expect(message.priority).to.equal('urgent');
+    expect(message.priority_level).to.equal('urgent');
   });
 });
 
-describe('Create a valid message and save to database', () => {
+describe('Message Model', () => {
   before(() => {
     return Message.truncate({ cascade: true, logging: false }).then(() => {
       return Message.create({
@@ -68,12 +68,12 @@ describe('Create a valid message and save to database', () => {
       });
     });
   });
-  it('should be written to database without errors', () => {
+  it('should save a valid message to database without errors', () => {
     return Message.findById(1).then((fromDb) => {
       expect(fromDb.message_body).to.equal('Please cough go away');
       expect(fromDb.group_id).to.equal(1);
       expect(fromDb.user_id).to.equal(1);
-      expect(fromDb.priority).to.equal('normal');
+      expect(fromDb.priority_level).to.equal('normal');
     });
   });
 });

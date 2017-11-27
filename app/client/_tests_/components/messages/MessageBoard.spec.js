@@ -38,13 +38,10 @@ const setup = () => {
   };
 };
 
-describe('Component', () => {
-  describe('Message Board', () => {
-    it('checks if className message-board exists', () => {
-      const { enzymeWrapper } = setup();
-
-      expect(enzymeWrapper.find('.message-board').length).toBe(1);
-      enzymeWrapper.update();
-    });
+describe('Message Board Component', () => {
+  it('should have className message-board', () => {
+    const { enzymeWrapper } = setup();
+    expect(enzymeWrapper.find('.message-board').length).toBe(1);
+    enzymeWrapper.update();
   });
 });

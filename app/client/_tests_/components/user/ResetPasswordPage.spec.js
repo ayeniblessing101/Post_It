@@ -39,11 +39,9 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('Reset Password Form', () => {
-    it('should check if the className resetPassword exist', () => {
-      const { enzymeWrapper } = setup();
-      expect(enzymeWrapper.find('.resetPassword').length).toBe(1);
-    });
+describe('Reset Password Form components', () => {
+  it('should have className resetPassword', () => {
+    const { enzymeWrapper } = setup();
+    expect(enzymeWrapper.find('.resetPassword').length).toBe(1);
   });
 });

@@ -39,31 +39,29 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('Message Form', () => {
-    const { enzymeWrapper, props } = setup();
-    it('checks if className groupName exists', () => {
-      expect(enzymeWrapper.find('h5').hasClass('groupName')).toBe(true);
-    });
+describe('Message Form components', () => {
+  const { enzymeWrapper, props } = setup();
+  it('should have className groupName', () => {
+    expect(enzymeWrapper.find('h5').hasClass('groupName')).toBe(true);
+  });
 
-    it('simulate Handle submit method is called', () => {
-      const spy = sinon.spy(MessageForm.prototype, 'handleSubmit');
-      const wrapper = mount(<MessageForm {...props} />);
-      const form = wrapper.find('form');
-      form.simulate('submit', { preventDefault: () => null });
-      expect(spy.called).toBeTruthy();
-      spy.reset();
-      spy.restore();
-    });
+  it('should handle handleSubmit method', () => {
+    const spy = sinon.spy(MessageForm.prototype, 'handleSubmit');
+    const wrapper = mount(<MessageForm {...props} />);
+    const form = wrapper.find('form');
+    form.simulate('submit', { preventDefault: () => null });
+    expect(spy.called).toBeTruthy();
+    spy.reset();
+    spy.restore();
+  });
 
-    it('simulates on change event', () => {
-      const spy = sinon.spy(MessageForm.prototype, 'handleChange');
-      const wrapper = mount(<MessageForm {...props} />);
-      wrapper.find('textarea').simulate('change', {
-        preventDefault: () => null,
-        target: { name: 'hello', value: 'hello' },
-      });
-      expect(spy.called).toBeTruthy();
+  it('should handle handleChange event', () => {
+    const spy = sinon.spy(MessageForm.prototype, 'handleChange');
+    const wrapper = mount(<MessageForm {...props} />);
+    wrapper.find('textarea').simulate('change', {
+      preventDefault: () => null,
+      target: { name: 'hello', value: 'hello' },
     });
+    expect(spy.called).toBeTruthy();
   });
 });

@@ -40,33 +40,31 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('Signup Form', () => {
-    const { enzymeWrapper, props } = setup();
-    it('checks if ckassName signup exists', () => {
-      expect(enzymeWrapper.find('.signup').length).toBe(1);
-    });
+describe('Signup Form component', () => {
+  const { enzymeWrapper, props } = setup();
+  it('should className signup', () => {
+    expect(enzymeWrapper.find('.signup').length).toBe(1);
+  });
 
-    it('simulate HandleSubmit event', () => {
-      const spy = sinon.spy(SignupForm.prototype, 'handleSubmit');
-      const wrapper = mount(<SignupForm {...props} />, mockContext);
-      const form = wrapper.find('form');
-      wrapper.setState(mockData.signupPayload);
-      form.simulate('submit', { preventDefault: () => null });
-      expect(spy.called).toBeTruthy();
-      spy.reset();
-      spy.restore();
-    });
+  it('should handle HandleSubmit event', () => {
+    const spy = sinon.spy(SignupForm.prototype, 'handleSubmit');
+    const wrapper = mount(<SignupForm {...props} />, mockContext);
+    const form = wrapper.find('form');
+    wrapper.setState(mockData.signupPayload);
+    form.simulate('submit', { preventDefault: () => null });
+    expect(spy.called).toBeTruthy();
+    spy.reset();
+    spy.restore();
+  });
 
-    it('simulates OnChange event', () => {
-      const event = {
-        target: {
-          name: 'username',
-          value: 'ble-ble',
-        },
-      };
-      enzymeWrapper.instance().handleChange(event);
-      expect(enzymeWrapper.state().username).toEqual('ble-ble');
-    });
+  it('should handle OnChange event', () => {
+    const event = {
+      target: {
+        name: 'username',
+        value: 'ble-ble',
+      },
+    };
+    enzymeWrapper.instance().handleChange(event);
+    expect(enzymeWrapper.state().username).toEqual('ble-ble');
   });
 });

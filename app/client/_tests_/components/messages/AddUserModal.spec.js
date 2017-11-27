@@ -29,34 +29,32 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('Add User', () => {
-    const { enzymeWrapper, props } = setup();
-    it('checks if className add-user-modal exists', () => {
-      expect(enzymeWrapper.find('.add-user-modal').length).toBe(1);
-    });
+describe('Add User Modal component', () => {
+  const { enzymeWrapper, props } = setup();
+  it('should have className add-user-modal', () => {
+    expect(enzymeWrapper.find('.add-user-modal').length).toBe(1);
+  });
 
-    it('simulate Handle submit event', () => {
-      const spy = sinon.spy(AddUserModal.prototype, 'handleSubmit');
-      const wrapper = shallow(<AddUserModal {...props} />);
-      const form = wrapper.find('form');
-      wrapper.setState({
-        errors: {},
-      });
-      form.simulate('submit', { preventDefault: () => null });
-      expect(spy.called).toBeTruthy();
-      spy.reset();
-      spy.restore();
+  it('should handle handleSubmit event', () => {
+    const spy = sinon.spy(AddUserModal.prototype, 'handleSubmit');
+    const wrapper = shallow(<AddUserModal {...props} />);
+    const form = wrapper.find('form');
+    wrapper.setState({
+      errors: {},
     });
+    form.simulate('submit', { preventDefault: () => null });
+    expect(spy.called).toBeTruthy();
+    spy.reset();
+    spy.restore();
+  });
 
-    it('simulates on change event', () => {
-      const spy = sinon.spy(AddUserModal.prototype, 'handleChange');
-      const wrapper = shallow(<AddUserModal {...props} />);
-      wrapper.find('TextFieldGroup').simulate('change', {
-        preventDefault: () => null,
-        target: { name: 'hello', value: 'hello' },
-      });
-      expect(spy.called).toBeTruthy();
+  it('should handle handleChange event', () => {
+    const spy = sinon.spy(AddUserModal.prototype, 'handleChange');
+    const wrapper = shallow(<AddUserModal {...props} />);
+    wrapper.find('TextFieldGroup').simulate('change', {
+      preventDefault: () => null,
+      target: { name: 'hello', value: 'hello' },
     });
+    expect(spy.called).toBeTruthy();
   });
 });

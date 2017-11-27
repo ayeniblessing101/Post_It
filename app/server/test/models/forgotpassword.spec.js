@@ -6,7 +6,7 @@ chai.use(isUUID);
 const expect = chai.expect;
 const ForgotPassword = models.ForgotPassword;
 
-describe('Create reset password token', () => {
+describe('A newly created token', () => {
   const forgotPassword = new ForgotPassword({
     user_email: 'blessing.ayeni@andela.com',
     reset_password_token: '',
@@ -43,7 +43,7 @@ describe('Create reset password token', () => {
   });
 });
 
-describe('Create a valid reset password token and save to database', () => {
+describe('Forgotpassword model', () => {
   before(() => {
     return ForgotPassword.truncate({
       cascade: true,
@@ -52,7 +52,7 @@ describe('Create a valid reset password token and save to database', () => {
       return ForgotPassword.create({});
     });
   });
-  it('should be written to database without errors', () => {
+  it('should save a new token to the database without errors', () => {
     return ForgotPassword.findById(1).then((fromDb) => {
       expect(fromDb.user_email).to.equal('blessing.ayeni@andela.com');
       expect(fromDb.reset_password_token).to.equal('');

@@ -45,37 +45,35 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('Login Form', () => {
-    const { enzymeWrapper, props } = setup();
-    it('checks if h4 tag exists', () => {
-      expect(enzymeWrapper.find('h4').text()).toBe('Login to PostIt');
-    });
+describe('Login Form components', () => {
+  const { enzymeWrapper, props } = setup();
+  it('should have h4 tag', () => {
+    expect(enzymeWrapper.find('h4').text()).toBe('Login to PostIt');
+  });
 
-    it('simulate HandleSubmit event', () => {
-      const spy = sinon.spy(LoginForm.prototype, 'handleSubmit');
-      const wrapper = mount(<LoginForm {...props} />, mockContext);
-      const form = wrapper.find('form');
-      wrapper.setState({
-        username: 'ade',
-        password: 'ade',
-        errors: {},
-      });
-      form.simulate('submit', { preventDefault: () => null });
-      expect(spy.called).toBeTruthy();
-      spy.reset();
-      spy.restore();
+  it('should handle handleSubmit event', () => {
+    const spy = sinon.spy(LoginForm.prototype, 'handleSubmit');
+    const wrapper = mount(<LoginForm {...props} />, mockContext);
+    const form = wrapper.find('form');
+    wrapper.setState({
+      username: 'ade',
+      password: 'ade',
+      errors: {},
     });
+    form.simulate('submit', { preventDefault: () => null });
+    expect(spy.called).toBeTruthy();
+    spy.reset();
+    spy.restore();
+  });
 
-    it('simulates OnChange event', () => {
-      const event = {
-        target: {
-          name: 'username',
-          value: 'ble-ble',
-        },
-      };
-      enzymeWrapper.instance().handleChange(event);
-      expect(enzymeWrapper.state().username).toEqual('ble-ble');
-    });
+  it('should handle handleChange event', () => {
+    const event = {
+      target: {
+        name: 'username',
+        value: 'ble-ble',
+      },
+    };
+    enzymeWrapper.instance().handleChange(event);
+    expect(enzymeWrapper.state().username).toEqual('ble-ble');
   });
 });

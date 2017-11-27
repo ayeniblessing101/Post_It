@@ -41,37 +41,35 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('Reset Password Form', () => {
-    const { enzymeWrapper, props } = setup();
-    it('checks if h4 tag exists', () => {
-      expect(enzymeWrapper.find('h4').text()).toBe('Reset Password');
-    });
+describe('Reset Password Form components', () => {
+  const { enzymeWrapper, props } = setup();
+  it('should have h4 tag', () => {
+    expect(enzymeWrapper.find('h4').text()).toBe('Reset Password');
+  });
 
-    it('simulate HandleSubmit event', () => {
-      const spy = sinon.spy(ResetPasswordForm.prototype, 'handleSubmit');
-      const wrapper = mount(<ResetPasswordForm {...props} />, mockContext);
-      const form = wrapper.find('form');
-      wrapper.setState({
-        newPassword: '1234',
-        confirmNewPassword: '1234',
-        errors: {},
-      });
-      form.simulate('submit', { preventDefault: () => null });
-      expect(spy.called).toBeTruthy();
-      spy.reset();
-      spy.restore();
+  it('should handle handleSubmit event', () => {
+    const spy = sinon.spy(ResetPasswordForm.prototype, 'handleSubmit');
+    const wrapper = mount(<ResetPasswordForm {...props} />, mockContext);
+    const form = wrapper.find('form');
+    wrapper.setState({
+      newPassword: '1234',
+      confirmNewPassword: '1234',
+      errors: {},
     });
+    form.simulate('submit', { preventDefault: () => null });
+    expect(spy.called).toBeTruthy();
+    spy.reset();
+    spy.restore();
+  });
 
-    it('simulates OnChange event', () => {
-      const event = {
-        target: {
-          name: 'newPassword',
-          value: '1234',
-        },
-      };
-      enzymeWrapper.instance().handleChange(event);
-      expect(enzymeWrapper.state().newPassword).toEqual('1234');
-    });
+  it('should handle OnChange event', () => {
+    const event = {
+      target: {
+        name: 'newPassword',
+        value: '1234',
+      },
+    };
+    enzymeWrapper.instance().handleChange(event);
+    expect(enzymeWrapper.state().newPassword).toEqual('1234');
   });
 });

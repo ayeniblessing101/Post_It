@@ -7,7 +7,7 @@ chai.use(isUUID);
 const expect = chai.expect;
 const Group = models.Group;
 
-describe('Create a group with name, image and user_id', () => {
+describe('A newly created group', () => {
   const group = new Group({
     group_name: 'BootCampers',
     image: mockData.allGroups.image,
@@ -46,7 +46,7 @@ describe('Create a group with name, image and user_id', () => {
   });
 });
 
-describe('Create a valid group and save to database', () => {
+describe('Group Model', () => {
   before(() => {
     return Group.truncate({ cascade: true, logging: false }).then(() => {
       return Group.create({
@@ -56,7 +56,7 @@ describe('Create a valid group and save to database', () => {
       });
     });
   });
-  it('should be written to database without errors', () => {
+  it('should create a valid group and save to database without errors', () => {
     return Group.findById(1).then((fromDb) => {
       expect(fromDb.group_name).to.equal('God');
       expect(fromDb.image).to.equal(
@@ -65,7 +65,7 @@ describe('Create a valid group and save to database', () => {
       expect(fromDb.user_id).to.equal(1);
     });
   });
-  it('should return error if `group_name` exists', () => {
+  it('should return an error if specified `group_name` already exists', () => {
     return Group.create({}).catch((errors) => {
       expect(errors.name).to.equal('SequelizeUniqueConstraintError');
       const error = errors.get('id');

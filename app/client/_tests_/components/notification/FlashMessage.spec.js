@@ -34,11 +34,9 @@ const setup = () => {
   };
 };
 
-describe('Component', () => {
-  describe('Flash Message', () => {
-    it('checks if button tag exists', () => {
-      const { enzymeWrapper } = setup();
-      expect(enzymeWrapper.find('button').length).toBe(1);
-    });
+describe('Flash Message Component', () => {
+  it('should have button tag', () => {
+    const { enzymeWrapper } = setup();
+    expect(enzymeWrapper.find('button').length).toBe(1);
   });
 });

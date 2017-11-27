@@ -35,22 +35,20 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('ForgetPassword Modal', () => {
-    const { enzymeWrapper, props } = setup();
-    it('checks if modal exists', () => {
-      expect(enzymeWrapper.find('Modal').length).toBe(1);
-    });
+describe('ForgetPassword Modal components', () => {
+  const { enzymeWrapper, props } = setup();
+  it('should have modal tag', () => {
+    expect(enzymeWrapper.find('Modal').length).toBe(1);
+  });
 
-    it('simulate HandleSubmit event', () => {
-      enzymeWrapper.setState({ email: 'name@name.com' });
-      enzymeWrapper.instance().handleSubmit(event);
-      expect(props.resetPasswordEmail).toBeCalled();
-    });
+  it('should handle handleSubmit event', () => {
+    enzymeWrapper.setState({ email: 'name@name.com' });
+    enzymeWrapper.instance().handleSubmit(event);
+    expect(props.resetPasswordEmail).toBeCalled();
+  });
 
-    it('simulates OnChange event', () => {
-      enzymeWrapper.instance().handleChange(event);
-      expect(enzymeWrapper.state().username).toEqual('ble-ble');
-    });
+  it('handle handleChange event', () => {
+    enzymeWrapper.instance().handleChange(event);
+    expect(enzymeWrapper.state().username).toEqual('ble-ble');
   });
 });

@@ -35,11 +35,9 @@ const setup = () => {
   };
 };
 
-describe('Component', () => {
-  describe('All Groups', () => {
-    it('checks if the className allGroups exists', () => {
-      const { enzymeWrapper } = setup();
-      expect(enzymeWrapper.find('.allGroups').length).toBe(1);
-    });
+describe('All Groups Component', () => {
+  it('should have className allGroups', () => {
+    const { enzymeWrapper } = setup();
+    expect(enzymeWrapper.find('.allGroups').length).toBe(1);
   });
 });

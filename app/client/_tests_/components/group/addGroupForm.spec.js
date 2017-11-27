@@ -40,70 +40,68 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('Header', () => {
-    const { enzymeWrapper, props } = setup();
-    it('checks if h4 tag with the text Add Group Exists', () => {
-      expect(enzymeWrapper.find('h4').text()).toBe('Add Group');
-    });
+describe('Add Group component', () => {
+  const { enzymeWrapper, props } = setup();
+  it('should have h4 tag with the text Add Group', () => {
+    expect(enzymeWrapper.find('h4').text()).toBe('Add Group');
+  });
 
-    it('simulates handle submit', () => {
-      const spy = sinon.spy(AddGroupForm.prototype, 'handleSubmit');
-      const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
-      const form = wrapper.find('form');
-      wrapper.setState({ groupname: '' });
-      form.simulate('submit', { preventDefault: () => null });
-      expect(spy.called).toBeTruthy();
-      spy.reset();
-      spy.restore();
-    });
+  it('should handle handleSubmit event', () => {
+    const spy = sinon.spy(AddGroupForm.prototype, 'handleSubmit');
+    const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
+    const form = wrapper.find('form');
+    wrapper.setState({ groupname: '' });
+    form.simulate('submit', { preventDefault: () => null });
+    expect(spy.called).toBeTruthy();
+    spy.reset();
+    spy.restore();
+  });
 
-    it('simulates on submit event', () => {
-      const spy = sinon.spy(AddGroupForm.prototype, 'handleSubmit');
-      const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
-      const form = wrapper.find('form');
-      wrapper.setState({ groupname: 'Add group' });
-      form.simulate('submit', { preventDefault: () => null });
-      expect(spy.called).toBeTruthy();
-      spy.reset();
-      spy.restore();
-    });
+  it('should handle handleSubmit event', () => {
+    const spy = sinon.spy(AddGroupForm.prototype, 'handleSubmit');
+    const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
+    const form = wrapper.find('form');
+    wrapper.setState({ groupname: 'Add group' });
+    form.simulate('submit', { preventDefault: () => null });
+    expect(spy.called).toBeTruthy();
+    spy.reset();
+    spy.restore();
+  });
 
-    it('checks if image is in the state', () => {
-      const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
-      const form = wrapper.find('form');
-      wrapper.setState(mockData.addGroupData);
-      form.simulate('submit', { preventDefault: () => null });
-      expect(wrapper.state().isLoading).toBeTruthy();
-      expect(wrapper.state().errors).toEqual({});
-    });
+  it('should check that a group image exist in the state', () => {
+    const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
+    const form = wrapper.find('form');
+    wrapper.setState(mockData.addGroupData);
+    form.simulate('submit', { preventDefault: () => null });
+    expect(wrapper.state().isLoading).toBeTruthy();
+    expect(wrapper.state().errors).toEqual({});
+  });
 
-    it('should call addFlashmessage method when createGroup fails', () => {
-      const failingCreateGroup = jest.fn(() =>
-        Promise.reject({
-          data: {
-            groupname: 'Error',
-          },
-        }),
-      );
-      const failingProps = {
-        ...props,
-        createGroup: failingCreateGroup,
-      };
-      const wrapper = shallow(<AddGroupForm {...failingProps} />, mockContext);
-      const form = wrapper.find('form');
-      wrapper.setState(mockData.addGroupData);
-      form.simulate('submit', { preventDefault: () => null });
-    });
+  it('should call addFlashmessage method when request to create group fails', () => {
+    const failingCreateGroup = jest.fn(() =>
+      Promise.reject({
+        data: {
+          groupname: 'Error',
+        },
+      }),
+    );
+    const failingProps = {
+      ...props,
+      createGroup: failingCreateGroup,
+    };
+    const wrapper = shallow(<AddGroupForm {...failingProps} />, mockContext);
+    const form = wrapper.find('form');
+    wrapper.setState(mockData.addGroupData);
+    form.simulate('submit', { preventDefault: () => null });
+  });
 
-    it('simulates on change event', () => {
-      const spy = sinon.spy(AddGroupForm.prototype, 'handleChange');
-      const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
-      wrapper.find('.addGroupFormContainer').simulate('change', {
-        preventDefault: () => null,
-        target: { name: 'hello', value: 'hello' },
-      });
-      expect(spy.called).toBeTruthy();
+  it('should handle onChange event', () => {
+    const spy = sinon.spy(AddGroupForm.prototype, 'handleChange');
+    const wrapper = shallow(<AddGroupForm {...props} />, mockContext);
+    wrapper.find('.addGroupFormContainer').simulate('change', {
+      preventDefault: () => null,
+      target: { name: 'hello', value: 'hello' },
     });
+    expect(spy.called).toBeTruthy();
   });
 });

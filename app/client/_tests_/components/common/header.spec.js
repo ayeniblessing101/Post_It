@@ -46,28 +46,26 @@ const setup = () => {
   };
 };
 
-describe('components', () => {
-  describe('Header', () => {
-    const { enzymeWrapper, props } = setup();
-    it('calls componentDidMount', () => {
-      expect(Header.prototype.componentDidMount.calledOnce).toEqual(true);
-    });
-    it('should check if it has brand-logo', () => {
-      expect(
-        enzymeWrapper.contains(
-          <Link to="/" className="brand-logo">
-            PostIt
-          </Link>,
-        ),
-      ).toBeTruthy();
-    });
-    it('simulates on click event', () => {
-      const wrapper = mount(<Header {...props} />, mockContext);
-      const event = {
-        preventDefault: jest.fn(),
-      };
-      wrapper.instance().logout(event);
-      expect(props.logout).toBeCalled();
-    });
+describe('Header component', () => {
+  const { enzymeWrapper, props } = setup();
+  it('calls componentDidMount', () => {
+    expect(Header.prototype.componentDidMount.calledOnce).toEqual(true);
+  });
+  it('should check if it has brand-logo', () => {
+    expect(
+      enzymeWrapper.contains(
+        <Link to="/" className="brand-logo">
+          PostIt
+        </Link>,
+      ),
+    ).toBeTruthy();
+  });
+  it('simulates on click event', () => {
+    const wrapper = mount(<Header {...props} />, mockContext);
+    const event = {
+      preventDefault: jest.fn(),
+    };
+    wrapper.instance().logout(event);
+    expect(props.logout).toBeCalled();
   });
 });

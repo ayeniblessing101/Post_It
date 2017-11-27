@@ -37,11 +37,9 @@ const setup = () => {
   };
 };
 
-describe('Component', () => {
-  describe('All Users', () => {
-    it('checks if className allUsers exists', () => {
-      const { enzymeWrapper } = setup();
-      expect(enzymeWrapper.find('.allUsers').length).toBe(1);
-    });
+describe('All Users Component', () => {
+  it('should have className allUsers', () => {
+    const { enzymeWrapper } = setup();
+    expect(enzymeWrapper.find('.allUsers').length).toBe(1);
   });
 });

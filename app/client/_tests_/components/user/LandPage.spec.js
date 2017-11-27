@@ -33,13 +33,11 @@ const setup = () => {
   };
 };
 
-describe('Component', () => {
-  describe('Landing Page', () => {
-    it('checks if h1 exists', () => {
-      const { enzymeWrapper } = setup();
-      expect(enzymeWrapper.find('h1').text()).toBe(
-        'Welcome to the BiggestSocial Network in the World',
-      );
-    });
+describe('Landing Page Component', () => {
+  it('should have h1 tag', () => {
+    const { enzymeWrapper } = setup();
+    expect(enzymeWrapper.find('h1').text()).toBe(
+      'Welcome to the BiggestSocial Network in the World',
+    );
   });
 });

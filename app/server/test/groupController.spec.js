@@ -58,7 +58,7 @@ describe('Create Group', () => {
       });
   });
 
-  it('creates a new group', (done) => {
+  it('should create a new group', (done) => {
     request
       .post('/api/v1/group')
       .set('Authorization', `Basic ${token}`)

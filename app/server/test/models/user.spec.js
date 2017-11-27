@@ -6,7 +6,7 @@ chai.use(isUUID);
 const expect = chai.expect;
 const User = models.User;
 
-describe('Create a user with name and description', () => {
+describe('A newly created user', () => {
   const user = new User({
     username: 'blessing',
     email: 'blessing.ayeni@andela.com',
@@ -54,7 +54,7 @@ describe('Create a user with name and description', () => {
   });
 });
 
-describe('Create a valid User and save to database', () => {
+describe('User model', () => {
   before(() => {
     return User.truncate({ cascade: true, logging: false }).then(() => {
       return User.create({
@@ -66,7 +66,7 @@ describe('Create a valid User and save to database', () => {
       });
     });
   });
-  it('should be written to database without errors', () => {
+  it('should save a valid user to database without errors', () => {
     return User.findById('blessing').then((fromDb) => {
       expect(fromDb.email).to.equal('blessing.ayeni@andela.com');
       expect(fromDb.phoneNo).to.equal('2348064476683');
